@@ -1195,12 +1195,17 @@ begin
 end;
 
 procedure FCMuiSP_SurfaceEcosphere_Set(
-   const StarSys, Star, SESoobjIdx, SESsatIdx: integer;
+   const StarSys
+         ,Star
+         ,SESoobjIdx
+         ,SESsatIdx: integer;
    const SESinit: boolean
    );
 {:Purpose: set and display the Surface / Ecosphere Panel.
 tags set: FCWM_SurfPanel=FCWM_SurfPanel.Width FCWM_SP_DataSheet:=FCWM_SP_DataSheet.Left
     Additions:
+      -2013Sep29- *fix: reset the settlement icons for whatever case.
+                  *fix: suppress the condition FCWinMain.SP_SurfaceDisplay.HotSpots.Count<>SESdmpTtlReg, to allow the interface to update correctly the settlements.
       -2013Mar26- *add: SPisResourcesSurveyInProcess.
       -2013Feb03- *add: SPisResourcesSurveyOK.
       -2013Jan27- *add: hide any resource icons.
@@ -1251,597 +1256,617 @@ var
    SESdmpTp: TFCEduOrbitalObjectTypes;
    SESdmpHydr: TFCEduHydrospheres;
 begin
-   with FCWinMain do
+   SESdmpTtlReg:=0;
+   SEShots:=0;
+   SEScnt:=0;
+   SESdmpC:=0;
+   SESdmpIdx:=0;
+   SESregSearch:=0;
+   SESregSWdiv3:=0;
+   SESregSWshr1:=0;
+   SESregSWshr2:=0;
+   SESregSHm64shr1:=0;
+   SESregSHm64shr2:=0;
+
+   SESdmpAtmPr:=0;
+   SESdmpCCov:=0;
+   SESdmpHCov:=0;
+
+   SESenv:='';
+   SESdmpToken:='';
+   SESdmpStrDat:='';
+
+   SESdmpTp:=ootNone;
+   SESdmpHydr:=hNoHydro;
+
+   FCMgfxC_Settlements_Hide;
+
+   if not SESinit then
    begin
-      if not SESinit
+      FCWinMain.SP_EcosphereSheet.HTMLText.Clear;
+      FCWinMain.SP_FRP_Picture.Bitmap.Clear;
+      SPcurrentStarSys:=StarSys;
+      SPcurrentStar:=Star;
+      SPcurrentOObjIndex:=SESoobjIdx;
+      SPcurrentSatIndex:=0;
+      FCMuiSP_VarRegionHoveredSelected_Reset;
+      FCWinMain.SP_SD_SurfaceSelector.Width:=0;
+      FCWinMain.SP_SD_SurfaceSelector.Height:=0;
+      FCWinMain.SP_SD_SurfaceSelector.Left:=0;
+      FCWinMain.SP_SD_SurfaceSelector.Top:=0;
+      FCMuiSP_SurfaceSelected_Update(false);
+      SPisResourcesSurveyOK:=false;
+      SPisResourcesSurveyInProcess:=false;
+      if SESsatIdx=0
       then
       begin
-         SP_EcosphereSheet.HTMLText.Clear;
-         SP_FRP_Picture.Bitmap.Clear;
-         SPcurrentStarSys:=StarSys;
-         SPcurrentStar:=Star;
-         SPcurrentOObjIndex:=SESoobjIdx;
-         SPcurrentSatIndex:=0;
-         FCMuiSP_VarRegionHoveredSelected_Reset;
-         SP_SD_SurfaceSelector.Width:=0;
-         SP_SD_SurfaceSelector.Height:=0;
-         SP_SD_SurfaceSelector.Left:=0;
-         SP_SD_SurfaceSelector.Top:=0;
-         FCMuiSP_SurfaceSelected_Update(false);
-         SPisResourcesSurveyOK:=false;
-         SPisResourcesSurveyInProcess:=false;
-         if SESsatIdx=0
+         SESdmpTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_type;
+         SESdmpTtlReg:=length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_regions)-1;
+         SESdmpToken:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_dbTokenId;
+         SESdmpAtmPr:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_atmosphericPressure;
+         SESdmpCCov:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_cloudsCover;
+         SESdmpHydr:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_hydrosphere;
+         SESdmpHCov:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_hydrosphereArea;
+         SESenv:=FCFuF_Env_GetStr(
+            FC3doglCurrentStarSystem
+            ,FC3doglCurrentStar
+            ,SESoobjIdx
+            ,0
+            );
+      end
+      else if SESsatIdx>0
+      then
+      begin
+         SESdmpTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_type;
+         SESdmpTtlReg:=length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_regions)-1;
+         SESdmpToken:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_dbTokenId;
+         SESdmpAtmPr:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_atmosphericPressure;
+         SESdmpCCov:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_cloudsCover;
+         SESdmpHydr:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydrosphere;
+         SESdmpHCov:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydrosphereArea;
+         SPcurrentSatIndex:=SESsatIdx;
+         SESenv:=FCFuF_Env_GetStr(
+            FC3doglCurrentStarSystem
+            ,FC3doglCurrentStar
+            ,SESoobjIdx
+            ,SESsatIdx
+            );
+      end;
+      FCWinMain.MVG_SurfacePanel.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SurfPanel')+FCFdTFiles_UIStr_Get(dtfscPrprName,SESdmpToken);
+      {.environment type subsection}
+      FCWinMain.SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpEnv')+'<br>'+FCCFidxL+SESenv+'<br>');
+      {.atmosphere subsection}
+      FCWinMain.SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpAtm'));
+      if SESdmpAtmPr=0
+      then FCWinMain.SP_EcosphereSheet.HTMLText.Add('<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'))
+      else if SESdmpAtmPr>0
+      then
+      begin
+         FCWinMain.SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasM'));
+         SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsPrimary, SESoobjIdx, SESsatIdx);
+         FCWinMain.SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat);
+         FCWinMain.SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasS'));
+         SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsSecondary, SESoobjIdx, SESsatIdx);
+         FCWinMain.SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat);
+         FCWinMain.SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasT'));
+         SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsTrace, SESoobjIdx, SESsatIdx);
+         if SESdmpStrDat<>''
+         then FCWinMain.SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat)
+         else FCWinMain.SP_EcosphereSheet.HTMLText.Add('<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
+         if SESdmpAtmPr<>1
          then
          begin
-            SESdmpTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_type;
-            SESdmpTtlReg:=length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_regions)-1;
-            SESdmpToken:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_dbTokenId;
-            SESdmpAtmPr:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_atmosphericPressure;
-            SESdmpCCov:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_cloudsCover;
-            SESdmpHydr:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_hydrosphere;
-            SESdmpHCov:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_hydrosphereArea;
-            SESenv:=FCFuF_Env_GetStr(
-               FC3doglCurrentStarSystem
-               ,FC3doglCurrentStar
-               ,SESoobjIdx
-               ,0
+            FCWinMain.SP_EcosphereSheet.HTMLText.Add(
+               FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'secpPress')
+               +FCCFidxR+FCFdTFiles_UIStr_Get(uistrUI, 'secpClCov')
                );
-         end
-         else if SESsatIdx>0
-         then
-         begin
-            SESdmpTp:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_type;
-            SESdmpTtlReg:=length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_regions)-1;
-            SESdmpToken:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_dbTokenId;
-            SESdmpAtmPr:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_atmosphericPressure;
-            SESdmpCCov:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_cloudsCover;
-            SESdmpHydr:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydrosphere;
-            SESdmpHCov:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_hydrosphereArea;
-            SPcurrentSatIndex:=SESsatIdx;
-            SESenv:=FCFuF_Env_GetStr(
-               FC3doglCurrentStarSystem
-               ,FC3doglCurrentStar
-               ,SESoobjIdx
-               ,SESsatIdx
-               );
+            FCWinMain.SP_EcosphereSheet.HTMLText.Add
+               ('<br>'+FCCFidxL+floattostr(SESdmpAtmPr)+' mbars'+FCCFidxR+floattostr(SESdmpCCov)+' %');
          end;
-         MVG_SurfacePanel.Caption.Text:=FCFdTFiles_UIStr_Get(uistrUI, 'FCWM_SurfPanel')+FCFdTFiles_UIStr_Get(dtfscPrprName,SESdmpToken);
-         {.environment type subsection}
-         SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpEnv')+'<br>'+FCCFidxL+SESenv+'<br>');
-         {.atmosphere subsection}
-         SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpAtm'));
-         if SESdmpAtmPr=0
-         then SP_EcosphereSheet.HTMLText.Add('<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'))
-         else if SESdmpAtmPr>0
+      end; //==END== else if SESdmpAtmPr>0 ==//
+      FCWinMain.SP_EcosphereSheet.HTMLText.Add('<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'secpHydr')+'<br>');
+      case SESdmpHydr of
+         hNoHydro: FCWinMain.SP_EcosphereSheet.HTMLText.Add(FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
+
+         hWaterLiquid: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+         hWaterIceSheet: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+         hWaterIceCrust: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+         hWaterAmmoniaLiquid: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterAmmoniaLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+         hMethaneLiquid: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+         hMethaneIceSheet: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+         hMethaneIceCrust: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+         hNitrogenIceSheet: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpNitrogenIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+
+         hNitrogenIceCrust: FCWinMain.SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpNitrogenIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
+      end; //==END== case SESdmpHydr ==//
+      {.set the ecosphere panel if it's a gaseous planet}
+      if ( SESdmpTp >= ootPlanet_Gaseous_Uranus )
+         and ( SESdmpTp < ootSatellite_Asteroid_Metallic ) then
+      begin
+         {.set interface}
+         FCWinMain.SP_FrameLeftNOTDESIGNED.Visible:=false;
+         FCWinMain.SP_FrameRegionPicture.Visible:=false;
+         FCWinMain.SP_FrameRightResources.Visible:=false;
+         FCWinMain.SP_SurfaceDisplay.Visible:=false;
+         if SPstoredPanelWidth=0
+         then SPstoredPanelWidth:=FCWinMain.MVG_SurfacePanel.Width;
+         if SPstoredDataSheetLeft=0
+         then SPstoredDataSheetLeft:=FCWinMain.SP_RegionSheet.Left;
+         FCWinMain.MVG_SurfacePanel.Width:=232;
+      end //==END== if (SESdmpTp>Icy_CallistoH3H4Atm0) and (<Aster_Metall) ==//
+      {.otherwise for non gaseous orbital objects}
+      else
+      begin
+         if SPstoredPanelWidth>0
          then
-         begin
-            SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasM'));
-            SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsPrimary, SESoobjIdx, SESsatIdx);
-            SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat);
-            SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasS'));
-            SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsSecondary, SESoobjIdx, SESsatIdx);
-            SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat);
-            SP_EcosphereSheet.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI, 'secpGasT'));
-            SESdmpStrDat:=FCFuiSP_EcoDataAtmosphere_Process(agsTrace, SESoobjIdx, SESsatIdx);
-            if SESdmpStrDat<>''
-            then SP_EcosphereSheet.HTMLText.Add(SESdmpStrDat)
-            else SP_EcosphereSheet.HTMLText.Add('<br>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
-            if SESdmpAtmPr<>1
-            then
-            begin
-               SP_EcosphereSheet.HTMLText.Add(
-                  FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'secpPress')
-                  +FCCFidxR+FCFdTFiles_UIStr_Get(uistrUI, 'secpClCov')
-                  );
-               SP_EcosphereSheet.HTMLText.Add
-                  ('<br>'+FCCFidxL+floattostr(SESdmpAtmPr)+' mbars'+FCCFidxR+floattostr(SESdmpCCov)+' %');
-            end;
-         end; //==END== else if SESdmpAtmPr>0 ==//
-         SP_EcosphereSheet.HTMLText.Add('<br>'+FCFdTFiles_UIStr_Get(uistrUI, 'secpHydr')+'<br>');
-         case SESdmpHydr of
-            hNoHydro: SP_EcosphereSheet.HTMLText.Add(FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'comNoneP'));
-
-            hWaterLiquid: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-
-            hWaterIceSheet: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-
-            hWaterIceCrust: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-
-            hWaterAmmoniaLiquid: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpWaterAmmoniaLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-
-            hMethaneLiquid: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneLiquid') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-
-            hMethaneIceSheet: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-
-            hMethaneIceCrust: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpMethaneIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-
-            hNitrogenIceSheet: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpNitrogenIceSheet') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-
-            hNitrogenIceCrust: SP_EcosphereSheet.HTMLText.Add( FCCFidxL + FCFdTFiles_UIStr_Get(uistrUI, 'hydroTpNitrogenIceCrust') + FCFdTFiles_UIStr_Get(uistrUI, 'secpCov')+floattostr(SESdmpHCov)+' %)' );
-         end; //==END== case SESdmpHydr ==//
-         {.set the ecosphere panel if it's a gaseous planet}
-         if ( SESdmpTp >= ootPlanet_Gaseous_Uranus )
-            and ( SESdmpTp < ootSatellite_Asteroid_Metallic ) then
          begin
             {.set interface}
-            SP_FrameLeftNOTDESIGNED.Visible:=false;
-            SP_FrameRegionPicture.Visible:=false;
-            SP_FrameRightResources.Visible:=false;
-            SP_SurfaceDisplay.Visible:=false;
-            if SPstoredPanelWidth=0
-            then SPstoredPanelWidth:=MVG_SurfacePanel.Width;
-            if SPstoredDataSheetLeft=0
-            then SPstoredDataSheetLeft:=SP_RegionSheet.Left;
-            MVG_SurfacePanel.Width:=232;
-         end //==END== if (SESdmpTp>Icy_CallistoH3H4Atm0) and (<Aster_Metall) ==//
-         {.otherwise for non gaseous orbital objects}
-         else
+            FCWinMain.SP_FrameLeftNOTDESIGNED.Visible:=true;
+            FCWinMain.SP_FrameRegionPicture.Visible:=true;
+            FCWinMain.SP_FrameRightResources.Visible:=true;
+            FCWinMain.SP_SurfaceDisplay.Visible:=true;
+            FCWinMain.MVG_SurfacePanel.Width:=SPstoredPanelWidth;
+            SPstoredPanelWidth:=0;
+            FCMuiSP_VarRegionHoveredSelected_Reset;
+            FCWinMain.SP_RegionSheet.Left:=SPstoredDataSheetLeft;
+            SPstoredDataSheetLeft:=0;
+         end;
+         {.set the hotspots if needed}
+         if SESdmpTtlReg>0
+//            and (FCWinMain.SP_SurfaceDisplay.HotSpots.Count<>SESdmpTtlReg)
+         then
          begin
-            if SPstoredPanelWidth>0
-            then
+            FCWinMain.SP_SurfaceDisplay.Enabled:=false;
+            FCWinMain.SP_SurfaceDisplay.HotSpots.Clear;
+            SESregSWdiv3:=FCWinMain.SP_SurfaceDisplay.Width div 3;
+            SESregSWshr1:=FCWinMain.SP_SurfaceDisplay.Width shr 1;
+            SESregSWshr2:=FCWinMain.SP_SurfaceDisplay.Width shr 2;
+            SESregSHm64shr1:=(FCWinMain.SP_SurfaceDisplay.Height-64) shr 1;
+            SESregSHm64shr2:=(FCWinMain.SP_SurfaceDisplay.Height-64) shr 2;
+            SEScnt:=1;
+            while SEScnt<=SESdmpTtlReg do
             begin
-               {.set interface}
-               SP_FrameLeftNOTDESIGNED.Visible:=true;
-               SP_FrameRegionPicture.Visible:=true;
-               SP_FrameRightResources.Visible:=true;
-               SP_SurfaceDisplay.Visible:=true;
-               MVG_SurfacePanel.Width:=SPstoredPanelWidth;
-               SPstoredPanelWidth:=0;
-               FCMuiSP_VarRegionHoveredSelected_Reset;
-               SP_RegionSheet.Left:=SPstoredDataSheetLeft;
-               SPstoredDataSheetLeft:=0;
-            end;
-            {.set the hotspots if needed}
-            if (SESdmpTtlReg>0)
-               and (SP_SurfaceDisplay.HotSpots.Count<>SESdmpTtlReg)
-            then
-            begin
-               SP_SurfaceDisplay.Enabled:=false;
-               SP_SurfaceDisplay.HotSpots.Clear;
-               SESregSWdiv3:=SP_SurfaceDisplay.Width div 3;
-               SESregSWshr1:=SP_SurfaceDisplay.Width shr 1;
-               SESregSWshr2:=SP_SurfaceDisplay.Width shr 2;
-               SESregSHm64shr1:=(SP_SurfaceDisplay.Height-64) shr 1;
-               SESregSHm64shr2:=(SP_SurfaceDisplay.Height-64) shr 2;
-               FCMgfxC_Settlements_Hide;
-               SEScnt:=1;
-               while SEScnt<=SESdmpTtlReg do
-               begin
-                  SESdmpC:=SEScnt;
-                  SEShots:=SESdmpC-1;
-                  SP_SurfaceDisplay.HotSpots.Add;
-                  SP_SurfaceDisplay.HotSpots[SEShots].ID:=SESdmpC;
-                  SP_SurfaceDisplay.HotSpots[SEShots].Clipped:=false;
-                  SP_SurfaceDisplay.HotSpots[SEShots].Down:=false;
-                  SP_SurfaceDisplay.HotSpots[SEShots].HoverColor:=clNone;
-                  SP_SurfaceDisplay.HotSpots[SEShots].ClickColor:=clNone;
-                  case SESdmpC of
-                     1:
-                     begin
-                        SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                        SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                        SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                        SP_SurfaceDisplay.HotSpots[SEShots].Y:=0;
-                     end;
-                     2, 3:
-                     begin
-                        {.width}
-                        case SESdmpTtlReg of
-                           4:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr1;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SP_SurfaceDisplay.Height-64;
-                           end;
-                           6:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr1;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
-                           end;
-                           8:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWdiv3;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
-                           end;
-                           10:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr2;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
-                           end;
-                           14:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr2;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=(SP_SurfaceDisplay.Height-64) div 3;
-                           end;
-                           18:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr2;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
-                           end;
-                           22:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width div 5;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
-                           end;
-                           26:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width div 6;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
-                           end;
-                           30:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width div 7;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
-                           end;
-                        end; //==END== case SESdmpTtlReg ==//
-                        {.positions}
-                        if SESdmpC=2
-                        then SP_SurfaceDisplay.HotSpots[SEShots].X:=0
-                        else SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SEShots].Width-1;
-                        SP_SurfaceDisplay.HotSpots[SEShots].Y:=31;
-                     end; //==END== 2, 3: ==//
-                     4..29:
-                     begin
-                        case SESdmpTtlReg of
-                           4:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                              SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.Height-33
-                           end;
-                           6:
-                           begin
-                              if SESdmpC=6
-                              then
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.Height-33
-                              end
-                              else
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr1;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SESdmpC-3].X;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                    :=SP_SurfaceDisplay.HotSpots[1].Y+SP_SurfaceDisplay.HotSpots[1].Height;
-                              end;
-                           end;
-                           8:
-                           begin
-                              if SESdmpC=8
-                              then
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.Height-33;
-                              end
-                              else
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWdiv3;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
-                                 if SESdmpC=4
-                                 then
-                                 begin
-                                    SP_SurfaceDisplay.HotSpots[SEShots].X
-                                       :=SP_SurfaceDisplay.HotSpots[3-1].X+SP_SurfaceDisplay.HotSpots[3-1].Width;
-                                    SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.HotSpots[3-1].Y;
-                                 end
-                                 else
-                                 begin
-                                    SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SESdmpC-3-1].X;
-                                    SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                       :=SP_SurfaceDisplay.HotSpots[2-1].Y+SP_SurfaceDisplay.HotSpots[2-1].Height;
-                                 end;
-                              end;
-                           end;
-                           10..18:
-                           begin
-                              if ((SESdmpC=10) and (SESdmpTtlReg=10))
-                                 or ((SESdmpC=14) and (SESdmpTtlReg=14))
-                                 or ((SESdmpC=18) and (SESdmpTtlReg=18))
-                              then
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.Height-33
-                              end
-                              else
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr2;
-                                 case SESdmpTtlReg of
-                                    10:
-                                    begin
-                                       SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
-                                       if (SESdmpC=4)
-                                          or (SESdmpC=5)
-                                       then
-                                       begin
-                                          SP_SurfaceDisplay.HotSpots[SEShots].X
-                                             :=SP_SurfaceDisplay.HotSpots[SEShots-1].X
-                                                +SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
-                                          SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.HotSpots[3-1].Y;
-                                       end
-                                       else
-                                       begin
-                                          SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SESdmpC-4-1].X;
-                                          SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                             :=SP_SurfaceDisplay.HotSpots[2-1].Y+SP_SurfaceDisplay.HotSpots[2-1].Height;
-                                       end
-                                    end;
-                                    14:
-                                    begin
-                                       SP_SurfaceDisplay.HotSpots[SEShots].Height:=(SP_SurfaceDisplay.Height-64) div 3;
-                                       if (SESdmpC=4)
-                                          or (SESdmpC=5)
-                                       then
-                                       begin
-                                          SP_SurfaceDisplay.HotSpots[SEShots].X
-                                             :=SP_SurfaceDisplay.HotSpots[SEShots-1].X
-                                                +SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
-                                          SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.HotSpots[3-1].Y;
-                                       end
-                                       else
-                                       begin
-                                          SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SESdmpC-4-1].X;
-                                          if (SESdmpC>=6)
-                                             and (SESdmpC<=9)
-                                          then SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                             :=SP_SurfaceDisplay.HotSpots[2-1].Y+SP_SurfaceDisplay.HotSpots[2-1].Height
-                                          else SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                             :=SP_SurfaceDisplay.HotSpots[6-1].Y+SP_SurfaceDisplay.HotSpots[6-1].Height;
-                                       end;
-                                    end;
-                                    18:
-                                    begin
-                                       SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
-                                       if (SESdmpC=4)
-                                          or (SESdmpC=5)
-                                       then
-                                       begin
-                                          SP_SurfaceDisplay.HotSpots[SEShots].X
-                                             :=SP_SurfaceDisplay.HotSpots[SEShots-1].X
-                                                +SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
-                                          SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.HotSpots[3-1].Y;
-                                       end
-                                       else
-                                       begin
-                                          SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SESdmpC-4-1].X;
-                                          case SESdmpC of
-                                             6..9: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                                :=SP_SurfaceDisplay.HotSpots[2-1].Y+SP_SurfaceDisplay.HotSpots[2-1].Height;
-                                             10..13: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                                :=SP_SurfaceDisplay.HotSpots[6-1].Y+SP_SurfaceDisplay.HotSpots[6-1].Height;
-                                             14..18: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                                :=SP_SurfaceDisplay.HotSpots[10-1].Y+SP_SurfaceDisplay.HotSpots[10-1].Height;
-                                          end;
-                                       end;
-                                    end;
-                                 end; //==END== case SESdmpTtlReg ==//
-                              end;
-                           end; //==END== 10..18 ==//
-                           22:
-                           begin
-                              if SESdmpC=22
-                              then
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.Height-33
-                              end
-                              else
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width div 5;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
-                                 if (SESdmpC>=4)
-                                    and (SESdmpC<=6)
-                                 then
-                                 begin
-                                    SP_SurfaceDisplay.HotSpots[SEShots].X
-                                       :=SP_SurfaceDisplay.HotSpots[SEShots-1].X+SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
-                                    SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.HotSpots[2].Y;
-                                 end
-                                 else
-                                 begin
-                                    SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SESdmpC-6].X;
-                                    case SESdmpC of
-                                       7..11: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                          :=SP_SurfaceDisplay.HotSpots[1].Y+SP_SurfaceDisplay.HotSpots[1].Height;
-                                       12..16: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                          :=SP_SurfaceDisplay.HotSpots[6].Y+SP_SurfaceDisplay.HotSpots[6].Height;
-                                       else SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                          :=SP_SurfaceDisplay.HotSpots[11].Y+SP_SurfaceDisplay.HotSpots[11].Height;
-                                    end;
-                                 end;
-                              end;
-                           end; //==END== 22 ==//
-                           26:
-                           begin
-                              if SESdmpC=26
-                              then
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.Height-33
-                              end
-                              else
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width div 6;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
-                                 if (SESdmpC>=4)
-                                    and (SESdmpC<=7)
-                                 then
-                                 begin
-                                    SP_SurfaceDisplay.HotSpots[SEShots].X
-                                       :=SP_SurfaceDisplay.HotSpots[SEShots-1].X
-                                          +SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
-                                    SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.HotSpots[2].Y;
-                                 end
-                                 else
-                                 begin
-                                    SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SESdmpC-7].X;
-                                    case SESdmpC of
-                                       8..13: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                          :=SP_SurfaceDisplay.HotSpots[1].Y+SP_SurfaceDisplay.HotSpots[1].Height;
-                                       14..19: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                          :=SP_SurfaceDisplay.HotSpots[7].Y+SP_SurfaceDisplay.HotSpots[7].Height;
-                                       else SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                          :=SP_SurfaceDisplay.HotSpots[13].Y+SP_SurfaceDisplay.HotSpots[13].Height;
-                                    end;
-                                 end;
-                              end;
-                           end; //==END== 26 ==//
-                           30:
-                           begin
-                              SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width div 7;
-                              SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
-                              if (SESdmpC>=4)
-                                 and (SESdmpC<=8)
-                              then
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].X
-                                    :=SP_SurfaceDisplay.HotSpots[SEShots-1].X+SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
-                                 SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.HotSpots[2].Y;
-                              end
-                              else
-                              begin
-                                 SP_SurfaceDisplay.HotSpots[SEShots].X:=SP_SurfaceDisplay.HotSpots[SESdmpC-7-1].X;
-                                 case SESdmpC of
-                                    9..15: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                       :=SP_SurfaceDisplay.HotSpots[1].Y+SP_SurfaceDisplay.HotSpots[1].Height;
-                                    16..22: SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                       :=SP_SurfaceDisplay.HotSpots[8].Y+SP_SurfaceDisplay.HotSpots[8].Height;
-                                    else SP_SurfaceDisplay.HotSpots[SEShots].Y
-                                       :=SP_SurfaceDisplay.HotSpots[15].Y+SP_SurfaceDisplay.HotSpots[15].Height;
-                                 end;
-                              end;
-                           end;
-                        end; //==END== case SESdmpTtlReg ==//
-                     end; //==END== 4..29 ==//
-                     30:
-                     begin
-                        with SP_SurfaceDisplay.HotSpots[SEShots] do
+               SESdmpC:=SEScnt;
+               SEShots:=SESdmpC-1;
+               FCWinMain.SP_SurfaceDisplay.HotSpots.Add;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].ID:=SESdmpC;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Clipped:=false;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Down:=false;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].HoverColor:=clNone;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].ClickColor:=clNone;
+               case SESdmpC of
+                  1:
+                  begin
+                     FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+                     FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+                     FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+                     FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=0;
+                  end;
+                  2, 3:
+                  begin
+                     {.width}
+                     case SESdmpTtlReg of
+                        4:
                         begin
-                           SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                           SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                           SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                           SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.Height-33;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr1;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=FCWinMain.SP_SurfaceDisplay.Height-64;
                         end;
+                        6:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr1;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
+                        end;
+                        8:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWdiv3;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
+                        end;
+                        10:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr2;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
+                        end;
+                        14:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr2;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=(FCWinMain.SP_SurfaceDisplay.Height-64) div 3;
+                        end;
+                        18:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr2;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
+                        end;
+                        22:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width div 5;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
+                        end;
+                        26:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width div 6;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
+                        end;
+                        30:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width div 7;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
+                        end;
+                     end; //==END== case SESdmpTtlReg ==//
+                     {.positions}
+                     if SESdmpC=2
+                     then FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0
+                     else FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width-1;
+                     FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=31;
+                  end; //==END== 2, 3: ==//
+                  4..29:
+                  begin
+                     case SESdmpTtlReg of
+                        4:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.Height-33
+                        end;
+                        6:
+                        begin
+                           if SESdmpC=6
+                           then
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.Height-33
+                           end
+                           else
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr1;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SESdmpC-3].X;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                 :=FCWinMain.SP_SurfaceDisplay.HotSpots[1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[1].Height;
+                           end;
+                        end;
+                        8:
+                        begin
+                           if SESdmpC=8
+                           then
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.Height-33;
+                           end
+                           else
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWdiv3;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
+                              if SESdmpC=4
+                              then
+                              begin
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X
+                                    :=FCWinMain.SP_SurfaceDisplay.HotSpots[3-1].X+FCWinMain.SP_SurfaceDisplay.HotSpots[3-1].Width;
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.HotSpots[3-1].Y;
+                              end
+                              else
+                              begin
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SESdmpC-3-1].X;
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                    :=FCWinMain.SP_SurfaceDisplay.HotSpots[2-1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[2-1].Height;
+                              end;
+                           end;
+                        end;
+                        10..18:
+                        begin
+                           if ((SESdmpC=10) and (SESdmpTtlReg=10))
+                              or ((SESdmpC=14) and (SESdmpTtlReg=14))
+                              or ((SESdmpC=18) and (SESdmpTtlReg=18))
+                           then
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.Height-33
+                           end
+                           else
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=SESregSWshr2;
+                              case SESdmpTtlReg of
+                                 10:
+                                 begin
+                                    FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr1;
+                                    if (SESdmpC=4)
+                                       or (SESdmpC=5)
+                                    then
+                                    begin
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X
+                                          :=FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].X
+                                             +FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.HotSpots[3-1].Y;
+                                    end
+                                    else
+                                    begin
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SESdmpC-4-1].X;
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                          :=FCWinMain.SP_SurfaceDisplay.HotSpots[2-1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[2-1].Height;
+                                    end
+                                 end;
+                                 14:
+                                 begin
+                                    FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=(FCWinMain.SP_SurfaceDisplay.Height-64) div 3;
+                                    if (SESdmpC=4)
+                                       or (SESdmpC=5)
+                                    then
+                                    begin
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X
+                                          :=FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].X
+                                             +FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.HotSpots[3-1].Y;
+                                    end
+                                    else
+                                    begin
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SESdmpC-4-1].X;
+                                       if (SESdmpC>=6)
+                                          and (SESdmpC<=9)
+                                       then FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                          :=FCWinMain.SP_SurfaceDisplay.HotSpots[2-1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[2-1].Height
+                                       else FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                          :=FCWinMain.SP_SurfaceDisplay.HotSpots[6-1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[6-1].Height;
+                                    end;
+                                 end;
+                                 18:
+                                 begin
+                                    FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
+                                    if (SESdmpC=4)
+                                       or (SESdmpC=5)
+                                    then
+                                    begin
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X
+                                          :=FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].X
+                                             +FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.HotSpots[3-1].Y;
+                                    end
+                                    else
+                                    begin
+                                       FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SESdmpC-4-1].X;
+                                       case SESdmpC of
+                                          6..9: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                             :=FCWinMain.SP_SurfaceDisplay.HotSpots[2-1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[2-1].Height;
+                                          10..13: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                             :=FCWinMain.SP_SurfaceDisplay.HotSpots[6-1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[6-1].Height;
+                                          14..18: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                             :=FCWinMain.SP_SurfaceDisplay.HotSpots[10-1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[10-1].Height;
+                                       end;
+                                    end;
+                                 end;
+                              end; //==END== case SESdmpTtlReg ==//
+                           end;
+                        end; //==END== 10..18 ==//
+                        22:
+                        begin
+                           if SESdmpC=22
+                           then
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.Height-33
+                           end
+                           else
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width div 5;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
+                              if (SESdmpC>=4)
+                                 and (SESdmpC<=6)
+                              then
+                              begin
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X
+                                    :=FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].X+FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.HotSpots[2].Y;
+                              end
+                              else
+                              begin
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SESdmpC-6].X;
+                                 case SESdmpC of
+                                    7..11: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                       :=FCWinMain.SP_SurfaceDisplay.HotSpots[1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[1].Height;
+                                    12..16: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                       :=FCWinMain.SP_SurfaceDisplay.HotSpots[6].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[6].Height;
+                                    else FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                       :=FCWinMain.SP_SurfaceDisplay.HotSpots[11].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[11].Height;
+                                 end;
+                              end;
+                           end;
+                        end; //==END== 22 ==//
+                        26:
+                        begin
+                           if SESdmpC=26
+                           then
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.Height-33
+                           end
+                           else
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width div 6;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
+                              if (SESdmpC>=4)
+                                 and (SESdmpC<=7)
+                              then
+                              begin
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X
+                                    :=FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].X
+                                       +FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.HotSpots[2].Y;
+                              end
+                              else
+                              begin
+                                 FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SESdmpC-7].X;
+                                 case SESdmpC of
+                                    8..13: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                       :=FCWinMain.SP_SurfaceDisplay.HotSpots[1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[1].Height;
+                                    14..19: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                       :=FCWinMain.SP_SurfaceDisplay.HotSpots[7].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[7].Height;
+                                    else FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                       :=FCWinMain.SP_SurfaceDisplay.HotSpots[13].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[13].Height;
+                                 end;
+                              end;
+                           end;
+                        end; //==END== 26 ==//
+                        30:
+                        begin
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width div 7;
+                           FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=SESregSHm64shr2;
+                           if (SESdmpC>=4)
+                              and (SESdmpC<=8)
+                           then
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X
+                                 :=FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].X+FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots-1].Width;
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.HotSpots[2].Y;
+                           end
+                           else
+                           begin
+                              FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SESdmpC-7-1].X;
+                              case SESdmpC of
+                                 9..15: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                    :=FCWinMain.SP_SurfaceDisplay.HotSpots[1].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[1].Height;
+                                 16..22: FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                    :=FCWinMain.SP_SurfaceDisplay.HotSpots[8].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[8].Height;
+                                 else FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y
+                                    :=FCWinMain.SP_SurfaceDisplay.HotSpots[15].Y+FCWinMain.SP_SurfaceDisplay.HotSpots[15].Height;
+                              end;
+                           end;
+                        end;
+                     end; //==END== case SESdmpTtlReg ==//
+                  end; //==END== 4..29 ==//
+                  30:
+                  begin
+                     with FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots] do
+                     begin
+                        FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+                        FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+                        FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+                        FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.Height-33;
                      end;
-                  end; //==END== case SESdmpC ==//
-//                  FCRdiSettlementPic[SEScnt].Left:=FCWM_SP_Surface.HotSpots[SEShots].X+(FCWM_SP_Surface.HotSpots[SEShots].Width shr 1)-(FCRdiSettlementPic[SEScnt].Width shr 1);
-//                  FCRdiSettlementPic[SEScnt].Top:=FCWM_SP_Surface.HotSpots[SEShots].Y+4;
+                  end;
+               end; //==END== case SESdmpC ==//
+//                  FCRdiSettlementPic[SEScnt].Left:=FCWM_FCWinMain.SP_Surface.HotSpots[SEShots].X+(FCWM_FCWinMain.SP_Surface.HotSpots[SEShots].Width shr 1)-(FCRdiSettlementPic[SEScnt].Width shr 1);
+//                  FCRdiSettlementPic[SEScnt].Top:=FCWM_FCWinMain.SP_Surface.HotSpots[SEShots].Y+4;
 
-                  if ((SESsatIdx=0) and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_regions[SEScnt].OOR_settlementIndex>0))
-                  then FCMgfxC_Settlement_SwitchDisplay(SEScnt, length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_regions)-1)
-                  else if ((SESsatIdx>0) and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_regions[SEScnt].OOR_settlementIndex>0))
-                  then FCMgfxC_Settlement_SwitchDisplay(SEScnt, length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_regions)-1);
-                  inc(SEScnt);
-               end; //==END== while SEScnt<=SESdmpTtlReg ==//;
-            end; //==END== if (SESdmpTtlReg>0) and (HotSpots.Count<>SESdmpTtlReg) ==//
-            {.load the surface picture}
-            case SESdmpTp of
-               ootAsteroid_Metallic: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
+               if ((SESsatIdx=0) and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_regions[SEScnt].OOR_settlementIndex>0))
+               then FCMgfxC_Settlement_SwitchDisplay(SEScnt, length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_regions)-1)
+               else if ((SESsatIdx>0) and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_regions[SEScnt].OOR_settlementIndex>0))
+               then FCMgfxC_Settlement_SwitchDisplay(SEScnt, length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[SESoobjIdx].OO_satellitesList[SESsatIdx].OO_regions)-1);
+               inc(SEScnt);
+            end; //==END== while SEScnt<=SESdmpTtlReg ==//;
+         end; //==END== if (SESdmpTtlReg>0) ==//
+         {.load the surface picture}
+         case SESdmpTp of
+            ootAsteroid_Metallic: FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
 
-               ootAsteroid_Silicate: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
+            ootAsteroid_Silicate: FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
 
-               ootAsteroid_Carbonaceous:SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
+            ootAsteroid_Carbonaceous:FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
 
-               ootAsteroid_Icy: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
+            ootAsteroid_Icy: FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
 
-               ootPlanet_Telluric..ootPlanet_Icy:
-               begin
-                  if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
-                  then SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
-                  else SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
-               end;
-
-               ootSatellite_Asteroid_Metallic: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
-
-               ootSatellite_Asteroid_Silicate: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
-
-               ootSatellite_Asteroid_Carbonaceous: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
-
-               ootSatellite_Asteroid_Icy: SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
-
-               ootSatellite_Planet_Telluric..ootSatellite_Planet_Icy:
-               begin
-                  if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
-                  then SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
-                  else SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
-               end;
-            end; //==END== case SESdmpTp ==//
-            SP_SurfaceDisplay.Enabled:=True;
-            SP_SurfaceDisplay.Refresh;
-         end; //==END== else not gaseous ==//
-         if not MVG_SurfacePanel.Visible
-         then MVG_SurfacePanel.Visible:=true;
-         if SPstoredPanelWidth=0
-         then FCMuiSP_RegionDataPicture_Update(1, false);
-      end //==END== if not SESinit ==//
-      else if SESinit
-      then
-      begin
-         MVG_SurfacePanel.Visible:=false;
-         SESdmpTp:=ootAsteroid_Metallic;
-         SESdmpTtlReg:=4;
-         MVG_SurfacePanel.Caption.Text:='';
-         SPcurrentStarSys:=0;
-         SPcurrentStar:=0;
-         SPcurrentOObjIndex:=0;
-         SPcurrentSatIndex:=0;
-         FCMuiSP_VarRegionHoveredSelected_Reset;
-         SPisResourcesSurveyOK:=false;
-         SPisResourcesSurveyInProcess:=false;
-         SP_SurfaceDisplay.Enabled:=false;
-         SP_SurfaceDisplay.HotSpots.Clear;
-         SEScnt:=1;
-         while SEScnt<=4 do
-         begin
-            SESdmpC:=SEScnt;
-            SEShots:=SESdmpC-1;
-            SP_SurfaceDisplay.HotSpots.Add;
-            SP_SurfaceDisplay.HotSpots[SEShots].ID:=SESdmpC;
-            SP_SurfaceDisplay.HotSpots[SEShots].Clipped:=false;
-            SP_SurfaceDisplay.HotSpots[SEShots].Down:=false;
-            SP_SurfaceDisplay.HotSpots[SEShots].HoverColor:=clNone;
-            SP_SurfaceDisplay.HotSpots[SEShots].ClickColor:=clNone;
-            case SESdmpC of
-               1:
-               begin
-                  SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                  SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                  SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                  SP_SurfaceDisplay.HotSpots[SEShots].Y:=0;
-               end;
-               2, 3:
-               begin
-                  SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width shr 1;
-                  SP_SurfaceDisplay.HotSpots[SEShots].Height:=SP_SurfaceDisplay.Height-64;
-                  if SESdmpC=2
-                  then SP_SurfaceDisplay.HotSpots[SEShots].X:=0
-                  else SP_SurfaceDisplay.HotSpots[SEShots].X:=Width-1;
-                  SP_SurfaceDisplay.HotSpots[SEShots].Y:=31;
-               end;
-               4:
-               begin
-                  SP_SurfaceDisplay.HotSpots[SEShots].Width:=SP_SurfaceDisplay.Width;
-                  SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
-                  SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
-                  SP_SurfaceDisplay.HotSpots[SEShots].Y:=SP_SurfaceDisplay.Height-33
-               end;
+            ootPlanet_Telluric..ootPlanet_Icy:
+            begin
+               if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
+               then FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
+               else FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
             end;
-            inc(SEScnt)
-         end; //==END== while SEScnt<=4 ==//
-         SP_SurfaceDisplay.Refresh;
-         SP_SurfaceDisplay.HotSpots.Clear;
-      end; //==END== else if SESinit ==//
-   end; //==END== with FCWinMain ==//
+
+            ootSatellite_Asteroid_Metallic: FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_metal.jpg');
+
+            ootSatellite_Asteroid_Silicate: FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_sili.jpg');
+
+            ootSatellite_Asteroid_Carbonaceous: FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_carb.jpg');
+
+            ootSatellite_Asteroid_Icy: FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-std\aster_icy.jpg');
+
+            ootSatellite_Planet_Telluric..ootSatellite_Planet_Icy:
+            begin
+               if FileExists(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
+               then FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\'+SESdmpToken+'.jpg')
+               else FCWinMain.SP_SurfaceDisplay.Picture.LoadFromFile(FCVdiPathResourceDir+'pics-ogl-oobj-pers\_error_map.jpg');
+            end;
+         end; //==END== case SESdmpTp ==//
+         FCWinMain.SP_SurfaceDisplay.Enabled:=True;
+         FCWinMain.SP_SurfaceDisplay.Refresh;
+      end; //==END== else not gaseous ==//
+      if not FCWinMain.MVG_SurfacePanel.Visible
+      then FCWinMain.MVG_SurfacePanel.Visible:=true;
+      if SPstoredPanelWidth=0
+      then FCMuiSP_RegionDataPicture_Update(1, false);
+   end //==END== if not SESinit ==//
+   else if SESinit
+   then
+   begin
+      FCWinMain.MVG_SurfacePanel.Visible:=false;
+      SESdmpTp:=ootAsteroid_Metallic;
+      SESdmpTtlReg:=4;
+      FCWinMain.MVG_SurfacePanel.Caption.Text:='';
+      SPcurrentStarSys:=0;
+      SPcurrentStar:=0;
+      SPcurrentOObjIndex:=0;
+      SPcurrentSatIndex:=0;
+      FCMuiSP_VarRegionHoveredSelected_Reset;
+      SPisResourcesSurveyOK:=false;
+      SPisResourcesSurveyInProcess:=false;
+      FCWinMain.SP_SurfaceDisplay.Enabled:=false;
+      FCWinMain.SP_SurfaceDisplay.HotSpots.Clear;
+      SEScnt:=1;
+      while SEScnt<=4 do
+      begin
+         SESdmpC:=SEScnt;
+         SEShots:=SESdmpC-1;
+         FCWinMain.SP_SurfaceDisplay.HotSpots.Add;
+         FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].ID:=SESdmpC;
+         FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Clipped:=false;
+         FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Down:=false;
+         FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].HoverColor:=clNone;
+         FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].ClickColor:=clNone;
+         case SESdmpC of
+            1:
+            begin
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=0;
+            end;
+            2, 3:
+            begin
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width shr 1;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=FCWinMain.SP_SurfaceDisplay.Height-64;
+               if SESdmpC=2
+               then FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0
+               else FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width-1;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=31;
+            end;
+            4:
+            begin
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Width:=FCWinMain.SP_SurfaceDisplay.Width;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Height:=32;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].X:=0;
+               FCWinMain.SP_SurfaceDisplay.HotSpots[SEShots].Y:=FCWinMain.SP_SurfaceDisplay.Height-33
+            end;
+         end;
+         inc(SEScnt)
+      end; //==END== while SEScnt<=4 ==//
+      FCWinMain.SP_SurfaceDisplay.Refresh;
+      FCWinMain.SP_SurfaceDisplay.HotSpots.Clear;
+   end; //==END== else if SESinit ==//
 end;
 
 procedure FCMuiSP_SurfaceEcosphere_SetWithSelf;

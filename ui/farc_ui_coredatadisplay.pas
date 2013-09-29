@@ -135,6 +135,7 @@ procedure FCMuiCDD_Colony_Update(
    );
 {:Purpose: core data display refresh for colony data. Update the Colony Data Panel and the related UMI tabs if required.
     Additions:
+      -2013Sep29- *fix: avoid to popup the colony panel when it'S not necessary, like an hourly update.
       -2013Mar30- *add: cdlPlanetarySurvey.
       -2012Jun03- *mod: remove isColonyDataPanelShown, change conditions and display the colony panel if it's not the case.
       -2012Apr16- *add: reserves (COMPLETION).
@@ -173,9 +174,9 @@ begin
          or ( ( isMustBeTheSameSettlement ) and ( SettlementStorageItemIndex=ColonyDataPanelSettlement ) )
          )
    then begin
-      if (not FCWinMain.FCWM_ColDPanel.Visible)
-         and (FCWinMain.MVG_SurfacePanel.Visible)
-      then FCWinMain.FCWM_ColDPanel.Show;
+//      if (not FCWinMain.FCWM_ColDPanel.Visible)
+//         and (FCWinMain.MVG_SurfacePanel.Visible)
+//      then FCWinMain.FCWM_ColDPanel.Show;
 //   isColonyDataPanelShown:=true;
       case DataType of
          cdlAll:

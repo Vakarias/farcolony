@@ -1651,7 +1651,7 @@ begin
    begin
       FCMuiSP_VarRegionSelected_Update;
       FCMuiSP_SurfaceSelected_Update( true );
-//      FCWinMain.SP_ResourceSurveyCommit.Show;
+//      FCWinMain.SP_ResourceSurveyCommit.Show.;
       if ( FCWinMain.MVG_PlanetarySurveyPanel.Visible )
          and ( FCWinMain.MVG_PlanetarySurveyPanel.Caption.Text='<p align="center"><b>'+FCFdTFiles_UIStr_Get( uistrUI, 'psMainTitle' )+FCFdTFiles_UIStr_Get( uistrUI, 'psTitleResources' ) )
       then FCMuiPS_Panel_Show( psResources, true )

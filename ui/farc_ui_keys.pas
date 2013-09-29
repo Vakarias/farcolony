@@ -248,6 +248,7 @@ procedure FCMuiK_BrowseK_Set(
    );
 {:Purpose: centralized browsing keys.
     Additions:
+      -2013Sep29- *fox: prevent FCMuiSP_SurfaceEcosphere_Set and interplanetary mission for an asteroid belt.
       -2013Sep22- *add: begin the asteroid belt.
       -2012Dec03- *fix: prevent a focus on a not visible object.
       -2010Jun02-	*add: space unit: take in account if the object is visible or not.
@@ -271,14 +272,20 @@ begin
                then
                begin
                   inc(FC3doglSelectedPlanetAsteroid);
-                  if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type = ootAsteroidsBelt
-                  then FCMovM_CameraMain_Target(foAsteroidBelt, true)
-                  else FCMovM_CameraMain_Target(foOrbitalObject, true);
-                  if FCWinMain.FCWM_MissionSettings.Visible
-                  then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
-                  else if (not FCWinMain.FCWM_MissionSettings.Visible)
-                     and (FCWinMain.SP_AutoUpdateCheck.Checked)
-                  then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
+                  if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type = ootAsteroidsBelt then
+                  begin
+                     if FCWinMain.MVG_SurfacePanel.Visible
+                     then FCWinMain.MVG_SurfacePanel.Hide;
+                     FCMovM_CameraMain_Target(foAsteroidBelt, true);
+                  end
+                  else begin
+                     FCMovM_CameraMain_Target(foOrbitalObject, true);
+                     if FCWinMain.FCWM_MissionSettings.Visible
+                     then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
+                     else if (not FCWinMain.FCWM_MissionSettings.Visible)
+                        and (FCWinMain.SP_AutoUpdateCheck.Checked)
+                     then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
+                  end;
                end;
             end;
 
@@ -290,7 +297,8 @@ begin
                begin
                   dec(FC3doglSelectedPlanetAsteroid);
                   FCMovM_CameraMain_Target(foOrbitalObject, true);
-                  FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
+                  if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type > ootAsteroidsBelt
+                  then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end
                else if not FCWinMain.FCWM_MissionSettings.Visible
                then
@@ -301,7 +309,9 @@ begin
                   else FCMovM_CameraMain_Target(foOrbitalObject, true);
                   if (FCWinMain.SP_AutoUpdateCheck.Checked)
                      and (FC3doglSelectedPlanetAsteroid>0)
-                  then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
+                     and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type > ootAsteroidsBelt)
+                  then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false)
+                  else FCWinMain.MVG_SurfacePanel.Hide;
                end;
             end;
 
@@ -333,6 +343,7 @@ begin
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
                   else if (not FCWinMain.FCWM_MissionSettings.Visible)
                      and (FCWinMain.SP_AutoUpdateCheck.Checked)
+                     and ( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type > ootAsteroidsBelt)
                   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
                end;
             end;
