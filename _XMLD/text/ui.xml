@@ -22,6 +22,7 @@
       ********** NEW GAME SETUP WINDOW **********
       ********** ORBITAL OBJECTS TYPES **********
       ********** PLANETARY SURVEY **********
+      ********** PRODUCTION MATRIX / STORAGE *******
       ********** PRODUCTS *******
       ********** SPACE UNIT ARCHITECTURE **********
       ********** SPACE UNIT OVERALL **********
@@ -1006,21 +1007,31 @@
       <FR>Difficulté de Seuil (Idéologie)</FR>
       <SP>Umbral de Dificultad (Ideología)</SP>
    </cpsThrDiff>
-   <cpsVOotEcoEnEff>
+   <cpsObjEcoEnergyEfficient>
       <EN>Energy Efficient</EN>
       <FR>Efficacité Energétique</FR>
       <SP>Eficiencia Energética</SP>
-   </cpsVOotEcoEnEff>
-   <cpsVOotEcoIndustrialForce>
+   </cpsObjEcoEnergyEfficient>
+   <cpsObjEcoIndustrialForce>
       <EN>Industrial Force</EN>
       <FR>Force Industrielle</FR>
       <SP>Fuerza Industrial</SP>
-   </cpsVOotEcoIndustrialForce>
-   <cpsVOotEcoLowCr>
+   </cpsObjEcoIndustrialForce>
+      <cpsObjEcoIndustrialForce_Prod>
+         <EN>Product to Produce</EN>
+         <FR>Produit à Produire</FR>
+         <SP>!TO TRANSLATE</SP>
+      </cpsObjEcoIndustrialForce_Prod>
+      <cpsObjEcoIndustrialForce_Thres>
+         <EN>Threshold to Reach</EN>
+         <FR>Seuil à Atteindre</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </cpsObjEcoIndustrialForce_Thres>
+   <cpsObjEcoLowCredit>
       <EN>Low Credit Line Use</EN>
       <FR>Faible Utilisation de la Marge de Crédit</FR>
       <SP>Utilización de la Línea de Crédito Bajo</SP>
-   </cpsVOotEcoLowCr>
+   </cpsObjEcoLowCredit>
    <cpsVOotEcoSustCol>
       <EN>Sustainable Colony</EN>
       <FR>Colonie Durable</FR>
@@ -2399,6 +2410,17 @@
       <FR>Ressources</FR>
       <SP>Recursos</SP>
    </psTitleResources>
+   <!-- ********** PRODUCTION MATRIX / STORAGE ******* -->
+   <capacityCurr>
+      <EN>curr.</EN>
+      <FR>cour.</FR>
+      <SP>!NT!</SP>
+   </capacityCurr>
+   <capacityMax>
+      <EN>max.</EN>
+      <FR>max.</FR>
+      <SP>!NT!</SP>
+   </capacityMax>
    <!-- ********** PRODUCTS ******* -->
    <bioAnimalFood>
       <EN>Animal Food</EN>

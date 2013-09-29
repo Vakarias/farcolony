@@ -659,6 +659,7 @@ procedure FCMuiCDP_Data_Update(
          ,DataIndex1: integer
    );
 {:Purpose: update the colony data display
+   -2013Sep29- *mod/add: completion of text localization for dtStorageAll.
    -2013Jan06- *fix: CAB duration display is corrected.
                *fix: for owned infrastructures - transition phase, if the infrastructure is in transition because of a lack of staff, it's now displayed.
    -2012May21- *add: CSM events: etRveOxygenShortage, etRveOxygenShortageRec, etRveWaterOverload, etRveWaterShortage, etRveWaterShortageRec, etRveFoodOverload, etRveFoodShortage and, etRveFoodShortageRec.
@@ -1528,28 +1529,28 @@ begin
          {.idx=0}
          FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapHead')+FCCFdHeadEnd+'<br>' );
          {.idx=1}
-         FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapSolid')+' (curr./max)'+FCCFdHeadEnd );
+         FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapSolid')+' ('+FCFdTFiles_UIStr_Get( uistrUI, 'capacityCurr' )+'/'+FCFdTFiles_UIStr_Get( uistrUI, 'capacityMax' )+')'+FCCFdHeadEnd );
          {.idx=2}
          FCWinMain.CDPstorageCapacity.HTMLText.Add(
             FCFcFunc_ThSep( FCDdgEntities[ 0 ].E_colonies[ CDPcurrentColony ].C_storageCapacitySolidCurrent, ',' )+' m3<br>/<br>'
             +FCFcFunc_ThSep( FCDdgEntities[ 0 ].E_colonies[ CDPcurrentColony ].C_storageCapacitySolidMax, ',' )+' m3<br>'
             );
          {.idx=3}
-         FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapLiquid')+' (curr./max)'+FCCFdHeadEnd );
+         FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapLiquid')+' ('+FCFdTFiles_UIStr_Get( uistrUI, 'capacityCurr' )+'/'+FCFdTFiles_UIStr_Get( uistrUI, 'capacityMax' )+')'+FCCFdHeadEnd );
          {.idx=4}
          FCWinMain.CDPstorageCapacity.HTMLText.Add(
             FCFcFunc_ThSep( FCDdgEntities[ 0 ].E_colonies[ CDPcurrentColony ].C_storageCapacityLiquidCurrent, ',' )+' m3<br>/<br>'
                +FCFcFunc_ThSep( FCDdgEntities[ 0 ].E_colonies[ CDPcurrentColony ].C_storageCapacityLiquidMax, ',' )+' m3<br>'
             );
          {.idx=5}
-         FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapGas')+' (curr./max)'+FCCFdHeadEnd );
+         FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapGas')+' ('+FCFdTFiles_UIStr_Get( uistrUI, 'capacityCurr' )+'/'+FCFdTFiles_UIStr_Get( uistrUI, 'capacityMax' )+')'+FCCFdHeadEnd );
          {.idx=6}
          FCWinMain.CDPstorageCapacity.HTMLText.Add(
             FCFcFunc_ThSep( FCDdgEntities[ 0 ].E_colonies[ CDPcurrentColony ].C_storageCapacityGasCurrent, ',' )+' m3<br>/<br>'
                +FCFcFunc_ThSep( FCDdgEntities[ 0 ].E_colonies[ CDPcurrentColony ].C_storageCapacityGasMax, ',' )+' m3<br>'
             );
          {.idx=7}
-         FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapBio')+' (curr./max)'+FCCFdHeadEnd );
+         FCWinMain.CDPstorageCapacity.HTMLText.Add( FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'colStorageCapBio')+' ('+FCFdTFiles_UIStr_Get( uistrUI, 'capacityCurr' )+'/'+FCFdTFiles_UIStr_Get( uistrUI, 'capacityMax' )+')'+FCCFdHeadEnd );
          {.idx=8}
          FCWinMain.CDPstorageCapacity.HTMLText.Add(
             FCFcFunc_ThSep( FCDdgEntities[ 0 ].E_colonies[ CDPcurrentColony ].C_storageCapacityBioCurrent, ',' )+' m3<br>/<br>'

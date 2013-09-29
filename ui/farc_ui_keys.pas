@@ -390,7 +390,7 @@ begin
                end;
             end;
          end; //==END== case BKSbk of ==//
-         FCMovM_CameraMain_Target(foSatellite, false);
+         FCMovM_CameraMain_Target(foSatellite, true);
          if FCWinMain.FCWM_MissionSettings.Visible
          then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
          else if (not FCWinMain.FCWM_MissionSettings.Visible)
@@ -986,7 +986,7 @@ begin
                   begin
                      FC3doglSelectedPlanetAsteroid:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
                   end;
-                  FCMovM_CameraMain_Target(foSatellite, false);
+                  FCMovM_CameraMain_Target(foSatellite, true);
                   if FCWinMain.FCWM_MissionSettings.Visible
                   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false);
                end

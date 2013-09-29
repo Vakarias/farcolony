@@ -79,6 +79,7 @@ uses
 function FCFuiCPS_Objective_GetFormat( const ObjectiveIndex: integer ): string;
 {:Purpose: format a string which contain the specified CPS objectives, its score, and additional data if needed.
     Additions:
+      -2013Sep
       -2012Mar25- *add: otEcoEnEff + otEcoIndustrialForce + otEcoLowCr completion.
 }
    var
@@ -91,16 +92,16 @@ begin
    case FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_type of
       otEcoEnEff:
       begin
-         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoEnEff');
+         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsObjEcoEnergyEfficient');
          ResultStr2:=' <br>';
          FCcpsObjectivesLines:=FCcpsObjectivesLines+1;
       end;
 
       otEcoIndustrialForce:
       begin
-         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoIndustrialForce');
-         ResultStr2:='Product to Produce: '+FCFdTFiles_UIStr_Get( uistrUI, FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_ifProduct )+'<br>'
-            +'Threshold to Reach: '+FCFgP_StringFromUnit_Get(
+         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsObjEcoIndustrialForce');
+         ResultStr2:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsObjEcoIndustrialForce_Prod' )+': '+FCFdTFiles_UIStr_Get( uistrUI, FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_ifProduct )+'<br>'
+            +FCFdTFiles_UIStr_Get( uistrUI, 'cpsObjEcoIndustrialForce_Thres' )+': '+FCFgP_StringFromUnit_Get(
                FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_ifProduct
                ,FCcps.CPSviabObj[ ObjectiveIndex ].CPSO_ifThreshold
                ,''
@@ -112,7 +113,7 @@ begin
 
       otEcoLowCr:
       begin
-         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsVOotEcoLowCr');
+         ResultStr1:=FCCFdHead+FCFdTFiles_UIStr_Get(uistrUI, 'cpsObjEcoLowCredit');
          ResultStr2:=' <br>';
          FCcpsObjectivesLines:=FCcpsObjectivesLines+1;
       end;
