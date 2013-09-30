@@ -104,7 +104,7 @@ function FCFoglF_OrbitalObject_CalculatePosition(
 ///   calculate the position, in the 3d view, of a satellite according to a given angle
 ///</summary>
 ///   <param name="DistanceFromPlanet">distance of the satellite from its star, in thousands of kilometers</param>
-///   <param name="Angle">satellite's current seasonal angle</param>
+///   <param name="Angle">satellite's current seasonal angle in degrees</param>
 ///   <param name="RootPosition">central planet 3d position, if this data is unknown, use the other one</param>
 ///   <returns>satellite's X, Y and Z in TFCRoglfPosition.</returns>
 ///   <remarks>100% compatible with satellites asteroids too</remarks>

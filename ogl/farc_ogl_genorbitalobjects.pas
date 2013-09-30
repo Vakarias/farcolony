@@ -391,8 +391,16 @@ procedure FCMogoO_OrbitalObject_Generate(
       -2009Dec07- *update atmosphere initialization.
 }
    var
-      LocationInView: TFCRoglfPosition;
+      LocationInView
+      ,LocationInViewRoot: TFCRoglfPosition;
 begin
+   LocationInView.P_x:=0;
+   LocationInView.P_y:=0;
+   LocationInView.P_z:=0;
+   LocationInViewRoot.P_x:=0;
+   LocationInViewRoot.P_y:=0;
+   LocationInViewRoot.P_z:=0;
+
    case TypeToGenerate of
       o3dotAsterBelt:
       begin
@@ -474,13 +482,13 @@ begin
    //         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapT:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
    //         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapR:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
             FC3doglPlanets[OrbitalObject3DIndex].RollAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_axialTilt;
-            LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
-                    FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
-                    ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
-               );
-            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
-            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
-            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+//            LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
+//                    FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
+//                    ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
+//               );
+//            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
+//            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
+//            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
          end //==END== if OOGobjClass=oglvmootNorm ==//
          else if TypeToGenerate = o3dotAsteroid then
          begin
@@ -496,14 +504,15 @@ begin
             FC3doglAsteroids[OrbitalObject3DIndex].Load3DSFileFrom( FCFogoO_Asteroid_Set( OrbitalObject3DIndex, 0 ) );
             FC3doglAsteroids[OrbitalObject3DIndex].Material.FrontProperties:=FC3ogooTemporaryAsteroid.Material.FrontProperties;
             FC3doglAsteroids[OrbitalObject3DIndex].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_axialTilt;
-            LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
-                    FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
-                    ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
-               );
-            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
-            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
-            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+
          end;
+         LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
+                 FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
+                 ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
+            );
+         FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
+         FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
+         FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
          {.the atmosphere}
          FC3doglAtmospheres[OrbitalObject3DIndex]:=TGLAtmosphere(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLAtmosphere));
          FC3doglAtmospheres[OrbitalObject3DIndex].Name:='FCGLSObObjAtmos'+IntToStr(OrbitalObject3DIndex);
@@ -620,6 +629,18 @@ begin
    //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapS:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapS;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapT:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
    //         FC3DobjSat[OOGobjIdx].Material.Texture.TextureWrapR:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].RollAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_isNotSat_axialTilt;
+            LocationInViewRoot.P_x:=FC3doglObjectsGroups[OrbitalObjectIndex].Position.X;
+            LocationInViewRoot.P_y:=FC3doglObjectsGroups[OrbitalObjectIndex].Position.Y;
+            LocationInViewRoot.P_z:=FC3doglObjectsGroups[OrbitalObjectIndex].Position.Z;
+            LocationInView:=FCFoglF_Satellite_CalculatePosition(
+               FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar
+               ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_angle1stDay
+               ,LocationInViewRoot
+               );
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
          end //==END== if OOGobjClass=oglvmootSatNorm ==//
          else if TypeToGenerate=o3dotSatelliteAsteroid then
          begin
@@ -639,6 +660,17 @@ begin
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Load3DSFileFrom( FCFogoO_Asteroid_Set( OrbitalObjectIndex, SatelliteIndex ) );
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Material.FrontProperties:=FC3ogooTemporaryAsteroid.Material.FrontProperties;
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_isNotSat_axialTilt;
+            LocationInViewRoot.P_x:=FC3doglObjectsGroups[OrbitalObjectIndex].Position.X;
+            LocationInViewRoot.P_y:=FC3doglObjectsGroups[OrbitalObjectIndex].Position.Y;
+            LocationInViewRoot.P_z:=FC3doglObjectsGroups[OrbitalObjectIndex].Position.Z;
+            LocationInView:=FCFoglF_Satellite_CalculatePosition(
+               FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar
+               ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_angle1stDay
+               ,LocationInViewRoot
+               );
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
          end;
          {.the atmosphere}
          FC3doglSatellitesAtmospheres[OrbitalObject3DIndex]:=TGLAtmosphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLAtmosphere));
