@@ -1913,10 +1913,14 @@ procedure TFCWinMain.FormResize(Sender: TObject);
       -2009Oct08- *add about window update.
       -2009Oct08- *add mission setup window update.
 }
+var test: integer;
 begin
    if not FCVisFARCclosing then UpdUI(false);
    if FCWinMain.WM_ActionPanel.Visible
    then FCWinMain.WM_ActionPanel.Hide;
+   test:=FCWM_UMI_TabSh.ActivePageIndex;
+   FCWM_UMI_TabSh.ActivePageIndex:=1;
+   FCWM_UMI_TabSh.ActivePageIndex:=test;
 //   GLCamera1.FocalLength:=ClientWidth*0.25;
 end;
 

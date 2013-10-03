@@ -78,7 +78,6 @@ function FCFovM_Focused3dObject_GetType(): TFCEovmFocusedObjects;
 
 //===========================END FUNCTIONS SECTION==========================================
 
-
 ///<summary>
 ///target a specified object in 3d view and initialize user's interface if needed
 ///</summary>
@@ -203,6 +202,26 @@ uses
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFovM_Focused3dObject_GetType(): TFCEovmFocusedObjects;
+{:Purpose: return the focused object. 0= star, 1= orbital object, 2= satellite, 3= space unit.
+    Additions:
+      -2013Sep22- *add: asteroid belt.
+      -2013Sep14- *mod: the result of the function is now a more readable and understandable result.
+}
+begin
+   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FCWinMain.FCGLSStarMain
+   then Result:=foStar
+   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglMainViewListMainOrbits[FC3doglSelectedPlanetAsteroid]
+   then Result:=foAsteroidBelt
+   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
+   then Result:=foOrbitalObject
+   else if ( FC3doglMainViewTotalSatellites>0 )
+      and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] )
+   then Result:=foSatellite
+   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit]
+   then Result:=foSpaceUnit;
+end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -388,27 +407,6 @@ begin
    end;
 end;
 
-function FCFoglVMain_CloudsCov_Conv2AtmOp(const CCC2AOcover: extended): extended;
-{:Purpose: calculate atmosphere opacity following clouds covers given.à
-   Additions:
-      -2010Mar21- *add: reinstate round of the result with a new method.
-}
-var CCC2AOdmp: extended;
-begin
-   if CCC2AOcover=0
-   then Result:=0
-   else if CCC2AOcover=-1
-   then Result:=0.7
-   else
-   begin
-      try
-         CCC2AOdmp:=CCC2AOcover/(10+(sqrt(CCC2AOcover)/8))   ;
-      finally
-         Result:=DecimalRound(CCC2AOdmp, 1, 0.01);
-      end;
-   end;
-end;
-
 procedure FCMoglVMain_MapTex_Assign(const MTAoobjIdx, MTAsatIdx, MTAsatObjIdx: integer);
 {:Purpose: assign the correct surface/atmosphere texture map on a designed orbital object.
     Additions:
@@ -543,26 +541,6 @@ begin
       FCMovM_CameraMain_Target(foSpaceUnit, true)
       {:DEV NOTES: put the spu part of cammain target here + root test if DBSpaceUnit=0 then use FC3doglSelectedSpaceUnit.}
    end;
-end;
-
-function FCFovM_Focused3dObject_GetType(): TFCEovmFocusedObjects;
-{:Purpose: return the focused object. 0= star, 1= orbital object, 2= satellite, 3= space unit.
-    Additions:
-      -2013Sep22- *add: asteroid belt.
-      -2013Sep14- *mod: the result of the function is now a more readable and understandable result.
-}
-begin
-   if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FCWinMain.FCGLSStarMain
-   then Result:=foStar
-   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglMainViewListMainOrbits[FC3doglSelectedPlanetAsteroid]
-   then Result:=foAsteroidBelt
-   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]
-   then Result:=foOrbitalObject
-   else if ( FC3doglMainViewTotalSatellites>0 )
-      and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] )
-   then Result:=foSatellite
-   else if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit]
-   then Result:=foSpaceUnit;
 end;
 
 procedure FCMovM_3DView_Update(
@@ -737,15 +715,6 @@ begin
                   end;
                   {.initialize 3d structure}
                   FCMogoO_OrbitalObject_Generate( o3dotAsteroidInABelt, Satellite3DCount, OrbitalObjIndex , SatelliteIndex );
-                  {.set scale}
-                  FC3doglSatellitesAsteroids[Satellite3DCount].scale.X:=FCFcF_Scale_Conversion(
-                     cAsteroidDiameterKmTo3dViewUnits
-                     ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_diameter
-                     );
-                  FC3doglSatellitesAsteroids[Satellite3DCount].scale.Y:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
-                  FC3doglSatellitesAsteroids[Satellite3DCount].scale.Z:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
-                  {.set group scale}
-                  FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X*50;
                   {.displaying}
                   FC3doglSatellitesObjectsGroups[Satellite3DCount].Visible:=true;
                   FC3doglSatellitesPlanet[Satellite3DCount].Visible:=false;
@@ -781,12 +750,6 @@ begin
             begin
                {.initialize 3d structure}
                FCMogoO_OrbitalObject_Generate(o3dotAsteroid, OrbitalObjIndex);
-               {.set common data}
-               FC3doglAsteroids[OrbitalObjIndex].scale.X:=FCFcF_Scale_Conversion(cAsteroidDiameterKmTo3dViewUnits, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_diameter);
-               FC3doglAsteroids[OrbitalObjIndex].scale.Y:=FC3doglAsteroids[OrbitalObjIndex].scale.X;
-               FC3doglAsteroids[OrbitalObjIndex].scale.Z:=FC3doglAsteroids[OrbitalObjIndex].scale.X;
-               {.set group scale}
-               FC3doglObjectsGroups[OrbitalObjIndex].CubeSize:=FC3doglAsteroids[OrbitalObjIndex].scale.X*50;
                {.displaying}
                FC3doglObjectsGroups[OrbitalObjIndex].Visible:=true;
                FC3doglPlanets[OrbitalObjIndex].Visible:=false;
@@ -802,23 +765,14 @@ begin
             begin
                {.initialize 3d structure}
                FCMogoO_OrbitalObject_Generate(o3dotPlanet, OrbitalObjIndex);
-               {.set scale}
-               FC3doglPlanets[OrbitalObjIndex].scale.X:=FCFcF_Scale_Conversion(cKmTo3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_diameter);
-               FC3doglPlanets[OrbitalObjIndex].scale.Y:=FC3doglPlanets[OrbitalObjIndex].scale.X;
-               FC3doglPlanets[OrbitalObjIndex].scale.Z:=FC3doglPlanets[OrbitalObjIndex].scale.X;
-               {.set group scale}
-               FC3doglObjectsGroups[OrbitalObjIndex].CubeSize:=FC3doglPlanets[OrbitalObjIndex].scale.X*2;
                {.set atmosphere}
-               if ( ( (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_type = ootPlanet_Telluric) or (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_type = ootPlanet_Icy) ) and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_atmosphericPressure>0) )
-                  or (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant]) then
-               begin
-                  FCMogoO_Atmosphere_SetColors(OrbitalObjIndex, 0, 0);
-                  FC3doglAtmospheres[OrbitalObjIndex].Sun:=FCWinMain.FCGLSSM_Light;
-                  if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_type<ootPlanet_Gaseous_Uranus
-                  then FC3doglAtmospheres[OrbitalObjIndex].Opacity:=FCFoglVMain_CloudsCov_Conv2AtmOp(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_cloudsCover)
-                  else FC3doglAtmospheres[OrbitalObjIndex].Opacity:=FCFoglVMain_CloudsCov_Conv2AtmOp(-1);
-                  FC3doglAtmospheres[OrbitalObjIndex].Visible:=true;
-               end;
+               if (
+                  ( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_type in [ootPlanet_Telluric..ootPlanet_Icy] )
+                     and ( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_atmosphericPressure > 0 )
+                     and ( not FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_atmosphere.AC_traceAtmosphere )
+                  )
+                  or (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_type in [ootPlanet_Gaseous_Uranus..ootPlanet_Supergiant])
+               then FCMogoO_Atmosphere_Setup(OrbitalObjIndex, 0, 0);
                {.texturing}
                FCMoglVMain_MapTex_Assign(OrbitalObjIndex, 0, 0);
                {.satellites}
@@ -878,14 +832,9 @@ begin
                         {.set group scale}
                         FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X*2;
                         {.set atmosphere}
-                        if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphericPressure > 0 then
-                        begin
-                           FCMogoO_Atmosphere_SetColors(OrbitalObjIndex, SatelliteIndex, Satellite3DCount);
-                           FC3doglSatellitesAtmospheres[Satellite3DCount].Sun:=FCWinMain.FCGLSSM_Light;
-                           FC3doglSatellitesAtmospheres[Satellite3DCount].Opacity
-                              :=FCFoglVMain_CloudsCov_Conv2AtmOp(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_cloudsCover);
-                           FC3doglSatellitesAtmospheres[Satellite3DCount].Visible:=true;
-                        end;
+                        if ( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphericPressure > 0 )
+                           and ( not FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_traceAtmosphere )
+                        then FCMogoO_Atmosphere_Setup(OrbitalObjIndex, SatelliteIndex, Satellite3DCount);
                         {.texturing}
                         FCMoglVMain_MapTex_Assign(OrbitalObjIndex, SatelliteIndex, Satellite3DCount);
                         {.displaying}

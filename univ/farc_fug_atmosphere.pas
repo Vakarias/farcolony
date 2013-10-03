@@ -32,6 +32,26 @@ interface
 
 //uses
 
+type TFCEfaGases=(
+   gNone
+   ,gH2
+   ,gHe
+   ,gCH4
+   ,gNH3
+   ,gH2O
+   ,gNe
+   ,gN2
+   ,gCO
+   ,gNO
+   ,gO2
+   ,gH2S
+   ,gAr
+   ,gCO2
+   ,gNO2
+   ,gO3
+   ,gSO2
+   );
+
 //==END PUBLIC ENUM=========================================================================
 
 //==END PUBLIC RECORDS======================================================================
@@ -80,25 +100,6 @@ uses
    farc_common_func
    ,farc_data_univ
    ,farc_fug_stars;
-
-type TFCEfaGases=(
-   gH2
-   ,gHe
-   ,gCH4
-   ,gNH3
-   ,gH2O
-   ,gNe
-   ,gN2
-   ,gCO
-   ,gNO
-   ,gO2
-   ,gH2S
-   ,gAr
-   ,gCO2
-   ,gNO2
-   ,gO3
-   ,gSO2
-   );
 
 //==END PRIVATE ENUM========================================================================
 

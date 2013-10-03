@@ -37,6 +37,8 @@ uses
    ,GLColor
    ,GLObjects
 
+   ,DecimalRounding_JH1
+
    ,oxLib3dsMeshLoader;
 
 type TFCEogooOrbital3dObjectTypes=(
@@ -68,18 +70,16 @@ type TFCEogooOrbital3dObjectTypes=(
 //===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
-///   set the atmosphere color following main gases which compose it
+///   setup of the atmosphere color according to the orbital object's main gases which compose it
 ///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <returns></returns>
+///   <param name="OrbitalObjectIndex">orbital object index #</param>
+///   <param name="SatelliteIndex">satellite index #</param>
+///   <param name="Satellite3Dindex">index of the satellite 3d object</param>
 ///   <remarks></remarks>
-procedure FCMogoO_Atmosphere_SetColors(
-   const ASCoobjIdx
-         ,ASCsatIdx
-         ,ASCsatObjIdx: integer
+procedure FCMogoO_Atmosphere_Setup(
+   const OrbitalObjectIndex
+         ,SatelliteIndex
+         ,Satellite3Dindex: integer
    );
 
 ///<summary>
@@ -114,6 +114,7 @@ uses
    ,farc_data_3dopengl
    ,farc_data_init
    ,farc_data_univ
+   ,farc_fug_atmosphere
    ,farc_main
    ,farc_ogl_functions;
 
@@ -220,157 +221,322 @@ end;
 
 //===========================END FUNCTIONS SECTION==========================================
 
-procedure FCMogoO_Atmosphere_SetColors(
-   const ASCoobjIdx
-         ,ASCsatIdx
-         ,ASCsatObjIdx: integer
+procedure FCMogoO_Atmosphere_Setup(
+   const OrbitalObjectIndex
+         ,SatelliteIndex
+         ,Satellite3Dindex: integer
    );
-{:Purpose: set the atmosphere color following main gases which compose it.
+{:Purpose: setup of the atmosphere color according to the orbital object's main gases which compose it.
     Additions:
+      -2013Oct01- *code audit:
+                  (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (x) ()reformatting         (x)code optimizations
+                  (_)float local variables=> extended (_)case..of reformatting   (_)local methods: put inline; + reformat _X
+                  (x)summary completion               (_)protect all float add/sub w/ FCFcFunc_Rnd
+                  (_)use of enumindex                 (_)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                  (x)any function/procedure variable pre-initialization. Init array w/ [0] array EACH PARAMETERS not direct
+                  (_)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                  (_)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                  (x)conditional <>= and operators with spaces
+                  (_)if the procedure reset the same record's data or external data put:
+                     ///   <remarks>the procedure/function reset the /data/</remarks>
+                  *add: transfer the rest of the code for a complete atmosphere setup.
+                  *add/mod: start of the overhaul of the colors.
       -2010Jan31- *mod: change in ASAsizeCoef.
       -2010Jan05- *add: set also atmosphere scale.
                   *mod: refactor the method considering the new function.
 }
-const
-   ASAsizeCoef=2;//1.948;//.892
-var
-   ASChighColRed
-   ,ASChighColGreen
-   ,ASChighColBlue
-   ,ASClowColRed
-   ,ASClowColGreen
-   ,ASClowColBlue: extended;
+   const
+      SizeCoefficient=2;//1.948;//.892
 
-   ASCh2
-   ,ASChe
-   ,ASCn2
-   ,ASCo2
-   ,ASCh2s
-   ,ASCco2
-   ,ASCso2
-   : TFCEduAtmosphericGasStatus;
+   var
+      ConvertedCloudsCover
+      ,Gas1Red
+      ,Gas1Green
+      ,Gas1Blue
+      ,HighColorRed
+      ,HighColorGreen
+      ,HighColorBlue
+      ,LowColorRed
+      ,LowColorGreen
+      ,LowColorBlue
+      ,SQRTscale: extended;
+
+      isDone
+      ,isGaseous: boolean;
+
+      GasCH4
+      ,GasH2
+      ,GasHe
+      ,GasN2
+      ,GasNH3
+      ,GasO2
+      ,GasH2S
+      ,GasCO2
+      ,GasSO2: TFCEduAtmosphericGasStatus;
+
+      PrimaryFirst: TFCEfaGases;
+
+      function _CloudsCover_Convert2AtmosphereOpacity( const CloudsCover: extended ): extended;
+      {:Purpose: calculate atmosphere opacity following clouds covers given.à
+         Additions:
+            -2013Oct01- *code: function moved as nested code.
+            -2010Mar21- *add: reinstate round of the result with a new method.
+      }
+         var
+            fCalc: extended;
+      begin
+         Result:=0;
+         fCalc:=0;
+         if CloudsCover <= 0
+         then Result:=0.7
+         else begin
+            fCalc:=CloudsCover / ( 10 + ( sqrt( CloudsCover ) / 8 ) );
+            Result:=DecimalRound( fCalc, 1, 0.01 );
+         end;
+      end;
 begin
-   if ASCsatIdx=0
-   then
+   ConvertedCloudsCover:=0;
+   Gas1Red:=0;
+   Gas1Green:=0;
+   Gas1Blue:=0;
+   HighColorRed:=0;
+   HighColorGreen:=0;
+   HighColorBlue:=0;
+   LowColorRed:=0;
+   LowColorGreen:=0;
+   LowColorBlue:=0;
+   SQRTscale:=0;
+
+   isDone:=false;
+   isGaseous:=false;
+
+   GasCH4:=agsNotPresent;
+   GasH2:=agsNotPresent;
+   GasHe:=agsNotPresent;
+   GasN2:=agsNotPresent;
+   GasNH3:=agsNotPresent;
+   GasO2:=agsNotPresent;
+   GasH2S:=agsNotPresent;
+   GasCO2:=agsNotPresent;
+   GasSO2:=agsNotPresent;
+   PrimaryFirst:=gNone;
+
+   if SatelliteIndex = 0 then
    begin
-      ASCh2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_atmosphere.AC_gasPresenceH2;
-      ASChe:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_atmosphere.AC_gasPresenceHe;
-      ASCn2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_atmosphere.AC_gasPresenceN2;
-      ASCo2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_atmosphere.AC_gasPresenceO2;
-      ASCh2s:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_atmosphere.AC_gasPresenceH2S;
-      ASCco2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_atmosphere.AC_gasPresenceCO2;
-      ASCso2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_atmosphere.AC_gasPresenceSO2;
+      if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_type < ootPlanet_Gaseous_Uranus
+      then ConvertedCloudsCover:=_CloudsCover_Convert2AtmosphereOpacity( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_cloudsCover )
+      else begin
+         ConvertedCloudsCover:=_CloudsCover_Convert2AtmosphereOpacity( 0 );
+         isGaseous:=true;
+      end;
+      GasCH4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceCH4;
+      GasH2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceH2;
+      GasHe:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceHe;
+      GasN2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceN2;
+      GasNH3:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceNH3;
+      GasO2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceO2;
+      GasH2S:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceH2S;
+      GasCO2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceCO2;
+      GasSO2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceSO2;
    end
-   else if ASCsatIdx>0
-   then
-   begin
-      ASCh2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceH2;
-      ASChe:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceHe;
-      ASCn2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceN2;
-      ASCo2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceO2;
-      ASCh2s:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceH2S;
-      ASCco2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceCO2;
-      ASCso2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ASCoobjIdx].OO_satellitesList[ASCsatIdx].OO_atmosphere.AC_gasPresenceSO2;
+   else begin
+      ConvertedCloudsCover:=_CloudsCover_Convert2AtmosphereOpacity( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_cloudsCover );
+      GasCH4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceCH4;
+      GasH2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceH2;
+      GasHe:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceHe;
+      GasN2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceN2;
+      GasNH3:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceNH3;
+      GasO2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceO2;
+      GasH2S:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceH2S;
+      GasCO2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceCO2;
+      GasSO2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_gasPresenceSO2;
    end;
-   {.N2 atmosphere - titan like}
-   if (ASCn2=agsPrimary)
-      and (ASCco2<agsPrimary)
-      and (ASCo2<agsPrimary)
-   then
+   if isGaseous then
    begin
-      ASChighColRed:=0.223529;
-      ASChighColGreen:=0.286274;
-      ASChighColBlue:=0.415686;
-      ASClowColRed:=0.615686;
-      ASClowColGreen:=0.447058;
-      ASClowColBlue:=0.247058;
+
    end
-   {.N2/CO2 atmosphere - mars like}
-   else if (ASCn2=agsPrimary)
-      and (ASCco2=agsPrimary)
-      and (ASCo2<agsPrimary)
-   then
-   begin
-      ASChighColRed:=0.372549;
-      ASChighColGreen:=0.364705;
-      ASChighColBlue:=0.317647;
-      ASClowColRed:=0.760784;
-      ASClowColGreen:=0.745098;
-      ASClowColBlue:=0.709803;
-   end
-   {.N2/O2 atmosphere - earth like}
-   else if (ASCn2=agsPrimary)
-      and (ASCco2<agsPrimary)
-      and (ASCo2=agsPrimary)
-   then
-   begin
-      ASChighColRed:=0.247058;
-      ASChighColGreen:=0.392156;
-      ASChighColBlue:=0.6;
-      ASClowColRed:=0.196078;
-      ASClowColGreen:=0.6;
-      ASClowColBlue:=0.8;
-   end
-   {.H2/He atmosphere - saturn like}
-   else if (ASCh2=agsPrimary)
-      and (ASChe=agsPrimary)
-   then
-   begin
-      ASChighColRed:=0.403921;
-      ASChighColGreen:=0.454901;
-      ASChighColBlue:=0.478431;
-      ASClowColRed:=0.709803;
-      ASClowColGreen:=0.639215;
-      ASClowColBlue:=0.458823;
-   end
-   {.H2S/SO2 atmosphere - io like}
-   else if (ASCh2s=agsPrimary)
-      and (ASCso2=agsPrimary)
-   then
-   begin
-      ASChighColRed:=0.556862;
-      ASChighColGreen:=0.549019;
-      ASChighColBlue:=0.325490;
-      ASClowColRed:=0.866666;
-      ASClowColGreen:=0.866666;
-      ASClowColBlue:=0.866666;
+   else begin
+      if GasN2 = agsPrimary then
+      begin
+         Gas1Red:=0.250980392;//64
+         Gas1Green:=0.298039215;//76
+         Gas1Blue:=0.392156862;//100
+         PrimaryFirst:=gN2;
+      end;
+      if GasCO2 = agsPrimary then
+      begin
+         if PrimaryFirst = gN2 then
+         begin
+            HighColorRed:=Gas1Red;
+            HighColorGreen:=Gas1Green;
+            HighColorBlue:=Gas1Blue;
+            LowColorRed:=1;//255
+            LowColorGreen:=0.141176470;//36
+            LowColorBlue:=0;//0
+            isDone:=true;
+         end
+         else begin
+            Gas1Red:=1;//255
+            Gas1Green:=0.141176470;//36
+            Gas1Blue:=0;//0
+            PrimaryFirst:=gCO2;
+         end;
+      end;
+      if ( not isDone )
+         and ( GasCH4 = agsPrimary ) then
+      begin
+         if PrimaryFirst = gN2 then
+         begin
+            HighColorRed:=Gas1Red;
+            HighColorGreen:=Gas1Green;
+            HighColorBlue:=Gas1Blue;
+            LowColorRed:=0.878431372;//224
+            LowColorGreen:=0.760784313;//194
+            LowColorBlue:=0.290196078;//74
+            isDone:=true;
+         end
+         else if PrimaryFirst = gCO2 then
+         begin
+            HighColorRed:=0.250980392;//64
+            HighColorGreen:=0.298039215;//76
+            HighColorBlue:=0.392156862;//100
+            LowColorRed:=0.658823529;//168
+            LowColorGreen:=0.592156862;//151
+            LowColorBlue:=0.764705882;//195
+            isDone:=true;
+         end
+         else begin
+            Gas1Red:=0.878431372;//224
+            Gas1Green:=0.760784313;//194
+            Gas1Blue:=0.290196078;//74
+            PrimaryFirst:=gCH4;
+         end;
+      end;
+      if ( not isDone )
+         and ( PrimaryFirst > gNone ) then
+      begin
+         if PrimaryFirst = gN2 then
+         begin
+            if GasO2 >= agsSecondary then
+            begin
+               HighColorRed:=0.486274509;//124
+               HighColorGreen:=0.674509803;//172
+               HighColorBlue:=0.941176470;//240
+               LowColorRed:=Gas1Red;
+               LowColorGreen:=Gas1Green;
+               LowColorBlue:=Gas1Blue;
+               isDone:=true;
+            end;
+         end;
+      end;
    end;
-   {.set the colors}
-   if ASCsatIdx=0
-   then
+
+
+//   {.N2/CH4 atmosphere - titan like}
+//   if ( GasN2 = agsPrimary )
+//      and ( GasCH4 >= agsSecondary )
+//      and ( GasO2 < agsSecondary ) then
+//   begin
+//      HighColorRed:=0.250980392;//64..57
+//      HighColorGreen:=0.298039215;//76..73
+//      HighColorBlue:=0.392156862;//100..106
+//      LowColorRed:=0.878431372;//224.216..157
+//      LowColorGreen:=0.760784313;//194..138..114
+//      LowColorBlue:=0.290196078;//74..45..63
+//   end
+//   {.N2/O2 atmosphere - earth like}
+//   else if ( GasN2 = agsPrimary )
+//      and ( GasO2 >= agsSecondary ) then
+//   begin
+//      HighColorRed:=0.486274509;//124..63
+//      HighColorGreen:=0.674509803;//172..100
+//      HighColorBlue:=0.941176470;//240..153
+//      LowColorRed:=0.250980392;//64
+//      LowColorGreen:=0.298039215;//76
+//      LowColorBlue:=0.392156862;//100
+//   end
+//   {.CO2 atmosphere - mars like}
+//   else if ( GasCO2 = agsPrimary )
+////      and ( GasN2 <= agsPrimary )
+//      then
+//   begin
+//      HighColorRed:=0.596078431;//152..95
+//      HighColorGreen:=0.650980392;//166..93
+//      HighColorBlue:=0.733333333;//187..81
+//      LowColorRed:=1; //255
+//      LowColorGreen:=0.141176470;
+//      LowColorBlue:=0;
+//   end
+//   else if ( GasCO2 = agsPrimary )
+//      and ( GasN2 = agsPrimary ) then
+//   begin
+//      HighColorRed:=0.250980392;//64..57
+//      HighColorGreen:=0.298039215;//76..73
+//      HighColorBlue:=0.392156862;//100..106
+//      LowColorRed:=1;
+//      LowColorGreen:=0.141176470;
+//      LowColorBlue:=0;
+//   end
+//
+//   {.H2/He atmosphere - saturn like}
+//   else if ( GasH2 = agsPrimary )
+//      and ( GasHe = agsPrimary ) then
+//   begin
+//      HighColorRed:=0.403921;
+//      HighColorGreen:=0.454901;
+//      HighColorBlue:=0.478431;
+//      LowColorRed:=0.709803;
+//      LowColorGreen:=0.639215;
+//      LowColorBlue:=0.458823;
+//   end
+//   {.H2S/SO2 atmosphere - io like}
+//   else if ( GasH2S = agsPrimary )
+//      and ( GasSO2 = agsPrimary ) then
+//   begin
+//      HighColorRed:=0.556862;
+//      HighColorGreen:=0.549019;
+//      HighColorBlue:=0.325490;
+//      LowColorRed:=0.866666;
+//      LowColorGreen:=0.866666;
+//      LowColorBlue:=0.866666;
+//   end
+//   else if ( GasCH4 = agsPrimary )
+//      and ( GasNH3 = agsPrimary ) then
+//   begin
+//      HighColorRed:=0.247058;
+//      HighColorGreen:=0.392156;
+//      HighColorBlue:=0.6;
+//      LowColorRed:=0.196078;
+//      LowColorGreen:=0.6;
+//      LowColorBlue:=0.8;
+//   end;
+   if SatelliteIndex = 0 then
    begin
-      FC3doglAtmospheres[ASCoobjIdx].HighAtmColor.Red:=ASChighColRed;
-      FC3doglAtmospheres[ASCoobjIdx].HighAtmColor.Green:=ASChighColGreen;
-      FC3doglAtmospheres[ASCoobjIdx].HighAtmColor.Blue:=ASChighColBlue;
-      FC3doglAtmospheres[ASCoobjIdx].LowAtmColor.Red:=ASClowColRed;
-      FC3doglAtmospheres[ASCoobjIdx].LowAtmColor.Green:=ASClowColGreen;
-      FC3doglAtmospheres[ASCoobjIdx].LowAtmColor.Blue:=ASClowColBlue;
-      FC3doglAtmospheres[ASCoobjIdx].SetOptimalAtmosphere2
-         (
-            FC3doglPlanets[ASCoobjIdx].Scale.X
-            -(
-               (sqrt(FC3doglPlanets[ASCoobjIdx].Scale.X)/ASAsizeCoef)
-               -(sqrt(FC3doglPlanets[ASCoobjIdx].Scale.X)/2)
-            )
-         );
+      SQRTscale:=sqrt( FC3doglPlanets[OrbitalObjectIndex].Scale.X );
+      FC3doglAtmospheres[OrbitalObjectIndex].HighAtmColor.Red:=HighColorRed;
+      FC3doglAtmospheres[OrbitalObjectIndex].HighAtmColor.Green:=HighColorGreen;
+      FC3doglAtmospheres[OrbitalObjectIndex].HighAtmColor.Blue:=HighColorBlue;
+      FC3doglAtmospheres[OrbitalObjectIndex].LowAtmColor.Red:=LowColorRed;
+      FC3doglAtmospheres[OrbitalObjectIndex].LowAtmColor.Green:=LowColorGreen;
+      FC3doglAtmospheres[OrbitalObjectIndex].LowAtmColor.Blue:=LowColorBlue;
+      FC3doglAtmospheres[OrbitalObjectIndex].SetOptimalAtmosphere2( FC3doglPlanets[OrbitalObjectIndex].Scale.X - ( ( SQRTscale / SizeCoefficient - ( SQRTscale * 0.5 ) ) ) );
+      FC3doglAtmospheres[OrbitalObjectIndex].Sun:=FCWinMain.FCGLSSM_Light;
+      FC3doglAtmospheres[OrbitalObjectIndex].Opacity:=ConvertedCloudsCover;
+      FC3doglAtmospheres[OrbitalObjectIndex].Visible:=true;
    end
-   else if ASCsatIdx>0
-   then
-   begin
-      FC3doglSatellitesAtmospheres[ASCsatObjIdx].HighAtmColor.Red:=ASChighColRed;
-      FC3doglSatellitesAtmospheres[ASCsatObjIdx].HighAtmColor.Green:=ASChighColGreen;
-      FC3doglSatellitesAtmospheres[ASCsatObjIdx].HighAtmColor.Blue:=ASChighColBlue;
-      FC3doglSatellitesAtmospheres[ASCsatObjIdx].LowAtmColor.Red:=ASClowColRed;
-      FC3doglSatellitesAtmospheres[ASCsatObjIdx].LowAtmColor.Green:=ASClowColGreen;
-      FC3doglSatellitesAtmospheres[ASCsatObjIdx].LowAtmColor.Blue:=ASClowColBlue;
-      FC3doglSatellitesAtmospheres[ASCsatObjIdx].SetOptimalAtmosphere2
-         (
-            FC3doglSatellitesPlanet[ASCsatObjIdx].Scale.X
-            -(
-               (sqrt(FC3doglSatellitesPlanet[ASCsatObjIdx].Scale.X)/ASAsizeCoef)
-               -(sqrt(FC3doglSatellitesPlanet[ASCsatObjIdx].Scale.X)/2)
-            )
-         );
+   else begin
+      SQRTscale:=sqrt( FC3doglSatellitesPlanet[Satellite3Dindex].Scale.X );
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].HighAtmColor.Red:=HighColorRed;
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].HighAtmColor.Green:=HighColorGreen;
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].HighAtmColor.Blue:=HighColorBlue;
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].LowAtmColor.Red:=LowColorRed;
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].LowAtmColor.Green:=LowColorGreen;
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].LowAtmColor.Blue:=LowColorBlue;
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].SetOptimalAtmosphere2( FC3doglSatellitesPlanet[Satellite3Dindex].Scale.X - ( ( SQRTscale / SizeCoefficient -( SQRTscale * 0.5 ) ) ) );
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].Sun:=FCWinMain.FCGLSSM_Light;
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].Opacity:=ConvertedCloudsCover;
+      FC3doglSatellitesAtmospheres[Satellite3Dindex].Visible:=true;
    end;
 end;
 
@@ -382,6 +548,8 @@ procedure FCMogoO_OrbitalObject_Generate(
    );
 {:Purpose: generate a 3d objects row of selected index.
     Additions:
+      -2013Sep29- *code: transfer of creation code.
+                  *code: some code cleanup
       -2013Sep22- *add: begin asteroid belt.
                   *code: some code cleanup.
       -2010Dec07- *add: intialize the material of planets, if needed.
@@ -482,13 +650,31 @@ begin
    //         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapT:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapT;
    //         FC3DobjPlan[OOGobjIdx].Material.Texture.TextureWrapR:=FC3DmatLibSplanT.Materials.Items[0].Material.Texture.TextureWrapR;
             FC3doglPlanets[OrbitalObject3DIndex].RollAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_axialTilt;
-//            LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
-//                    FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
-//                    ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
-//               );
-//            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
-//            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
-//            FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+
+            LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
+                 FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
+                 ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
+            );
+         FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
+         FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
+         FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+
+               FC3doglPlanets[OrbitalObject3DIndex].scale.X:=FCFcF_Scale_Conversion(cKmTo3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_diameter);
+               FC3doglPlanets[OrbitalObject3DIndex].scale.Y:=FC3doglPlanets[OrbitalObject3DIndex].scale.X;
+               FC3doglPlanets[OrbitalObject3DIndex].scale.Z:=FC3doglPlanets[OrbitalObject3DIndex].scale.X;
+               FC3doglObjectsGroups[OrbitalObject3DIndex].CubeSize:=FC3doglPlanets[OrbitalObject3DIndex].scale.X*2;
+            {.the atmosphere}
+            FC3doglAtmospheres[OrbitalObject3DIndex]:=TGLAtmosphere(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLAtmosphere));
+            FC3doglAtmospheres[OrbitalObject3DIndex].Name:='FCGLSObObjAtmos'+IntToStr(OrbitalObject3DIndex);
+            FC3doglAtmospheres[OrbitalObject3DIndex].AtmosphereRadius:=3.55;//3.75;//3.55;
+            FC3doglAtmospheres[OrbitalObject3DIndex].BlendingMode:=abmOneMinusSrcAlpha;
+            FC3doglAtmospheres[OrbitalObject3DIndex].HighAtmColor.Color:=clrBlue;
+            FC3doglAtmospheres[OrbitalObject3DIndex].LowAtmColor.Color:=clrWhite;
+            FC3doglAtmospheres[OrbitalObject3DIndex].Opacity:=2.1;
+            FC3doglAtmospheres[OrbitalObject3DIndex].PlanetRadius:=3.395;
+            FC3doglAtmospheres[OrbitalObject3DIndex].Slices:=64;
+            FC3doglAtmospheres[OrbitalObject3DIndex].Visible:=false;
+
          end //==END== if OOGobjClass=oglvmootNorm ==//
          else if TypeToGenerate = o3dotAsteroid then
          begin
@@ -504,26 +690,19 @@ begin
             FC3doglAsteroids[OrbitalObject3DIndex].Load3DSFileFrom( FCFogoO_Asteroid_Set( OrbitalObject3DIndex, 0 ) );
             FC3doglAsteroids[OrbitalObject3DIndex].Material.FrontProperties:=FC3ogooTemporaryAsteroid.Material.FrontProperties;
             FC3doglAsteroids[OrbitalObject3DIndex].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_axialTilt;
-
-         end;
-         LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
+            LocationInView:=FCFoglF_OrbitalObject_CalculatePosition(
                  FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_isNotSat_distanceFromStar
                  ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_angle1stDay
             );
          FC3doglObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
          FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
          FC3doglObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
-         {.the atmosphere}
-         FC3doglAtmospheres[OrbitalObject3DIndex]:=TGLAtmosphere(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLAtmosphere));
-         FC3doglAtmospheres[OrbitalObject3DIndex].Name:='FCGLSObObjAtmos'+IntToStr(OrbitalObject3DIndex);
-         FC3doglAtmospheres[OrbitalObject3DIndex].AtmosphereRadius:=3.55;//3.75;//3.55;
-         FC3doglAtmospheres[OrbitalObject3DIndex].BlendingMode:=abmOneMinusSrcAlpha;
-         FC3doglAtmospheres[OrbitalObject3DIndex].HighAtmColor.Color:=clrBlue;
-         FC3doglAtmospheres[OrbitalObject3DIndex].LowAtmColor.Color:=clrWhite;
-         FC3doglAtmospheres[OrbitalObject3DIndex].Opacity:=2.1;
-         FC3doglAtmospheres[OrbitalObject3DIndex].PlanetRadius:=3.395;
-         FC3doglAtmospheres[OrbitalObject3DIndex].Slices:=64;
-         FC3doglAtmospheres[OrbitalObject3DIndex].Visible:=false;
+            FC3doglAsteroids[OrbitalObject3DIndex].scale.X:=FCFcF_Scale_Conversion(cAsteroidDiameterKmTo3dViewUnits, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObject3DIndex].OO_diameter);
+               FC3doglAsteroids[OrbitalObject3DIndex].scale.Y:=FC3doglAsteroids[OrbitalObject3DIndex].scale.X;
+               FC3doglAsteroids[OrbitalObject3DIndex].scale.Z:=FC3doglAsteroids[OrbitalObject3DIndex].scale.X;
+               FC3doglObjectsGroups[OrbitalObject3DIndex].CubeSize:=FC3doglAsteroids[OrbitalObject3DIndex].scale.X*50;
+         end;
+
       end; //==END== case: o3dotPlanet, o3dotAsteroid ==//
 
       o3dotAsteroidInABelt:
@@ -569,6 +748,14 @@ begin
                FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
                FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
                FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].scale.X:=FCFcF_Scale_Conversion(
+            cAsteroidDiameterKmTo3dViewUnits
+            ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_diameter
+            );
+         FC3doglSatellitesAsteroids[OrbitalObject3DIndex].scale.Y:=FC3doglSatellitesAsteroids[OrbitalObject3DIndex].scale.X;
+         FC3doglSatellitesAsteroids[OrbitalObject3DIndex].scale.Z:=FC3doglSatellitesAsteroids[OrbitalObject3DIndex].scale.X;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].CubeSize:=FC3doglSatellitesAsteroids[OrbitalObject3DIndex].scale.X*50;
       end;
 
       o3dotSatellitePlanet, o3dotSatelliteAsteroid:
@@ -641,6 +828,17 @@ begin
             FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
             FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
             FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+            {.the atmosphere}
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex]:=TGLAtmosphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLAtmosphere));
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].Name:='FCGLSsatAtmos'+IntToStr(OrbitalObject3DIndex);
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].AtmosphereRadius:=3.55;//3.75;//3.55;
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].BlendingMode:=abmOneMinusSrcAlpha;
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].HighAtmColor.Color:=clrBlue;
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].LowAtmColor.Color:=clrWhite;
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].Opacity:=2.1;
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].PlanetRadius:=3.395;
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].Slices:=64;
+            FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].Visible:=false;
          end //==END== if OOGobjClass=oglvmootSatNorm ==//
          else if TypeToGenerate=o3dotSatelliteAsteroid then
          begin
@@ -671,18 +869,10 @@ begin
             FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.X:=LocationInView.P_x;
             FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Y:=LocationInView.P_y;
             FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Position.Z:=LocationInView.P_z;
+
+
          end;
-         {.the atmosphere}
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex]:=TGLAtmosphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLAtmosphere));
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].Name:='FCGLSsatAtmos'+IntToStr(OrbitalObject3DIndex);
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].AtmosphereRadius:=3.55;//3.75;//3.55;
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].BlendingMode:=abmOneMinusSrcAlpha;
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].HighAtmColor.Color:=clrBlue;
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].LowAtmColor.Color:=clrWhite;
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].Opacity:=2.1;
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].PlanetRadius:=3.395;
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].Slices:=64;
-         FC3doglSatellitesAtmospheres[OrbitalObject3DIndex].Visible:=false;
+
       end; //==END== case: o3dotSatellitePlanet, o3dotSatelliteAsteroid ==//
    end; //==END== case TypeToGenerate of ==//
 end;

@@ -485,7 +485,7 @@ begin
 
       cKmTo3dViewUnits:
       begin
-         Calculations:=Value/CFC3dUnInKm;
+         Calculations:=(Value/CFC3dUnInKm);
          Result:=FCFcF_Round( rtt3dposition, Calculations );
       end;
 
@@ -503,13 +503,13 @@ begin
 
       c3dViewUnitsToAU:
       begin
-         Calculations:=Value/CFC3dUnInAU;
+         Calculations:=Value/CFC3dUnInAU * FC3doglCoefViewReduction;
          Result:=FCFcF_Round( rttDistanceKm, Calculations );
       end;
 
       cAsteroidDiameterKmTo3dViewUnits:
       begin
-         Calculations:=Value/(CFC3dAstConv);
+         Calculations:=(Value/ CFC3dAstConv);
          Result:=FCFcF_Round( rtt3dposition, Calculations );
       end;
 
