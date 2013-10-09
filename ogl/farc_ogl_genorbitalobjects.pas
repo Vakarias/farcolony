@@ -116,7 +116,8 @@ uses
    ,farc_data_univ
    ,farc_fug_atmosphere
    ,farc_main
-   ,farc_ogl_functions;
+   ,farc_ogl_functions
+   ,farc_univ_func;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -228,6 +229,7 @@ procedure FCMogoO_Atmosphere_Setup(
    );
 {:Purpose: setup of the atmosphere color according to the orbital object's main gases which compose it.
     Additions:
+      -2013Oct08- *add/mod: end of the overhaul of the colors.
       -2013Oct01- *code audit:
                   (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
                   (x)parameters refactoring           (x) ()reformatting         (x)code optimizations
@@ -260,6 +262,7 @@ procedure FCMogoO_Atmosphere_Setup(
       ,LowColorRed
       ,LowColorGreen
       ,LowColorBlue
+      ,MeanSurfaceTemp
       ,SQRTscale: extended;
 
       isDone
@@ -306,6 +309,7 @@ begin
    LowColorRed:=0;
    LowColorGreen:=0;
    LowColorBlue:=0;
+   MeanSurfaceTemp:=0;
    SQRTscale:=0;
 
    isDone:=false;
@@ -329,6 +333,11 @@ begin
       else begin
          ConvertedCloudsCover:=_CloudsCover_Convert2AtmosphereOpacity( 0 );
          isGaseous:=true;
+         MeanSurfaceTemp:=FCFuF_OrbitalPeriods_GetMeanSurfaceTemperature(
+            FC3doglCurrentStarSystem
+            ,FC3doglCurrentStar
+            ,OrbitalObjectIndex
+            );
       end;
       GasCH4:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceCH4;
       GasH2:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_atmosphere.AC_gasPresenceH2;
@@ -354,7 +363,84 @@ begin
    end;
    if isGaseous then
    begin
-
+      if MeanSurfaceTemp < 65 then
+      begin
+         HighColorRed:=0.388235294;//99
+         HighColorGreen:=0.431372549;//110
+         HighColorBlue:=0.447058823;//114
+         LowColorRed:=0.450980392;//115
+         LowColorGreen:=0.654901960;//167
+         LowColorBlue:=0.984313725;//251
+      end
+      else if ( MeanSurfaceTemp >= 65 )
+         and ( MeanSurfaceTemp < 84 ) then
+      begin
+         HighColorRed:=0.556862745;//142
+         HighColorGreen:=0.701960784;//179
+         HighColorBlue:=0.725490196;//185
+         LowColorRed:=0.839215686;//214
+         LowColorGreen:=0.988235294;//252
+         LowColorBlue:=0.992156862;//253
+      end
+      else if ( MeanSurfaceTemp >= 84 )
+         and ( MeanSurfaceTemp < 153.15 ) then
+      begin
+         HighColorRed:=0.941176470;//240
+         HighColorGreen:=0.874509803;//223
+         HighColorBlue:=0.764705882;//195
+         LowColorRed:=0.639215686;//163
+         LowColorGreen:=0.545098039;//139
+         LowColorBlue:=0.450980392;//115
+      end
+      else if ( MeanSurfaceTemp >= 153.15 )
+         and ( MeanSurfaceTemp < 283 ) then
+      begin
+         HighColorRed:=0.823529411;//210
+         HighColorGreen:=0.694117647;//177
+         HighColorBlue:=0.556862745;//142
+         LowColorRed:=0.780392156;//199
+         LowColorGreen:=0.721568627;//184
+         LowColorBlue:=0.803921568;//205
+      end
+      else if ( MeanSurfaceTemp >= 283 )
+         and ( MeanSurfaceTemp < 349 ) then
+      begin
+         HighColorRed:=0.886274509;//226
+         HighColorGreen:=0.901960784;//230
+         HighColorBlue:=0.984313725;//251
+         LowColorRed:=0.505882352;//129
+         LowColorGreen:=0.572549019;//146
+         LowColorBlue:=0.925490196;//236
+      end
+      else if ( MeanSurfaceTemp >= 349 )
+         and ( MeanSurfaceTemp < 899.15 ) then
+      begin
+         HighColorRed:=0.921568627;//235
+         HighColorGreen:=0.933333333;//238
+         HighColorBlue:=0.811764705;//207
+         LowColorRed:=0.098039215;//25
+         LowColorGreen:=0.133333333;//34
+         LowColorBlue:=0.317647058;//81
+      end
+      else if ( MeanSurfaceTemp >= 899.15 )
+         and ( MeanSurfaceTemp < 1499.15 ) then
+      begin
+         HighColorRed:=0.717647058;//183
+         HighColorGreen:=0.705882352;//180
+         HighColorBlue:=0.698039215;//178
+         LowColorRed:=0.670588235;//171
+         LowColorGreen:=0.6;//153
+         LowColorBlue:=0.529411764;//135
+      end
+      else if MeanSurfaceTemp >= 1499.15 then
+      begin
+         HighColorRed:=0.796078431;//203
+         HighColorGreen:=0.796078431;//203
+         HighColorBlue:=0.796078431;//203
+         LowColorRed:=0.603921568;//154
+         LowColorGreen:=0.603921568;//154
+         LowColorBlue:=0.603921568;//154
+      end;
    end
    else begin
       if GasN2 = agsPrimary then
@@ -431,31 +517,6 @@ begin
          end;
       end;
    end;
-
-
-//   {.N2/CH4 atmosphere - titan like}
-//   if ( GasN2 = agsPrimary )
-//      and ( GasCH4 >= agsSecondary )
-//      and ( GasO2 < agsSecondary ) then
-//   begin
-//      HighColorRed:=0.250980392;//64..57
-//      HighColorGreen:=0.298039215;//76..73
-//      HighColorBlue:=0.392156862;//100..106
-//      LowColorRed:=0.878431372;//224.216..157
-//      LowColorGreen:=0.760784313;//194..138..114
-//      LowColorBlue:=0.290196078;//74..45..63
-//   end
-//   {.N2/O2 atmosphere - earth like}
-//   else if ( GasN2 = agsPrimary )
-//      and ( GasO2 >= agsSecondary ) then
-//   begin
-//      HighColorRed:=0.486274509;//124..63
-//      HighColorGreen:=0.674509803;//172..100
-//      HighColorBlue:=0.941176470;//240..153
-//      LowColorRed:=0.250980392;//64
-//      LowColorGreen:=0.298039215;//76
-//      LowColorBlue:=0.392156862;//100
-//   end
 //   {.CO2 atmosphere - mars like}
 //   else if ( GasCO2 = agsPrimary )
 ////      and ( GasN2 <= agsPrimary )
@@ -467,28 +528,6 @@ begin
 //      LowColorRed:=1; //255
 //      LowColorGreen:=0.141176470;
 //      LowColorBlue:=0;
-//   end
-//   else if ( GasCO2 = agsPrimary )
-//      and ( GasN2 = agsPrimary ) then
-//   begin
-//      HighColorRed:=0.250980392;//64..57
-//      HighColorGreen:=0.298039215;//76..73
-//      HighColorBlue:=0.392156862;//100..106
-//      LowColorRed:=1;
-//      LowColorGreen:=0.141176470;
-//      LowColorBlue:=0;
-//   end
-//
-//   {.H2/He atmosphere - saturn like}
-//   else if ( GasH2 = agsPrimary )
-//      and ( GasHe = agsPrimary ) then
-//   begin
-//      HighColorRed:=0.403921;
-//      HighColorGreen:=0.454901;
-//      HighColorBlue:=0.478431;
-//      LowColorRed:=0.709803;
-//      LowColorGreen:=0.639215;
-//      LowColorBlue:=0.458823;
 //   end
 //   {.H2S/SO2 atmosphere - io like}
 //   else if ( GasH2S = agsPrimary )
