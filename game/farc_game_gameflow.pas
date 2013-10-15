@@ -332,10 +332,12 @@ begin
                      and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase=mcpAtmosphericEntry)
                   then
                   begin
-                     {:DEV NOTES: TEST if the SPU IS IN THE CURRENTLY VIEWED PLANETARY SYSTEM!.}
-
-                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn
-                     then FCMoglMV_Camera_TargetSpaceUnit(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex)
+                     if ( FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn )
+                        and ( FCDdgEntities[0].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_linked3dObject > 0 ) then
+                     begin
+                        FC3doglSelectedSpaceUnit:=FCDdgEntities[0].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_linked3dObject;
+                        FCMovM_CameraMain_Target(foSpaceUnit, true)
+                     end
                      else begin
 
                            if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject then

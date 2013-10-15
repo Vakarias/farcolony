@@ -89,17 +89,6 @@ procedure FCMovM_CameraMain_Target(
    );
 
 ///<summary>
-///   target a specified space unit, this one must but owned by the player
-///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <returns></returns>
-///   <remarks></remarks>
-procedure FCMoglMV_Camera_TargetSpaceUnit( const DBSpaceUnit: integer);
-
-///<summary>
 ///setup 3d main view: star itself and it's eventual planets and satellites
 ///</summary>
 ///   <param name="StarSys">star system index #</param>
@@ -111,7 +100,6 @@ procedure FCMovM_3DView_Update(
    const LSVUoobjReset,
          LSVUspUnReset: Boolean
    );
-
 
 
 ///<summary>
@@ -530,19 +518,6 @@ begin
    end;
 end;
 
-procedure FCMoglMV_Camera_TargetSpaceUnit( const DBSpaceUnit: integer);
-{:Purpose: target a specified space unit, this one must but owned by the player.
-    Additions:
-}
-begin
-   if FCDdgEntities[0].E_spaceUnits[DBSpaceUnit].SU_linked3dObject>0 then
-   begin
-      FC3doglSelectedSpaceUnit:=FCDdgEntities[0].E_spaceUnits[DBSpaceUnit].SU_linked3dObject;
-      FCMovM_CameraMain_Target(foSpaceUnit, true)
-      {:DEV NOTES: put the spu part of cammain target here + root test if DBSpaceUnit=0 then use FC3doglSelectedSpaceUnit.}
-   end;
-end;
-
 procedure FCMovM_3DView_Update(
    const StarSys
          ,Star: string;
@@ -945,17 +920,13 @@ procedure FCMoglVM_OObjSpUn_ChgeScale(const OOSUCSobjIdx: integer);
 var
    OOSUCSdmpSize: extended;
 begin
-   if FC3doglSpaceUnits[OOSUCSobjIdx].Hint=''
-   then
+   if FC3doglSpaceUnits[OOSUCSobjIdx].Hint='' then
    begin
       FC3doglSpaceUnits[OOSUCSobjIdx].Hint:=floattostr(FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X);
       OOSUCSdmpSize:=FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X;
    end
    else OOSUCSdmpSize:=StrToFloat(FC3doglSpaceUnits[OOSUCSobjIdx].Hint);
-
-   FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X
-//      :=OOSUCSdmpSize*FC3doglSpaceUnits[OOSUCSobjIdx].DistanceTo(FCWinMain.FCGLSStarMain)/CFC3dUnInAU*32;//8;
-      :=OOSUCSdmpSize*( 5+ power( FC3doglSpaceUnits[OOSUCSobjIdx].DistanceTo(FCWinMain.FCGLSStarMain)/1711,2.5 ) );
+   FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X:=OOSUCSdmpSize*( 5+ power( FC3doglSpaceUnits[OOSUCSobjIdx].DistanceTo(FCWinMain.FCGLSStarMain)/1711,2.5 ) );
    FC3doglSpaceUnits[OOSUCSobjIdx].Scale.Y:=FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X;
    FC3doglSpaceUnits[OOSUCSobjIdx].Scale.Z:=FC3doglSpaceUnits[OOSUCSobjIdx].Scale.X;
 end;
