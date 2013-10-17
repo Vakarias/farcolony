@@ -651,6 +651,9 @@ FCWinNewGSetup.Close;
       FCMoglInit_Initialize;
       FCVdi3DViewRunning:=true;
    finally
+
+      FCMovM_3DView_Initialize;
+
       FC3doglSelectedPlanetAsteroid:=ULoc[3];
       FCMovM_3DView_Update(
          FCVdgPlayer.P_viewStarSystem
