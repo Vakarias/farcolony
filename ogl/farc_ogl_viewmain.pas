@@ -116,12 +116,9 @@ procedure FCMovM_3DView_Reset;
 ///</summary>
 ///   <param name="StarSys">star system index #</param>
 ///   <param name="Star">star index #</param>
-///   <param name="LSVUresetSelect">switch for reset FCV3dMViewObjSlctdInScene</param>
 procedure FCMovM_3DView_Update(
    const StarSys
-         ,Star: string;
-   const LSVUoobjReset,
-         LSVUspUnReset: Boolean
+         ,Star: string
    );
 
 ///<summary>
@@ -305,6 +302,7 @@ begin
       FCMogoO_OrbitalObject_Initialize( Count );
       inc( Count );
    end;
+   FCMovM_3DView_Reset;
 end;
 
 procedure FCMovM_3DView_Reset;
@@ -312,14 +310,17 @@ procedure FCMovM_3DView_Reset;
     Additions:
 }
 begin
-
+   FC3doglMainViewTotalOrbitalObjects:=0;
+   FC3doglMainViewTotalSpaceUnits:=0;
+   FC3doglMainViewTotalSatellites:=0;
+   FC3doglSelectedPlanetAsteroid:=0;
+   FC3doglSelectedSatellite:=0;
+   FC3doglSelectedSpaceUnit:=0;
 end;
 
 procedure FCMovM_3DView_Update(
    const StarSys
-         ,Star: string;
-   const LSVUoobjReset,
-         LSVUspUnReset: Boolean
+         ,Star: string
    );
 {:Purpose: setup local star view: star itself and it's eventual planets & satellites.
     Additions:
@@ -370,7 +371,6 @@ var
 
    OrbitalObjIndex,
    MVUentCnt,
-   LSVUorbObjTtlInDS,
    LSVUspUnCnt,
    LSVUspUnFacTtl,
    Satellite3DCount,
@@ -379,18 +379,6 @@ var
 
    CurrentLocation: TFCRoglfPosition;
 begin
-   {.scene and data cleanup in pre-process}
-   FC3doglMainViewTotalOrbitalObjects:=0;
-   FC3doglMainViewTotalSpaceUnits:=0;
-   FC3doglMainViewTotalSatellites:=0;
-   if LSVUoobjReset
-   then
-   begin
-      FC3doglSelectedPlanetAsteroid:=0;
-      FC3doglSelectedSatellite:=0;
-   end;
-   if LSVUspUnReset
-   then FC3doglSelectedSpaceUnit:=0;
    FCWinMain.FCGLSmainView.Hide;
    FCWinMain.FCGLScadencer.Enabled:=false;
    FC3doglCurrentStarSystem:=FCFuF_StelObj_GetDbIdx(
@@ -407,56 +395,19 @@ begin
       ,0
       ,0
       );
-//   FC3doglAtmospheres:=nil;
-//   SetLength(FC3doglAtmospheres,1);
-//   FC3doglMainViewListMainOrbits:=nil;
-//   SetLength(FC3doglMainViewListMainOrbits,1);
-//   FC3doglMainViewListGravityWells:=nil;
-//   SetLength(FC3doglMainViewListGravityWells,1);
-//   FC3doglSpaceUnits:=nil;
-//   SetLength(FC3doglSpaceUnits,1);
-//   FC3doglSatellitesAsteroids:=nil;
-//   SetLength(FC3doglSatellitesAsteroids,1);
-//   FC3doglSatellitesAtmospheres:=nil;
-//   SetLength(FC3doglSatellitesAtmospheres,1);
-//   FC3doglSatellitesObjectsGroups:=nil;
-//   SetLength(FC3doglSatellitesObjectsGroups,1);
-//   FC3doglMainViewListSatellitesGravityWells:=nil;
-//   SetLength(FC3doglMainViewListSatellitesGravityWells,1);
-//   FC3doglMainViewListSatelliteOrbits:=nil;
-//   SetLength(FC3doglMainViewListSatelliteOrbits,1);
-//   FC3doglSatellitesPlanet:=nil;
-//   SetLength(FC3doglSatellitesPlanet,1);
-//   FC3doglObjectsGroups:=nil;
-//   SetLength(FC3doglObjectsGroups,1);
-//   FC3doglPlanets:=nil;
-//   SetLength(FC3doglPlanets,1);
-//   FC3doglAsteroids:=nil;
-//   SetLength(FC3doglAsteroids,1);
    {.set the update message}
-   FCWinMain.WM_MainViewGroup.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_3dMainGrp.Upd');
+   FCWinMain.WM_MainViewGroup.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'FCWM_3dMainGrp.Upd' );
    {.set star}
    FCMogO_Star_Set;
    {.set orbital objects}
-   LSVUorbObjTtlInDS:=Length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects)-1;
-   if LSVUorbObjTtlInDS>0 then
+   FC3doglMainViewTotalOrbitalObjects:=Length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects )-1;
+   if FC3doglMainViewTotalOrbitalObjects > 0 then
    begin
       OrbitalObjIndex:=1;
       Satellite3DCount:=0;
       {.orbital objects + satellites creation loop}
-      while OrbitalObjIndex<=LSVUorbObjTtlInDS do
+      while OrbitalObjIndex <= FC3doglMainViewTotalOrbitalObjects do
       begin
-         {.set the 3d object arrays, if needed}
-//         if OrbitalObjIndex >= Length(FC3doglObjectsGroups)
-//         then
-//         begin
-//            SetLength(FC3doglObjectsGroups, Length(FC3doglObjectsGroups)+LSVUblocCnt);
-//            SetLength(FC3doglPlanets, Length(FC3doglPlanets)+LSVUblocCnt);
-//            SetLength(FC3doglAtmospheres, length(FC3doglAtmospheres)+LSVUblocCnt);
-//            SetLength(FC3doglAsteroids, Length(FC3doglAsteroids)+LSVUblocCnt);
-//            SetLength(FC3doglMainViewListGravityWells, Length(FC3doglMainViewListGravityWells)+LSVUblocCnt);
-//            SetLength(FC3doglMainViewListMainOrbits, Length(FC3doglMainViewListMainOrbits)+LSVUblocCnt);
-//         end;
          case FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_type of
             ootAsteroidsBelt:
             begin
@@ -652,14 +603,7 @@ begin
          end; //==END== case FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjCount].OO_type ==//
          inc(OrbitalObjIndex);
       end; //==END== while LSVUorbObjCnt<=LSVUorbObjInTtl ==//
-      FC3doglMainViewTotalOrbitalObjects:=OrbitalObjIndex-1;
    end; //==END==if Length(FCDBstarSys[CFVstarSysIdDB].SS_star[CFVstarIdDB].SDB_obobj)>1==//
-//   SetLength(FC3doglObjectsGroups, OrbitalObjIndex+1);
-//   SetLength(FC3doglPlanets, OrbitalObjIndex+1);
-//   SetLength(FC3doglAtmospheres, OrbitalObjIndex+1);
-//   SetLength(FC3doglAsteroids, OrbitalObjIndex+1);
-//   SetLength(FC3doglMainViewListMainOrbits, OrbitalObjIndex+1);
-//   SetLength(FC3doglMainViewListGravityWells, OrbitalObjIndex+1);
    {.space units display in free space}
    MVUentCnt:=0;
    while MVUentCnt<=FCCdiFactionsMax do

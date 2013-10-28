@@ -658,8 +658,6 @@ FCWinNewGSetup.Close;
       FCMovM_3DView_Update(
          FCVdgPlayer.P_viewStarSystem
          ,FCVdgPlayer.P_viewStar
-         ,false
-         ,true
          );
       if ULoc[4]>0
       then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(ULoc[3], ULoc[4])

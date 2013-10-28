@@ -201,6 +201,7 @@ implementation
 
 uses
    farc_data_3dopengl
+   ,farc_data_files //debug add, remove when test system is done
    ,farc_data_game
    ,farc_data_init
    ,farc_data_messages
@@ -1065,6 +1066,22 @@ begin
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
                   and (not FCWinMain.FCWM_MissionSettings.Visible)
                then FCMovM_CameraMain_Target(foOrbitalObject, true);
+            end;
+
+            {. T}
+            {.test - 3d scene cleanup}
+            84:
+            begin
+
+               FCMovM_3DView_Reset;
+               FC3doglSelectedPlanetAsteroid:=1;
+               FCVdgPlayer.P_viewStarSystem:='stelsysTest';
+               FCVdgPlayer.P_viewStar:='starTesta';
+               FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
+               FCMovM_3DView_Update(
+                  FCVdgPlayer.P_viewStarSystem
+                  ,FCVdgPlayer.P_viewStar
+                  );
             end;
 
             {.X}

@@ -858,10 +858,12 @@ begin
       finally
          try
             VMDpick:=(FCGLSmainView.Buffer.GetPickedObject(x, y) as TGLHUDText);
-            FCMoglUI_Elem_SelHelp(VMDpick.Tag);
+
          except
             VMDpick:=nil;
          end;
+         if VMDpick<>nil then FCMoglUI_Elem_SelHelp(VMDpick.Tag);
+
       end;
       FCGLScadencer.Enabled:=true;
    end;

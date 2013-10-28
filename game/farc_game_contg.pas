@@ -264,13 +264,12 @@ FCMdF_DBProducts_Load;
             ,CPoobj
             )
          else CPsat:=0;
+         FCMovM_3DView_Initialize;
          FC3doglSelectedPlanetAsteroid:=CPoobj;
          {.3d view initialization}
          FCMovM_3DView_Update(
             FCVdgPlayer.P_viewStarSystem,
-            FCVdgPlayer.P_viewStar,
-            false,
-            true
+            FCVdgPlayer.P_viewStar
             );
          if CPsat>0
          then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(CPoobj, CPsat)

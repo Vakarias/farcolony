@@ -656,7 +656,7 @@ object FCWinMain: TFCWinMain
       Buffer.BackgroundColor = clBlack
       Buffer.AmbientColor.Color = {0000000000000000000000000000803F}
       Buffer.AccumBufferBits = 32
-      Buffer.AntiAliasing = aa4xHQ
+      Buffer.AntiAliasing = aaNone
       Buffer.ColorDepth = cd24bits
       Buffer.ShadeModel = smSmooth
       FieldOfView = 156.195632934570300000

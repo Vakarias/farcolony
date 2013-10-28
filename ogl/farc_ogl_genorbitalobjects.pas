@@ -944,7 +944,11 @@ end;
 procedure FCMogoO_OrbitalObject_Initialize( const ObjectIndex: integer );
 {:Purpose: initialize a full row of objects for non satellite objects.
     Additions:
+      -2013Oct20- *add: orbits.
 }
+   const
+      LinePattern=65535;
+      LineWidth=1.5;
 begin
    {.the object group}
    FC3doglObjectsGroups[ObjectIndex]:=TGLDummyCube(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLDummyCube));
@@ -1010,6 +1014,33 @@ begin
    FC3doglAtmospheres[ObjectIndex].PlanetRadius:=3.395;
    FC3doglAtmospheres[ObjectIndex].Slices:=64;
    FC3doglAtmospheres[ObjectIndex].Visible:=false;
+   {.initialize root orbit}
+   FC3doglMainViewListMainOrbits[ObjectIndex]:=TGLLines(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLLines));
+   FC3doglMainViewListMainOrbits[ObjectIndex].Name:='FCGLSObObjPlantOrb'+IntToStr(ObjectIndex);
+   FC3doglMainViewListMainOrbits[ObjectIndex].AntiAliased:=true;
+   FC3doglMainViewListMainOrbits[ObjectIndex].Division:=16;
+   FC3doglMainViewListMainOrbits[ObjectIndex].LineColor.Alpha:=1;
+   FC3doglMainViewListMainOrbits[ObjectIndex].LineColor.Blue:=0.953;
+   FC3doglMainViewListMainOrbits[ObjectIndex].LineColor.Green:=0.576;
+   FC3doglMainViewListMainOrbits[ObjectIndex].LineColor.Red:=0.478;
+   FC3doglMainViewListMainOrbits[ObjectIndex].LinePattern:=LinePattern;
+   FC3doglMainViewListMainOrbits[ObjectIndex].LineWidth:=LineWidth;
+   FC3doglMainViewListMainOrbits[ObjectIndex].NodeColor.Color:=clrBlack;
+   FC3doglMainViewListMainOrbits[ObjectIndex].NodesAspect:=lnaInvisible;
+   FC3doglMainViewListMainOrbits[ObjectIndex].NodeSize:=0.005;
+   FC3doglMainViewListMainOrbits[ObjectIndex].SplineMode:=lsmCubicSpline;
+   {.initialize gravity well orbit}
+   FC3doglMainViewListGravityWells[ObjectIndex]:=TGLLines(FC3doglObjectsGroups[ObjectIndex].AddNewChild(TGLLines));
+   FC3doglMainViewListGravityWells[ObjectIndex].Name:='FCGLSObObjPlantGravOrb'+IntToStr(ObjectIndex);
+   FC3doglMainViewListGravityWells[ObjectIndex].AntiAliased:=true;
+   FC3doglMainViewListGravityWells[ObjectIndex].Division:=8;
+   FC3doglMainViewListGravityWells[ObjectIndex].LineColor.Color:=clrYellowGreen;
+   FC3doglMainViewListGravityWells[ObjectIndex].LinePattern:=LinePattern;
+   FC3doglMainViewListGravityWells[ObjectIndex].LineWidth:=LineWidth;
+   FC3doglMainViewListGravityWells[ObjectIndex].NodeColor.Color:=clrBlack;
+   FC3doglMainViewListGravityWells[ObjectIndex].NodesAspect:=lnaInvisible;
+   FC3doglMainViewListGravityWells[ObjectIndex].NodeSize:=0.005;
+   FC3doglMainViewListGravityWells[ObjectIndex].SplineMode:=lsmCubicSpline;
 end;
 
 procedure FCMogO_Star_Set;
