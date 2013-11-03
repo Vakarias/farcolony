@@ -1047,7 +1047,7 @@
   <starsys token="stelsysTest" locationX="0" locationY="0" locationZ="0">
      <star token="starTesta" class="F2">
         <physicalData temperature="6976" mass="1.46" diameter="1.45" luminosity="4.70336"/>
-<!--        <orbobj token="orbobjTesta1" ftSeed="" lightcolor="" climatefile="" habGravity="higBad_n" habRad="higHostile" habAtmosphere="higNone" habAtmPressure="higHostile_n">
+        <orbobj token="orbobjTesta1" ftSeed="" lightcolor="" climatefile="" habGravity="higBad_n" habRad="higHostile" habAtmosphere="higNone" habAtmPressure="higHostile_n">
            <orbitalData distanceFromStar="0.29" eccentricity="0.048" orbitalZone="hzInner" revolutionPeriod="47" revPeriodInit="17" gravSphereRadius="11371" orbitGeosync="44044.1" orbitLow="10307"/>
            <geophysicalData type="ootAsteroid_Metallic" diameter="1066.7" density="5068" mass="0.0005389538" gravity="0.077" escapeVel="0.9" rotationPeriod="1128.11" inclinationAxis="49.4" magneticField="0" tectonicActivity="taNull" subsurfOcean="False"/>
            <ecosphereData envType="etSpace" atmosphericPressure="0" coudsCover="0" traceAtmosphere="False" primaryGasVolume="0" gasH2="agsNotPresent" gasHe="agsNotPresent" gasCH4="agsNotPresent" gasNH3="agsNotPresent" gasH2O="agsNotPresent" gasNe="agsNotPresent" gasN2="agsNotPresent" gasCO="agsNotPresent" gasNO="agsNotPresent" gasO2="agsNotPresent" gasH2S="agsNotPresent" gasAr="agsNotPresent" gasCO2="agsNotPresent" gasNO2="agsNotPresent" gasO3="agsNotPresent" gasSO2="agsNotPresent" hydrosphereType="hNoHydro" hydrosphereArea="0" albedo="0.15"/>
@@ -1144,7 +1144,7 @@
                 <resourcespot type="rstOreFieldUran" rarity="rsrUncommon"/>
               </region>
            </regions>
-        </orbobj> -->
+        </orbobj> 
         <orbobj token="orbobjTesta2" ftSeed="" lightcolor="" climatefile="" habGravity="higNone" habRad="higNone" habAtmosphere="higNone" habAtmPressure="higNone">
            <orbitalData distanceFromStar="0.4" eccentricity="0.0205" orbitalZone="hzInner" revolutionPeriod="76" revPeriodInit="30" gravSphereRadius="643391.2" orbitGeosync="1335131.4" orbitLow="78940.4"/>
            <geophysicalData type="ootPlanet_Gaseous_Uranus" diameter="41138.8" density="957" mass="5.8379" gravity="0.561" escapeVel="15.05" rotationPeriod="1823.82" inclinationAxis="4.9" magneticField="0.592" tectonicActivity="taNull" subsurfOcean="False"/>

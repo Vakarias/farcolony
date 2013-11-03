@@ -202,14 +202,14 @@ begin
    begin
       {.set proper asteroid object and colors}
       Result:=FCVdiPathResourceDir+'obj-3ds-aster\aster_metall.3ds';
-      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Blue:=0.2;
-      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Green:=0.2;
-      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Red:=0.2;
-      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Blue:=0.9;
-      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Green:=0.9;
-      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Red:=0.9;
-      FC3ogooTemporaryAsteroid.Material.FrontProperties.Emission.Color:=clrGray80;
-      FC3ogooTemporaryAsteroid.Material.FrontProperties.Shininess:=90;
+//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Blue:=0.2;
+//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Green:=0.2;
+//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Red:=0.2;
+//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Blue:=0.9;
+//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Green:=0.9;
+//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Red:=0.9;
+//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Emission.Color:=clrGray80;
+//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Shininess:=90;
    end
    else if ( ASobjTp = ootAsteroid_Silicate )
       or ( ASobjTp = ootSatellite_Asteroid_Silicate ) then

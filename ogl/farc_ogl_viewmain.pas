@@ -635,7 +635,7 @@ begin
       inc(MVUentCnt);
    end;
    {.free the AsterDmp}
-   FCMogoO_TemporarySat_Free;
+//   FCMogoO_TemporarySat_Free;
    {.space unit selection}
    if FC3doglMainViewTotalSpaceUnits>0
    then FC3doglSelectedSpaceUnit:=1;
