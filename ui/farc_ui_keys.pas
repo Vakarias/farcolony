@@ -1077,7 +1077,7 @@ begin
                FC3doglSelectedPlanetAsteroid:=1;
                FCVdgPlayer.P_viewStarSystem:='stelsysTest';
                FCVdgPlayer.P_viewStar:='starTesta';
-               FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
+//               FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
                FCMovM_3DView_Update(
                   FCVdgPlayer.P_viewStarSystem
                   ,FCVdgPlayer.P_viewStar
