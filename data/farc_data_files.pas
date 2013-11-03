@@ -1485,7 +1485,8 @@ begin
    FCWinMain.FCXMLdbUniv.FileName:=FCVdiPathXML+'\univ\universe.xml';
    FCWinMain.FCXMLdbUniv.Active:=true;
    XMLStarSystem:= FCWinMain.FCXMLdbUniv.DocumentElement.ChildNodes.First;
-   while not isStarFound do
+   while ( XMLStarSystem<>nil )
+      and ( not isStarFound ) do
    begin
       XMLStar:= XMLStarSystem.ChildNodes.First;
       while XMLStar<>nil do

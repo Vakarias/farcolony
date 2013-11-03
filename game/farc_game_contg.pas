@@ -50,6 +50,7 @@ uses
    ,farc_data_messages
    ,farc_data_missionstasks
    ,farc_data_textfiles
+   ,farc_data_univ
    ,farc_gfx_core
    ,farc_main
    ,farc_ogl_functions
@@ -89,13 +90,14 @@ procedure FCMgCG_Core_Proceed;
       -2009Nov10- *add FCMspuF_Orbits_Process for set the orbits occupied by a space unit.
 }
 var
-   CPcount
-   ,CPeCnt
+   Count2
+   ,Count1
    ,CPoobj
    ,CPsat
    ,CPssys
    ,CPstar
-   ,CPttl: integer;
+   ,Max1
+   ,Max2: integer;
 
    CPlang: string;
 begin
@@ -116,60 +118,72 @@ FCMdF_DBProducts_Load;
    FCMdG_Entities_Clear;
    FCMdF_DBStarSystems_Load;
 
+   Max1:=length( FCDduStarSystem ) - 1;
+   Count1:=1;
+   while Count1 <= Max1 do
+   begin
+      Max2:=3;//length( FCDduStarSystem[Count1].SS_stars ) - 1;
+      Count2:=1;
+      while Count2 <= Max2 do
+      begin
+         if FCDduStarSystem[Count1].SS_stars[Count2].S_token=''
+         then break
+         else FCMdF_DBStarOrbitalObjects_Load( FCDduStarSystem[Count1].SS_token, FCDduStarSystem[Count1].SS_stars[Count2].S_token );
+         inc( Count2 );
+      end;
+      inc( Count1 );
+   end;
+
    FCMuiM_Messages_Reset;
    {.load current game}
    FCMdFSG_Game_Load;
 
    {.prevent a file error}
-   if FCVdgPlayer.P_viewStarSystem=''
-   then
+   if FCVdgPlayer.P_viewStarSystem='' then
    begin
       DeleteFile(FCVdiPathConfigDir+'SavedGames\'+FCVdgPlayer.P_gameName+'.xml');
       FCVdgPlayer.P_gameName:='';
       FCMdF_ConfigurationFile_Save(false);
    end
-   else
-   begin
+   else begin
       {.entities initialization loop}
-      CPeCnt:=0;
-      while CPeCnt<=FCCdiFactionsMax do
+      Count1:=0;
+      while Count1<=FCCdiFactionsMax do
       begin
          {.set space units in orbits, if there's any}
-         CPttl:=length(FCDdgEntities[CPeCnt].E_spaceUnits)-1;
-         if CPttl>0
-         then
+         Max2:=length(FCDdgEntities[Count1].E_spaceUnits)-1;
+         if Max2>0 then
          begin
-            CPcount:=1;
-            while CPcount<=CPttl do
+            Count2:=1;
+            while Count2<=Max2 do
             begin
-               if FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_status=susInOrbit
-               then
+               if FCDdgEntities[Count1].E_spaceUnits[Count2].SU_status=susInOrbit then
                begin
                   CPssys:=FCFuF_StelObj_GetDbIdx(
                      ufsoSsys
-                     ,FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationStarSystem
+                     ,FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationStarSystem
                      ,0
                      ,0
                      ,0
                      );
                   CPstar:=FCFuF_StelObj_GetDbIdx(
                      ufsoStar
-                     ,FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationStar
+                     ,FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationStar
                      ,CPssys
                      ,0
                      ,0
                      );
                   CPoobj:=FCFuF_StelObj_GetDbIdx(
                      ufsoOObj
-                     ,FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationOrbitalObject
+                     ,FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationOrbitalObject
                      ,CPssys
                      ,CPstar
                      ,0
                      );
-                  if FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationSatellite<>''
+                  if FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationSatellite<>''
                   then CPsat:=FCFuF_StelObj_GetDbIdx(
                      ufsoSat
-                     ,FCDdgEntities[CPeCnt].E_spaceUnits[CPcount].SU_locationSatellite
+                     ,FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationSatellite
                      ,CPssys
                      ,CPstar
                      ,CPoobj
@@ -182,47 +196,45 @@ FCMdF_DBProducts_Load;
                      ,CPoobj
                      ,CPsat
                      ,0
-                     ,CPcount
+                     ,Count2
                      ,false
                      );
                end; //==END== if FCentities[CPeCnt].E_spU[CPcount].SUO_status=susInOrbit ==//
-               inc(CPcount);
+               inc(Count2);
             end; //==END== while CPcount<=CPttl do ==//
          end; {.if CPttl>0 then}
-         inc(CPeCnt);
+         inc(Count1);
       end; //==END== while CPeCnt<=FCCfacMax do ==//
       {.free useless data}
-      CPcount:=1;
-      while CPcount<=1 do
+      Count2:=1;
+      while Count2<=1 do
       begin
          setlength(
-            FCDdgFactions[CPcount].F_colonizationModes
+            FCDdgFactions[Count2].F_colonizationModes
             ,0
             );
-         setlength(FCDdgFactions[CPcount].F_startingLocations,0);
-         inc(CPcount);
+         setlength(FCDdgFactions[Count2].F_startingLocations,0);
+         inc(Count2);
       end;
       {.set the game user's interface}
       FCVdi3DViewToInitialize:=true;
       {.restore the message queue}
-      CPttl:=length(FCVmsgStoTtl)-1;
-      if CPttl>0
-      then
+      Max2:=length(FCVmsgStoTtl)-1;
+      if Max2>0 then
       begin
-         FCVmsgCount:=CPttl;
-         CPcount:=1;
-         while CPcount<=CPttl do
+         FCVmsgCount:=Max2;
+         Count2:=1;
+         while Count2<=Max2 do
          begin
             {.update message headers list}
-            FCWinMain.FCWM_MsgeBox_List.Items.Add('<b>'+IntToStr(CPcount)+'</b> - '+FCVmsgStoTtl[CPcount]);
-            if CPcount=CPttl
-            then
+            FCWinMain.FCWM_MsgeBox_List.Items.Add('<b>'+IntToStr(Count2)+'</b> - '+FCVmsgStoTtl[Count2]);
+            if Count2=Max2 then
             begin
                FCWinMain.FCWM_MsgeBox_List.ItemIndex:=FCWinMain.FCWM_MsgeBox_List.Items.Count-1;
                FCMuiM_MessageDesc_Upd;
                FCWinMain.FCWM_MsgeBox.Show;
             end;
-            inc(CPcount);
+            inc(Count2);
          end; {.while CPcount<=CPttl}
       end; {.if CPttl>0}
       FCVdi3DViewToInitialize:=true;
