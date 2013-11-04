@@ -35,6 +35,7 @@ uses
 
    ,GLAtmosphere
    ,GLColor
+   ,GLMaterial
    ,GLObjects
 
    ,DecimalRounding_JH1
@@ -136,7 +137,7 @@ procedure FCMogO_SurfaceMapTexture_Assign(const MTAoobjIdx, MTAsatIdx, MTAsatObj
 ///   <param name=""></param>
 ///   <returns></returns>
 ///   <remarks></remarks>
-procedure FCMogoO_TemporarySat_Free;
+//procedure FCMogoO_TemporarySat_Free;
 
 
 
@@ -202,14 +203,14 @@ begin
    begin
       {.set proper asteroid object and colors}
       Result:=FCVdiPathResourceDir+'obj-3ds-aster\aster_metall.3ds';
-//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Blue:=0.2;
-//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Green:=0.2;
-//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Red:=0.2;
-//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Blue:=0.9;
-//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Green:=0.9;
-//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Red:=0.9;
-//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Emission.Color:=clrGray80;
-//      FC3ogooTemporaryAsteroid.Material.FrontProperties.Shininess:=90;
+      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Blue:=0.2;
+      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Green:=0.2;
+      FC3ogooTemporaryAsteroid.Material.FrontProperties.Ambient.Red:=0.2;
+      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Blue:=0.9;
+      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Green:=0.9;
+      FC3ogooTemporaryAsteroid.Material.FrontProperties.Diffuse.Red:=0.9;
+      FC3ogooTemporaryAsteroid.Material.FrontProperties.Emission.Color:=clrGray80;
+      FC3ogooTemporaryAsteroid.Material.FrontProperties.Shininess:=90;
    end
    else if ( ASobjTp = ootAsteroid_Silicate )
       or ( ASobjTp = ootSatellite_Asteroid_Silicate ) then
@@ -647,21 +648,21 @@ begin
       o3dotAsterBelt:
       begin
          {.the object group}
-         FC3doglObjectsGroups[OrbitalObject3DIndex]:=TGLDummyCube(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLDummyCube));
-         FC3doglObjectsGroups[OrbitalObject3DIndex].Name:='FCGLSObObjGroup'+IntToStr(OrbitalObject3DIndex);
-         FC3doglObjectsGroups[OrbitalObject3DIndex].CubeSize:=1;
-         FC3doglObjectsGroups[OrbitalObject3DIndex].Up.X:=0;
-         FC3doglObjectsGroups[OrbitalObject3DIndex].Up.Y:=1;
-         FC3doglObjectsGroups[OrbitalObject3DIndex].Up.Z:=0;
+//         FC3doglObjectsGroups[OrbitalObject3DIndex]:=TGLDummyCube(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLDummyCube));
+//         FC3doglObjectsGroups[OrbitalObject3DIndex].Name:='FCGLSObObjGroup'+IntToStr(OrbitalObject3DIndex);
+//         FC3doglObjectsGroups[OrbitalObject3DIndex].CubeSize:=1;
+//         FC3doglObjectsGroups[OrbitalObject3DIndex].Up.X:=0;
+//         FC3doglObjectsGroups[OrbitalObject3DIndex].Up.Y:=1;
+//         FC3doglObjectsGroups[OrbitalObject3DIndex].Up.Z:=0;
          FC3doglObjectsGroups[OrbitalObject3DIndex].VisibleAtRunTime:=false;
          FC3doglObjectsGroups[OrbitalObject3DIndex].Visible:=false;
          FC3doglObjectsGroups[OrbitalObject3DIndex].ShowAxes:=false;
          {.the planet}
-         FC3doglPlanets[OrbitalObject3DIndex]:=TGLSphere(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLSphere));
-         FC3doglPlanets[OrbitalObject3DIndex].Name:='FCGLSObObjPlnt'+IntToStr(OrbitalObject3DIndex);
-         FC3doglPlanets[OrbitalObject3DIndex].Radius:=1;
-         FC3doglPlanets[OrbitalObject3DIndex].Slices:=64;
-         FC3doglPlanets[OrbitalObject3DIndex].Stacks:=64;
+//         FC3doglPlanets[OrbitalObject3DIndex]:=TGLSphere(FC3doglObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLSphere));
+//         FC3doglPlanets[OrbitalObject3DIndex].Name:='FCGLSObObjPlnt'+IntToStr(OrbitalObject3DIndex);
+//         FC3doglPlanets[OrbitalObject3DIndex].Radius:=1;
+//         FC3doglPlanets[OrbitalObject3DIndex].Slices:=64;
+//         FC3doglPlanets[OrbitalObject3DIndex].Stacks:=64;
          FC3doglPlanets[OrbitalObject3DIndex].Visible:=false;
          FC3doglPlanets[OrbitalObject3DIndex].ShowAxes:=false;
       end;
@@ -796,6 +797,7 @@ begin
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].PitchAngle:=90;
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseShininessPowerHack:=0;
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseInvertWidingHack:=False;
+            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Material.FaceCulling:=fcCull;
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseNormalsHack:=True;
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Scale.SetVector(
                0.27
@@ -1486,13 +1488,13 @@ begin
    end;
 end;
 
-procedure FCMogoO_TemporarySat_Free;
+//procedure FCMogoO_TemporarySat_Free;
 {:Purpose: free the temporary satellite data structure.
     Additions:
 }
-begin
-   if FC3ogooTemporaryAsteroid<>nil
-   then FC3ogooTemporaryAsteroid.Free;
-end;
+//begin
+//   if FC3ogooTemporaryAsteroid<>nil
+//   then FC3ogooTemporaryAsteroid.Free;
+//end;
 
 end.

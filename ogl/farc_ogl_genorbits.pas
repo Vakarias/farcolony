@@ -147,21 +147,21 @@ begin
    case OrbitType of
       otAsteroidBelt:
       begin
-         {.initialize root orbit}
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex]:=TGLLines(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLLines));
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Name:='FCGLSObObjPlantOrb'+IntToStr(OrbitalObject3DIndex);
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].AntiAliased:=true;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Division:=16;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Alpha:=1;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Blue:=0.953;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Green:=0.576;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Red:=0.478;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LinePattern:=LinePattern;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineWidth:=LineWidth;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodeColor.Color:=clrBlack;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodesAspect:=lnaInvisible;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodeSize:=0.005;
-         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].SplineMode:=lsmCubicSpline;
+//         {.initialize root orbit}
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex]:=TGLLines(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLLines));
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Name:='FCGLSObObjPlantOrb'+IntToStr(OrbitalObject3DIndex);
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].AntiAliased:=true;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Division:=16;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Alpha:=1;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Blue:=0.953;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Green:=0.576;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineColor.Red:=0.478;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LinePattern:=LinePattern;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].LineWidth:=LineWidth;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodeColor.Color:=clrBlack;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodesAspect:=lnaInvisible;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].NodeSize:=0.005;
+//         FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].SplineMode:=lsmCubicSpline;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Nodes.Clear;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.X:=DistanceIn3DUnits*1;
          FC3doglMainViewListMainOrbits[OrbitalObject3DIndex].Scale.Y:=1;
