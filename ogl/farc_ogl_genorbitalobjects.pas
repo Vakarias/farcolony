@@ -772,25 +772,29 @@ begin
 
       o3dotAsteroidInABelt:
       begin
-          {.the object group}
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex]:=TGLDummyCube(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLDummyCube));
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Name:='FCGLSsatGrp'+IntToStr(OrbitalObject3DIndex);
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].CubeSize:=1;
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.X:=0;
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.Y:=1;
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.Z:=0;
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].VisibleAtRunTime:=false;
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Visible:=false;
-         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].ShowAxes:=false;
-         {.the planet}
-         FC3doglSatellitesPlanet[OrbitalObject3DIndex]:=TGLSphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLSphere));
-         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Name:='FCGLSsatPlnt'+IntToStr(OrbitalObject3DIndex);
-         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Radius:=1;
-         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Slices:=64;
-         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Stacks:=64;
-         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Visible:=false;
-         FC3doglSatellitesPlanet[OrbitalObject3DIndex].ShowAxes:=false;
-         {.the asteroid}
+
+         if OrbitalObject3DIndex > FC3doglMainViewMax3DSatellitesInDataS then
+         begin
+            SetLength(FC3doglSatellitesObjectsGroups, OrbitalObject3DIndex + 1 );
+            SetLength(FC3doglSatellitesPlanet, OrbitalObject3DIndex + 1 );
+            SetLength(FC3doglSatellitesAtmospheres, OrbitalObject3DIndex + 1 );
+            SetLength(FC3doglSatellitesAsteroids, OrbitalObject3DIndex + 1 );
+            SetLength(FC3doglMainViewListSatellitesGravityWells, OrbitalObject3DIndex + 1 );
+            SetLength(FC3doglMainViewListSatelliteOrbits, OrbitalObject3DIndex + 1);
+            {.the object group}
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex]:=TGLDummyCube(FCWinMain.FCGLSRootMain.Objects.AddNewChild(TGLDummyCube));
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Name:='FCGLSsatGrp'+IntToStr(OrbitalObject3DIndex);
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].CubeSize:=1;
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.X:=0;
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.Y:=1;
+            FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Up.Z:=0;
+            {.the planet}
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex]:=TGLSphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLSphere));
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Name:='FCGLSsatPlnt'+IntToStr(OrbitalObject3DIndex);
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Radius:=1;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Slices:=64;
+            FC3doglSatellitesPlanet[OrbitalObject3DIndex].Stacks:=64;
+            {.the asteroid}
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex]:=TDGLib3dsStaMesh(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TDGLib3dsStaMesh));
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Name:='FCGLSsatAster'+IntToStr(OrbitalObject3DIndex);
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseGLSceneBuildList:=False;
@@ -804,6 +808,33 @@ begin
                ,0.27
                ,0.27
                );
+            inc( FC3doglMainViewMax3DSatellitesInDataS );
+         end;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].VisibleAtRunTime:=false;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].Visible:=false;
+         FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].ShowAxes:=false;
+         {.the planet}
+//         FC3doglSatellitesPlanet[OrbitalObject3DIndex]:=TGLSphere(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TGLSphere));
+//         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Name:='FCGLSsatPlnt'+IntToStr(OrbitalObject3DIndex);
+//         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Radius:=1;
+//         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Slices:=64;
+//         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Stacks:=64;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].Visible:=false;
+         FC3doglSatellitesPlanet[OrbitalObject3DIndex].ShowAxes:=false;
+         {.the asteroid}
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex]:=TDGLib3dsStaMesh(FC3doglSatellitesObjectsGroups[OrbitalObject3DIndex].AddNewChild(TDGLib3dsStaMesh));
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Name:='FCGLSsatAster'+IntToStr(OrbitalObject3DIndex);
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseGLSceneBuildList:=False;
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].PitchAngle:=90;
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseShininessPowerHack:=0;
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseInvertWidingHack:=False;
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Material.FaceCulling:=fcCull;
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].UseNormalsHack:=True;
+//            FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Scale.SetVector(
+//               0.27
+//               ,0.27
+//               ,0.27
+//               );
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Load3DSFileFrom( FCFogoO_Asteroid_Set( OrbitalObjectIndex, SatelliteIndex ) );
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].Material.FrontProperties:=FC3ogooTemporaryAsteroid.Material.FrontProperties;
             FC3doglSatellitesAsteroids[OrbitalObject3DIndex].TurnAngle:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjectIndex].OO_satellitesList[SatelliteIndex].OO_isSat_asterInBelt_axialTilt;

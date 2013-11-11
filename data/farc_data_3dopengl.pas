@@ -165,6 +165,11 @@ var
    ///</summary>
    FC3doglMainViewTotalSpaceUnits: integer;
 
+   ///<summary>
+   ///   store the higest index possible without to extent by setlength
+   ///</summary>
+   FC3doglMainViewMax3DSatellitesInDataS: integer;
+
 //==END PUBLIC VAR==========================================================================
 
 const

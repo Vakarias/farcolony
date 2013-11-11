@@ -276,6 +276,7 @@ begin
    SetLength(FC3doglPlanets,1);
    FC3doglAsteroids:=nil;
    SetLength(FC3doglAsteroids,1);
+   FC3doglMainViewMax3DSatellitesInDataS:=0;
 end;
 
 procedure FCMovM_3DView_Initialize;
@@ -447,15 +448,6 @@ begin
                while SatelliteIndex <= TotalSatInDataStructure do
                begin
                   inc( Satellite3DCount );
-                  if Satellite3DCount >= Length(FC3doglSatellitesObjectsGroups) then
-                  begin
-                     SetLength(FC3doglSatellitesObjectsGroups, Length(FC3doglSatellitesObjectsGroups)+LSVUblocCnt);
-                     SetLength(FC3doglSatellitesPlanet, Length(FC3doglSatellitesPlanet)+LSVUblocCnt);
-                     SetLength(FC3doglSatellitesAtmospheres, length(FC3doglSatellitesAtmospheres)+LSVUblocCnt);
-                     SetLength(FC3doglSatellitesAsteroids, Length(FC3doglSatellitesAsteroids)+LSVUblocCnt);
-                     SetLength(FC3doglMainViewListSatellitesGravityWells, Length(FC3doglMainViewListSatellitesGravityWells)+LSVUblocCnt);
-                     SetLength(FC3doglMainViewListSatelliteOrbits, Length(FC3doglMainViewListSatelliteOrbits)+LSVUblocCnt);
-                  end;
                   {.initialize 3d structure}
                   FCMogoO_OrbitalObject_Generate( o3dotAsteroidInABelt, Satellite3DCount, OrbitalObjIndex , SatelliteIndex );
                   {.displaying}
