@@ -249,7 +249,7 @@ procedure FCMuiK_BrowseK_Set(
    );
 {:Purpose: centralized browsing keys.
     Additions:
-      -2013Sep29- *fox: prevent FCMuiSP_SurfaceEcosphere_Set and interplanetary mission for an asteroid belt.
+      -2013Sep29- *fix: prevent FCMuiSP_SurfaceEcosphere_Set and interplanetary mission for an asteroid belt.
       -2013Sep22- *add: begin the asteroid belt.
       -2012Dec03- *fix: prevent a focus on a not visible object.
       -2010Jun02-	*add: space unit: take in account if the object is visible or not.
@@ -350,6 +350,7 @@ begin
             end;
          end; //==END== case BKSbk of ==//
       end; //==END== case - uikbtOObj ==//
+
       uikbtSat:
       begin
          case BKSbk of

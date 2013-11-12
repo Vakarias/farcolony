@@ -159,6 +159,7 @@ end;
 procedure FCMuiAP_Update_OrbitalObject;
 {:Purpose: update the action panel w/ orbital object actions.
     Additions:
+      -2013Nov11- *fix: bad switching code for satellites.
       -2013May04- *fix: prevent a crash if there are no satellites in the current 3d view.
       -2012Dec02- *add: routine completion.
 }
@@ -166,15 +167,14 @@ begin
    FCMuiAP_Panel_Reset;
    FCWinMain.WM_ActionPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'ActionPanelHeader.OObj')+'</b>';
    if (
-      (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid])
-      and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0]>0)
-      )
-      or
-      (
-      ( FC3doglMainViewTotalSatellites>0 )
-      and
-      (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedPlanetAsteroid])
-      and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_satellitesList[FC3doglSelectedSatellite].OO_colonies[0]>0)
+      ( FC3doglMainViewTotalSatellites = 0 )
+         and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid])
+         and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0]>0)
+         )
+      or (
+         ( FC3doglMainViewTotalSatellites>0 )
+            and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] )
+            and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_satellitesList[  FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag ].OO_colonies[0]>0)
       )
    then
    begin
