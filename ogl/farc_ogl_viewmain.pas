@@ -512,96 +512,93 @@ begin
                FCMogO_SurfaceMapTexture_Assign(OrbitalObjIndex, 0, 0);
                {.satellites}
                TotalSatInDataStructure:=Length(FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList)-1;
-               if TotalSatInDataStructure>0 then
+               SatelliteIndex:=1;
+               while SatelliteIndex<=TotalSatInDataStructure do
                begin
-                  SatelliteIndex:=1;
-                  while SatelliteIndex<=TotalSatInDataStructure do
+                  inc(Satellite3DCount);
+                  {.set the 3d object arrays, if needed}
+//                  if Satellite3DCount >= Length(FC3doglSatellitesObjectsGroups) then
+//                  begin
+//                     SetLength(FC3doglSatellitesObjectsGroups, Length(FC3doglSatellitesObjectsGroups)+LSVUblocCnt);
+//                     SetLength(FC3doglSatellitesPlanet, Length(FC3doglSatellitesPlanet)+LSVUblocCnt);
+//                     SetLength(FC3doglSatellitesAtmospheres, length(FC3doglSatellitesAtmospheres)+LSVUblocCnt);
+//                     SetLength(FC3doglSatellitesAsteroids, Length(FC3doglSatellitesAsteroids)+LSVUblocCnt);
+//                     SetLength(FC3doglMainViewListSatellitesGravityWells, Length(FC3doglMainViewListSatellitesGravityWells)+LSVUblocCnt);
+//                     SetLength(FC3doglMainViewListSatelliteOrbits, Length(FC3doglMainViewListSatelliteOrbits)+LSVUblocCnt);
+//                  end;
+                  {.for a satellite asteroid}
+                  if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_type<ootSatellite_Planet_Telluric then
                   begin
-                     inc(Satellite3DCount);
-                     {.set the 3d object arrays, if needed}
-                     if Satellite3DCount >= Length(FC3doglSatellitesObjectsGroups) then
-                     begin
-                        SetLength(FC3doglSatellitesObjectsGroups, Length(FC3doglSatellitesObjectsGroups)+LSVUblocCnt);
-                        SetLength(FC3doglSatellitesPlanet, Length(FC3doglSatellitesPlanet)+LSVUblocCnt);
-                        SetLength(FC3doglSatellitesAtmospheres, length(FC3doglSatellitesAtmospheres)+LSVUblocCnt);
-                        SetLength(FC3doglSatellitesAsteroids, Length(FC3doglSatellitesAsteroids)+LSVUblocCnt);
-                        SetLength(FC3doglMainViewListSatellitesGravityWells, Length(FC3doglMainViewListSatellitesGravityWells)+LSVUblocCnt);
-                        SetLength(FC3doglMainViewListSatelliteOrbits, Length(FC3doglMainViewListSatelliteOrbits)+LSVUblocCnt);
-                     end;
-                     {.for a satellite asteroid}
-                     if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_type<ootSatellite_Planet_Telluric then
-                     begin
-                        {.initialize 3d structure}
-                        FCMogoO_OrbitalObject_Generate( o3dotSatelliteAsteroid, Satellite3DCount, OrbitalObjIndex , SatelliteIndex );
-                        {.set scale}
-                        FC3doglSatellitesAsteroids[Satellite3DCount].scale.X
-                           :=FCFcF_Scale_Conversion
-                              (
-                                 cAsteroidDiameterKmTo3dViewUnits
-                                 , FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex]
-                                    .OO_diameter
-                              );
-                        FC3doglSatellitesAsteroids[Satellite3DCount].scale.Y:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
-                        FC3doglSatellitesAsteroids[Satellite3DCount].scale.Z:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
-                        {.set group scale}
-                        FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X*50;
-                        {.displaying}
-                        FC3doglSatellitesObjectsGroups[Satellite3DCount].Visible:=true;
-                        FC3doglSatellitesPlanet[Satellite3DCount].Visible:=false;
-                        FC3doglSatellitesAsteroids[Satellite3DCount].Visible:=true;
-                     end //==END== if ...OOS_type<oobtpSat_Tellu_Lunar ==//
-                     {.for a satellite planetoid}
-                     else if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_type>ootSatellite_Asteroid_Icy then
-                     begin
-                        {.initialize 3d structure}
-                        FCMogoO_OrbitalObject_Generate(o3dotSatellitePlanet, Satellite3DCount, OrbitalObjIndex, SatelliteIndex);
-                        {.set scale}
-                        FC3doglSatellitesPlanet[Satellite3DCount].scale.X
-                           :=FCFcF_Scale_Conversion
-                              (
-                                 cKmTo3dViewUnits
-                                 ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_diameter
-                              );
-                        FC3doglSatellitesPlanet[Satellite3DCount].scale.Y:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X;
-                        FC3doglSatellitesPlanet[Satellite3DCount].scale.Z:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X;
-                        {.set group scale}
-                        FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X*2;
-                        {.set atmosphere}
-                        if ( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphericPressure > 0 )
-                           and ( not FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_traceAtmosphere )
-                        then FCMogoO_Atmosphere_Setup(OrbitalObjIndex, SatelliteIndex, Satellite3DCount);
-                        {.texturing}
-                        FCMogO_SurfaceMapTexture_Assign(OrbitalObjIndex, SatelliteIndex, Satellite3DCount);
-                        {.displaying}
-                        FC3doglSatellitesObjectsGroups[Satellite3DCount].Visible:=true;
-                        FC3doglSatellitesPlanet[Satellite3DCount].Visible:=true;
-                     end; //==END== if OOS_type>oobtpSat_Aster_Icy ==//
-                     OrbitDistanceInUnits:=FCFcF_Scale_Conversion(
-                        cKmTo3dViewUnits
-                        ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000
-                        );
-                     {.set orbits}
-                     FCMogO_Orbit_Generation(
-                        otSatellite
-                        ,OrbitalObjIndex
-                        ,SatelliteIndex
-                        ,Satellite3DCount
-                        ,OrbitDistanceInUnits
-                        );
-                     {.space units in orbit of current object}
-                     FCMoglVM_OObjSpUn_inOrbit(OrbitalObjIndex, SatelliteIndex, Satellite3DCount,true);
-                     {.set tag values}
-                           {satellite index #}
-                        FC3doglSatellitesObjectsGroups[Satellite3DCount].Tag:=SatelliteIndex;
-                           {central orbital object linked}
-                        FC3doglSatellitesObjectsGroups[Satellite3DCount].TagFloat:=OrbitalObjIndex;
-                     {.put index of the first sat object}
-                     if SatelliteIndex=1
-                     then FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_isNotSat_1st3dObjectSatelliteIndex:=Satellite3DCount;
-                     inc(SatelliteIndex);
-                  end; //==END== while TDMVUsatIdx<=TDMVUsatTtlInDS ==//
-                  FC3doglMainViewTotalSatellites:=Satellite3DCount;
-               end;//==END== if Length(SDB_obobj[LSVUorbObjCnt].OO_satList>1) ==//
+                     {.initialize 3d structure}
+                     FCMogoO_OrbitalObject_Generate( o3dotSatelliteAsteroid, Satellite3DCount, OrbitalObjIndex , SatelliteIndex );
+                     {.set scale}
+                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.X
+                        :=FCFcF_Scale_Conversion
+                           (
+                              cAsteroidDiameterKmTo3dViewUnits
+                              , FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex]
+                                 .OO_diameter
+                           );
+                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.Y:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
+                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.Z:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
+                     {.set group scale}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X*50;
+                     {.displaying}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Visible:=true;
+                     FC3doglSatellitesPlanet[Satellite3DCount].Visible:=false;
+                     FC3doglSatellitesAsteroids[Satellite3DCount].Visible:=true;
+                  end //==END== if ...OOS_type<oobtpSat_Tellu_Lunar ==//
+                  {.for a satellite planetoid}
+                  else if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_type>ootSatellite_Asteroid_Icy then
+                  begin
+                     {.initialize 3d structure}
+                     FCMogoO_OrbitalObject_Generate(o3dotSatellitePlanet, Satellite3DCount, OrbitalObjIndex, SatelliteIndex);
+                     {.set scale}
+                     FC3doglSatellitesPlanet[Satellite3DCount].scale.X
+                        :=FCFcF_Scale_Conversion
+                           (
+                              cKmTo3dViewUnits
+                              ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_diameter
+                           );
+                     FC3doglSatellitesPlanet[Satellite3DCount].scale.Y:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X;
+                     FC3doglSatellitesPlanet[Satellite3DCount].scale.Z:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X;
+                     {.set group scale}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X*2;
+                     {.set atmosphere}
+                     if ( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphericPressure > 0 )
+                        and ( not FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_traceAtmosphere )
+                     then FCMogoO_Atmosphere_Setup(OrbitalObjIndex, SatelliteIndex, Satellite3DCount);
+                     {.texturing}
+                     FCMogO_SurfaceMapTexture_Assign(OrbitalObjIndex, SatelliteIndex, Satellite3DCount);
+                     {.displaying}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Visible:=true;
+                     FC3doglSatellitesPlanet[Satellite3DCount].Visible:=true;
+                  end; //==END== if OOS_type>oobtpSat_Aster_Icy ==//
+                  OrbitDistanceInUnits:=FCFcF_Scale_Conversion(
+                     cKmTo3dViewUnits
+                     ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_isSat_distanceFromPlanetOrAsterInBeltDistToStar*1000
+                     );
+                  {.set orbits}
+                  FCMogO_Orbit_Generation(
+                     otSatellite
+                     ,OrbitalObjIndex
+                     ,SatelliteIndex
+                     ,Satellite3DCount
+                     ,OrbitDistanceInUnits
+                     );
+                  {.space units in orbit of current object}
+                  FCMoglVM_OObjSpUn_inOrbit(OrbitalObjIndex, SatelliteIndex, Satellite3DCount,true);
+                  {.set tag values}
+                        {satellite index #}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].Tag:=SatelliteIndex;
+                        {central orbital object linked}
+                     FC3doglSatellitesObjectsGroups[Satellite3DCount].TagFloat:=OrbitalObjIndex;
+                  {.put index of the first sat object}
+                  if SatelliteIndex=1
+                  then FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_isNotSat_1st3dObjectSatelliteIndex:=Satellite3DCount;
+                  inc(SatelliteIndex);
+               end; //==END== while TDMVUsatIdx<=TDMVUsatTtlInDS ==//
+               FC3doglMainViewTotalSatellites:=Satellite3DCount;
                {.set distance and location}
                OrbitDistanceInUnits:=FCFcF_Scale_Conversion(cAU_to3dViewUnits,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_isNotSat_distanceFromStar);
                {.displaying}
