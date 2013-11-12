@@ -1082,6 +1082,9 @@ begin
                   FCVdgPlayer.P_viewStarSystem
                   ,FCVdgPlayer.P_viewStar
                   );
+               FC3doglSelectedSatellite:=0;
+               if FC3doglMainViewTotalSatellites>0
+               then FC3doglSelectedSatellite:=1;
             end;
 
             {.X}

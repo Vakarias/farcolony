@@ -516,33 +516,11 @@ begin
                while SatelliteIndex<=TotalSatInDataStructure do
                begin
                   inc(Satellite3DCount);
-                  {.set the 3d object arrays, if needed}
-//                  if Satellite3DCount >= Length(FC3doglSatellitesObjectsGroups) then
-//                  begin
-//                     SetLength(FC3doglSatellitesObjectsGroups, Length(FC3doglSatellitesObjectsGroups)+LSVUblocCnt);
-//                     SetLength(FC3doglSatellitesPlanet, Length(FC3doglSatellitesPlanet)+LSVUblocCnt);
-//                     SetLength(FC3doglSatellitesAtmospheres, length(FC3doglSatellitesAtmospheres)+LSVUblocCnt);
-//                     SetLength(FC3doglSatellitesAsteroids, Length(FC3doglSatellitesAsteroids)+LSVUblocCnt);
-//                     SetLength(FC3doglMainViewListSatellitesGravityWells, Length(FC3doglMainViewListSatellitesGravityWells)+LSVUblocCnt);
-//                     SetLength(FC3doglMainViewListSatelliteOrbits, Length(FC3doglMainViewListSatelliteOrbits)+LSVUblocCnt);
-//                  end;
                   {.for a satellite asteroid}
                   if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_type<ootSatellite_Planet_Telluric then
                   begin
                      {.initialize 3d structure}
                      FCMogoO_OrbitalObject_Generate( o3dotSatelliteAsteroid, Satellite3DCount, OrbitalObjIndex , SatelliteIndex );
-                     {.set scale}
-                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.X
-                        :=FCFcF_Scale_Conversion
-                           (
-                              cAsteroidDiameterKmTo3dViewUnits
-                              , FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex]
-                                 .OO_diameter
-                           );
-                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.Y:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
-                     FC3doglSatellitesAsteroids[Satellite3DCount].scale.Z:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X;
-                     {.set group scale}
-                     FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesAsteroids[Satellite3DCount].scale.X*50;
                      {.displaying}
                      FC3doglSatellitesObjectsGroups[Satellite3DCount].Visible:=true;
                      FC3doglSatellitesPlanet[Satellite3DCount].Visible:=false;
@@ -553,17 +531,6 @@ begin
                   begin
                      {.initialize 3d structure}
                      FCMogoO_OrbitalObject_Generate(o3dotSatellitePlanet, Satellite3DCount, OrbitalObjIndex, SatelliteIndex);
-                     {.set scale}
-                     FC3doglSatellitesPlanet[Satellite3DCount].scale.X
-                        :=FCFcF_Scale_Conversion
-                           (
-                              cKmTo3dViewUnits
-                              ,FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_diameter
-                           );
-                     FC3doglSatellitesPlanet[Satellite3DCount].scale.Y:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X;
-                     FC3doglSatellitesPlanet[Satellite3DCount].scale.Z:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X;
-                     {.set group scale}
-                     FC3doglSatellitesObjectsGroups[Satellite3DCount].CubeSize:=FC3doglSatellitesPlanet[Satellite3DCount].scale.X*2;
                      {.set atmosphere}
                      if ( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphericPressure > 0 )
                         and ( not FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[OrbitalObjIndex].OO_satellitesList[SatelliteIndex].OO_atmosphere.AC_traceAtmosphere )
