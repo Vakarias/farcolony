@@ -309,6 +309,7 @@ end;
 procedure FCMovM_3DView_Reset;
 {:Purpose: reset the 3d view data structures for a new setup.
     Additions:
+      -2013Nov13- *add: complete satellite cleanup.
       -2013Nov03- *add: start satellite cleanup.
 }
    var
@@ -330,7 +331,12 @@ begin
    Count:=1;
    while Count <= FC3doglMainViewTotalSatellites do
    begin
-
+      FC3doglSatellitesObjectsGroups[Count].Visible:=false;
+      FC3doglSatellitesPlanet[Count].Visible:=false;
+      FC3doglSatellitesAsteroids[Count].Visible:=false;
+      FC3doglSatellitesAtmospheres[Count].Visible:=false;
+      FC3doglMainViewListSatelliteOrbits[Count].Nodes.Clear;
+      FC3doglMainViewListSatellitesGravityWells[Count].Nodes.Clear;
       inc( Count );
    end;
    FC3doglMainViewTotalSatellites:=0;
