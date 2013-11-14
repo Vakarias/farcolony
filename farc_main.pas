@@ -338,6 +338,7 @@ type
     PSP_MissionExt: THTMLRadioGroup;
     PSP_Commit: TAdvGlowButton;
     SP_ResourceSurveyShowDetails: TAdvGlowButton;
+    MMGame_LoadSaved: TMenuItem;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);

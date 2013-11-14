@@ -232,10 +232,10 @@ procedure FCMuiW_About_Raise;
 begin
    if not Assigned( FCWinAbout )
    then  begin
-   FCWinAbout:=TFCWinAbout.Create(Application);
+      FCWinAbout:=TFCWinAbout.Create(Application);
       FCMuiW_UI_Initialize(mwupSecwinAbout);
-   FCMuiW_UI_Initialize(mwupFontWinAb);
-   FCMuiW_UI_Initialize(mwupTextWinAb);
+      FCMuiW_UI_Initialize(mwupFontWinAb);
+      FCMuiW_UI_Initialize(mwupTextWinAb);
    end;
 
 //   FCMuiW_UI_Initialize(mwupSecwinAbout);

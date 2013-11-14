@@ -184,6 +184,11 @@ var
    ///</summary>
    FCVdiWinNewGameAllowUpdate: boolean = false;
 
+   ///<summary>
+   ///   updating switch for the saved games window
+   ///</summary>
+   FCVdiWinSavedGamesAllowUpdate: boolean = false;
+
 //==END PUBLIC VAR==========================================================================
 
 const

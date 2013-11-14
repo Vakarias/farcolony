@@ -48,7 +48,7 @@ uses
   farc_ui_keys in 'ui\farc_ui_keys.pas',
   farc_game_gameflow in 'game\farc_game_gameflow.pas',
   farc_spu_functions in 'spu\farc_spu_functions.pas',
-  farc_win_about in 'ui\farc_win_about.pas' {FCWinAbout},
+  farc_win_savedgames in 'ui\farc_win_savedgames.pas' {FCWinSavedGames},
   farc_game_contg in 'game\farc_game_contg.pas',
   farc_univ_func in 'univ\farc_univ_func.pas',
   farc_win_fug in 'ui\farc_win_fug.pas' {FCWinFUG},
@@ -141,7 +141,8 @@ uses
   farc_ogl_viewmain in 'ogl\farc_ogl_viewmain.pas',
   farc_ogl_genorbits in 'ogl\farc_ogl_genorbits.pas',
   farc_ogl_genspaceunits in 'ogl\farc_ogl_genspaceunits.pas',
-  farc_ogl_genorbitalobjects in 'ogl\farc_ogl_genorbitalobjects.pas';
+  farc_ogl_genorbitalobjects in 'ogl\farc_ogl_genorbitalobjects.pas',
+  farc_win_about in 'ui\farc_win_about.pas' {FCWinAbout};
 
 {$R *.res}
 
