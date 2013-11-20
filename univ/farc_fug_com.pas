@@ -312,7 +312,7 @@ begin
    if not FCWinFUG.Visible
    then
    begin
-      FCWinMain.FCWM_MMenu_G_New.Enabled:=false;
+      FCWinMain.MMGameSection_New.Enabled:=false;
       FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
       FCWinMain.FCWM_MMenu_G_Save.Enabled:=false;
       FCWinMain.FCWM_MMenu_G_FlushOld.Enabled:=false;

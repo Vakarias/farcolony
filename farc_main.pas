@@ -83,16 +83,17 @@ type
       FCXMLdbUniv: TXMLDocument;
       FCXMLtxtUI: TXMLDocument;
       FCXMLtxtEncy: TXMLDocument;
-      FCWM_MainMenu: TMainMenu;
-      FCWM_MMenu_Game: TMenuItem;
-      FCWM_MMenu_G_New: TMenuItem;
-      FCWM_MMenu_G_Quit: TMenuItem;
-      FCWM_MMenu_Options: TMenuItem;
-      FCWM_MMenu_O_Lang: TMenuItem;
-      FCWM_MMenu_O_L_FR: TMenuItem;
-      FCWM_MMenu_Help: TMenuItem;
-      FCWM_MMenu_H_About: TMenuItem;
-      FCWM_MMenu_O_L_EN: TMenuItem;
+      WM_MainMenu: TMainMenu;
+      MM_GameSection: TMenuItem;
+      MMGameSection_New: TMenuItem;
+      MMGameSection_LoadSaved: TMenuItem;
+      MMGameSection_Quit: TMenuItem;
+      MM_OptionsSection: TMenuItem;
+      MMOptionsSection_LanguageSection: TMenuItem;
+      MMOptionsSection_LS_EN: TMenuItem;
+      MMOptionsSection_LS_FR: TMenuItem;
+      MM_HelpSection: TMenuItem;
+      MMHelpSection_About: TMenuItem;
       FCWM_BckgImage: TImage32;
       WM_MainViewGroup: TAdvGroupBox;
       FCGLSRootMain: TGLScene;
@@ -338,14 +339,13 @@ type
     PSP_MissionExt: THTMLRadioGroup;
     PSP_Commit: TAdvGlowButton;
     SP_ResourceSurveyShowDetails: TAdvGlowButton;
-    MMGame_LoadSaved: TMenuItem;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
-      procedure FCWM_MMenu_G_QuitClick(Sender: TObject);
-      procedure FCWM_MMenu_O_L_FRClick(Sender: TObject);
-      procedure FCWM_MMenu_O_L_ENClick(Sender: TObject);
-      procedure FCWM_MMenu_G_NewClick(Sender: TObject);
+      procedure MMGameSection_QuitClick(Sender: TObject);
+      procedure MMOptionsSection_LS_FRClick(Sender: TObject);
+      procedure MMOptionsSection_LS_ENClick(Sender: TObject);
+      procedure MMGameSection_NewClick(Sender: TObject);
       procedure FCGLScadencerProgress(Sender: TObject; const deltaTime, newTime: Double);
       procedure FCGLSmainViewMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
       procedure FCGLSmainViewMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -354,7 +354,7 @@ type
       procedure FCWM_MsgeBox_ListClick(Sender: TObject);
       procedure FCWM_MsgeBox_ListDblClick(Sender: TObject);
       procedure FCWM_MsgeBox_ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-      procedure FCWM_MMenu_H_AboutClick(Sender: TObject);
+      procedure MMHelpSection_AboutClick(Sender: TObject);
       procedure FCWM_MMenu_G_ContClick(Sender: TObject);
       procedure FCWM_PopMenFocusedObjPopup(Sender: TObject);
       procedure FCWM_MMenu_G_SaveClick(Sender: TObject);
@@ -463,7 +463,7 @@ type
     procedure AP_MissionCancelClick(Sender: TObject);
     procedure FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
       MousePos: TPoint; var Handled: Boolean);
-    procedure FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
+    procedure WM_MainMenuChange(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
     procedure SP_SD_SurfaceSelectedMouseEnter(Sender: TObject);
     procedure SP_ResourceSurveyCommitClick(Sender: TObject);
     procedure PSP_ProductsListAnchorClick(Sender: TObject; Node: TTreeNode; anchor: string);
@@ -472,6 +472,7 @@ type
     procedure PSP_CommitClick(Sender: TObject);
     procedure SP_ResourceSurveyShowDetailsClick(Sender: TObject);
     procedure SP_RegionSheetMouseEnter(Sender: TObject);
+    procedure MMGameSection_LoadSavedClick(Sender: TObject);
 //    procedure FormActivate(Sender: TObject);
    private
       { Private declarations }
@@ -1344,7 +1345,7 @@ begin
    FCMuiW_HelpTDef_Link(anchor, true);
 end;
 
-procedure TFCWinMain.FCWM_MainMenuChange(Sender: TObject; Source: TMenuItem;
+procedure TFCWinMain.WM_MainMenuChange(Sender: TObject; Source: TMenuItem;
   Rebuild: Boolean);
 begin
    if FCWinMain.WM_ActionPanel.Visible
@@ -1398,12 +1399,17 @@ begin
    FCMdFSG_Game_SaveAndFlushOther;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_G_NewClick(Sender: TObject);
+procedure TFCWinMain.MMGameSection_LoadSavedClick(Sender: TObject);
+begin
+   FCMuiW_WinSavedGames_Raise;
+end;
+
+procedure TFCWinMain.MMGameSection_NewClick(Sender: TObject);
 begin
    FCMgNG_Core_Setup;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_G_QuitClick(Sender: TObject);
+procedure TFCWinMain.MMGameSection_QuitClick(Sender: TObject);
 begin
    FCWinMain.Close;
    {.DEV NOTE: add core quit routine}
@@ -1416,9 +1422,9 @@ begin
    then FCMdFSG_Game_Save;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_H_AboutClick(Sender: TObject);
+procedure TFCWinMain.MMHelpSection_AboutClick(Sender: TObject);
 begin
-   FCMuiW_About_Raise;
+   FCMuiW_WinAbout_Raise;
 end;
 
 procedure TFCWinMain.FCWM_MMenu_H_HPanelClick(Sender: TObject);
@@ -1462,7 +1468,7 @@ begin
    FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
 
-procedure TFCWinMain.FCWM_MMenu_O_L_ENClick(Sender: TObject);
+procedure TFCWinMain.MMOptionsSection_LS_ENClick(Sender: TObject);
 begin
    if FCVdiLanguage<>'EN' then
    begin
@@ -1471,7 +1477,7 @@ begin
    end;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_O_L_FRClick(Sender: TObject);
+procedure TFCWinMain.MMOptionsSection_LS_FRClick(Sender: TObject);
 begin
    if FCVdiLanguage<>'FR' then
    begin

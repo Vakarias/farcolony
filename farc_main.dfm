@@ -13,7 +13,7 @@ object FCWinMain: TFCWinMain
   Font.Height = -12
   Font.Name = 'FrancophilSans'
   Font.Style = []
-  Menu = FCWM_MainMenu
+  Menu = WM_MainMenu
   OldCreateOrder = False
   Position = poDesigned
   Scaled = False
@@ -3994,25 +3994,26 @@ object FCWinMain: TFCWinMain
     Top = 112
     DOMVendorDesc = 'MSXML'
   end
-  object FCWM_MainMenu: TMainMenu
-    OnChange = FCWM_MainMenuChange
+  object WM_MainMenu: TMainMenu
+    OnChange = WM_MainMenuChange
     Left = 16
     Top = 32
-    object FCWM_MMenu_Game: TMenuItem
+    object MM_GameSection: TMenuItem
       Caption = 'FCWM_MMenu_Game'
-      object FCWM_MMenu_G_New: TMenuItem
+      object MMGameSection_New: TMenuItem
         Caption = 'FCWM_MMenu_G_New'
         ShortCut = 16462
-        OnClick = FCWM_MMenu_G_NewClick
+        OnClick = MMGameSection_NewClick
       end
       object FCWM_MMenu_G_Cont: TMenuItem
         Caption = 'FCWM_MMenu_G_Cont'
         ShortCut = 16451
         OnClick = FCWM_MMenu_G_ContClick
       end
-      object MMGame_LoadSaved: TMenuItem
+      object MMGameSection_LoadSaved: TMenuItem
         Caption = 'MMGame_LoadSaved'
         ShortCut = 16460
+        OnClick = MMGameSection_LoadSavedClick
       end
       object FCWM_MMenu_G_Save: TMenuItem
         Caption = 'FCWM_MMenu_G_Save'
@@ -4027,23 +4028,23 @@ object FCWinMain: TFCWinMain
         Caption = '_______________'
         Enabled = False
       end
-      object FCWM_MMenu_G_Quit: TMenuItem
+      object MMGameSection_Quit: TMenuItem
         Caption = 'FCWM_MMenu_G_Quit'
         ShortCut = 16465
-        OnClick = FCWM_MMenu_G_QuitClick
+        OnClick = MMGameSection_QuitClick
       end
     end
-    object FCWM_MMenu_Options: TMenuItem
+    object MM_OptionsSection: TMenuItem
       Caption = 'FCWM_MMenu_Options'
-      object FCWM_MMenu_O_Lang: TMenuItem
+      object MMOptionsSection_LanguageSection: TMenuItem
         Caption = 'FCWM_MMenu_O_Lang'
-        object FCWM_MMenu_O_L_FR: TMenuItem
+        object MMOptionsSection_LS_FR: TMenuItem
           Caption = 'FCWM_MMenu_O_L_FR'
-          OnClick = FCWM_MMenu_O_L_FRClick
+          OnClick = MMOptionsSection_LS_FRClick
         end
-        object FCWM_MMenu_O_L_EN: TMenuItem
+        object MMOptionsSection_LS_EN: TMenuItem
           Caption = 'FCWM_MMenu_O_L_EN'
-          OnClick = FCWM_MMenu_O_L_ENClick
+          OnClick = MMOptionsSection_LS_ENClick
         end
         object FCWM_MMenu_O_L_SP: TMenuItem
           Caption = 'FCWM_MMenu_O_L_SP'
@@ -4077,7 +4078,7 @@ object FCWinMain: TFCWinMain
         end
       end
     end
-    object FCWM_MMenu_Help: TMenuItem
+    object MM_HelpSection: TMenuItem
       Caption = 'FCWM_MMenu_Help'
       object FCWM_MMenu_H_HPanel: TMenuItem
         Caption = 'FCWM_MMenu_H_HPanel'
@@ -4085,9 +4086,9 @@ object FCWinMain: TFCWinMain
         ShortCut = 112
         OnClick = FCWM_MMenu_H_HPanelClick
       end
-      object FCWM_MMenu_H_About: TMenuItem
+      object MMHelpSection_About: TMenuItem
         Caption = 'FCWM_MMenu_H_About'
-        OnClick = FCWM_MMenu_H_AboutClick
+        OnClick = MMHelpSection_AboutClick
       end
     end
     object FCWM_MMenu_DebTools: TMenuItem

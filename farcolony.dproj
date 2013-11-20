@@ -166,6 +166,7 @@
 			<DCCReference Include="ui\farc_win_about.pas">
 				<Form>FCWinAbout</Form>
 			</DCCReference>
+			<DCCReference Include="ui\farc_ui_savedgames.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

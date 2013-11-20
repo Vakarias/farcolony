@@ -143,9 +143,9 @@ begin
 //      begin
 //   FCWinMain.FCWM_MainMenu.Items.Enabled:=false;
 //   FCWinMain.FCWM_MainMenu.Items.Visible:=false;
-   FCWinMain.FCWM_MMenu_Game.Enabled:=false;
-   FCWinMain.FCWM_MMenu_Options.Enabled:=false;
-   FCWinMain.FCWM_MMenu_Help.Enabled:=false;
+   FCWinMain.MM_GameSection.Enabled:=false;
+   FCWinMain.MM_OptionsSection.Enabled:=false;
+   FCWinMain.MM_HelpSection.Enabled:=false;
    FCWinMain.FCWM_MMenu_DebTools.Enabled:=false;
    if FCWinMain.FCWM_ColDPanel.Visible
    then FCWinMain.FCWM_ColDPanel.Hide;

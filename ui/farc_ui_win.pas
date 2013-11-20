@@ -63,6 +63,7 @@ type TFCEmwinUpdTp=(
    ,mwupTextWinMain
    ,mwupTextWinAb
    ,mwupTextWinNGS
+   ,mwupTextWinSavedGames
    ,mwupTextMenu
    ,mwupMenuLang
    ,mwupMenuLoc
@@ -71,8 +72,10 @@ type TFCEmwinUpdTp=(
    ,mwupSecwinAbout
    ,mwupSecwinDebug
    ,mwupSecWinNewGSetup
+   ,mwupSecwinSavedGames
    ,mwupFontWinAb
    ,mwupFontWinNGS
+   ,mwupFontWinSavedGames
    ,mwupFontAll
    );
 
@@ -88,16 +91,6 @@ type TFCEuiwPopupKind=(
 function FCMuiW_PercentColorGoodBad_Generate(const PCGBGpercent: integer): string;
 
 //===========================END FUNCTIONS SECTION==========================================
-
-///<summary>
-///   close the about window.
-///</summary>
-procedure FCMuiW_About_Close;
-
-///<summary>
-///   show the about window.
-///</summary>
-procedure FCMuiW_About_Raise;
 
 ///<summary>
 ///   update the background with the right choosen format.
@@ -142,6 +135,26 @@ procedure FCMuiWin_UI_LangUpd;
 ///    <param name="WUupdKind">target to update.</param>
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 
+///<summary>
+///   close the about window.
+///</summary>
+procedure FCMuiW_WinAbout_Close;
+
+///<summary>
+///   show the about window.
+///</summary>
+procedure FCMuiW_WinAbout_Raise;
+
+///<summary>
+///   close the saved games window.
+///</summary>
+procedure FCMuiW_WinSavedGames_Close;
+
+///<summary>
+///   show the saved games window.
+///</summary>
+procedure FCMuiW_WinSavedGames_Raise;
+
 implementation
 
 uses
@@ -173,12 +186,14 @@ uses
    ,farc_ui_coredatadisplay
    ,farc_ui_msges
    ,farc_ui_planetarysurvey
+   ,farc_ui_savedgames
    ,farc_ui_surfpanel
    ,farc_ui_umi
    ,farc_univ_func
    ,farc_win_about
    ,farc_win_debug
-   ,farc_win_newgset;
+   ,farc_win_newgset
+   ,farc_win_savedgames;
 
 //===================================END OF INIT============================================
 
@@ -200,56 +215,6 @@ begin
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
-
-procedure FCMuiW_About_Close;
-{:Purpose: close the about window.
-    Additions:
-      -2010Apr06- *add: release the game if needed.
-}
-begin
-//   FreeAndNil(FCWinAbout);
-//   FCWinAbout.Enabled:=false;
-//   if FCWinMain.WM_MainViewGroup.Tag=1 then
-//   begin
-   if FCVdi3DViewRunning
-      and not FCVdi3DViewToInitialize then
-   begin
-      FCMgTFlow_FlowState_Set(tphTac);
-//      FCWinMain.WM_MainViewGroup.Tag:=0;
-      FCWinMain.WM_MainViewGroup.Show;
-      FCVdi3DViewRunning:=true;
-   end;
-   FCWinMain.Enabled:=true;
-end;
-
-procedure FCMuiW_About_Raise;
-{:Purpose: show the about window.
-    Additions:
-      -2010Apr06- *add: pause the game.
-      -2009Dec01- *small fix for always display the about window at the center of FARC
-                  window.
-}
-begin
-   if not Assigned( FCWinAbout )
-   then  begin
-      FCWinAbout:=TFCWinAbout.Create(Application);
-      FCMuiW_UI_Initialize(mwupSecwinAbout);
-      FCMuiW_UI_Initialize(mwupFontWinAb);
-      FCMuiW_UI_Initialize(mwupTextWinAb);
-   end;
-
-//   FCMuiW_UI_Initialize(mwupSecwinAbout);
-   FCWinMain.Enabled:=false;
-   if FCWinMain.WM_MainViewGroup.Visible then
-   begin
-      FCMgTFlow_FlowState_Set(tphPAUSE);
-//      FCWinMain.WM_MainViewGroup.Tag:=1;
-      FCWinMain.WM_MainViewGroup.Hide;
-   end;
-   FCWinAbout.Enabled:=true;
-   FCWinAbout.Show;
-   FCWinAbout.BringToFront;
-end;
 
 procedure FCMuiW_BackgroundPicture_Update;
 {:Purpose: update the background with the right choosen format.
@@ -496,6 +461,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2013Nov18- *add: main menu - load saved game.
       -2013Mar26- *add: SP_ResourceSurveyShowDetails.
       -2013Feb03- *add: planetary survey panel.
       -2013Jan29- *add: surface panel - add a SP_ResourceSurveyCommit.
@@ -659,17 +625,18 @@ begin
       {.main title bar}
 		FCWinMain.Caption:='FAR Colony  '+FCFcF_FARCVersion_Get+'  ©2009-2013 J.F. Baconnet';
 		{.main menu - game section}
-		FCWinMain.FCWM_MMenu_Game.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game');
-		FCWinMain.FCWM_MMenu_G_New.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_New');
+		FCWinMain.MM_GameSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game');
+		FCWinMain.MMGameSection_New.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_New');
       FCWinMain.FCWM_MMenu_G_Cont.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_Cont');
+      FCWinMain.MMGameSection_LoadSaved.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'MMGame_LoadSaved');
       FCWinMain.FCWM_MMenu_G_Save.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_G_Save');
       FCWinMain.FCWM_MMenu_G_FlushOld.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_G_FlushOld');
-		FCWinMain.FCWM_MMenu_G_Quit.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_Quit');
+		FCWinMain.MMGameSection_Quit.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_Quit');
 		{.main menu - options section}
-		FCWinMain.FCWM_MMenu_Options.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options');
-		FCWinMain.FCWM_MMenu_O_Lang.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang');
-		FCWinMain.FCWM_MMenu_O_L_EN.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_EN');
-		FCWinMain.FCWM_MMenu_O_L_FR.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_FR');
+		FCWinMain.MM_OptionsSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options');
+		FCWinMain.MMOptionsSection_LanguageSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang');
+		FCWinMain.MMOptionsSection_LS_EN.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_EN');
+		FCWinMain.MMOptionsSection_LS_FR.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_FR');
       FCWinMain.FCWM_MMenu_O_L_SP.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_SP');
       FCWinMain.FCWM_MMenu_O_Loc.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_Loc');
       FCWinMain.FCWM_MMenu_O_LocHelp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_LocHelp');
@@ -683,9 +650,9 @@ begin
       FCWinMain.FCWM_MMenu_DTFUG.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_DTFUG');
       FCWinMain.FCWM_MMenu_DTreloadTfiles.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_DTreloadTfiles');
 		{.main menu - help section}
-      FCWinMain.FCWM_MMenu_Help.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_Help');
+      FCWinMain.MM_HelpSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_Help');
       FCWinMain.FCWM_MMenu_H_HPanel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_HPanel');
-		FCWinMain.FCWM_MMenu_H_About.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About');
+		FCWinMain.MMHelpSection_About.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About');
 	end;
    if (((UIUtp=mwupAll) or (UIUtp=mwupTextWinMain)) and (FCVdi3DViewRunning))
       or (UIUtp=mwupTextWM3dFrame)
@@ -807,6 +774,10 @@ begin
       FCWinNewGSetup.FCWNGS_Frm_ButtCancel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'ButtCancel');
       {:DEV NOTES: upd the faction list}
    end;
+   //=======================================================================================
+   {.this section concern only all texts of saved games window}
+   if UIUtp=mwupTextWinSavedGames
+   then FCMuiSG_Panel_InitText;
    //=======================================================================================
    {.this section concern all graphical elements of main window w/o text
    initialization/update}
@@ -1041,14 +1012,12 @@ begin
       FCWinMain.FCWM_MsgeBox_Desc.Align:=alBottom;
    end;
    //=======================================================================================
-   {.this section concern all graphical elements of about window w/o text
-   initialization/update}
+   {.this section concern all graphical elements of about window w/o text initialization/update}
    if (UIUtp=mwupSecwinAbout)
       and (FCVdiWinAboutAllowUpdate)
    then FCMuiA_Panel_InitElements;
    //=======================================================================================
-   {.this section concern all graphical elements of new game setup window w/o text
-   initialization/update}
+   {.this section concern all graphical elements of new game setup window w/o text initialization/update}
    if (UIUtp=mwupSecWinNewGSetup)
       and (FCVdiWinNewGameAllowUpdate)
    then
@@ -1099,6 +1068,11 @@ begin
          FCWNGS_Frm_ButtCancel.Top:=FCWNGS_Frm_ButtProceed.Top+FCWNGS_Frm_ButtProceed.Height+4;
       end; //==END== with FCWinNewGSetup ==//
    end; //==END== if (WUupdKind=mwupSecWinNewGSetup) and (FCVallowUpNGSWin) ==//
+   //=======================================================================================
+   {.this section concern all graphical elements of saved games window w/o text initialization/update}
+   if (UIUtp=mwupSecwinSavedGames)
+      and (FCVdiWinSavedGamesAllowUpdate)
+   then FCMuiSG_Panel_InitElements;
    //=======================================================================================================
    {.this section update language submenus}
    if (UIUtp=mwupAll)
@@ -1109,22 +1083,22 @@ begin
       if FCVdiLanguage='EN'
       then
       begin
-         FCWinMain.FCWM_MMenu_O_L_EN.Checked:=true;
-         FCWinMain.FCWM_MMenu_O_L_FR.Checked:=false;
+         FCWinMain.MMOptionsSection_LS_EN.Checked:=true;
+         FCWinMain.MMOptionsSection_LS_FR.Checked:=false;
          FCWinMain.FCWM_MMenu_O_L_SP.Checked:=false;
       end
       else if FCVdiLanguage='FR'
       then
       begin
-         FCWinMain.FCWM_MMenu_O_L_EN.Checked:=false;
-         FCWinMain.FCWM_MMenu_O_L_FR.Checked:=true;
+         FCWinMain.MMOptionsSection_LS_EN.Checked:=false;
+         FCWinMain.MMOptionsSection_LS_FR.Checked:=true;
          FCWinMain.FCWM_MMenu_O_L_SP.Checked:=false;
       end
       else if FCVdiLanguage='SP'
       then
       begin
-         FCWinMain.FCWM_MMenu_O_L_EN.Checked:=false;
-         FCWinMain.FCWM_MMenu_O_L_FR.Checked:=false;
+         FCWinMain.MMOptionsSection_LS_EN.Checked:=false;
+         FCWinMain.MMOptionsSection_LS_FR.Checked:=false;
          FCWinMain.FCWM_MMenu_O_L_SP.Checked:=true;
       end;
    end;
@@ -1365,6 +1339,102 @@ begin
          FCWNGS_Frm_ButtCancel.Font.Size:=FCFuiW_Font_GetSize(uiwButton);
       end; {.with FCWinNewGSetup do}
    end;
+   {.for saved games window}
+   if ((UIUtp=mwupFontWinSavedGames) or (UIUtp=mwupFontAll))
+      and (FCVdiWinSavedGamesAllowUpdate)
+   then
+   begin
+      FCWinSavedGames.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      {.frame}
+      FCWinSavedGames.WSG_Frame.Font.Size:=FCFuiW_Font_GetSize(uiwGrpBox);
+      {.header}
+      FCWinSavedGames.F_SavedGamesHeader.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      {.main section}
+      FCWinSavedGames.F_SavedGamesList.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+   end;
+end;
+
+procedure FCMuiW_WinAbout_Close;
+{:Purpose: close the about window.
+    Additions:
+      -2010Apr06- *add: release the game if needed.
+}
+begin
+   if FCVdi3DViewRunning
+      and not FCVdi3DViewToInitialize then
+   begin
+      FCMgTFlow_FlowState_Set(tphTac);
+      FCWinMain.WM_MainViewGroup.Show;
+      FCVdi3DViewRunning:=true;
+   end;
+   FCWinMain.Enabled:=true;
+end;
+
+procedure FCMuiW_WinAbout_Raise;
+{:Purpose: show the about window.
+    Additions:
+      -2010Apr06- *add: pause the game.
+      -2009Dec01- *small fix for always display the about window at the center of FARC
+                  window.
+}
+begin
+   if not Assigned( FCWinAbout ) then
+   begin
+      FCWinAbout:=TFCWinAbout.Create(Application);
+      FCMuiW_UI_Initialize(mwupSecwinAbout);
+      FCMuiW_UI_Initialize(mwupFontWinAb);
+      FCMuiW_UI_Initialize(mwupTextWinAb);
+   end;
+
+   FCWinMain.Enabled:=false;
+   if FCWinMain.WM_MainViewGroup.Visible then
+   begin
+      FCMgTFlow_FlowState_Set(tphPAUSE);
+      FCWinMain.WM_MainViewGroup.Hide;
+   end;
+   FCWinAbout.Enabled:=true;
+   FCWinAbout.Show;
+   FCWinAbout.BringToFront;
+end;
+
+procedure FCMuiW_WinSavedGames_Close;
+{:Purpose: close the saved games window.
+    Additions:
+}
+begin
+   if FCVdi3DViewRunning
+      and not FCVdi3DViewToInitialize then
+   begin
+      FCMgTFlow_FlowState_Set(tphTac);
+      FCWinMain.WM_MainViewGroup.Show;
+      FCVdi3DViewRunning:=true;
+   end;
+   FCWinMain.Enabled:=true;
+end;
+
+procedure FCMuiW_WinSavedGames_Raise;
+{:Purpose: show the saved games window.
+    Additions:
+}
+begin
+   if not Assigned( FCWinSavedGames ) then
+   begin
+      FCWinSavedGames:=TFCWinSavedGames.Create(Application);
+      FCMuiW_UI_Initialize(mwupSecwinSavedGames);
+      FCMuiW_UI_Initialize(mwupFontWinSavedGames);
+      FCMuiW_UI_Initialize(mwupTextWinSavedGames);
+   end;
+
+   FCWinMain.Enabled:=false;
+   if FCWinMain.WM_MainViewGroup.Visible then
+   begin
+      FCMgTFlow_FlowState_Set(tphPAUSE);
+      FCWinMain.WM_MainViewGroup.Hide;
+   end;
+   FCMuiSG_SavedGamesList_Update;
+   FCWinSavedGames.Enabled:=true;
+   FCWinSavedGames.Show;
+   FCWinSavedGames.BringToFront;
 end;
 
 end.

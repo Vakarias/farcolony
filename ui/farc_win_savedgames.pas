@@ -69,8 +69,7 @@ uses
    farc_data_init
 //   ,
 //   farc_ui_keys,
-//   farc_ui_win
-   ;
+   ,farc_ui_win;
 
 {$R *.dfm}
 
@@ -89,7 +88,7 @@ end;
 
 procedure TFCWinSavedGames.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-//   FCMuiW_About_Close;
+   FCMuiW_WinSavedGames_Close;
 end;
 
 procedure TFCWinSavedGames.FormCreate(Sender: TObject);

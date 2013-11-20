@@ -88,7 +88,7 @@ end;
 
 procedure TFCWinAbout.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-   FCMuiW_About_Close;
+   FCMuiW_WinAbout_Close;
 //   FCWA_Frm_Creds.AutoScroll:=false;
 end;
 

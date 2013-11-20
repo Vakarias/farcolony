@@ -353,7 +353,7 @@ FCWinNewGSetup.Close;
    then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
    FCMgfxC_Main_Init;
    {DEV NOTE: will be re-enabled in future.}
-   FCWinMain.FCWM_MMenu_G_New.Enabled:=false;
+   FCWinMain.MMGameSection_New.Enabled:=false;
    {.data initialization}
 //   CPfacIdx:=FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex+1;
    SetLength(FCDdmtTaskListToProcess, 1);

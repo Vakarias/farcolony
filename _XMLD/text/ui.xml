@@ -24,6 +24,7 @@
       ********** PLANETARY SURVEY **********
       ********** PRODUCTION MATRIX / STORAGE *******
       ********** PRODUCTS *******
+      ********** SAVED GAMES *******
       ********** SPACE UNIT ARCHITECTURE **********
       ********** SPACE UNIT OVERALL **********
       ********** SPM **********
@@ -1704,6 +1705,12 @@
          <FR>Continuer la Partie</FR>
          <SP>Continuar la Partida</SP>
       </FCWM_MainMenu_Game_Cont>
+      <!-- Main Menu / Game / Load Saved Game -->
+      <MMGame_LoadSaved>
+         <EN>Load Saved Game</EN>
+         <FR>Charger une Partie Sauvegardée</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </MMGame_LoadSaved>
       <!-- Main Menu / Game / Save -->
       <FCWM_MMenu_G_Save>
          <EN>Save Game</EN>
@@ -2762,6 +2769,12 @@
       <FR>Eau</FR>
       <SP>Agua</SP>
    </resWater>
+   <!-- ********** SAVED GAMES ******* -->
+   <savedgamesHeader>
+      <EN>Select a saved game by using the tree below.</EN>
+      <FR>Selectionnez une partie Sauvegardée en utilisant lA'rbre ci-dessous.</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </savedgamesHeader>
    <!-- ********** SPACE UNIT ARCHITECTURE ********** -->
    <scarchtpDSV>
       <EN>Deep-Space Vehicle (DSV)</EN>
