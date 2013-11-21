@@ -67,8 +67,7 @@ implementation
 
 uses
    farc_data_init
-//   ,
-//   farc_ui_keys,
+   ,farc_ui_savedgames
    ,farc_ui_win;
 
 {$R *.dfm}
@@ -78,12 +77,12 @@ uses
 procedure TFCWinSavedGames.FCWA_ButDownKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-//   FCMuiK_AboutWin_Test(Key, Shift);
+   FCMuiSG_Key_Test(Key, Shift);
 end;
 
 procedure TFCWinSavedGames.FCWA_ButUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-//   FCMuiK_AboutWin_Test(Key, Shift);
+   FCMuiSG_Key_Test(Key, Shift);
 end;
 
 procedure TFCWinSavedGames.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -98,12 +97,12 @@ end;
 
 procedure TFCWinSavedGames.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-//   FCMuiK_AboutWin_Test(Key, Shift);
+   FCMuiSG_Key_Test(Key, Shift);
 end;
 
 procedure TFCWinSavedGames.F_SavedGamesListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-//   FCMuiK_AboutWin_Test(Key, Shift);
+   FCMuiSG_Key_Test(Key, Shift);
 end;
 
 end.

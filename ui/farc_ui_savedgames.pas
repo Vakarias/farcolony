@@ -31,7 +31,8 @@ unit farc_ui_savedgames;
 interface
 
 uses
-   ComCtrls
+   Classes
+   ,ComCtrls
    ,SysUtils
    ,Windows;
 
@@ -47,6 +48,20 @@ uses
 //==END PUBLIC CONST========================================================================
 
 //===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   key test routine
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMuiSG_Key_Test(
+   const KeyPressed: integer;
+   const ShiftControl: TShiftState
+   );
 
 ///<summary>
 ///   init the elements (size and location) of the panel
@@ -77,6 +92,7 @@ uses
    ,farc_data_textfiles
    ,farc_data_html
    ,farc_main
+   ,farc_ui_keys
    ,farc_win_savedgames;
 
 //==END PRIVATE ENUM========================================================================
@@ -93,6 +109,24 @@ uses
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMuiSG_Key_Test(
+   const KeyPressed: integer;
+   const ShiftControl: TShiftState
+   );
+{:Purpose: key test routine.
+    Additions:
+}
+begin
+   if ssAlt in ShiftControl
+   then FCMuiK_WinMain_Test( KeyPressed, ShiftControl );
+   if KeyPressed <> 27
+   then FCMuiK_WinMain_Test( KeyPressed, ShiftControl );
+   {.ESCAPE}
+   {.close the mission setup window}
+   if KeyPressed = 27
+   then FCWinSavedGames.Close;
+end;
 
 procedure FCMuiSG_Panel_InitElements;
 {:Purpose: init the elements (size and location) of the panel.
