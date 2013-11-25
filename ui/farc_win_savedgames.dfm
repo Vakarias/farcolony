@@ -85,6 +85,7 @@ object FCWinSavedGames: TFCWinSavedGames
       Indent = 19
       ParentFont = False
       TabOrder = 0
+      OnClick = F_SavedGamesListClick
       OnKeyDown = F_SavedGamesListKeyDown
       Version = '1.2.1.0'
     end

@@ -54,6 +54,7 @@ type
     procedure FCWA_ButUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWA_ButDownKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure F_SavedGamesListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure F_SavedGamesListClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -68,7 +69,8 @@ implementation
 uses
    farc_data_init
    ,farc_ui_savedgames
-   ,farc_ui_win;
+   ,farc_ui_win
+   ,farc_win_debug;
 
 {$R *.dfm}
 
@@ -98,6 +100,12 @@ end;
 procedure TFCWinSavedGames.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
    FCMuiSG_Key_Test(Key, Shift);
+end;
+
+procedure TFCWinSavedGames.F_SavedGamesListClick(Sender: TObject);
+begin
+//  if FCVdiDebugMode
+//  then FCWinDebug.AdvMemo1.Lines.Add('clicked: '+ Sender. );
 end;
 
 procedure TFCWinSavedGames.F_SavedGamesListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
