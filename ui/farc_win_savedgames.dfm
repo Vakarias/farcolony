@@ -41,7 +41,7 @@ object FCWinSavedGames: TFCWinSavedGames
       Left = 2
       Top = 18
       Width = 461
-      Height = 18
+      Height = 58
       Align = alTop
       Color = clBlack
       Font.Charset = DEFAULT_CHARSET
@@ -85,8 +85,8 @@ object FCWinSavedGames: TFCWinSavedGames
       Indent = 19
       ParentFont = False
       TabOrder = 0
-      OnClick = F_SavedGamesListClick
       OnKeyDown = F_SavedGamesListKeyDown
+      OnMouseDown = F_SavedGamesListMouseDown
       Version = '1.2.1.0'
     end
   end

@@ -54,7 +54,8 @@ type
     procedure FCWA_ButUpKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWA_ButDownKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure F_SavedGamesListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure F_SavedGamesListClick(Sender: TObject);
+    procedure F_SavedGamesListMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
   public
@@ -102,15 +103,18 @@ begin
    FCMuiSG_Key_Test(Key, Shift);
 end;
 
-procedure TFCWinSavedGames.F_SavedGamesListClick(Sender: TObject);
-begin
-//  if FCVdiDebugMode
-//  then FCWinDebug.AdvMemo1.Lines.Add('clicked: '+ Sender. );
-end;
-
 procedure TFCWinSavedGames.F_SavedGamesListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
    FCMuiSG_Key_Test(Key, Shift);
+end;
+
+procedure TFCWinSavedGames.F_SavedGamesListMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+   var
+      CurrentNode: TTreenode;
+begin
+   CurrentNode:=THTMLTreeview( Sender ).Selected;
+   FCMuiSG_SavedGameItem_Selected( CurrentNode.Text );
 end;
 
 end.
