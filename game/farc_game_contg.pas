@@ -51,6 +51,7 @@ uses
    ,farc_data_missionstasks
    ,farc_data_textfiles
    ,farc_data_univ
+   ,farc_game_core
    ,farc_gfx_core
    ,farc_main
    ,farc_ogl_functions
@@ -103,18 +104,14 @@ var
 begin
    {.set some user's interface}
    FCWinMain.MMGameSection_Continue.Enabled:=false;
-   FCWinMain.MMGameSection_New.Enabled:=false;
+//   FCWinMain.MMGameSection_New.Enabled:=false;
    if FCWinMain.MMDebugSection.Visible
    then FCWinMain.MMDebugSection.Visible:=false;
 
 
-
+   FCMgC_Data_Injection;
 {:DEV NOTES: put the data loading in a proc and load it also for a new game setup (one time loading).}
-FCMdF_DBProducts_Load;
-   FCMdF_DBSPMitems_Load;
-   FCMdF_DBFactions_Load;
-   FCMdF_DBInfrastructures_Load;
-   FCMdF_DBSpaceUnits_Load;
+
    FCMgfxC_Main_Init;
    {.data initialization}
    SetLength(FCDdmtTaskListToProcess,1);

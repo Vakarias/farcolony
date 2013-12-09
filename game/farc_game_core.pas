@@ -71,7 +71,8 @@ procedure FCMgCore_GameOver_Process( const GameOverReason: TFCEgcGameOverReason 
 implementation
 
 uses
-   farc_data_init
+   farc_data_files
+   ,farc_data_init
    ,farc_game_cps
    ,farc_main
    ,farc_win_debug;
@@ -95,7 +96,11 @@ procedure FCMgC_Data_Injection;
     Additions:
 }
 begin
-
+   FCMdF_DBProducts_Load;
+   FCMdF_DBSPMitems_Load;
+   FCMdF_DBFactions_Load;
+   FCMdF_DBInfrastructures_Load;
+   FCMdF_DBSpaceUnits_Load;
 end;
 
 procedure FCMgCore_GameOver_Process( const GameOverReason: TFCEgcGameOverReason );

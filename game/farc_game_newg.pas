@@ -80,6 +80,7 @@ uses
    ,farc_data_spu
    ,farc_data_textfiles
    ,farc_data_univ
+   ,farc_game_core
    ,farc_game_cps
    ,farc_game_gameflow
    ,farc_game_spm
@@ -343,8 +344,7 @@ begin
    if not FCVdi3DViewRunning then
    begin
       FCWinMain.MMGameSection_Continue.Enabled:=false;
-      if FCWinMain.MMDebugSection.Visible
-      then FCWinMain.MMDebugSection.Visible:=false;
+      FCWinMain.MMDebugSection.Visible:=FCVdiDebugMode;
       FCMgfxC_Main_Init;
    end
    else begin
@@ -361,8 +361,6 @@ begin
             in the case of a new game during a current one.}
 
 
-   {DEV NOTE: will be re-enabled in future.}
-   FCWinMain.MMGameSection_New.Enabled:=false;
    {.data initialization}
 //   CPfacIdx:=FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex+1;
    SetLength(FCDdmtTaskListToProcess, 1);
@@ -723,20 +721,14 @@ var
    CStestDmp: integer;
 begin
 {:DEV NOTES: put the data loading in a proc and load it also for a continue game(one time loading).}
-   if length( FCDdsuSpaceUnitDesigns )<=1 then begin
-FCMdF_DBProducts_Load;
-   FCMdF_DBSPMitems_Load;
-   FCMdF_DBFactions_Load;
-   FCMdF_DBInfrastructures_Load;
-   FCMdF_DBSpaceUnits_Load;
-   end;
+   if not FCVdi3DViewRunning
+   then FCMgC_Data_Injection;
    try
    if FCWinNewGSetup=nil
    then  begin
-   FCWinNewGSetup:=TFCWinNewGSetup.Create(Application);
+      FCWinNewGSetup:=TFCWinNewGSetup.Create(Application);
       FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
       FCMuiW_UI_Initialize(mwupFontWinNGS);
-
    end;
    finally
 {.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
