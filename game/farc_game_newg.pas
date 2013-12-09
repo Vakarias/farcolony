@@ -342,9 +342,13 @@ begin
    FCWinNewGSetup.Close;
    if not FCVdi3DViewRunning then
    begin
-
+      FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
+      if FCWinMain.FCWM_MMenu_DebTools.Visible
+      then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
+      FCMgfxC_Main_Init;
    end
    else begin
+      FCVdi3DViewRunning:=false;
    end; //==END== if FCVdi3DViewRunning ==//
 
 
@@ -356,10 +360,7 @@ begin
 {.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
             in the case of a new game during a current one.}
 
-   FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
-   if FCWinMain.FCWM_MMenu_DebTools.Visible
-   then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
-   FCMgfxC_Main_Init;
+
    {DEV NOTE: will be re-enabled in future.}
    FCWinMain.MMGameSection_New.Enabled:=false;
    {.data initialization}
