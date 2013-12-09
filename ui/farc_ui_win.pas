@@ -425,7 +425,7 @@ begin
    FCMuiW_UI_Initialize(mwupMenuLang);
    FCMuiW_UI_Initialize(mwupTextWinMain);
 
-   if not FCWinMain.FCWM_MMenu_G_Cont.Enabled then
+   if not FCWinMain.MMGameSection_Continue.Enabled then
    begin
       colMax:=Length(FCDdgEntities[0].E_colonies)-1;
       if FCVdi3DViewRunning
@@ -627,31 +627,31 @@ begin
 		{.main menu - game section}
 		FCWinMain.MM_GameSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game');
 		FCWinMain.MMGameSection_New.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_New');
-      FCWinMain.FCWM_MMenu_G_Cont.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_Cont');
+      FCWinMain.MMGameSection_Continue.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_Cont');
       FCWinMain.MMGameSection_LoadSaved.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'MMGame_LoadSaved');
-      FCWinMain.FCWM_MMenu_G_Save.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_G_Save');
-      FCWinMain.FCWM_MMenu_G_FlushOld.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_G_FlushOld');
+      FCWinMain.MMGameSection_Save.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_G_Save');
+      FCWinMain.MMGameSection_SaveAndFlush.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_G_FlushOld');
 		FCWinMain.MMGameSection_Quit.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_Quit');
 		{.main menu - options section}
 		FCWinMain.MM_OptionsSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options');
 		FCWinMain.MMOptionsSection_LanguageSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang');
 		FCWinMain.MMOptionsSection_LS_EN.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_EN');
 		FCWinMain.MMOptionsSection_LS_FR.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_FR');
-      FCWinMain.FCWM_MMenu_O_L_SP.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_SP');
-      FCWinMain.FCWM_MMenu_O_Loc.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_Loc');
-      FCWinMain.FCWM_MMenu_O_LocHelp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_LocHelp');
-      FCWinMain.FCWM_MMenu_O_LocVObj.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_LocVObj');
-      FCWinMain.FCWM_MMenu_O_WideScr.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_WideScr');
-      FCWinMain.FCWM_MMenu_O_TexR.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_TexR');
-      FCWinMain.FCWM_MMenu_O_TR_1024.Caption:='1024*512';
-      FCWinMain.FCWM_MMenu_O_TR_2048.Caption:='2048*1024';
+      FCWinMain.MMOptionsSection_LS_SP.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Options_Lang_SP');
+      FCWinMain.MMOptionSection_PanelsLocationSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_Loc');
+      FCWinMain.MMOptionSection_PLS_LocationHelp.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_LocHelp');
+      FCWinMain.MMOptionSection_PLS_LocationViabilityObjectives.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_LocVObj');
+      FCWinMain.MMOptionSection_WideScreenBckg.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_WideScr');
+      FCWinMain.MMOptionSection_StandardTexturesSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_O_TexR');
+      FCWinMain.MMOptionSection_STS_1024.Caption:='1024*512';
+      FCWinMain.MMOptionSection_STS_2048.Caption:='2048*1024';
       {.main menu - debug tools}
-      FCWinMain.FCWM_MMenu_DebTools.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_DebTools');
-      FCWinMain.FCWM_MMenu_DTFUG.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_DTFUG');
-      FCWinMain.FCWM_MMenu_DTreloadTfiles.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_DTreloadTfiles');
+      FCWinMain.MMDebugSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_DebTools');
+      FCWinMain.MMDebugSection_FUG.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_DTFUG');
+      FCWinMain.MMDebugSection_ReloadTxtFiles.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_DTreloadTfiles');
 		{.main menu - help section}
       FCWinMain.MM_HelpSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_Help');
-      FCWinMain.FCWM_MMenu_H_HPanel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_HPanel');
+      FCWinMain.MMHelpSection_HelpPanel.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_HPanel');
 		FCWinMain.MMHelpSection_About.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MMenu_H_About');
 	end;
    if (((UIUtp=mwupAll) or (UIUtp=mwupTextWinMain)) and (FCVdi3DViewRunning))
@@ -798,20 +798,20 @@ begin
       FCMuiW_BackgroundPicture_Update;
       {.continue game menu item}
       if FCVdgPlayer.P_gameName=''
-      then FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false
-      else FCWinMain.FCWM_MMenu_G_Cont.Enabled:=true;
+      then FCWinMain.MMGameSection_Continue.Enabled:=false
+      else FCWinMain.MMGameSection_Continue.Enabled:=true;
       {.save game menu item}
-      FCWinMain.FCWM_MMenu_G_Save.Enabled:=false;
-      FCWinMain.FCWM_MMenu_G_FlushOld.Enabled:=false;
+      FCWinMain.MMGameSection_Save.Enabled:=false;
+      FCWinMain.MMGameSection_SaveAndFlush.Enabled:=false;
       {.debug menu item + console}
       if FCVdiDebugMode
       then
       begin
-         FCWinMain.FCWM_MMenu_DebTools.Visible:=true;
+         FCWinMain.MMDebugSection.Visible:=true;
          FCWinDebug:=TFCWinDebug.Create(Application);
          FCWinDebug.Visible:=true;
       end
-      else FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
+      else FCWinMain.MMDebugSection.Visible:=false;
       {.docking list panel}
       FCWinMain.FCWM_DockLstPanel.Width:=200;
       FCWinMain.FCWM_DockLstPanel.Height:=450;
@@ -1085,21 +1085,21 @@ begin
       begin
          FCWinMain.MMOptionsSection_LS_EN.Checked:=true;
          FCWinMain.MMOptionsSection_LS_FR.Checked:=false;
-         FCWinMain.FCWM_MMenu_O_L_SP.Checked:=false;
+         FCWinMain.MMOptionsSection_LS_SP.Checked:=false;
       end
       else if FCVdiLanguage='FR'
       then
       begin
          FCWinMain.MMOptionsSection_LS_EN.Checked:=false;
          FCWinMain.MMOptionsSection_LS_FR.Checked:=true;
-         FCWinMain.FCWM_MMenu_O_L_SP.Checked:=false;
+         FCWinMain.MMOptionsSection_LS_SP.Checked:=false;
       end
       else if FCVdiLanguage='SP'
       then
       begin
          FCWinMain.MMOptionsSection_LS_EN.Checked:=false;
          FCWinMain.MMOptionsSection_LS_FR.Checked:=false;
-         FCWinMain.FCWM_MMenu_O_L_SP.Checked:=true;
+         FCWinMain.MMOptionsSection_LS_SP.Checked:=true;
       end;
    end;
    //=======================================================================================================
@@ -1109,13 +1109,13 @@ begin
    then
    begin
       if FCVdiLocStoreCPSobjPanel
-      then FCWinMain.FCWM_MMenu_O_LocVObj.Checked:=true
+      then FCWinMain.MMOptionSection_PLS_LocationViabilityObjectives.Checked:=true
       else if not FCVdiLocStoreCPSobjPanel
-      then FCWinMain.FCWM_MMenu_O_LocVObj.Checked:=false;
+      then FCWinMain.MMOptionSection_PLS_LocationViabilityObjectives.Checked:=false;
       if FCVdiLocStoreHelpPanel
-      then FCWinMain.FCWM_MMenu_O_LocHelp.Checked:=true
+      then FCWinMain.MMOptionSection_PLS_LocationHelp.Checked:=true
       else if not FCVdiLocStoreHelpPanel
-      then FCWinMain.FCWM_MMenu_O_LocHelp.Checked:=false;
+      then FCWinMain.MMOptionSection_PLS_LocationHelp.Checked:=false;
    end;
    //=======================================================================================================
    {.this section update widescreen submenu}
@@ -1125,9 +1125,9 @@ begin
    begin
       {.check status of language submenu items}
       if FCVdiWinMainWideScreen
-      then FCWinMain.FCWM_MMenu_O_WideScr.Checked:=true
+      then FCWinMain.MMOptionSection_WideScreenBckg.Checked:=true
       else if not FCVdiWinMainWideScreen
-      then FCWinMain.FCWM_MMenu_O_WideScr.Checked:=false;
+      then FCWinMain.MMOptionSection_WideScreenBckg.Checked:=false;
    end;
    //=======================================================================================================
    {.this section update standard resolution submenus}
@@ -1139,14 +1139,14 @@ begin
       if not FC3doglHRstandardTextures
       then
       begin
-         FCWinMain.FCWM_MMenu_O_TR_1024.Checked:=true;
-         FCWinMain.FCWM_MMenu_O_TR_2048.Checked:=false;
+         FCWinMain.MMOptionSection_STS_1024.Checked:=true;
+         FCWinMain.MMOptionSection_STS_2048.Checked:=false;
       end
       else if FC3doglHRstandardTextures
       then
       begin
-         FCWinMain.FCWM_MMenu_O_TR_1024.Checked:=false;
-         FCWinMain.FCWM_MMenu_O_TR_2048.Checked:=true;
+         FCWinMain.MMOptionSection_STS_1024.Checked:=false;
+         FCWinMain.MMOptionSection_STS_2048.Checked:=true;
       end;
    end;
    //=======================================================================================================

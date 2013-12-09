@@ -86,14 +86,33 @@ type
       WM_MainMenu: TMainMenu;
       MM_GameSection: TMenuItem;
       MMGameSection_New: TMenuItem;
+      MMGameSection_Continue: TMenuItem;
       MMGameSection_LoadSaved: TMenuItem;
+      MMGameSection_Save: TMenuItem;
+      MMGameSection_SaveAndFlush: TMenuItem;
       MMGameSection_Quit: TMenuItem;
       MM_OptionsSection: TMenuItem;
       MMOptionsSection_LanguageSection: TMenuItem;
       MMOptionsSection_LS_EN: TMenuItem;
       MMOptionsSection_LS_FR: TMenuItem;
+      MMOptionsSection_LS_SP: TMenuItem;
+      MMOptionSection_PanelsLocationSection: TMenuItem;
+      MMOptionSection_PLS_LocationHelp: TMenuItem;
+      MMOptionSection_PLS_LocationViabilityObjectives: TMenuItem;
+      MMOptionSection_WideScreenBckg: TMenuItem;
+      MMOptionSection_StandardTexturesSection: TMenuItem;
+      MMOptionSection_STS_1024: TMenuItem;
+      MMOptionSection_STS_2048: TMenuItem;
       MM_HelpSection: TMenuItem;
+      MMHelpSection_HelpPanel: TMenuItem;
       MMHelpSection_About: TMenuItem;
+      MMDebugSection: TMenuItem;
+      MMDebugSection_FUG: TMenuItem;
+      MMDebugSection_ReloadTxtFiles: TMenuItem;
+
+
+
+
       FCWM_BckgImage: TImage32;
       WM_MainViewGroup: TAdvGroupBox;
       FCGLSRootMain: TGLScene;
@@ -116,9 +135,9 @@ type
       FCWM_MsgeBox_List: THTMListBox;
       FCGLSHUDgameTimePhase: TGLHUDText;
       FCXMLsave: TXMLDocument;
-      FCWM_MMenu_G_Cont: TMenuItem;
+
       N1: TMenuItem;
-      FCWM_MMenu_G_Save: TMenuItem;
+
       FCGLSFontData: TGLWindowsBitmapFont;
       FCGLSHUDstarClassLAB: TGLHUDText;
       FCGLSHUDstarClass: TGLHUDText;
@@ -131,7 +150,7 @@ type
       FCGLSHUDstarDiam: TGLHUDText;
       FCGLSHUDstarMass: TGLHUDText;
       FCGLSHUDstarLum: TGLHUDText;
-      FCWM_MMenu_O_WideScr: TMenuItem;
+
       FCGLSHUDspunDV: TGLHUDText;
       FCGLSHUDspunRMass: TGLHUDText;
       FCGLSHUDspunRMassLAB: TGLHUDText;
@@ -179,11 +198,7 @@ type
       FCWM_HPdataPad: TAdvPageControl;
       FCWM_HPdPad_Keys: TAdvTabSheet;
       FCWM_HPdPad_KeysTxt: THTMLabel;
-      FCWM_MMenu_O_TexR: TMenuItem;
-      FCWM_MMenu_O_TR_1024: TMenuItem;
-      FCWM_MMenu_O_TR_2048: TMenuItem;
-      FCWM_MMenu_H_HPanel: TMenuItem;
-      FCWM_MMenu_DebTools: TMenuItem;
+
       FCWM_RegTerrLib: TBitmap32List;
       {.Surface Panel declarations}
       MVG_SurfacePanel: TAdvPanel;
@@ -215,10 +230,7 @@ type
       FCWM_DockLstPanel: TAdvPanel;
     FCWM_DLP_DockList: THTMListBox;
     FCXMLdbInfra: TXMLDocument;
-    FCWM_MMenu_O_Loc: TMenuItem;
-    FCWM_MMenu_O_LocHelp: TMenuItem;
-    FCWM_MMenu_O_LocVObj: TMenuItem;
-    FCWM_MMenu_DTFUG: TMenuItem;
+
     FCWM_ColDPanel: TAdvPanel;
     FCWM_CDPinfo: TAdvGroupBox;
     FCWM_CDPinfoText: THTMLabel;
@@ -234,7 +246,7 @@ type
     FCGLSHUDcolplyr: TGLHUDSprite;
     FCGLSHUDcolplyrName: TGLHUDText;
     FCXMLdbSPMi: TXMLDocument;
-    FCWM_MMenu_G_FlushOld: TMenuItem;
+
     FCWM_UMI: TAdvPanel;
     FCWM_UMI_TabSh: TAdvPageControl;
     FCWM_UMI_TabShUniv: TAdvTabSheet;
@@ -277,7 +289,7 @@ type
     FCWM_UMISh_CEFcommit: TAdvGlowButton;
     FCWM_UMISh_CEFretire: TAdvGlowButton;
     FCWM_UMISh_CEFenforce: TAdvGlowButton;
-    FCWM_MMenu_DTreloadTfiles: TMenuItem;
+
     FCWM_CDPpopul: TAdvTabSheet;
     FCWM_CDPpopType: THTMLTreeview;
     FCXMLdbProducts: TXMLDocument;
@@ -296,7 +308,7 @@ type
     CDPstorageList: THTMLTreeview;
     CDPstorageCapacity: THTMLabel;
     CDPproductionMatrixList: THTMLTreeview;
-    FCWM_MMenu_O_L_SP: TMenuItem;
+
     FCWM_MissionSettings: TAdvPanel;
     FCWMS_ButCancel: TAdvGlowButton;
     FCWMS_ButProceed: TAdvGlowButton;
@@ -355,14 +367,14 @@ type
       procedure FCWM_MsgeBox_ListDblClick(Sender: TObject);
       procedure FCWM_MsgeBox_ListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
       procedure MMHelpSection_AboutClick(Sender: TObject);
-      procedure FCWM_MMenu_G_ContClick(Sender: TObject);
+      procedure MMGameSection_ContinueClick(Sender: TObject);
       procedure FCWM_PopMenFocusedObjPopup(Sender: TObject);
-      procedure FCWM_MMenu_G_SaveClick(Sender: TObject);
+      procedure MMGameSection_SaveClick(Sender: TObject);
       procedure FCGLSmainViewAfterRender(Sender: TObject);
-      procedure FCWM_MMenu_O_WideScrClick(Sender: TObject);
-      procedure FCWM_MMenu_O_TR_1024Click(Sender: TObject);
-      procedure FCWM_MMenu_O_TR_2048Click(Sender: TObject);
-      procedure FCWM_MMenu_H_HPanelClick(Sender: TObject);
+      procedure MMOptionSection_WideScreenBckgClick(Sender: TObject);
+      procedure MMOptionSection_STS_1024Click(Sender: TObject);
+      procedure MMOptionSection_STS_2048Click(Sender: TObject);
+      procedure MMHelpSection_HelpPanelClick(Sender: TObject);
       procedure SP_SurfaceDisplayHotSpotEnter(Sender: TObject; HotSpot: THotSpot);
       procedure SP_SurfaceDisplayMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
       procedure SP_SD_SurfaceSelectorClick(Sender: TObject);
@@ -371,9 +383,9 @@ type
     procedure FCWM_DLP_DockListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FCWM_DLP_DockListClick(Sender: TObject);
     procedure FCGLSmainViewMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure FCWM_MMenu_O_LocVObjClick(Sender: TObject);
-    procedure FCWM_MMenu_O_LocHelpClick(Sender: TObject);
-    procedure FCWM_MMenu_DTFUGClick(Sender: TObject);
+    procedure MMOptionSection_PLS_LocationViabilityObjectivesClick(Sender: TObject);
+    procedure MMOptionSection_PLS_LocationHelpClick(Sender: TObject);
+    procedure MMDebugSection_FUGClick(Sender: TObject);
     procedure FCWM_ColDPanelEndMoveSize(Sender: TObject);
     procedure FCWM_ColDPanelClose(Sender: TObject);
     procedure FCWM_CDPinfrListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
@@ -385,7 +397,7 @@ type
     procedure FCWM_ColDPanelMinimize(Sender: TObject);
     procedure FCWM_ColDPanelMaximize(Sender: TObject);
     procedure FCWM_HDPhintsTextAnchorClick(Sender: TObject; Anchor: string);
-    procedure FCWM_MMenu_G_FlushOldClick(Sender: TObject);
+    procedure MMGameSection_SaveAndFlushClick(Sender: TObject);
     procedure FCWM_HDPhintsListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_UMIResize(Sender: TObject);
     procedure FCWM_UMI_TabShChange(Sender: TObject);
@@ -404,7 +416,7 @@ type
     procedure FCWM_UMISh_CEFcommitClick(Sender: TObject);
     procedure FCWM_UMIFSh_SPMsocKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_UMIFSh_AFlistKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FCWM_MMenu_DTreloadTfilesClick(Sender: TObject);
+    procedure MMDebugSection_ReloadTxtFilesClick(Sender: TObject);
     procedure FCWM_CDPpopListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_CDPpopTypeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWM_CDPcsmeListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -434,7 +446,7 @@ type
     procedure CDPstorageListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure CDPproductionMatrixListMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FCWM_MMenu_O_L_SPClick(Sender: TObject);
+    procedure MMOptionsSection_LS_SPClick(Sender: TObject);
     procedure FCWM_CDPwcpEquipKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FCWMS_ButCancelClick(Sender: TObject);
     procedure FCWMS_ButCancelKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -831,9 +843,9 @@ begin
       FCVdi3DViewToInitialize:=false;
       {.time frame}
       FCVdiGameFlowTimer.Enabled:=true;
-      FCWM_MMenu_G_Save.Enabled:=true;
-      FCWM_MMenu_G_FlushOld.Enabled:=true;
-      FCWM_MMenu_H_HPanel.Enabled:=true;
+      MMGameSection_Save.Enabled:=true;
+      MMGameSection_SaveAndFlush.Enabled:=true;
+      MMHelpSection_HelpPanel.Enabled:=true;
       FCMuiM_MessageBox_ResetState(true);
 //      FCMumi_Faction_Upd(uiwAllSection, true);
       FCMgTFlow_FlowState_Set(tphTac);
@@ -1378,23 +1390,23 @@ begin
    MVG_SurfacePanel.Hide;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_DTFUGClick(Sender: TObject);
+procedure TFCWinMain.MMDebugSection_FUGClick(Sender: TObject);
 begin
    FCMfC_Initialize( true );
 end;
 
-procedure TFCWinMain.FCWM_MMenu_DTreloadTfilesClick(Sender: TObject);
+procedure TFCWinMain.MMDebugSection_ReloadTxtFilesClick(Sender: TObject);
 begin
    FCMdTfiles_UIString_Init;
    FCMuiWin_UI_LangUpd;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_G_ContClick(Sender: TObject);
+procedure TFCWinMain.MMGameSection_ContinueClick(Sender: TObject);
 begin
    FCMgCG_Core_Proceed;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_G_FlushOldClick(Sender: TObject);
+procedure TFCWinMain.MMGameSection_SaveAndFlushClick(Sender: TObject);
 begin
    FCMdFSG_Game_SaveAndFlushOther;
 end;
@@ -1415,7 +1427,7 @@ begin
    {.DEV NOTE: add core quit routine}
 end;
 
-procedure TFCWinMain.FCWM_MMenu_G_SaveClick(Sender: TObject);
+procedure TFCWinMain.MMGameSection_SaveClick(Sender: TObject);
 begin
    {.prevent the game save if the tasks to process are initialized ( fcwinmain.FCGLScadencer.Enabled=false).}
    if fcwinmain.FCGLScadencer.Enabled
@@ -1427,7 +1439,7 @@ begin
    FCMuiW_WinAbout_Raise;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_H_HPanelClick(Sender: TObject);
+procedure TFCWinMain.MMHelpSection_HelpPanelClick(Sender: TObject);
 begin
    if FCWM_HelpPanel.Visible
    then
@@ -1448,7 +1460,7 @@ begin
    end;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_O_LocHelpClick(Sender: TObject);
+procedure TFCWinMain.MMOptionSection_PLS_LocationHelpClick(Sender: TObject);
 begin
    if FCVdiLocStoreHelpPanel
    then FCVdiLocStoreHelpPanel:=false
@@ -1458,7 +1470,7 @@ begin
    FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
 
-procedure TFCWinMain.FCWM_MMenu_O_LocVObjClick(Sender: TObject);
+procedure TFCWinMain.MMOptionSection_PLS_LocationViabilityObjectivesClick(Sender: TObject);
 begin
    if FCVdiLocStoreCPSobjPanel
    then FCVdiLocStoreCPSobjPanel:=false
@@ -1486,7 +1498,7 @@ begin
    end;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_O_L_SPClick(Sender: TObject);
+procedure TFCWinMain.MMOptionsSection_LS_SPClick(Sender: TObject);
 begin
    if FCVdiLanguage<>'SP' then
    begin
@@ -1495,17 +1507,17 @@ begin
    end;
 end;
 
-procedure TFCWinMain.FCWM_MMenu_O_TR_1024Click(Sender: TObject);
+procedure TFCWinMain.MMOptionSection_STS_1024Click(Sender: TObject);
 begin
    FCMoglInit_StdText_Set(false, false);
 end;
 
-procedure TFCWinMain.FCWM_MMenu_O_TR_2048Click(Sender: TObject);
+procedure TFCWinMain.MMOptionSection_STS_2048Click(Sender: TObject);
 begin
    FCMoglInit_StdText_Set(true, false);
 end;
 
-procedure TFCWinMain.FCWM_MMenu_O_WideScrClick(Sender: TObject);
+procedure TFCWinMain.MMOptionSection_WideScreenBckgClick(Sender: TObject);
 begin
    if FCVdiWinMainWideScreen
    then FCVdiWinMainWideScreen:=false

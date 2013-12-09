@@ -102,10 +102,10 @@ var
    CPlang: string;
 begin
    {.set some user's interface}
-   FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
+   FCWinMain.MMGameSection_Continue.Enabled:=false;
    FCWinMain.MMGameSection_New.Enabled:=false;
-   if FCWinMain.FCWM_MMenu_DebTools.Visible
-   then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
+   if FCWinMain.MMDebugSection.Visible
+   then FCWinMain.MMDebugSection.Visible:=false;
 
 
 

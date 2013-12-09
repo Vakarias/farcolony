@@ -3999,108 +3999,108 @@ object FCWinMain: TFCWinMain
     Left = 16
     Top = 32
     object MM_GameSection: TMenuItem
-      Caption = 'FCWM_MMenu_Game'
+      Caption = 'MM_GameSection'
       object MMGameSection_New: TMenuItem
-        Caption = 'FCWM_MMenu_G_New'
+        Caption = 'MMGameSection_New'
         ShortCut = 16462
         OnClick = MMGameSection_NewClick
       end
-      object FCWM_MMenu_G_Cont: TMenuItem
-        Caption = 'FCWM_MMenu_G_Cont'
+      object MMGameSection_Continue: TMenuItem
+        Caption = 'MMGameSection_Continue'
         ShortCut = 16451
-        OnClick = FCWM_MMenu_G_ContClick
+        OnClick = MMGameSection_ContinueClick
       end
       object MMGameSection_LoadSaved: TMenuItem
         Caption = 'MMGame_LoadSaved'
         ShortCut = 16460
         OnClick = MMGameSection_LoadSavedClick
       end
-      object FCWM_MMenu_G_Save: TMenuItem
-        Caption = 'FCWM_MMenu_G_Save'
+      object MMGameSection_Save: TMenuItem
+        Caption = 'MMGameSection_Save'
         ShortCut = 16467
-        OnClick = FCWM_MMenu_G_SaveClick
+        OnClick = MMGameSection_SaveClick
       end
-      object FCWM_MMenu_G_FlushOld: TMenuItem
-        Caption = 'FCWM_MMenu_G_FlushOld'
-        OnClick = FCWM_MMenu_G_FlushOldClick
+      object MMGameSection_SaveAndFlush: TMenuItem
+        Caption = 'MMGameSection_SaveAndFlush'
+        OnClick = MMGameSection_SaveAndFlushClick
       end
       object N1: TMenuItem
         Caption = '_______________'
         Enabled = False
       end
       object MMGameSection_Quit: TMenuItem
-        Caption = 'FCWM_MMenu_G_Quit'
+        Caption = 'MMGameSection_Quit'
         ShortCut = 16465
         OnClick = MMGameSection_QuitClick
       end
     end
     object MM_OptionsSection: TMenuItem
-      Caption = 'FCWM_MMenu_Options'
+      Caption = 'MM_OptionsSection'
       object MMOptionsSection_LanguageSection: TMenuItem
-        Caption = 'FCWM_MMenu_O_Lang'
+        Caption = 'MMOptionsSection_LanguageSection'
         object MMOptionsSection_LS_FR: TMenuItem
-          Caption = 'FCWM_MMenu_O_L_FR'
+          Caption = 'MMOptionsSection_LS_FR'
           OnClick = MMOptionsSection_LS_FRClick
         end
         object MMOptionsSection_LS_EN: TMenuItem
-          Caption = 'FCWM_MMenu_O_L_EN'
+          Caption = 'MMOptionsSection_LS_EN'
           OnClick = MMOptionsSection_LS_ENClick
         end
-        object FCWM_MMenu_O_L_SP: TMenuItem
-          Caption = 'FCWM_MMenu_O_L_SP'
-          OnClick = FCWM_MMenu_O_L_SPClick
+        object MMOptionsSection_LS_SP: TMenuItem
+          Caption = 'MMOptionsSection_LS_SP'
+          OnClick = MMOptionsSection_LS_SPClick
         end
       end
-      object FCWM_MMenu_O_Loc: TMenuItem
-        Caption = 'FCWM_MMenu_O_Loc'
-        object FCWM_MMenu_O_LocHelp: TMenuItem
-          Caption = 'FCWM_MMenu_O_LocHelp'
-          OnClick = FCWM_MMenu_O_LocHelpClick
+      object MMOptionSection_PanelsLocationSection: TMenuItem
+        Caption = 'MMOptionSection_PanelsLocationSection'
+        object MMOptionSection_PLS_LocationHelp: TMenuItem
+          Caption = 'MMOptionSection_PLS_LocationHelp'
+          OnClick = MMOptionSection_PLS_LocationHelpClick
         end
-        object FCWM_MMenu_O_LocVObj: TMenuItem
-          Caption = 'FCWM_MMenu_O_LocVObj'
-          OnClick = FCWM_MMenu_O_LocVObjClick
+        object MMOptionSection_PLS_LocationViabilityObjectives: TMenuItem
+          Caption = 'MMOptionSection_PLS_LocationViabilityObjectives'
+          OnClick = MMOptionSection_PLS_LocationViabilityObjectivesClick
         end
       end
-      object FCWM_MMenu_O_WideScr: TMenuItem
-        Caption = 'FCWM_MMenu_O_WideScr'
-        OnClick = FCWM_MMenu_O_WideScrClick
+      object MMOptionSection_WideScreenBckg: TMenuItem
+        Caption = 'MMOptionSection_WideScreenBckg'
+        OnClick = MMOptionSection_WideScreenBckgClick
       end
-      object FCWM_MMenu_O_TexR: TMenuItem
-        Caption = 'FCWM_MMenu_O_TexR'
-        object FCWM_MMenu_O_TR_1024: TMenuItem
-          Caption = 'FCWM_MMenu_O_TR_1024'
-          OnClick = FCWM_MMenu_O_TR_1024Click
+      object MMOptionSection_StandardTexturesSection: TMenuItem
+        Caption = 'MMOptionSection_StandardTexturesSection'
+        object MMOptionSection_STS_1024: TMenuItem
+          Caption = 'MMOptionSection_STS_1024'
+          OnClick = MMOptionSection_STS_1024Click
         end
-        object FCWM_MMenu_O_TR_2048: TMenuItem
-          Caption = 'FCWM_MMenu_O_TR_2048'
-          OnClick = FCWM_MMenu_O_TR_2048Click
+        object MMOptionSection_STS_2048: TMenuItem
+          Caption = 'MMOptionSection_STS_2048'
+          OnClick = MMOptionSection_STS_2048Click
         end
       end
     end
     object MM_HelpSection: TMenuItem
-      Caption = 'FCWM_MMenu_Help'
-      object FCWM_MMenu_H_HPanel: TMenuItem
-        Caption = 'FCWM_MMenu_H_HPanel'
+      Caption = 'MM_HelpSection'
+      object MMHelpSection_HelpPanel: TMenuItem
+        Caption = 'MMHelpSection_HelpPanel'
         Enabled = False
         ShortCut = 112
-        OnClick = FCWM_MMenu_H_HPanelClick
+        OnClick = MMHelpSection_HelpPanelClick
       end
       object MMHelpSection_About: TMenuItem
-        Caption = 'FCWM_MMenu_H_About'
+        Caption = 'MMHelpSection_About'
         OnClick = MMHelpSection_AboutClick
       end
     end
-    object FCWM_MMenu_DebTools: TMenuItem
-      Caption = 'FCWM_MMenu_DebTools'
+    object MMDebugSection: TMenuItem
+      Caption = 'MMDebugSection'
       Visible = False
-      object FCWM_MMenu_DTFUG: TMenuItem
-        Caption = 'FCWM_MMenu_DTFUG'
-        OnClick = FCWM_MMenu_DTFUGClick
+      object MMDebugSection_FUG: TMenuItem
+        Caption = 'MMDebugSection_FUG'
+        OnClick = MMDebugSection_FUGClick
       end
-      object FCWM_MMenu_DTreloadTfiles: TMenuItem
-        Caption = 'FCWM_MMenu_DTreloadTfiles'
-        OnClick = FCWM_MMenu_DTreloadTfilesClick
+      object MMDebugSection_ReloadTxtFiles: TMenuItem
+        Caption = 'MMDebugSection_ReloadTxtFiles'
+        OnClick = MMDebugSection_ReloadTxtFilesClick
       end
     end
   end

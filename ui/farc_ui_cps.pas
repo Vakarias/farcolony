@@ -146,7 +146,7 @@ begin
    FCWinMain.MM_GameSection.Enabled:=false;
    FCWinMain.MM_OptionsSection.Enabled:=false;
    FCWinMain.MM_HelpSection.Enabled:=false;
-   FCWinMain.FCWM_MMenu_DebTools.Enabled:=false;
+   FCWinMain.MMDebugSection.Enabled:=false;
    if FCWinMain.FCWM_ColDPanel.Visible
    then FCWinMain.FCWM_ColDPanel.Hide;
 

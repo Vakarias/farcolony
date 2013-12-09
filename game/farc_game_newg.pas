@@ -342,9 +342,9 @@ begin
    FCWinNewGSetup.Close;
    if not FCVdi3DViewRunning then
    begin
-      FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
-      if FCWinMain.FCWM_MMenu_DebTools.Visible
-      then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
+      FCWinMain.MMGameSection_Continue.Enabled:=false;
+      if FCWinMain.MMDebugSection.Visible
+      then FCWinMain.MMDebugSection.Visible:=false;
       FCMgfxC_Main_Init;
    end
    else begin

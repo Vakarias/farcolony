@@ -313,9 +313,9 @@ begin
    then
    begin
       FCWinMain.MMGameSection_New.Enabled:=false;
-      FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
-      FCWinMain.FCWM_MMenu_G_Save.Enabled:=false;
-      FCWinMain.FCWM_MMenu_G_FlushOld.Enabled:=false;
+      FCWinMain.MMGameSection_Continue.Enabled:=false;
+      FCWinMain.MMGameSection_Save.Enabled:=false;
+      FCWinMain.MMGameSection_SaveAndFlush.Enabled:=false;
       FCWinFUG.Show;
       FCWinFUG.BringToFront;
    end;
