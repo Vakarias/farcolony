@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2013, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,16 +26,41 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_game_core;
 
 interface
+
+//uses
 
 type TFCEgcGameOverReason=(
    gfrCPScolonyBecameDissident
    ,gfrCPSendOfPhase
    ,gfrCPSentirePopulationDie
    );
+
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
+
+//===========================END FUNCTIONS SECTION==========================================
+
+///<summary>
+///   initialize all data injection, concentrated to this one place for new/continue game of game loading
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgC_Data_Injection;
 
 ///<summary>
 ///   the game over core feature, can be because of a failure or a success
@@ -51,7 +76,27 @@ uses
    ,farc_main
    ,farc_win_debug;
 
-//=============================================END OF INIT==================================
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
+//===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgC_Data_Injection;
+{:Purpose: initialize all data injection, concentrated to this one place for new/continue game of game loading.
+    Additions:
+}
+begin
+
+end;
 
 procedure FCMgCore_GameOver_Process( const GameOverReason: TFCEgcGameOverReason );
 {:Purpose: the game over core feature, can be because of a failure or a success.

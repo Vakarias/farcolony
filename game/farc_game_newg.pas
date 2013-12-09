@@ -338,16 +338,24 @@ var
    end;
 
 begin
+   {.set some user's interface}
+   FCWinNewGSetup.Close;
+   if not FCVdi3DViewRunning then
+   begin
+
+   end
+   else begin
+   end; //==END== if FCVdi3DViewRunning ==//
+
+
+
+
+
+
+
 {.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
             in the case of a new game during a current one.}
-   {.set some user's interface}
-//   if FCWinNewGSetup.Visible
-//   then
-FCWinNewGSetup.Close;
-//FCWinNewGSetup.Enabled:=false;
-//FreeAndNil(FCWinNewGSetup);
-//FCWinNewGSetup.Free;
-//   FCWinMain.Enabled:= true;
+
    FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
    if FCWinMain.FCWM_MMenu_DebTools.Visible
    then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;

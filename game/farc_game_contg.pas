@@ -104,8 +104,11 @@ begin
    {.set some user's interface}
    FCWinMain.FCWM_MMenu_G_Cont.Enabled:=false;
    FCWinMain.MMGameSection_New.Enabled:=false;
-//   if FCWinMain.FCWM_MMenu_DebTools.Visible
-//   then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
+   if FCWinMain.FCWM_MMenu_DebTools.Visible
+   then FCWinMain.FCWM_MMenu_DebTools.Visible:=false;
+
+
+
 {:DEV NOTES: put the data loading in a proc and load it also for a new game setup (one time loading).}
 FCMdF_DBProducts_Load;
    FCMdF_DBSPMitems_Load;
