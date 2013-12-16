@@ -146,6 +146,11 @@ procedure FCMuiW_WinAbout_Close;
 procedure FCMuiW_WinAbout_Raise;
 
 ///<summary>
+///   show the new game window.
+///</summary>
+procedure FCMuiW_WinNewGame_Raise;
+
+///<summary>
 ///   close the saved games window.
 ///</summary>
 procedure FCMuiW_WinSavedGames_Close;
@@ -174,6 +179,7 @@ uses
    ,farc_game_csmevents
    ,farc_game_gameflow
    ,farc_game_infra
+   ,farc_game_newg
    ,farc_game_spm
    ,farc_game_spmdata
    ,farc_gfx_core
@@ -1395,6 +1401,31 @@ begin
    FCWinAbout.Enabled:=true;
    FCWinAbout.Show;
    FCWinAbout.BringToFront;
+end;
+
+procedure FCMuiW_WinNewGame_Raise;
+{:Purpose: show the new game window.
+    Additions:
+}
+begin
+   if not Assigned( FCWinNewGSetup ) then
+   begin
+      FCWinNewGSetup:=TFCWinNewGSetup.Create(Application);
+      FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
+      FCMuiW_UI_Initialize(mwupFontWinNGS);
+   end;
+   FCMuiW_UI_Initialize(mwupTextWinNGS);
+
+   FCWinMain.Enabled:=false;
+   if FCWinMain.WM_MainViewGroup.Visible then
+   begin
+      FCMgTFlow_FlowState_Set(tphPAUSE);
+      FCWinMain.WM_MainViewGroup.Hide;
+   end;
+   FCWinNewGSetup.Enabled:=true;
+   FCWinNewGSetup.Show;
+   FCWinNewGSetup.BringToFront;
+   FCMgNG_Core_Setup;
 end;
 
 procedure FCMuiW_WinSavedGames_Close;

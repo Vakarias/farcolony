@@ -720,41 +720,20 @@ procedure FCMgNG_Core_Setup;
 var
    CStestDmp: integer;
 begin
-{:DEV NOTES: put the data loading in a proc and load it also for a continue game(one time loading).}
    if not FCVdi3DViewRunning
    then FCMgC_Data_Injection;
-   try
-   if FCWinNewGSetup=nil
-   then  begin
-      FCWinNewGSetup:=TFCWinNewGSetup.Create(Application);
-      FCMuiW_UI_Initialize(mwupSecWinNewGSetup);
-      FCMuiW_UI_Initialize(mwupFontWinNGS);
-   end;
-   finally
-{.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
-            in the case of a new game during a current one.}
-//   with FCWinNewGSetup do
-//   begin
-
-FCMuiW_UI_Initialize(mwupTextWinNGS);
-      SetGameName:='';
-      FCWinMain.Enabled:= false;
-      FCWinNewGSetup.Enabled:= true;
-      FCWinNewGSetup.FCWNGS_Frm_ButtProceed.Enabled:= false;
-      CStestDmp:=FCWinMain.Left+(FCWinMain.Width shr 1)-(FCWinNewGSetup.Width shr 1);
-      if FCWinNewGSetup.Left<>CStestDmp
-      then FCWinNewGSetup.Left:=CStestDmp;
-      CStestDmp:=FCWinMain.Top+(FCWinMain.Height shr 1)-(FCWinNewGSetup.Height shr 1)+40;
-      if FCWinNewGSetup.Top<>CStestDmp
-      then FCWinNewGSetup.Top:=CStestDmp;
-      FCWinNewGSetup.Show;
-      FCWinNewGSetup.BringToFront;
-      FCWinNewGSetup.FCWNGS_Frm_GNameEdit.EditLabel.Font.Color:=clRed;
-      FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text:= '';
-      if FCWinNewGSetup.FCWNGS_Frm_FactionList.Count=0
-      then FCMgNG_FactionList_Multipurpose(flacInitSlct,0);
-//   end; {.with FCWinNewGSetup}
-   end;
+   SetGameName:='';
+   FCWinNewGSetup.FCWNGS_Frm_ButtProceed.Enabled:= false;
+   CStestDmp:=FCWinMain.Left+(FCWinMain.Width shr 1)-(FCWinNewGSetup.Width shr 1);
+   if FCWinNewGSetup.Left<>CStestDmp
+   then FCWinNewGSetup.Left:=CStestDmp;
+   CStestDmp:=FCWinMain.Top+(FCWinMain.Height shr 1)-(FCWinNewGSetup.Height shr 1)+40;
+   if FCWinNewGSetup.Top<>CStestDmp
+   then FCWinNewGSetup.Top:=CStestDmp;
+   FCWinNewGSetup.FCWNGS_Frm_GNameEdit.EditLabel.Font.Color:=clRed;
+   FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text:= '';
+   if FCWinNewGSetup.FCWNGS_Frm_FactionList.Count=0
+   then FCMgNG_FactionList_Multipurpose(flacInitSlct,0);
 end;
 
 
@@ -803,57 +782,57 @@ begin
       end;
    end;
    {.selection}
-   if (FLMaction=flacInitSlct)
-      or (FLMaction=flacSlct)
-   then
-   begin
-      FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex:=FLMtgtIdx;
-      SelectedFactionIndex:=FLMtgtIdx+1;
-      {.update description}
-      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Clear;
-      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.Hist'));
-      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add('<br><br>');
-      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.Soc'));
-      {.SPMi list}
-      FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.FullExpand;
-      FLMmax:=Length(FCDdgFactions[SelectedFactionIndex].F_spm)-1;
-      if FLMmax>0
-      then
-      begin
-         FLMcnt:=1;
-         FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.Clear;
-         FLMsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi set</b>');
-         FLMnsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi not set</b>');
-         while FLMcnt<=FLMmax do
-         begin
-            FLMspmi:=FCDdgSPMi[0];
-            FLMspmi:=FCFgSPM_SPMIData_Get(FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
-            FLMspmStr:=FCFdTFiles_UIStr_Get(uistrUI, FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
-            if not FLMspmi.SPMI_isPolicy
-            then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtAcceptanceProbability)+' %]';
-            if FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
-            then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMsetNode, FLMspmStr)
-            else if not FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
-            then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMnsetNode, FLMspmStr);
-            inc(FLMcnt);
-         end;
-         FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.FullExpand;
-      end;
-      {.display the faction's flag}
-      FCWinNewGSetup.FCWNGS_Frm_FactionFlag.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-faction\FAC_'+FCDdgFactions[SelectedFactionIndex].F_token+'_flag.jpg');
-      {.set colonization modes}
-      FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Clear;
-      FLMmax:=length(FCDdgFactions[SelectedFactionIndex].F_colonizationModes)-1;
-      FLMcnt:=1;
-      while FLMcnt<=FLMmax do
-      begin
-         FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, 'munCmodARC'));
-         inc(FLMcnt);
-      end;
-      FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex:=0;
-      SelectedColonizationModeIndex:=1;
-      FCMgNG_ColMode_Upd;
-   end;
+//   if (FLMaction=flacInitSlct)
+//      or (FLMaction=flacSlct)
+//   then
+//   begin
+//      FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex:=FLMtgtIdx;
+//      SelectedFactionIndex:=FLMtgtIdx+1;
+//      {.update description}
+//      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Clear;
+//      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.Hist'));
+//      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add('<br><br>');
+//      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.Soc'));
+//      {.SPMi list}
+//      FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.FullExpand;
+//      FLMmax:=Length(FCDdgFactions[SelectedFactionIndex].F_spm)-1;
+//      if FLMmax>0
+//      then
+//      begin
+//         FLMcnt:=1;
+//         FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.Clear;
+//         FLMsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi set</b>');
+//         FLMnsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi not set</b>');
+//         while FLMcnt<=FLMmax do
+//         begin
+//            FLMspmi:=FCDdgSPMi[0];
+//            FLMspmi:=FCFgSPM_SPMIData_Get(FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
+//            FLMspmStr:=FCFdTFiles_UIStr_Get(uistrUI, FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
+//            if not FLMspmi.SPMI_isPolicy
+//            then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtAcceptanceProbability)+' %]';
+//            if FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
+//            then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMsetNode, FLMspmStr)
+//            else if not FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
+//            then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMnsetNode, FLMspmStr);
+//            inc(FLMcnt);
+//         end;
+//         FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.FullExpand;
+//      end;
+//      {.display the faction's flag}
+//      FCWinNewGSetup.FCWNGS_Frm_FactionFlag.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-faction\FAC_'+FCDdgFactions[SelectedFactionIndex].F_token+'_flag.jpg');
+//      {.set colonization modes}
+//      FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Clear;
+//      FLMmax:=length(FCDdgFactions[SelectedFactionIndex].F_colonizationModes)-1;
+//      FLMcnt:=1;
+//      while FLMcnt<=FLMmax do
+//      begin
+//         FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, 'munCmodARC'));
+//         inc(FLMcnt);
+//      end;
+//      FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex:=0;
+//      SelectedColonizationModeIndex:=1;
+//      FCMgNG_ColMode_Upd;
+//   end;
 end;
 
 

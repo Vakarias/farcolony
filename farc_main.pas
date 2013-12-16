@@ -1418,7 +1418,7 @@ end;
 
 procedure TFCWinMain.MMGameSection_NewClick(Sender: TObject);
 begin
-   FCMgNG_Core_Setup;
+   FCMuiW_WinNewGame_Raise;
 end;
 
 procedure TFCWinMain.MMGameSection_QuitClick(Sender: TObject);
