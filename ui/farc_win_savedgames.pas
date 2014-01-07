@@ -56,6 +56,9 @@ type
     procedure F_SavedGamesListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure F_SavedGamesListMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure F_SavedGamesListDblClick(Sender: TObject);
+    procedure LockDoubleClick;
+    procedure UnlockDoubleClick;
   private
     { Private declarations }
   public
@@ -72,6 +75,9 @@ uses
    ,farc_ui_savedgames
    ,farc_ui_win
    ,farc_win_debug;
+
+var
+   FCwsgUnlockDoubleClick: boolean;
 
 {$R *.dfm}
 
@@ -103,6 +109,20 @@ begin
    FCMuiSG_Key_Test(Key, Shift);
 end;
 
+procedure TFCWinSavedGames.F_SavedGamesListDblClick(Sender: TObject);
+   var
+      CurrentNode: TTreenode;
+      ParentNode: TTreenode;
+begin
+   if FCwsgUnlockDoubleClick then
+   begin
+      CurrentNode:=THTMLTreeview( Sender ).Selected;
+      if CurrentNode.Parent<>nil
+      then ParentNode:=CurrentNode.Parent;
+      FCMuiSG_SavedGameItem_DoubleClicked( ParentNode.Text, CurrentNode.Text );
+   end;
+end;
+
 procedure TFCWinSavedGames.F_SavedGamesListKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
    FCMuiSG_Key_Test(Key, Shift);
@@ -115,6 +135,16 @@ procedure TFCWinSavedGames.F_SavedGamesListMouseDown(Sender: TObject; Button: TM
 begin
    CurrentNode:=THTMLTreeview( Sender ).Selected;
    FCMuiSG_SavedGameItem_Selected( CurrentNode.Text );
+end;
+
+procedure TFCWinSavedGames.LockDoubleClick;
+begin
+   FCwsgUnlockDoubleClick:=false;
+end;
+
+procedure TFCWinSavedGames.UnlockDoubleClick;
+begin
+   FCwsgUnlockDoubleClick:=true;
 end;
 
 end.

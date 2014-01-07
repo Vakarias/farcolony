@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved===============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved===============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,13 +38,13 @@ uses
   ,SysUtils;
 
 {list of actions for factions list of new game setup window}
-type TFCEgngFacListAction=(
+type TFCEgngFactionListActions=(
    {faction list initialization (new game setup window)}
-   flacInit
+   flaInitialize
    {faction list selection (new game setup window)}
-   ,flacSlct
+   ,flacSelect
    {faction list initialization + selection (new game setup window)}
-   ,flacInitSlct
+   ,flaInitializeAndSelect
    );
 
 ///<summary>
@@ -60,8 +60,8 @@ procedure FCMgNG_Core_Setup;
 
 ///<summary>populate and manage selection of faction list.</summary>
 procedure FCMgNG_FactionList_Multipurpose(
-   const FLMaction: TFCEgngFacListAction;
-   const FLMtgtIdx: integer
+   const FLMaction: TFCEgngFactionListActions;
+   const FactionItemIndex: integer
    );
 
 procedure FCMgNG_GameName_Update( NewName: string );
@@ -104,7 +104,7 @@ var
    {:DEV NOTES: bd indexes.}
    SelectedColonizationModeIndex: integer;
 
-   SelectedFactionIndex: integer;
+   GNGselectedFactionIndex: integer;
 
    SetGameName: string;
 
@@ -141,13 +141,13 @@ begin
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Clear;
    FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.Clear;
    {.update colonization politics}
-   FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.ColPol'));
+   FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[GNGselectedFactionIndex].F_token+'.ColPol'));
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add('<br>----------<br>');
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
-      FCFdTFiles_UIStr_Get(uistrUI,'FCWNGS_Frm_ColMode')+': <b>'+FCFdTFiles_UIStr_Get(uistrUI,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_token)+'</b><br>'
+      FCFdTFiles_UIStr_Get(uistrUI,'FCWNGS_Frm_ColMode')+': <b>'+FCFdTFiles_UIStr_Get(uistrUI,FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_token)+'</b><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
-      FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.'+FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_token)+'<br><br>'
+      FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[GNGselectedFactionIndex].F_token+'.'+FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_token)+'<br><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
       FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'cpsStatus')+FCCFdHeadEnd
@@ -157,56 +157,56 @@ begin
          +FCCFidxRRRR+FCFdTFiles_UIStr_Get(uistrUI, 'cpsThr')
          +FCCFdHeadEnd
          +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLecon')+'</b>'
-         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic)
-         +FCCFidxRRRR+IntToStr( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic)
+         +FCCFidxRRRR+IntToStr( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
          +'<br>'
          +FCCFidxL+'<b>'+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLsoc')+'</b>'
-         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Social)
-         +FCCFidxRRRR+IntToStr( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Social )+' %'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Social)
+         +FCCFidxRRRR+IntToStr( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Social )+' %'
          +'<br>'
          +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')+'</b>'
-         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_SpaceMilitary)
-         +FCCFidxRRRR+IntToStr( FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
+         +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_SpaceMilitary)
+         +FCCFidxRRRR+IntToStr( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
          +'<br><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(
       FCCFdHeadC+FCFdTFiles_UIStr_Get(uistrUI, 'cpsCr')+FCCFdHeadEnd
          +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsCrR')+'</b>'
          +FCCFidxRR
-         +FCFdTFiles_UIStr_Get(uistrCrRg, FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange)
+         +FCFdTFiles_UIStr_Get(uistrCrRg, FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange)
          +' '+FCFdTFiles_UIStr_Get(uistrUI, 'acronUC')
          +'<br>'
          +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsCrIR')+'</b>'
          +FCCFidxRR
-         +FCFdTFiles_UIStr_Get(uistrIntRg, FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange)
+         +FCFdTFiles_UIStr_Get(uistrIntRg, FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange)
          +' %'
       );
    {.equipment list}
    FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.FullExpand;
-   if Length(FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)>1
+   if Length(FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)>1
    then
    begin
 //      CMUdockStatus:=0;
       CMUcnt:=1;
-      while CMUcnt<= length(FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)-1 do
+      while CMUcnt<= length(FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)-1 do
       begin
-         case FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_equipmentItem of
+         case FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_equipmentItem of
             feitProduct:
             begin
                {:DEV NOTES: will be implemented when equipment modules w/ cargo will be be also implemented...}
             end;
             feitSpaceUnit:
             begin
-               CMUdesgn:=FCFspuF_Design_getDB(FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDesignToken);
+               CMUdesgn:=FCFspuF_Design_getDB(FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDesignToken);
                CMUstrSpU:='1x '
                   {.space unit design type}
-                  +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDesignToken)
+                  +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDesignToken)
                   {.space unit own name}
                   +' "'
-                  +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnNameToken)
+                  +FCFdTFiles_UIStr_Get(dtfscPrprName,FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnNameToken)
                   +'" ('
                   +FCFdTFiles_UIStr_Get(dtfscSCarchShort,FCDdsuSpaceUnitDesigns[CMUdesgn].SUD_internalStructureClone.IS_architecture)+')';
-               if FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDockStatus=diDockedVessel
+               if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[CMUcnt].EL_eiSUnDockStatus=diDockedVessel
                then FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.AddChild(CMUnode, CMUstrSpU)
                else CMUnode:= FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.Add(nil, CMUstrSpU);
             end;
@@ -312,6 +312,8 @@ var
 
    CPsv: extended;
 
+   mustDoAReset: boolean;
+
    CPspmI: TFCRdgSPMi;
 
    ULoc: TFCRufStelObj;
@@ -340,17 +342,15 @@ var
 
 begin
    {.set some user's interface}
+   mustDoAReset:=false;
    FCWinNewGSetup.Close;
-   if not FCVdi3DViewRunning then
+   if FCVdi3DViewRunning then
    begin
-      FCWinMain.MMGameSection_Continue.Enabled:=false;
-      FCWinMain.MMDebugSection.Visible:=FCVdiDebugMode;
-      FCMgfxC_Main_Init;
-   end
-   else begin
       FCVdi3DViewRunning:=false;
-   end; //==END== if FCVdi3DViewRunning ==//
-
+      mustDoAReset:=true;
+   end
+   else FCMgfxC_Main_Init;
+   FCMgC_Game_Initialize;
 
 
 
@@ -362,39 +362,32 @@ begin
 
 
    {.data initialization}
-//   CPfacIdx:=FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex+1;
-   SetLength(FCDdmtTaskListToProcess, 1);
-   SetLength(FCDdmtTaskListInProcess, 1);
-   FCMdG_Entities_Clear;
-   FCMdF_DBStarSystems_Load;
    {.initialize player's data structure}
-   FCVdgPlayer.P_gameName:=SetGameName;// FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text;
-   FCVdgPlayer.P_allegianceFaction:=FCDdgFactions[SelectedFactionIndex].F_token;
-//   CPcolMidx:=FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex+1;
+   FCVdgPlayer.P_gameName:=SetGameName;
+   FCVdgPlayer.P_allegianceFaction:=FCDdgFactions[GNGselectedFactionIndex].F_token;
    FCVdgPlayer.P_economicStatus:=pfs1_FullyDependent;
-   FCVdgPlayer.P_economicViabilityThreshold:=FCDdgFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Economic;
+   FCVdgPlayer.P_economicViabilityThreshold:=FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Economic;
    FCVdgPlayer.P_socialStatus:=pfs1_FullyDependent;
-   FCVdgPlayer.P_socialViabilityThreshold:=FCDdgFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Social;
+   FCVdgPlayer.P_socialViabilityThreshold:=FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Social;
    FCVdgPlayer.P_militaryStatus:=pfs1_FullyDependent;
-   FCVdgPlayer.P_militaryViabilityThreshold:=FCDdgFactions[SelectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_SpaceMilitary;
+   FCVdgPlayer.P_militaryViabilityThreshold:=FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_SpaceMilitary;
    {DEV NOTE: the following code will be changed later with choice of planet following choosen faction.}
    {.determine starting location, regarding starting location list}
-   CPcount1:=length(FCDdgFactions[SelectedFactionIndex].F_startingLocations)-1;
+   CPcount1:=length(FCDdgFactions[GNGselectedFactionIndex].F_startingLocations)-1;
    if CPcount1=1 then
    begin
-      FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[1].SL_stellarSystem;
-      FCVdgPlayer.P_viewStar:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[1].SL_star;
-      FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[1].SL_orbitalObject;
+      FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[1].SL_stellarSystem;
+      FCVdgPlayer.P_viewStar:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[1].SL_star;
+      FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[1].SL_orbitalObject;
    end
    else if CPcount1>1 then
    begin
       CPcount0:=Random(CPcount1)+1;
-      FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_stellarSystem;
-      FCVdgPlayer.P_viewStar:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_star;
-      FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[SelectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
+      FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[CPcount0].SL_stellarSystem;
+      FCVdgPlayer.P_viewStar:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[CPcount0].SL_star;
+      FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
    end;
    {.initialize FARC's universe}
-//   FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
    {.initialize/reset the current orbital periods}
    Max1:=length( FCDduStarSystem ) - 1;
    Count1:=1;
@@ -495,13 +488,13 @@ begin
       else if CPent=0
       then
       begin
-         CPfacLd:=SelectedFactionIndex;
+         CPfacLd:=GNGselectedFactionIndex;
          FCDdgEntities[CPent].E_token:='';
          FCDdgEntities[CPent].E_factionLevel:=0;
          {.apply faction's equipment list}
          CPspUnMother:=0;
          CPcount0:=1;
-         with FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex] do
+         with FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex] do
          begin
             CPeqlistMax:=length(CM_equipmentList)-1;
             while CPcount0<=CPeqlistMax do
@@ -653,18 +646,22 @@ begin
       then FCDdgEntities[CPent].E_hqHigherLevel:=hqsNoHQPresent
       else if CPent>0
       then FCDdgEntities[CPent].E_hqHigherLevel:=hqsPrimaryUniqueHQ;
-//      setlength( FCDdgEntities[CPent].E_planetarySurveys, 1 );
       inc(CPent);
    end; //==END== while CPent<=FCCfacMax do ==//
    {.set the game user's interface}
    FCVdi3DViewToInitialize:=true;
    try
       FCWinMain.WM_MainViewGroup.Show;
-      FCMoglInit_Initialize;
+      if not mustDoAReset
+      then FCMoglInit_Initialize;
       FCVdi3DViewRunning:=true;
    finally
-
-      FCMovM_3DView_Initialize;
+      if mustDoAReset then
+      begin
+         FCMovM_3DView_Reset;
+         FCMuiW_MainTitleBar_Init;
+      end
+      else FCMovM_3DView_Initialize;
 
       FC3doglSelectedPlanetAsteroid:=ULoc[3];
       FCMovM_3DView_Update(
@@ -682,28 +679,20 @@ begin
    end;
    {.cps initialization}
    FCcps:=TFCcps.Create(
-      FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange
-      ,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsInterestRange
-      ,FCDdgFactions[SelectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityObjectives
+      FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsCreditRange
+      ,FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsInterestRange
+      ,FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityObjectives
       );
    {.set the messages}
    FCMuiM_Messages_Reset;
    FCMuiM_Message_Add(
       mtWelcome
-      ,SelectedFactionIndex
+      ,GNGselectedFactionIndex
       ,SelectedColonizationModeIndex
       ,0
       ,0
       ,0
       );
-   {.free useless data}
-   CPcount0:=1;
-   while CPcount0<=1 do
-   begin
-      setlength(FCDdgFactions[CPcount0].F_colonizationModes,1);
-      setlength(FCDdgFactions[CPcount0].F_startingLocations,1);
-      inc(CPcount0);
-   end;
    FCMuiSP_SurfaceEcosphere_Set(0, 0, 0, 0, true);
    FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCVdgPlayer.P_gameName+']';
    FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutCPS);
@@ -732,14 +721,15 @@ begin
    then FCWinNewGSetup.Top:=CStestDmp;
    FCWinNewGSetup.FCWNGS_Frm_GNameEdit.EditLabel.Font.Color:=clRed;
    FCWinNewGSetup.FCWNGS_Frm_GNameEdit.Text:= '';
-   if FCWinNewGSetup.FCWNGS_Frm_FactionList.Count=0
-   then FCMgNG_FactionList_Multipurpose(flacInitSlct,0);
+   if FCWinNewGSetup.FCWNGS_Frm_FactionList.Count <=0
+   then FCMgNG_FactionList_Multipurpose( flaInitializeAndSelect, 0 )
+   else FCMgNG_FactionList_Multipurpose( flacSelect, 0 );
 end;
 
 
 procedure FCMgNG_FactionList_Multipurpose(
-   const FLMaction: TFCEgngFacListAction;
-   const FLMtgtIdx: integer
+   const FLMaction: TFCEgngFactionListActions;
+   const FactionItemIndex: integer
    );
 {:Purpose: populate and manage selection of faction list.
    Additions:
@@ -767,14 +757,14 @@ var
    FLMspmi: TFCRdgSPMi;
 begin
    {.initialization}
-   if (FLMaction=flacInitSlct)
-      or (FLMaction=flacInit)
+   if (FLMaction=flaInitializeAndSelect)
+      or (FLMaction=flaInitialize)
    then
    begin
       FLMcnt:= 1;
       FCWinNewGSetup.FCWNGS_Frm_FactionList.Items.Clear;
       FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.Items.Clear;
-      SelectedFactionIndex:=1;
+      GNGselectedFactionIndex:=1;
       while FLMcnt<= Length(FCDdgFactions)-1 do
       begin
          FCWinNewGSetup.FCWNGS_Frm_FactionList.Items.Add(FCFdTFiles_UIStr_Get(uistrUI,FCDdgFactions[FLMcnt].F_token));
@@ -782,57 +772,55 @@ begin
       end;
    end;
    {.selection}
-//   if (FLMaction=flacInitSlct)
-//      or (FLMaction=flacSlct)
-//   then
-//   begin
-//      FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex:=FLMtgtIdx;
-//      SelectedFactionIndex:=FLMtgtIdx+1;
-//      {.update description}
-//      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Clear;
-//      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.Hist'));
-//      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add('<br><br>');
-//      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[SelectedFactionIndex].F_token+'.Soc'));
-//      {.SPMi list}
-//      FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.FullExpand;
-//      FLMmax:=Length(FCDdgFactions[SelectedFactionIndex].F_spm)-1;
-//      if FLMmax>0
-//      then
-//      begin
-//         FLMcnt:=1;
-//         FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.Clear;
-//         FLMsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi set</b>');
-//         FLMnsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi not set</b>');
-//         while FLMcnt<=FLMmax do
-//         begin
-//            FLMspmi:=FCDdgSPMi[0];
-//            FLMspmi:=FCFgSPM_SPMIData_Get(FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
-//            FLMspmStr:=FCFdTFiles_UIStr_Get(uistrUI, FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_token);
-//            if not FLMspmi.SPMI_isPolicy
-//            then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtAcceptanceProbability)+' %]';
-//            if FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
-//            then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMsetNode, FLMspmStr)
-//            else if not FCDdgFactions[SelectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
-//            then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMnsetNode, FLMspmStr);
-//            inc(FLMcnt);
-//         end;
-//         FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.FullExpand;
-//      end;
-//      {.display the faction's flag}
-//      FCWinNewGSetup.FCWNGS_Frm_FactionFlag.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-faction\FAC_'+FCDdgFactions[SelectedFactionIndex].F_token+'_flag.jpg');
-//      {.set colonization modes}
-//      FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Clear;
-//      FLMmax:=length(FCDdgFactions[SelectedFactionIndex].F_colonizationModes)-1;
-//      FLMcnt:=1;
-//      while FLMcnt<=FLMmax do
-//      begin
-//         FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, 'munCmodARC'));
-//         inc(FLMcnt);
-//      end;
-//      FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex:=0;
-//      SelectedColonizationModeIndex:=1;
-//      FCMgNG_ColMode_Upd;
-//   end;
+   if (FLMaction=flaInitializeAndSelect)
+      or (FLMaction=flacSelect) then
+   begin
+      FCWinNewGSetup.FCWNGS_Frm_FactionList.ItemIndex:=FactionItemIndex;
+      GNGselectedFactionIndex:=FactionItemIndex+1;
+      {.update description}
+      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Clear;
+      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[GNGselectedFactionIndex].F_token+'.Hist'));
+      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add('<br><br>');
+      FCWinNewGSetup.FCWNGS_Frm_DPad_SHisto_Text.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrEncyl, FCDdgFactions[GNGselectedFactionIndex].F_token+'.Soc'));
+      {.SPMi list}
+      FCWinNewGSetup.FCWNGS_Frm_DPad_SDL_DotList.FullExpand;
+      FLMmax:=Length(FCDdgFactions[GNGselectedFactionIndex].F_spm)-1;
+      if FLMmax>0 then
+      begin
+         FLMcnt:=1;
+         FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.Clear;
+         FLMsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi set</b>');
+         FLMnsetNode:=FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(nil, '<b>SPMi not set</b>');
+         while FLMcnt<=FLMmax do
+         begin
+            FLMspmi:=FCDdgSPMi[0];
+            FLMspmi:=FCFgSPM_SPMIData_Get(FCDdgFactions[GNGselectedFactionIndex].F_spm[FLMcnt].SPMS_token);
+            FLMspmStr:=FCFdTFiles_UIStr_Get(uistrUI, FCDdgFactions[GNGselectedFactionIndex].F_spm[FLMcnt].SPMS_token);
+            if not FLMspmi.SPMI_isPolicy
+            then FLMspmStr:=FLMspmStr+' ['+IntToStr(FCDdgFactions[GNGselectedFactionIndex].F_spm[FLMcnt].SPMS_iPtAcceptanceProbability)+' %]';
+            if FCDdgFactions[GNGselectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
+            then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMsetNode, FLMspmStr)
+            else if not FCDdgFactions[GNGselectedFactionIndex].F_spm[FLMcnt].SPMS_iPtIsSet
+            then FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.Items.AddChild(FLMnsetNode, FLMspmStr);
+            inc(FLMcnt);
+         end;
+         FCWinNewGSetup.FCWNGS_FDPad_ShSPM_SPMList.FullExpand;
+      end;
+      {.display the faction's flag}
+      FCWinNewGSetup.FCWNGS_Frm_FactionFlag.Bitmap.LoadFromFile(FCVdiPathResourceDir+'pics-ui-faction\FAC_'+FCDdgFactions[GNGselectedFactionIndex].F_token+'_flag.jpg');
+      {.set colonization modes}
+      FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Clear;
+      FLMmax:=length(FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes)-1;
+      FLMcnt:=1;
+      while FLMcnt<=FLMmax do
+      begin
+         FCWinNewGSetup.FCWNGS_Frm_ColMode.Items.Add(FCFdTFiles_UIStr_Get(uistrUI, 'munCmodARC'));
+         inc(FLMcnt);
+      end;
+      FCWinNewGSetup.FCWNGS_Frm_ColMode.ItemIndex:=0;
+      SelectedColonizationModeIndex:=1;
+      FCMgNG_ColMode_Upd;
+   end;
 end;
 
 

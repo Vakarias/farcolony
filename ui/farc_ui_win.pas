@@ -125,6 +125,17 @@ procedure FCMuiW_HelpTDef_Link(
 procedure FCMuiWin_SpUnDck_Upd(const SUDUsuIdx: integer);
 
 ///<summary>
+///
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMuiW_MainTitleBar_Init;
+
+///<summary>
 ///   update interface for new language
 ///</summary>
 procedure FCMuiWin_UI_LangUpd;
@@ -144,6 +155,17 @@ procedure FCMuiW_WinAbout_Close;
 ///   show the about window.
 ///</summary>
 procedure FCMuiW_WinAbout_Raise;
+
+///<summary>
+///   close the new game window
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMuiW_WinNewGame_Close;
 
 ///<summary>
 ///   show the new game window.
@@ -409,6 +431,14 @@ begin
    then FCWinMain.FCWM_DockLstPanel.Visible:=true;
 end;
 
+procedure FCMuiW_MainTitleBar_Init;
+{:Purpose: .
+    Additions:
+}
+begin
+   FCWinMain.Caption:='FAR Colony  '+FCFcF_FARCVersion_Get+'  ©2009-2014 J.F. Baconnet aka Farcodev';
+end;
+
 procedure FCMuiWin_UI_LangUpd;
 {:Purpose: update interface for new language.
     Additions:
@@ -629,7 +659,7 @@ begin
    then
    begin
       {.main title bar}
-		FCWinMain.Caption:='FAR Colony  '+FCFcF_FARCVersion_Get+'  ©2009-2013 J.F. Baconnet';
+      FCMuiW_MainTitleBar_Init;
 		{.main menu - game section}
 		FCWinMain.MM_GameSection.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game');
 		FCWinMain.MMGameSection_New.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_MainMenu_Game_New');
@@ -1401,6 +1431,21 @@ begin
    FCWinAbout.Enabled:=true;
    FCWinAbout.Show;
    FCWinAbout.BringToFront;
+end;
+
+procedure FCMuiW_WinNewGame_Close;
+{:Purpose: close the new game window.
+    Additions:
+}
+begin
+   if FCVdi3DViewRunning
+      and not FCVdi3DViewToInitialize then
+   begin
+      FCMgTFlow_FlowState_Set(tphTac);
+      FCWinMain.WM_MainViewGroup.Show;
+      FCVdi3DViewRunning:=true;
+   end;
+   FCWinMain.Enabled:=true;
 end;
 
 procedure FCMuiW_WinNewGame_Raise;

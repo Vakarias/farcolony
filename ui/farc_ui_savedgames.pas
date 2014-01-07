@@ -90,7 +90,7 @@ procedure FCMuiSG_Panel_InitText;
 ///   <param name=""></param>
 ///   <returns></returns>
 ///   <remarks></remarks>
-procedure FCMuiSG_SavedGameItem_DoubleClicked( const ItemString: string );
+procedure FCMuiSG_SavedGameItem_DoubleClicked( const ParentItemString, ItemString: string );
 
 ///<summary>
 ///   item selection
@@ -121,8 +121,10 @@ uses
    ,farc_data_init
    ,farc_data_textfiles
    ,farc_data_html
+   ,farc_game_core
    ,farc_main
    ,farc_ui_keys
+   ,farc_win_debug
    ,farc_win_savedgames;
 
 //==END PRIVATE ENUM========================================================================
@@ -131,8 +133,8 @@ uses
 //==END PRIVATE RECORDS=====================================================================
 
    //==========subsection===================================================================
-var
-   FCVuiSGfilename: string;
+//var
+//   FCVuiSGfilename: string;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -228,14 +230,15 @@ begin
    FCWinSavedGames.F_SavedGamesHeader.HTMLText.Add( FCCFdHeadC + FCFdTFiles_UIStr_Get( uistrUI,'savedgamesHeader' ) + FCCFdHeadEnd );
 end;
 
-procedure FCMuiSG_SavedGameItem_DoubleClicked( const ItemString: string );
+procedure FCMuiSG_SavedGameItem_DoubleClicked( const ParentItemString, ItemString: string );
 {:Purpose: item selection by double click.
     Additions:
 }
 begin
    if FCFuiSG_SelectedItem_IsXMLFile( ItemString ) then
    begin
-      FCVuiSGfilename:=ItemString;
+      FCWinSavedGames.WSG_Frame.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'MMGame_LoadSaved' ) + ': ' + ItemString;
+      FCMgC_LoadANewGame_Process( ParentItemString, ItemString );
    end;
 end;
 
@@ -248,8 +251,10 @@ begin
    if FCFuiSG_SelectedItem_IsXMLFile( ItemString ) then
    begin
       FCWinSavedGames.WSG_Frame.Caption:=FCFdTFiles_UIStr_Get( uistrUI, 'MMGame_LoadSaved' ) + ': ' + ItemString;
-      FCVuiSGfilename:=ItemString;
-   end;
+//      FCVuiSGfilename:=ItemString;
+      FCWinSavedGames.UnlockDoubleClick;
+   end
+   else FCWinSavedGames.LockDoubleClick;
 end;
 
 procedure FCMuiSG_SavedGamesList_Update;
@@ -267,7 +272,7 @@ procedure FCMuiSG_SavedGamesList_Update;
       RootNode
       ,RootFileName: ttreeNode;
 begin
-   FCVuiSGfilename:='';
+//   FCVuiSGfilename:='';
    CurrentSavedGameFile:='';
    CurrentSavedGamesSubDir:='';
    SavedGamesDirectory:='';
@@ -293,6 +298,7 @@ begin
       SysUtils.FindClose(CurrentSearchedDir) ;
    end;
    FCWinSavedGames.F_SavedGamesList.Select( RootNode );
+   FCWinSavedGames.LockDoubleClick;
 end;
 
 end.

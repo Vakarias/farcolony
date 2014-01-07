@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved===============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved===============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -103,21 +103,12 @@ var
    CPlang: string;
 begin
    {.set some user's interface}
-   FCWinMain.MMGameSection_Continue.Enabled:=false;
-//   FCWinMain.MMGameSection_New.Enabled:=false;
-   if FCWinMain.MMDebugSection.Visible
-   then FCWinMain.MMDebugSection.Visible:=false;
-
-
    FCMgC_Data_Injection;
+   FCMgC_Game_Initialize;
+   FCMgfxC_Main_Init;
 {:DEV NOTES: put the data loading in a proc and load it also for a new game setup (one time loading).}
 
-   FCMgfxC_Main_Init;
    {.data initialization}
-   SetLength(FCDdmtTaskListToProcess,1);
-   FCMdG_Entities_Clear;
-   FCMdF_DBStarSystems_Load;
-
    Max1:=length( FCDduStarSystem ) - 1;
    Count1:=1;
    while Count1 <= Max1 do
@@ -195,7 +186,7 @@ begin
                      ,CPstar
                      ,CPoobj
                      ,CPsat
-                     ,0
+                     ,Count1
                      ,Count2
                      ,false
                      );
@@ -205,17 +196,6 @@ begin
          end; {.if CPttl>0 then}
          inc(Count1);
       end; //==END== while CPeCnt<=FCCfacMax do ==//
-      {.free useless data}
-      Count2:=1;
-      while Count2<=1 do
-      begin
-         setlength(
-            FCDdgFactions[Count2].F_colonizationModes
-            ,0
-            );
-         setlength(FCDdgFactions[Count2].F_startingLocations,0);
-         inc(Count2);
-      end;
       {.set the game user's interface}
       FCVdi3DViewToInitialize:=true;
       {.restore the message queue}
