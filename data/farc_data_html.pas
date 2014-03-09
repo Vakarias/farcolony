@@ -57,6 +57,7 @@ const
 
  {.miniHTML standard formating}
       {:DEV NOTES: put them in ui_html.}
+      DHTMLalignLeft='<p align="left">';
       FCCFdHead='<p align="left" bgcolor="#374A4A00" bgcolorto="#25252500"><b>';
       FCCFdHeadC='<p align="center" bgcolor="#374A4A00" bgcolorto="#25252500"><b>';
       FCCFdHeadEnd='</b></p>';

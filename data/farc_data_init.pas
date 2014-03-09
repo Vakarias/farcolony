@@ -57,6 +57,12 @@ var
 
    FCVdi3DViewToInitialize: boolean = false;
 
+   //==========action panel related=========================================================
+   ///<summary>
+   ///
+   ///</summary>
+   FCVdiActionPanelSatMode: integer=0;
+
    //==========databases and other data structures pre-init=================================
    ///<summary>
    ///   settlements pictures - contains the settlement icons
@@ -265,7 +271,7 @@ const
    ///<summary>
    ///   current alpha # for FARC
    ///</summary>
-   FCCdiAlphaNumber='8';
+   FCCdiAlphaNumber='9';
 
    ///<summary>
    ///   maximum of factions in the game (player one is #0)

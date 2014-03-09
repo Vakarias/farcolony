@@ -1,17 +1,17 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved===============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
-        Project Started: Aug 16 2009
+        Project Started: August 16 2009
         Platform: Delphi
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: game timer flow processing
+        Unit: game flow - core unit
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_game_gameflow;
 
 interface
@@ -34,54 +33,162 @@ interface
 uses
    SysUtils;
 
-    {time phases}
-   type TFCEtimePhases=(
-      {.null data}
-      tphNull
-      {.reset the time flow}
-//      ,tphRESET
-      {tactical, 1secRT eq 10minGT}
-      ,tphTac
-      {management, time accelerated by 2}
-      ,tphMan
-      {strategical/historical, time accelerated by 10}
-      ,tphSTH
-      {game paused}
-      ,tphPAUSE
-      {.game paused w/o interface}
-      ,tphPAUSEwo
-      );
 
-///<summary>
-///   process the space units tasks. Replace the multiple threads creation.
-///</summary>
-procedure FCMgGFlow_Tasks_Process;
+{time phases}
+type TFCEggfRealTimeAccelerations=(
+//addonREM: put x1 / x2 / x5 / x10 perhaps x20 or 100 too (test the load first)
+   {tactical, 1secRT eq 10minGT}
+   rtaX1
+   {management, time accelerated by 2}
+   ,rtaX2
+   {strategical/historical, time accelerated by 10}
+   ,rtaX5
+   ,rtaX10
+   {game paused}
+   ,rtaPause
+   {.game paused w/o interface}
+   ,rtaPauseWOinterface
+   );
 
-///<summary>
-///   set the game flow speed
-///</summary>
-///    <param name="FSSstate">flow state type</param>
-procedure FCMgTFlow_FlowState_Set(FSSstate: TFCEtimePhases);
+type TFCEggfTurnTypes=(
+   ttTacticalTurn
+   ,ttIndustrialTurn
+   ,ttUpkeepTurn
+   ,ttColonialTurn
+   ,ttHistoricalTurn
+   );
+
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+var
+   GGFnewTick
+   ,GGFoldTick: integer;
+
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
+
+
+//===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
 ///   gametimer flow processing routine
 ///</summary>
 procedure FCMgGF_GameTimer_Process;
 
-var
-   GGFnewTick
-   ,GGFoldTick: integer;
+///<summary>
+///   pause the game flow, if the game is in realtime mode
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_Realtime_Pause;
+
+///<summary>
+///   restore the game flow, if the game is in realtime mode
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_RealTime_Restore;
+
+///<summary>
+///   switch into realtime
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_RealTime_SwitchTo;
+
+///<summary>
+///   set the realtime game flow speed
+///</summary>
+procedure FCMgGF_RealTimeFlowSpeed_Set;
+
+///<summary>
+///   decrement the time speed of turn type, depending if the game is in realtime or turn-based
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_TimeSpeedTurnType_Decrement;
+
+///<summary>
+///   increment the time speed of turn type, depending if the game is in realtime or turn-based
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_TimeSpeedTurnType_Increment;
+
+///<summary>
+///   core procedure to process one turn, depending of its specified type
+///</summary>
+///   <param name="TypeOfGameTurnToApply">type of game turn to apply</param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_TurnBasedSubSystem_Process( const TypeOfGameTurnToApply: TFCEggfTurnTypes );
+
+///<summary>
+///   switch into turn-based
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_TurnBased_SwitchTo;
+
+///<summary>
+///
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_TypeOfTimeFlow_Init;
+
+///<summary>
+///
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMgGF_TypeOfTimeFlow_SwitchMode;
 
 implementation
 
-
-
 uses
    farc_common_func
-   ,farc_data_3dopengl
    ,farc_data_init
-   ,farc_data_missionstasks
-   ,farc_data_univ
    ,farc_game_cps
    ,farc_game_csm
    ,farc_data_game
@@ -89,31 +196,52 @@ uses
    ,farc_game_spm
    ,farc_game_tasksystem
    ,farc_main
-   ,farc_missions_colonization
-   ,farc_ogl_viewmain
    ,farc_ogl_ui
-   ,farc_spu_functions
    ,farc_survey_core
-   ,farc_ui_actionpanel
-   ,farc_ui_coldatapanel
-   ,farc_ui_msges
    ,farc_ui_win
-   ,farc_univ_func
    ,farc_win_debug;
 
+//==END PRIVATE ENUM========================================================================
 
+//==END PRIVATE RECORDS=====================================================================
 
+   //==========subsection===================================================================
 var
-   {:DEV NOTES: put these in method's data.}
-//   GGFisProdPhaseSwitch
-//   ,
    GGFisSPMphasePassed: boolean;
 
 
 
-//=============================================END OF INIT==================================
+//==END PRIVATE VAR=========================================================================
 
-procedure FCMgTFlow_CSMphase_Proc(CSMPPmax: integer);
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
+
+function FCFgGF_DaysInMonth_Get: integer;
+{:Purpose: give the maximum number of days regarding the current month.
+    Additions:
+}
+begin
+   case FCVdgPlayer.P_currentTimeMonth of
+      1: Result:=31;
+      2: Result:=28;
+      3: Result:=31;
+      4: Result:=30;
+      5: Result:=31;
+      6: Result:=30;
+      7: Result:=31;
+      8: Result:=31;
+      9: Result:=30;
+      10: Result:=31;
+      11: Result:=30;
+      12: Result:=31;
+   end;
+end;
+
+//===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMgGF_CSMphase_Process(CSMPPmax: integer);
 {:Purpose: process the CSM phase list
    Additions:
       -2011Jul24- *rem: the colony data display update is removed because it's already updated if needed (useless).
@@ -162,566 +290,6 @@ begin
       else inc(CSMPPcnt);
    end; //==END== while CSMPPcnt<=CSMPPmax do ==//
    FCWinMain.FCGLScadencer.Enabled:=true;
-end;
-
-procedure FCMgTFlow_FlowState_Set(FSSstate: TFCEtimePhases);
-{:Purpose: set the game flow speed.
-    Additions:
-      -2011Jan06- *add: a reset state for reset the game flow.
-      -2010Jul04- *fix: correct the routine when it end the pause.
-      -2010Jun10- *mod: FSSstoreState is deprecated + complete routine revamp.
-                  *add: take tphPAUSEwo in account.
-}
-begin
-//   if FSSstate=tphRESET
-//   then
-//   begin
-//      GGFisSPMphasePassed:=false;
-//      FSSstate:=tphTac;
-//   end;
-   if (FSSstate=tphPAUSE)
-      or (FSSstate=tphPAUSEwo)
-   then
-   begin
-      FCVdiGameFlowTimer.Enabled:=false;
-      FCWinMain.FCGLScadencer.Enabled:=false;
-      FCVdgTimePhase:=FCVdgPlayer.P_currentTimePhase;
-      FCVdgPlayer.P_currentTimePhase:=FSSstate;
-   end
-   else
-   begin
-      if FCVdiGameFlowTimer.Enabled=false
-      then
-      begin
-         FCVdiGameFlowTimer.Enabled:=true;
-         FCWinMain.FCGLScadencer.Enabled:=true;
-         FCVdgPlayer.P_currentTimePhase:=FCVdgTimePhase;
-      end
-      else
-      begin
-         FCVdgPlayer.P_currentTimePhase:=FSSstate;
-         case FSSstate of
-            tphTac: FCVdiGameFlowTimer.Interval:=1000;
-            tphMan: FCVdiGameFlowTimer.Interval:=500;
-            tphSTH: FCVdiGameFlowTimer.Interval:=100;
-         end;
-      end;
-   end;
-end;
-
-function FCFgTFlow_GameTimer_DayMthGet: integer;
-{:Purpose: give the maximum number of days regarding the current month.
-    Additions:
-}
-begin
-   case FCVdgPlayer.P_currentTimeMonth of
-      1: Result:=31;
-      2: Result:=28;
-      3: Result:=31;
-      4: Result:=30;
-      5: Result:=31;
-      6: Result:=30;
-      7: Result:=31;
-      8: Result:=31;
-      9: Result:=30;
-      10: Result:=31;
-      11: Result:=30;
-      12: Result:=31;
-   end;
-end;
-
-procedure FCMgGFlow_Tasks_Process;
-{:Purpose: process the space units tasks. Replace the multiple threads creation.
-    Additions:
-      -2013Jan08- *add/fix: colonization mission - set correctly which 3d object to focus during the atmospheric entry phase.
-                  *add/fix: colonization mission - in case where it's the orbital object of origin which is focused, the data about the colony is correctly displayed after the colonization post-processing.
-      -2012Dec16- *add: a test is inserted to see if the action panel, for the current space unit, is opened.
-      -2012Dec03- *fix: colonization mission - 3d object management is corrected.
-      -2011Feb12- *add: tasks extra data for colonization mission.
-      -2010Sep05- *fix: colonization mission - post process: change the 2nd destination check with TITP_destType=tttSat as it should be.
-      -2010Jul02- *add: colonization mission: add colony name.
-      -2010Jun15- *add: use non-3dview-bounded space locations for interplanetary and colonization end of mission.
-      -2010Jun02- *rem: remove colony mission completion message.
-      -2010May17- *fix: add orbital object data into end of mission message for interplanetary trnasit.
-      -2010May12- *add: in interplanetary transit mission, when it's done and the related space unit have docked vessels, the resulting
-                        velocity is applied on all docked vessels.
-      -2010May11- *add: interplanetary transit mission.
-      -2010May10- *add: complete colonization mission.
-      -2010May04- *add: colonization mission update.
-
-}
-var
-  GTPcount
-  ,GTPdkcdCnt
-  ,GTPdckdIdx
-  ,GTPdckdVslMax
-  ,GTPfac
-  ,GTPmaxDayMonth
-  ,GTPnumTaskToProc
-  ,GTPnumTaskInProc
-  ,GTPnumTTProcIdx
-  ,GTPoobjDB
-  ,GTPsatDB
-  ,GTPssysDB
-  ,GTPstarDB
-  ,GTPspuOwn
-  ,GTPstartTaskAt
-  ,GTPstartThrAt
-  ,GTPtaskIdx
-  ,GTPthreadIdx
-  ,IntCalculation1: integer;
-
-  GTPmove
-  ,GTPspUnVel: extended;
-
-  GTPendPh: boolean;
-begin
-   GTPnumTaskInProc:=length(FCDdmtTaskListInProcess)-1;
-   if GTPnumTaskInProc>0
-   then
-   begin
-      {:DEV NOTES: put in a function a test with the duration interval. Input: TFCEdmtTasks + T_previousProcessTime /  Output: passed: boolean
-         - if previous process = 0, it's the start of the task, so it's passed automatically.
-         - if interval=1, return passed automatically
-
-         - for the rest do the test
-
-         don't forget to update the previous process time with the current time tick in this tasks process
-      }
-      GTPtaskIdx:=1;
-      while GTPtaskIdx<=GTPnumTaskInProc do
-      begin
-         if (not FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated)
-         then
-         begin
-            GTPfac:=FCDdmtTaskListInProcess[GTPtaskIdx].T_entity;
-            GTPspuOwn:=FCDdmtTaskListInProcess[GTPtaskIdx].T_controllerIndex;
-            case FCDdmtTaskListInProcess[GTPtaskIdx].T_type of
-               {.mission - colonization}
-               tMissionColonization:
-               begin
-                  {.deceleration phase}
-                  if (GGFnewTick>GGFoldTick)
-                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase=mcpDeceleration)
-                  then
-                  begin
-                     if GGFnewTick>=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration
-                     then
-                     begin
-                        GTPspUnVel:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCfinalVelocity;
-                        FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase:=mcpAtmosphericEntry;
-                     end
-                     else if GGFnewTick<FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_timeForDeceleration
-                     then
-                     begin
-                        GTPspUnVel
-                           :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV-(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV:=FCFcF_Round(
-                           rttVelocityKmSec
-                           ,GTPspUnVel
-                           );
-                        GTPmove:=FCFcF_Scale_Conversion(
-                           cVelocityKmSecTo3dViewUnits
-                           ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                           );
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                     end;
-                  end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDecel) ==//
-                  {.atmospheric entry phase}
-                  if (GGFnewTick>GGFoldTick)
-                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCphase=mcpAtmosphericEntry)
-                  then
-                  begin
-                     if ( FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCorigin=ttSpaceUnitDockedIn )
-                        and ( FCDdgEntities[0].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_linked3dObject > 0 ) then
-                     begin
-                        FC3doglSelectedSpaceUnit:=FCDdgEntities[0].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCoriginIndex].SU_linked3dObject;
-                        FCMovM_CameraMain_Target(foSpaceUnit, true)
-                     end
-                     else begin
-
-                           if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject then
-                           begin
-                              FC3doglSelectedPlanetAsteroid:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex;
-                              FCMovM_CameraMain_Target(foOrbitalObject, true)
-                           end
-                           else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
-                           then
-                           begin
-                              FC3doglSelectedSatellite:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag;//! review that
-                              FCMovM_CameraMain_Target(foSatellite, true);
-                           end;
-//                     end;
-//                        end;
-                     end;
-                     if GGFnewTick>=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
-                     then FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
-                  end;
-                  if FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone
-                  then
-                  begin
-                     {.unload the current task to the space unit}
-                     FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_assignedTask:=0;
-                     FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_status:=susLanded;
-                     {.set the remaining reaction mass}
-                     FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass
-                        :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCusedReactionMassVol;
-                     {.colonize mission post-process}
-                     {:DEV NOTES: replace these 2 lines with FCFuF_StelObj_GetDbIdx / FCFuF_StelObj_GetFullRow or FCFuF_StelObj_GetStarSystemStar.}
-                     GTPssysDB:=FCFuF_StelObj_GetDbIdx(
-                           ufsoSsys
-                           ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationStarSystem
-                           ,0
-                           ,0
-                           ,0
-                           );
-                     GTPstarDB:=FCFuF_StelObj_GetDbIdx(
-                        ufsoStar
-                        ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationStar
-                        ,GTPssysDB
-                        ,0
-                        ,0
-                        );
-                     GTPoobjDB:=0;
-                     GTPsatDB:=0;
-                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttOrbitalObject
-                     then
-                     begin
-                        GTPoobjDB:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex;
-                        FCMgC_Colonize_PostProc(
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_entity
-                           ,GTPspuOwn
-                           ,GTPssysDB
-                           ,GTPstarDB
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex
-                           ,0
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationRegion
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementType
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
-                           );
-                        if ( FCFovM_Focused3dObject_GetType=foOrbitalObject )
-                           and ( FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_token=FCVdgPlayer.P_viewStar )
-                           and ( FC3doglSelectedPlanetAsteroid=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex) then
-                        begin
-                           FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-                           FCMuiAP_Update_OrbitalObject;
-                        end;
-                     end
-                     else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestination=ttSatellite
-                     then
-                     begin
-                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].TagFloat); //ERROR:FCGtskListInProc[GTPtaskIdx].T_tMCdestinationIndex doesn't link to the
-                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationIndex].Tag; //satellite 3d object index! use: FCFoglVM_SatObj_Search
-                        FCMgC_Colonize_PostProc(
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_entity
-                           ,GTPspuOwn
-                           ,GTPssysDB
-                           ,GTPstarDB
-                           ,GTPoobjDB
-                           ,GTPsatDB
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCdestinationRegion
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementType
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCcolonyName
-                           ,FCDdmtTaskListInProcess[GTPtaskIdx].T_tMCsettlementName
-                           );
-                        if ( FCFovM_Focused3dObject_GetType=foSatellite )
-                           and ( FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_token=FCVdgPlayer.P_viewStar )
-                           and ( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat=GTPoobjDB)
-                           and ( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag=GTPsatDB) then
-                        begin
-                           FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
-                           FCMuiAP_Update_OrbitalObject;
-                        end;
-                     end;
-
-
-                     FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
-                  end;
-               end; //==END== case: tatpMissColonize ==//
-               {.mission - interplanetary transit}
-               tMissionInterplanetaryTransit:
-               begin
-                  if (GGFnewTick>GGFoldTick)
-                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase=mitpAcceleration)
-                  then
-                  begin
-                     if GGFnewTick=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                     then FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpCruise
-                     else if GGFnewTick>FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                     then
-                     begin
-                        FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert
-                           :=GGFnewTick-(FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime);
-                        GTPspUnVel
-                           :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                                 +(
-                                    FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick
-                                    *(GGFnewTick-GGFoldTick-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert)
-                                    );
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                           :=FCFcF_Round(
-                              rttVelocityKmSec
-                              ,GTPspUnVel
-                              );
-                        GTPmove:=FCFcF_Scale_Conversion(
-                           cVelocityKmSecTo3dViewUnits
-                           ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                           );
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                        FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpCruise;
-                     end
-                     else if GGFnewTick<FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                     then
-                     begin
-                        GTPspUnVel
-                           :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              +(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                           :=FCFcF_Round(
-                              rttVelocityKmSec
-                              ,GTPspUnVel
-                              );
-                        GTPmove:=FCFcF_Scale_Conversion(
-                           cVelocityKmSecTo3dViewUnits
-                           ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                           );
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                     end;
-                  end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpAccel) ==//
-                  if (GGFnewTick>GGFoldTick)
-                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase=mitpCruise)
-                  then
-                  begin
-                     {.used for calculations of deceleration time to transfert}
-                     IntCalculation1:=0;
-                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert>0 then
-                     begin
-                        if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
-                           =FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
-                        then
-                        begin
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
-                           {:DEV NOTES: put that line below after :=intcalculation1 because mitpDeleration is the case for EACH OUTCOME OF THE TESTS.}
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpDeceleration;   //remove
-                        end
-                        else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
-                           >FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
-                        then
-                        begin
-                           IntCalculation1
-                              :=(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick)
-                                 -(FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration);
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpDeceleration;   //remove
-                        end;
-                     end
-                     else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert=0
-                     then
-                     begin
-                        if GGFnewTick=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
-                        then FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpDeceleration      //remove
-                        else if GGFnewTick>FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration
-                        then
-                        begin
-                           IntCalculation1
-                              :=GGFnewTick-(FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITcruiseTime
-                              +FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeForDeceleration);
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase:=mitpDeceleration;  //remove
-                        end;
-                     end;
-                     FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=IntCalculation1;
-                  end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpCruise) ==//
-                  if (GGFnewTick>GGFoldTick)
-                     and(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITphase=mitpDeceleration)
-                  then
-                  begin
-                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert>0
-                     then
-                     begin
-                        if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
-                           >=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
-                        then
-                        begin
-                           GTPspUnVel:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITfinalVelocity;
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
-                           {.update data structure}
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              :=FCFcF_Round(
-                                 rttVelocityKmSec
-                                 ,GTPspUnVel
-                                 );
-                           GTPmove:=FCFcF_Scale_Conversion(
-                              cVelocityKmSecTo3dViewUnits
-                              ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              );
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
-                        end
-                        else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert+GGFoldTick
-                           <FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
-                        then
-                        begin
-                           GTPspUnVel
-                              :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                                 -(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert));
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              :=FCFcF_Round(
-                                 rttVelocityKmSec
-                                 ,GTPspUnVel
-                                 );
-                           GTPmove:=FCFcF_Scale_Conversion(
-                              cVelocityKmSecTo3dViewUnits
-                              ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              );
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
-                        end;
-                     end
-                     else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert=0
-                     then
-                     begin
-                        if GGFnewTick>=FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
-                        then
-                        begin
-                           GTPspUnVel:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITfinalVelocity;
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              :=FCFcF_Round(
-                                 rttVelocityKmSec
-                                 ,GTPspUnVel
-                                 );
-                           GTPmove:=FCFcF_Scale_Conversion(
-                              cVelocityKmSecTo3dViewUnits
-                              ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              );
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                           FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone:=true;
-                        end
-                        else if GGFnewTick<FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_ticksAtTaskStart+FCDdmtTaskListInProcess[GTPtaskIdx].T_duration
-                        then
-                        begin
-                           GTPspUnVel
-                              :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                                 -(FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_accelerationByTick*(GGFnewTick-GGFoldTick));
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                           :=FCFcF_Round(
-                              rttVelocityKmSec
-                              ,GTPspUnVel
-                              );
-                           GTPmove:=FCFcF_Scale_Conversion(
-                              cVelocityKmSecTo3dViewUnits
-                              ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV
-                              );
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=GTPmove;
-                        end;
-                     end;
-                  end; //==END== if (GGFnewTick>GGFoldTick) and(FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDecel) ==//
-                  if FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskDone=true
-                  then
-                  begin
-                     {.unload the current task to the space unit}
-                     FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_assignedTask:=0;
-                     {.set the remaining reaction mass}
-                     FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass
-                        :=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_reactionMass-FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITusedReactionMassVol;
-                     {.interplanetary transit mission post-process}
-                     GTPssysDB:=FCFuF_StelObj_GetDbIdx(
-                           ufsoSsys
-                           ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationStarSystem
-                           ,0
-                           ,0
-                           ,0
-                           );
-                     GTPstarDB:=FCFuF_StelObj_GetDbIdx(
-                        ufsoStar
-                        ,FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationStar
-                        ,GTPssysDB
-                        ,0
-                        ,0
-                        );
-                     GTPoobjDB:=0;
-                     GTPsatDB:=0;
-                     {.set orbit data for destination}
-                     FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_status:=susInOrbit;
-                     if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestination=ttOrbitalObject
-                     then
-                     begin
-                        GTPoobjDB:=FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex;
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationOrbitalObject
-                           :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex].OO_dbTokenId;
-                        FCDdgEntities[GTPfac].E_spaceUnits[FCDdmtTaskListInProcess[GTPtaskIdx].T_controllerIndex].SU_locationSatellite:='';
-                        FCMspuF_Orbits_Process(
-                           spufoioAddOrbit
-                           ,GTPssysDB
-                           ,GTPstarDB
-                           ,GTPoobjDB
-                           ,0
-                           ,0
-                           ,GTPspuOwn
-                           ,true
-                           );
-                     end
-                     else if FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestination=ttSatellite
-                     then
-                     begin
-                        GTPsatDB:=FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex].Tag; //ERROR:FCGtskListInProc[GTPtaskIdx].T_tMITdestinationIndex doesn't link to the
-                        GTPoobjDB:=round(FC3doglSatellitesObjectsGroups[FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITdestinationIndex].TagFloat); //satellite 3d object index! use: FCFoglVM_SatObj_Search
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationOrbitalObject:=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_dbTokenId;
-                        FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_locationSatellite
-                           :=FCDduStarSystem[GTPssysDB].SS_stars[GTPstarDB].S_orbitalObjects[GTPoobjDB].OO_satellitesList[GTPsatDB].OO_dbTokenId;
-                        FCMspuF_Orbits_Process(
-                           spufoioAddOrbit
-                           ,GTPssysDB
-                           ,GTPstarDB
-                           ,GTPoobjDB
-                           ,GTPsatDB
-                           ,0
-                           ,GTPspuOwn
-                           ,true
-                           );
-                     end;
-                     GTPdckdVslMax:=length(FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_dockedSpaceUnits);
-                     if GTPdckdVslMax>1
-                     then
-                     begin
-                        GTPdkcdCnt:=1;
-                        while GTPdkcdCnt<=GTPdckdVslMax-1 do
-                        begin
-                           GTPdckdIdx:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_dockedSpaceUnits[GTPdkcdCnt].SUDL_index;
-                           FCDdgEntities[GTPfac].E_spaceUnits[GTPdckdIdx].SU_deltaV:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_deltaV;
-                           inc(GTPdkcdCnt);
-                        end;
-                     end;
-                     FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_3dVelocity:=0;
-                     FCMuiM_Message_Add(
-                        mtInterplanTransit
-                        ,0
-                        ,GTPspuOwn
-                        ,GTPoobjDB
-                        ,GTPsatDB
-                        ,0
-                        );
-                     if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject]
-                     then
-                     begin
-                        FC3doglSelectedSpaceUnit:=FCDdgEntities[GTPfac].E_spaceUnits[GTPspuOwn].SU_linked3dObject;
-                        FCMovM_CameraMain_Target(foSpaceUnit, true);
-                     end;
-                     FCDdmtTaskListInProcess[GTPtaskIdx].T_inProcessData.IPD_isTaskTerminated:=true;
-                  end; //==END== if FCGtskListInProc[GTPtaskIdx].TITP_phaseTp=tpDone ==//
-                  FCDdmtTaskListInProcess[GTPtaskIdx].T_tMITinProcessData.IPD_timeToTransfert:=0;
-               end; //==END== case: tatpMissItransit ==//
-            end; //==END== case FCGtskListInProc[GTPtaskIdx].TITP_actionTp ==//
-         end; //==END== if (FCGtskListInProc[GTPtaskIdx].TITP_phaseTp<>tpTerminated) ==//
-         inc(GTPtaskIdx);
-      end; //==END== while GTPtaskIdx<=GTPnumTaskInProc ==//
-   end; //==END== if GTPnumTaskInProc>0 ==//
-   GGFoldTick:=GGFnewTick;
 end;
 
 procedure FCMgGF_GameTimer_Process;
@@ -795,7 +363,7 @@ begin
       begin
          FCVdgPlayer.P_currentTimeHour:=0;
          isSegment3_PlanetarySurveySwitch:=true;
-         GTPmaxDayMonth:=FCFgTFlow_GameTimer_DayMthGet;
+         GTPmaxDayMonth:=FCFgGF_DaysInMonth_Get;
          if FCVdgPlayer.P_currentTimeDay<GTPmaxDayMonth
          then inc(FCVdgPlayer.P_currentTimeDay)
          else
@@ -811,7 +379,7 @@ begin
          end;
       end;
    end;
-   FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutTime);
+   FCMoglUI_CoreUI_Update(ptuTextsOnly, ttuTimeFlow);
    {.planetary survey}
    if isSegment3_PlanetarySurveySwitch
    then FCMsC_ResourceSurvey_Core;
@@ -825,7 +393,7 @@ begin
    {.CSM phase}
    GTPphLmax:=length(FCDdgCSMPhaseSchedule)-1;
    if GTPphLmax>0
-   then FCMgTFlow_CSMphase_Proc(GTPphLmax);
+   then FCMgGF_CSMphase_Process(GTPphLmax);
    {.SPM phase}
    if (FCVdgPlayer.P_currentTimeDay=1)
       and (FCVdgPlayer.P_currentTimeTick>144)
@@ -844,12 +412,184 @@ begin
    then
    begin
       GTPendPh:=FCcps.FCF_TimeLeft_Upd;
-      FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutCPS);
+      FCMoglUI_CoreUI_Update(ptuTextsOnly, ttuCPS);
       if GTPendPh
       then FCcps.FCM_EndPhase_Proc;
    end;
    FCMgTS_TaskInProcess_Cleanup;
    FCMgTS_TaskToProcess_Initialize( GGFnewTick );
+end;
+
+procedure FCMgGF_Realtime_Pause;
+{:Purpose: pause the game flow, if the game is in realtime mode.
+    Additions:
+}
+begin
+   if not FCVdgPlayer.P_isTurnBased then
+   begin
+      FCVdiGameFlowTimer.Enabled:=false;
+      FCWinMain.FCGLScadencer.Enabled:=false;
+      FCVdgPlayer.P_currentRealTimeAcceleration:=rtaPause;
+   end;
+end;
+
+procedure FCMgGF_RealTime_Restore;
+{:Purpose: restore the game flow, if the game is in realtime mode.
+    Additions:
+}
+begin
+   if not FCVdgPlayer.P_isTurnBased then
+   begin
+      if not FCVdiGameFlowTimer.Enabled then
+      begin
+         FCVdiGameFlowTimer.Enabled:=true;
+         FCWinMain.FCGLScadencer.Enabled:=true;
+      end;
+      FCVdgPlayer.P_currentRealTimeAcceleration:=rtaX1;
+      FCMgGF_RealTimeFlowSpeed_Set;
+   end;
+end;
+
+procedure FCMgGF_RealTime_SwitchTo;
+{:Purpose: switch into realtime.
+    Additions:
+}
+begin
+   FCVdgPlayer.P_isTurnBased:=false;
+   FCVdiGameFlowTimer.Enabled:=true;
+   FCWinMain.FCGLScadencer.Enabled:=true;
+   FCVdgPlayer.P_currentRealTimeAcceleration:=rtaX1;
+   FCMgGF_RealTimeFlowSpeed_Set;
+end;
+
+procedure FCMgGF_RealTimeFlowSpeed_Set;
+{:Purpose: set the realtime game flow speed.
+    Additions:
+      -2014Feb02- *add/mod: overhaul of the time acceleration.
+      -2011Jan06- *add: a reset state for reset the game flow.
+      -2010Jul04- *fix: correct the routine when it end the pause.
+      -2010Jun10- *mod: FSSstoreState is deprecated + complete routine revamp.
+                  *add: take tphPAUSEwo in account.
+}
+begin
+   case FCVdgPlayer.P_currentRealTimeAcceleration of
+      rtaX1: FCVdiGameFlowTimer.Interval:=1000;
+
+      rtaX2: FCVdiGameFlowTimer.Interval:=500;
+
+      rtaX5: FCVdiGameFlowTimer.Interval:=200;
+
+      rtaX10: FCVdiGameFlowTimer.Interval:=100;
+   end;
+end;
+
+procedure FCMgGF_TimeSpeedTurnType_Decrement;
+{:Purpose: decrement the time speed of turn type, depending if the game is in realtime or turn-based.
+    Additions:
+}
+begin
+   if ( FCVdgPlayer.P_isTurnBased )
+      and ( FCVdgPlayer.P_currentTypeOfTurn > ttTacticalTurn ) then
+   begin
+      dec( FCVdgPlayer.P_currentTypeOfTurn );
+      FCMoglUI_CoreUI_Update( ptuTextsOnly, ttuTimeFlow );
+   end
+   else if ( not FCVdgPlayer.P_isTurnBased )
+      and ( FCVdgPlayer.P_currentRealTimeAcceleration > rtaX1 ) then
+   begin
+      dec( FCVdgPlayer.P_currentRealTimeAcceleration );
+      FCMgGF_RealTimeFlowSpeed_Set;
+   end;
+end;
+
+procedure FCMgGF_TimeSpeedTurnType_Increment;
+{:Purpose: increment the time speed of turn type, depending if the game is in realtime or turn-based.
+    Additions:
+}
+begin
+   if ( FCVdgPlayer.P_isTurnBased )
+      and ( FCVdgPlayer.P_currentTypeOfTurn < ttHistoricalTurn ) then
+   begin
+      inc( FCVdgPlayer.P_currentTypeOfTurn );
+      FCMoglUI_CoreUI_Update( ptuTextsOnly, ttuTimeFlow );
+   end
+   else if ( not FCVdgPlayer.P_isTurnBased )
+      and ( FCVdgPlayer.P_currentRealTimeAcceleration < rtaX10 ) then
+   begin
+      inc( FCVdgPlayer.P_currentRealTimeAcceleration );
+      FCMgGF_RealTimeFlowSpeed_Set;
+   end;
+end;
+
+procedure FCMgGF_TurnBasedSubSystem_Process( const TypeOfGameTurnToApply: TFCEggfTurnTypes );
+{:Purpose: core procedure to process one turn, depending of its specified type.
+    Additions:
+}
+   var
+      Count
+      ,TicksToProcess: integer;
+begin
+   Count:=0;
+   TicksToProcess:=0;
+   case TypeOfGameTurnToApply of
+      ttTacticalTurn: TicksToProcess:=1;
+
+      ttIndustrialTurn: TicksToProcess:=6;
+
+      ttUpkeepTurn: TicksToProcess:=144;
+
+      ttColonialTurn: TicksToProcess:=1008;
+
+      ttHistoricalTurn:
+      begin
+         Count:=FCFgGF_DaysInMonth_Get;
+         case Count of
+            28: TicksToProcess:=4032;
+
+            30: TicksToProcess:=4320;
+
+            31: TicksToProcess:=4464;
+         end;
+      end;
+   end;
+   while TicksToProcess > 0 do
+   begin
+      FCMgGF_GameTimer_Process;
+      dec( TicksToProcess );
+   end;
+end;
+
+procedure FCMgGF_TurnBased_SwitchTo;
+{:Purpose: switch into turn-based.
+    Additions:
+}
+begin
+   FCVdgPlayer.P_isTurnBased:=true;
+   FCVdiGameFlowTimer.Enabled:=false;
+//   FCWinMain.FCGLScadencer.Enabled:=false;
+   FCVdgPlayer.P_currentTypeOfTurn:=ttTacticalTurn;
+end;
+
+procedure FCMgGF_TypeOfTimeFlow_Init;
+{:Purpose: .
+    Additions:
+}
+begin
+   if FCVdgPlayer.P_isTurnBased
+   then FCMgGF_TurnBased_SwitchTo
+   else FCMgGF_RealTime_SwitchTo;
+   FCMuiW_UI_Initialize( mwupMenuRTturnBased );
+end;
+
+procedure FCMgGF_TypeOfTimeFlow_SwitchMode;
+{:Purpose: .
+    Additions:
+}
+begin
+   if FCVdgPlayer.P_isTurnBased
+   then FCMgGF_RealTime_SwitchTo
+   else FCMgGF_TurnBased_SwitchTo;
+   FCMuiW_UI_Initialize( mwupMenuRTturnBased );
 end;
 
 end.

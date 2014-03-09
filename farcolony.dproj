@@ -48,134 +48,15 @@
 			<DelphiCompile Include="farcolony.dpr">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
-			<DCCReference Include="farc_main.pas">
-				<Form>FCWinMain</Form>
-			</DCCReference>
-			<DCCReference Include="data\farc_data_init.pas"/>
-			<DCCReference Include="common\farc_common_func.pas"/>
-			<DCCReference Include="ui\farc_ui_win.pas"/>
-			<DCCReference Include="data\farc_data_files.pas"/>
-			<DCCReference Include="data\farc_data_textfiles.pas"/>
-			<DCCReference Include="ui\farc_win_newgset.pas">
-				<Form>FCWinNewGSetup</Form>
-			</DCCReference>
-			<DCCReference Include="game\farc_game_newg.pas"/>
-			<DCCReference Include="ui\farc_ui_keys.pas"/>
-			<DCCReference Include="game\farc_game_gameflow.pas"/>
-			<DCCReference Include="spu\farc_spu_functions.pas"/>
-			<DCCReference Include="ui\farc_win_savedgames.pas">
-				<Form>FCWinSavedGames</Form>
-			</DCCReference>
-			<DCCReference Include="game\farc_game_contg.pas"/>
-			<DCCReference Include="univ\farc_univ_func.pas"/>
-			<DCCReference Include="ui\farc_win_fug.pas">
-				<Form>FCWinFUG</Form>
-			</DCCReference>
-			<DCCReference Include="game\farc_game_csm.pas"/>
-			<DCCReference Include="game\farc_game_colony.pas"/>
-			<DCCReference Include="game\farc_game_csmevents.pas"/>
-			<DCCReference Include="game\farc_game_cps.pas"/>
-			<DCCReference Include="game\farc_game_spm.pas"/>
-			<DCCReference Include="ui\farc_win_debug.pas">
-				<Form>FCWinDebug</Form>
-			</DCCReference>
-			<DCCReference Include="game\farc_game_infra.pas"/>
-			<DCCReference Include="univ\farc_fug_com.pas"/>
-			<DCCReference Include="data\farc_data_univ.pas"/>
-			<DCCReference Include="data\farc_data_game.pas"/>
-			<DCCReference Include="data\farc_data_infrprod.pas"/>
-			<DCCReference Include="univ\farc_fug_stars.pas"/>
-			<DCCReference Include="univ\farc_fug_data.pas"/>
-			<DCCReference Include="game\farc_game_pgs.pas"/>
-			<DCCReference Include="game\farc_game_core.pas"/>
-			<DCCReference Include="game\farc_game_spmdata.pas"/>
-			<DCCReference Include="ui\farc_ui_umi.pas"/>
-			<DCCReference Include="ui\farc_ui_msges.pas"/>
-			<DCCReference Include="game\farc_game_spmpolicies.pas"/>
-			<DCCReference Include="univ\farc_fug_orbits.pas"/>
-			<DCCReference Include="gfx\farc_gfx_core.pas"/>
-			<DCCReference Include="ui\farc_ui_surfpanel.pas"/>
-			<DCCReference Include="game\farc_game_prod.pas"/>
-			<DCCReference Include="game\farc_game_prodmodes.pas"/>
-			<DCCReference Include="data\farc_data_research.pas"/>
-			<DCCReference Include="game\farc_game_infracustomfx.pas"/>
-			<DCCReference Include="game\farc_game_infraconsys.pas"/>
-			<DCCReference Include="ui\farc_ui_coldatapanel.pas"/>
-			<DCCReference Include="ui\farc_ui_infrapanel.pas"/>
-			<DCCReference Include="ui\farc_ui_html.pas"/>
-			<DCCReference Include="game\farc_game_prodSeg1.pas"/>
-			<DCCReference Include="game\farc_game_energymodes.pas"/>
-			<DCCReference Include="game\farc_game_prodSeg2.pas"/>
-			<DCCReference Include="game\farc_game_spmcfx.pas"/>
-			<DCCReference Include="game\farc_game_prodSeg5.pas"/>
-			<DCCReference Include="game\farc_game_infrafunctions.pas"/>
-			<DCCReference Include="game\farc_game_infrastaff.pas"/>
-			<DCCReference Include="data\farc_data_filesavegame.pas"/>
-			<DCCReference Include="game\farc_game_prodrsrcspots.pas"/>
-			<DCCReference Include="ui\farc_ui_coredatadisplay.pas"/>
-			<DCCReference Include="game\farc_game_cpsobjectives.pas"/>
-			<DCCReference Include="ui\farc_ui_cps.pas"/>
-			<DCCReference Include="game\farc_game_entitiesfactions.pas"/>
-			<DCCReference Include="game\farc_game_colonyrves.pas"/>
-			<DCCReference Include="game\farc_game_prodSeg3.pas"/>
-			<DCCReference Include="data\farc_data_pgs.pas"/>
-			<DCCReference Include="data\farc_data_spu.pas"/>
-			<DCCReference Include="data\farc_data_3dopengl.pas"/>
-			<DCCReference Include="data\farc_data_html.pas"/>
-			<DCCReference Include="data\farc_data_messages.pas"/>
-			<DCCReference Include="data\farc_data_spm.pas"/>
-			<DCCReference Include="data\farc_data_missionstasks.pas"/>
-			<DCCReference Include="ui\farc_ui_umifaction.pas"/>
-			<DCCReference Include="missions\farc_missions_landing.pas"/>
-			<DCCReference Include="missions\farc_missions_core.pas"/>
-			<DCCReference Include="missions\farc_missions_colonization.pas"/>
-			<DCCReference Include="missions\farc_missions_interplanetarytransit.pas"/>
-			<DCCReference Include="ui\farc_ui_missionsetup.pas"/>
-			<DCCReference Include="game\farc_game_tasksystem.pas"/>
-			<DCCReference Include="ogl\farc_ogl_functions.pas"/>
-			<DCCReference Include="ui\farc_ui_actionpanel.pas"/>
-			<DCCReference Include="spm\farc_spm_memes.pas"/>
-			<DCCReference Include="ui\farc_ui_planetarysurvey.pas"/>
-			<DCCReference Include="survey\farc_survey_functions.pas"/>
-			<DCCReference Include="data\farc_data_planetarysurvey.pas"/>
-			<DCCReference Include="ui\farc_ui_about.pas"/>
-			<DCCReference Include="survey\farc_survey_core.pas"/>
-			<DCCReference Include="univ\farc_fug_geophysical.pas"/>
-			<DCCReference Include="univ\farc_fug_atmosphere.pas"/>
-			<DCCReference Include="univ\farc_fug_hydrosphere.pas"/>
-			<DCCReference Include="univ\farc_fug_seasons.pas"/>
-			<DCCReference Include="univ\farc_fug_regions.pas"/>
-			<DCCReference Include="univ\farc_fug_regionsClimate.pas"/>
-			<DCCReference Include="univ\farc_fug_landresources.pas"/>
-			<DCCReference Include="univ\farc_fug_fractalterrains.pas"/>
-			<DCCReference Include="univ\farc_fug_regionfunctions.pas"/>
-			<DCCReference Include="univ\farc_fug_environments.pas"/>
-			<DCCReference Include="univ\farc_fug_biosphere.pas"/>
-			<DCCReference Include="univ\farc_fug_biospherecarbon.pas"/>
-			<DCCReference Include="univ\farc_fug_biospheresilicon.pas"/>
-			<DCCReference Include="univ\farc_fug_biosphereammonia.pas"/>
-			<DCCReference Include="univ\farc_fug_biospheremethane.pas"/>
-			<DCCReference Include="univ\farc_fug_biospheresulphurdioxide.pas"/>
-			<DCCReference Include="univ\farc_fug_biospherefunctions.pas"/>
-			<DCCReference Include="ogl\farc_ogl_init.pas"/>
-			<DCCReference Include="ogl\farc_ogl_ui.pas"/>
-			<DCCReference Include="ogl\farc_ogl_viewmain.pas"/>
-			<DCCReference Include="ogl\farc_ogl_genorbits.pas"/>
-			<DCCReference Include="ogl\farc_ogl_genspaceunits.pas"/>
-			<DCCReference Include="ogl\farc_ogl_genorbitalobjects.pas"/>
-			<DCCReference Include="ui\farc_win_about.pas">
-				<Form>FCWinAbout</Form>
-			</DCCReference>
-			<DCCReference Include="ui\farc_ui_savedgames.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
-			<BuildConfiguration Include="Release">
-				<Key>Cfg_1</Key>
-				<CfgParent>Base</CfgParent>
-			</BuildConfiguration>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
 				<CfgParent>Base</CfgParent>
 			</BuildConfiguration>
 		</ItemGroup>
@@ -198,8 +79,8 @@
 						<VersionInfo Name="AutoIncBuild">True</VersionInfo>
 						<VersionInfo Name="MajorVer">0</VersionInfo>
 						<VersionInfo Name="MinorVer">6</VersionInfo>
-						<VersionInfo Name="Release">2</VersionInfo>
-						<VersionInfo Name="Build">977</VersionInfo>
+						<VersionInfo Name="Release">3</VersionInfo>
+						<VersionInfo Name="Build">979</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -211,9 +92,9 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">0.6.2.977</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">0.6.3.979</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
-						<VersionInfoKeys Name="LegalCopyright">2009-2012 - Jean-Francois Baconnet</VersionInfoKeys>
+						<VersionInfoKeys Name="LegalCopyright">2009-2014 - Jean-Francois Baconnet</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
 						<VersionInfoKeys Name="OriginalFilename"/>
 						<VersionInfoKeys Name="ProductName">FAR Colony</VersionInfoKeys>

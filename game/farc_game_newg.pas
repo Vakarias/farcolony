@@ -348,6 +348,7 @@ begin
    begin
       FCVdi3DViewRunning:=false;
       mustDoAReset:=true;
+      FCWinMain.MMOptionSection_RealtimeTunrBasedSwitch.Enabled:=false;
    end
    else FCMgfxC_Main_Init;
    FCMgC_Game_Initialize;
@@ -695,7 +696,8 @@ begin
       );
    FCMuiSP_SurfaceEcosphere_Set(0, 0, 0, 0, true);
    FCWinMain.caption:=FCWinMain.caption+'   ['+FCFdTFiles_UIStr_Get(uistrUI,'comCurGame')+FCVdgPlayer.P_gameName+']';
-   FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutCPS);
+   FCMoglUI_CoreUI_Update(ptuTextsOnly, ttuCPS);
+   FCWinMain.MMOptionSection_RealtimeTunrBasedSwitch.Enabled:=true;
 end;
 
 procedure FCMgNG_Core_Setup;

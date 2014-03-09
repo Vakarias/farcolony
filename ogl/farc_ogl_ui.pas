@@ -1,17 +1,17 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved===============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
-        Project Started: Aug 16 2009
+        Project Started: August 16 2009
         Platform: Delphi
         License: GPLv3
         Website: http://farcolony.sourceforge.net/
 
-        Unit: regroup all OpenGL user's interface related methods and functions
+        Unit: OpenGL - user's interface unit
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ Copyright (c) 2009-2012, Jean-Francois Baconnet
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************************}
-
 unit farc_ogl_ui;
 
 interface
@@ -37,25 +36,38 @@ uses
 
    ,VectorGeometry;
 
-type TFCEogluiHudDispTp=(
-   ogluihdtStar
-   ,ogluihdtOObj
-   ,ogluihdtSat
-   ,ogluihdtSpUn
+type TFCEogluiHUDDisplayTypes=(
+   huddtStar
+   ,huddtOrbitalObject
+   ,huddtSatellite
+   ,huddtSpaceUnit
    );
 
-type TFCEogluiUpdTp=(
-   oglupdtpAll
-   ,oglupdtpTxtOnly
-   ,oglupdtpLocOnly
+type TFCEogluiPartToUpdate=(
+   ptuAll
+   ,ptuTextsOnly
+   ,ptuLocationsOnly
    );
 
-type TFCEogluiUpdTgt=(
-   ogluiutAll
-   ,ogluiutCPS
-   ,ogluiutFocObj
-   ,ogluiutTime
+type TFCEogluiTargetsToUpdate=(
+   ttuAll
+   ,ttuCPS
+   ,ttuFocusedObject
+   ,ttuTimeFlow
    );
+
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
+
+//===========================END FUNCTIONS SECTION==========================================
 
 ///<summary>
 ///   trigger the help text of the selected element
@@ -67,14 +79,20 @@ procedure FCMoglUI_Elem_SelHelp(const ESHidx: integer);
 ///</summary>
 ///    <param name="FODDtp">object type, variable added for display data not necessarly
 ///   related to the current focused object</param>
-procedure FCMoglUI_FocusedObj_DDisp(const FODDtp: TFCEogluiHudDispTp);
+procedure FCMoglUI_FocusedObj_DDisp(const FODDtp: TFCEogluiHUDDisplayTypes);
 
 ///<summary>
-///   update user's interface of the main3d view
+///   update user's interface of the main 3d view
 ///</summary>
-procedure FCMoglUI_Main3DViewUI_Update(
-   const M3DVUIUtype: TFCEogluiUpdTp;
-   const M3DVUIUtarget: TFCEogluiUpdTgt
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMoglUI_CoreUI_Update(
+   const PartToUpdate: TFCEogluiPartToUpdate;
+   const TargetToUpdate: TFCEogluiTargetsToUpdate
    );
 
 implementation
@@ -92,7 +110,19 @@ uses
    ,farc_spu_functions
    ,farc_ui_win;
 
-//=============================================END OF INIT==================================
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
+
+//===================================================END OF INIT============================
+//===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMoglUI_Elem_SelHelp(const ESHidx: integer);
 {:Purpose: trigger the help text of the selected element.
@@ -300,7 +330,7 @@ begin
    FCWinMain.FCGLSHUDstarLum.Visible:=true;
 end;
 
-procedure FCMoglUI_FocusedObj_DDisp(const FODDtp: TFCEogluiHudDispTp);
+procedure FCMoglUI_FocusedObj_DDisp(const FODDtp: TFCEogluiHUDDisplayTypes);
 {:Purpose: set the data display for the choosen focused object.
     Additions:
       -2010Mar27- *add: space unit docked icon+label.
@@ -311,26 +341,26 @@ procedure FCMoglUI_FocusedObj_DDisp(const FODDtp: TFCEogluiHudDispTp);
 }
 begin
    case FODDtp of
-      ogluihdtStar:
+      huddtStar:
       begin
          FODD_FO_SpUnHide;
          FCMoglUI_FO_OObHide;
          FODD_FO_StarShow;
       end;
-      ogluihdtOObj:
+      huddtOrbitalObject:
       begin
          FODD_FO_SpUnHide;
          FODD_FO_StarHide;
          FCMoglUI_FO_OObShow;
       end;
-      ogluihdtSat:
+      huddtSatellite:
       begin
          FODD_FO_SpUnHide;
          FODD_FO_StarHide;
          FCMoglUI_FO_OObHide;
          FCMoglUI_FO_SatShow;
       end;
-      ogluihdtSpUn:
+      huddtSpaceUnit:
       begin
          FODD_FO_StarHide;
          FCMoglUI_FO_OObHide;
@@ -339,12 +369,14 @@ begin
    end;
 end;
 
-procedure FCMoglUI_Main3DViewUI_Update(
-   const M3DVUIUtype: TFCEogluiUpdTp;
-   const M3DVUIUtarget: TFCEogluiUpdTgt
+procedure FCMoglUI_CoreUI_Update(
+   const PartToUpdate: TFCEogluiPartToUpdate;
+   const TargetToUpdate: TFCEogluiTargetsToUpdate
    );
 {:Purpose: update user's interface of the main3d view.
     Additions:
+      -2014Feb20- *code: parameters refactoring.
+                  *add: begin the implementation of the turn-based mode informations.
       -2013Jun20- *add/mod: apply the new types of planets.
       -2012Aug26- *add: specific conditions for the Spanish language.
       -2012Aug13- *fix: bug fix for the one that display the CPS HUD informations during a resizing of the main window when the CPS isn't enabled.
@@ -409,14 +441,12 @@ var
    ,M3DVUIUdmpStatus: string;
 begin
    {.time and date display}
-   if (M3DVUIUtarget=ogluiutAll)
-      or (M3DVUIUtarget=ogluiutTime)
-   then
+   if (TargetToUpdate=ttuAll)
+      or (TargetToUpdate=ttuTimeFlow) then
    begin
       {.user's interface initialization}
-      if (M3DVUIUtype=oglupdtpAll)
-         or (M3DVUIUtype=oglupdtpLocOnly)
-      then
+      if (PartToUpdate=ptuAll)
+         or (PartToUpdate=ptuLocationsOnly) then
       begin
          if FCVdiLanguage='SP'
          then FCWinMain.FCGLSHUDgameDate.Position.X:=FCWinMain.Width-110
@@ -432,32 +462,52 @@ begin
          else FCWinMain.FCGLSFontDateTime.Font.Size:=10;
       end;
       {.text display}
-      if (M3DVUIUtype=oglupdtpAll)
-         or (M3DVUIUtype=oglupdtpTxtOnly)
+      if (PartToUpdate=ptuAll)
+         or (PartToUpdate=ptuTextsOnly)
       then
       begin
-         FCWinMain.FCGLSHUDgameDate.Text
-            :=IntToStr(FCVdgPlayer.P_currentTimeDay)+'/'+IntToStr(FCVdgPlayer.P_currentTimeMonth)+'/'+IntToStr(FCVdgPlayer.P_currentTimeYear);
-         FCWinMain.FCGLSHUDgameTime.Text
-            :=IntToStr(FCVdgPlayer.P_currentTimeHour)+'hr '+IntToStr(FCVdgPlayer.P_currentTimeMinut)+'mn ';
-         case FCVdgPlayer.P_currentTimePhase of
-            tphTac: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseTac');
-            tphMan: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseMan');
-            tphSTH: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphaseStH');
-            tphPAUSE: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFphasePAUSE');
-            tphPAUSEwo: M3DVUIUdmpPhase:='';
+         FCWinMain.FCGLSHUDgameDate.Text:=IntToStr(FCVdgPlayer.P_currentTimeDay)+'/'+IntToStr(FCVdgPlayer.P_currentTimeMonth)+'/'+IntToStr(FCVdgPlayer.P_currentTimeYear);
+         FCWinMain.FCGLSHUDgameTime.Text:=IntToStr(FCVdgPlayer.P_currentTimeHour)+'hr '+IntToStr(FCVdgPlayer.P_currentTimeMinut)+'mn ';
+         if FCVdgPlayer.P_isTurnBased then
+         begin
+            case FCVdgPlayer.P_currentTypeOfTurn of
+               ttTacticalTurn: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get( uistrUI, 'TimeFturnTactical' );
+
+               ttIndustrialTurn: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get( uistrUI, 'TimeFturnIndustrial' );
+
+               ttUpkeepTurn: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get( uistrUI, 'TimeFturnUpkeep' );
+
+               ttColonialTurn: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get( uistrUI, 'TimeFturnColonial' );
+
+               ttHistoricalTurn: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get( uistrUI, 'TimeFturnHistorical' );
+            end;
+         end
+         else begin
+            case FCVdgPlayer.P_currentRealTimeAcceleration of
+               rtaX1: M3DVUIUdmpPhase:='x1';
+
+               rtaX2: M3DVUIUdmpPhase:='x2';
+
+               rtaX5: M3DVUIUdmpPhase:='x5';
+
+               rtaX10: M3DVUIUdmpPhase:='x10';
+
+               rtaPause: M3DVUIUdmpPhase:=FCFdTFiles_UIStr_Get(uistrUI,'TimeFpause');
+
+               rtaPauseWOinterface: M3DVUIUdmpPhase:='';
+            end;
          end;
          FCWinMain.FCGLSHUDgameTimePhase.Text:=M3DVUIUdmpPhase;
       end;
    end;
    {.object focused display}
-   if (M3DVUIUtarget=ogluiutAll)
-      or (M3DVUIUtarget=ogluiutFocObj)
+   if (TargetToUpdate=ttuAll)
+      or (TargetToUpdate=ttuFocusedObject)
    then
    begin
       {.user's interface initialization}
-      if (M3DVUIUtype=oglupdtpAll)
-         or (M3DVUIUtype=oglupdtpLocOnly)
+      if (PartToUpdate=ptuAll)
+         or (PartToUpdate=ptuLocationsOnly)
       then
       begin
          {.hud name}
@@ -692,8 +742,8 @@ begin
          else FCWinMain.FCGLSFontDataHeader.Font.Size:=10;
       end;
       {.data display}
-      if (M3DVUIUtype=oglupdtpAll)
-         or (M3DVUIUtype=oglupdtpTxtOnly)
+      if (PartToUpdate=ptuAll)
+         or (PartToUpdate=ptuTextsOnly)
       then
       begin
          {.for a focused space unit}
@@ -702,7 +752,7 @@ begin
          then
          begin
             {.change data display}
-            FCMoglUI_FocusedObj_DDisp(ogluihdtSpUn);
+            FCMoglUI_FocusedObj_DDisp(huddtSpaceUnit);
             {.in case of that space unit is owned by the player}
             if FC3doglSpaceUnits[FC3doglSelectedSpaceUnit].Tag=0
             then
@@ -750,7 +800,7 @@ begin
          then
          begin
             {.change data display}
-            FCMoglUI_FocusedObj_DDisp(ogluihdtSat);
+            FCMoglUI_FocusedObj_DDisp(huddtSatellite);
             {.get satellite db index # + planet index #}
             M3DVUIUsatIdx:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
             M3DVUIUsatPlanIdx:=round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat);
@@ -838,7 +888,7 @@ begin
          else if FC3doglSelectedPlanetAsteroid=0 then
          begin
             {.change data display}
-            FCMoglUI_FocusedObj_DDisp(ogluihdtStar);
+            FCMoglUI_FocusedObj_DDisp(huddtStar);
             {.name}
             FCWinMain.FCGLSHUDobjectFocused.Text
                :=FCFdTFiles_UIStr_Get(dtfscPrprName, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_token);
@@ -864,7 +914,7 @@ begin
          then
          begin
             {.change data display}
-            FCMoglUI_FocusedObj_DDisp(ogluihdtOObj);
+            FCMoglUI_FocusedObj_DDisp(huddtOrbitalObject);
             {.colony presence}
             M3DVUIUcol:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0];
             if M3DVUIUcol>0
@@ -1017,11 +1067,11 @@ begin
       end; //==END== if (M3DVUIUtype=oglupdtpAll) or (M3DVUIUtype=oglupdtpTxtOnly ==//
    end; //==END== if (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutFocObj) ==//
    {.CPS data}
-   if (M3DVUIUtarget=ogluiutAll) or (M3DVUIUtarget=ogluiutCPS) then
+   if (TargetToUpdate=ttuAll) or (TargetToUpdate=ttuCPS) then
    begin
       {.user's interface initialization}
-      if (M3DVUIUtype=oglupdtpAll)
-         or (M3DVUIUtype=oglupdtpLocOnly)
+      if (PartToUpdate=ptuAll)
+         or (PartToUpdate=ptuLocationsOnly)
       then
       begin
 //         FCWinMain.FCGLSHUDcpsCVSLAB.Visible:=true;
@@ -1061,7 +1111,7 @@ begin
          FCWinMain.FCGLSHUDcpsTlft.Visible:=false;
       end;
       {.text display}
-      if ((M3DVUIUtype=oglupdtpAll) or (M3DVUIUtype=oglupdtpTxtOnly))
+      if ((PartToUpdate=ptuAll) or (PartToUpdate=ptuTextsOnly))
          and (FCcps<>nil)
          and (FCcps.CPSisEnabled)
       then

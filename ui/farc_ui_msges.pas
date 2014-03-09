@@ -302,7 +302,7 @@ begin
       FCWinMain.FCWM_MsgeBox.Show;
    end;
    FCWinMain.FCWM_MsgeBox_List.ItemIndex:=FCWinMain.FCWM_MsgeBox_List.Items.Count-1;
-   FCMgTFlow_FlowState_Set(tphTac);
+   FCMgGF_RealTime_Restore;
    {.update description}
    FCMuiM_MessageDesc_Upd;
 end;

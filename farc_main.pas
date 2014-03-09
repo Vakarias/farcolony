@@ -1,4 +1,4 @@
-{=====(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved================
+{=====(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved================
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2013, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -197,7 +197,7 @@ type
       FCWM_HelpPanel: TAdvPanel;
       FCWM_HPdataPad: TAdvPageControl;
       FCWM_HPdPad_Keys: TAdvTabSheet;
-      FCWM_HPdPad_KeysTxt: THTMLabel;
+      FCWM_HPdPad_KeysTxt1: THTMLabel;
 
       FCWM_RegTerrLib: TBitmap32List;
       {.Surface Panel declarations}
@@ -351,6 +351,25 @@ type
     PSP_MissionExt: THTMLRadioGroup;
     PSP_Commit: TAdvGlowButton;
     SP_ResourceSurveyShowDetails: TAdvGlowButton;
+    AP_OObjSwitchHeader: TAdvGlowButton;
+    AP_OObjSwitch8: TAdvGlowButton;
+    AP_OObjSwitch7: TAdvGlowButton;
+    AP_OObjSwitch6: TAdvGlowButton;
+    AP_OObjSwitch5: TAdvGlowButton;
+    AP_OObjSwitch4: TAdvGlowButton;
+    AP_OObjSwitch3: TAdvGlowButton;
+    AP_OObjSwitch2: TAdvGlowButton;
+    AP_OObjSwitch1: TAdvGlowButton;
+    AP_OObjSwitch15: TAdvGlowButton;
+    AP_OObjSwitch14: TAdvGlowButton;
+    AP_OObjSwitch13: TAdvGlowButton;
+    AP_OObjSwitch12: TAdvGlowButton;
+    AP_OObjSwitch11: TAdvGlowButton;
+    AP_OObjSwitch10: TAdvGlowButton;
+    AP_OObjSwitch9: TAdvGlowButton;
+    MMOptionSection_RealtimeTunrBasedSwitch: TMenuItem;
+    FCWM_HPdPad_KeysTxt2: THTMLabel;
+    FCWM_HPdPad_KeysTxt3: THTMLabel;
 
       procedure FormCreate(Sender: TObject);
       procedure FormResize(Sender: TObject);
@@ -485,6 +504,52 @@ type
     procedure SP_ResourceSurveyShowDetailsClick(Sender: TObject);
     procedure SP_RegionSheetMouseEnter(Sender: TObject);
     procedure MMGameSection_LoadSavedClick(Sender: TObject);
+    procedure AP_OObjSwitch1Click(Sender: TObject);
+    procedure AP_OObjSwitch10Click(Sender: TObject);
+    procedure AP_OObjSwitch11Click(Sender: TObject);
+    procedure AP_OObjSwitch12Click(Sender: TObject);
+    procedure AP_OObjSwitch13Click(Sender: TObject);
+    procedure AP_OObjSwitch14Click(Sender: TObject);
+    procedure AP_OObjSwitch15Click(Sender: TObject);
+    procedure AP_OObjSwitch2Click(Sender: TObject);
+    procedure AP_OObjSwitch3Click(Sender: TObject);
+    procedure AP_OObjSwitch4Click(Sender: TObject);
+    procedure AP_OObjSwitch5Click(Sender: TObject);
+    procedure AP_OObjSwitch6Click(Sender: TObject);
+    procedure AP_OObjSwitch7Click(Sender: TObject);
+    procedure AP_OObjSwitch8Click(Sender: TObject);
+    procedure AP_OObjSwitch9Click(Sender: TObject);
+    procedure AP_OObjSwitch3MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch10MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch11MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch12MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch13MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch14MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch15MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch2MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch4MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch5MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch6MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch7MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch8MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure AP_OObjSwitch9MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure MMOptionSection_RealtimeTunrBasedSwitchClick(Sender: TObject);
 //    procedure FormActivate(Sender: TObject);
    private
       { Private declarations }
@@ -519,6 +584,7 @@ uses
    ,farc_data_init
    ,farc_data_missionstasks
    ,farc_data_textfiles
+   ,farc_data_univ
    ,farc_game_colony
    ,farc_fug_com
    ,farc_game_core
@@ -530,6 +596,7 @@ uses
    ,farc_game_newg
    ,farc_game_gameflow
    ,farc_game_spm
+   ,farc_game_tasksystem
    ,farc_ogl_init
    ,farc_ogl_viewmain
    ,farc_ogl_ui
@@ -545,7 +612,7 @@ uses
    ,farc_ui_surfpanel
    ,farc_ui_umi
    ,farc_ui_umifaction
-   ,farc_ui_win;
+   ,farc_ui_win, farc_win_debug;
 
 const
    mb_Left = Controls.mbLeft;
@@ -618,6 +685,336 @@ begin
    then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false)
    else if FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite]
    then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat), FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
+end;
+
+procedure TFCWinMain.AP_OObjSwitch10Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=10;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 10 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch10MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[10].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 10 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch11Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=11;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 11 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch11MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[11].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 11 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch12Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=12;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 12 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch12MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[12].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 12 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch13Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=13;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 13 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch13MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[13].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 13 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch14Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=14;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 14 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch14MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[14].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 14 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch15Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=15;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 15 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch15MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[15].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 15 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch1Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=1;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 1 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[1].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 1 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch2Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=2;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 2 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch2MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[2].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 2 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch3Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=3;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 3 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch3MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[3].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 3 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch4Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=4;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 4 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch4MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[4].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 4 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch5Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=5;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 5 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch5MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[5].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 5 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch6Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=6;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 6 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch6MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[6].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 6 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch7Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=7;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 7 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch7MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[7].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 7 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch8Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=8;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 8 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch8MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[8].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 8 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
+end;
+
+procedure TFCWinMain.AP_OObjSwitch9Click(Sender: TObject);
+begin
+   if FCVdiActionPanelSatMode = 0 then
+   begin
+      FC3doglSelectedPlanetAsteroid:=9;
+      FCMovM_OObj_SwitchTo;
+   end
+   else FCMovM_Sat_SwitchTo( 9 );
+end;
+
+procedure TFCWinMain.AP_OObjSwitch9MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+   if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode = 0 )
+      and ( length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[9].OO_satellitesList ) > 1 )
+   then FCMuiAP_Update_Satellites( 9 )
+   else if ( Button = mb_Right )
+      and ( FCVdiActionPanelSatMode > 0 )
+   then FCMuiAP_Update_OrbitalObject;
 end;
 
 procedure TFCWinMain.CDPproductionMatrixListKeyDown(Sender: TObject; var Key: Word;
@@ -737,7 +1134,7 @@ begin
       if FCVdiGameFlowTimer.enabled
       then
       begin
-         FCMgGFlow_Tasks_Process;
+         FCMgGF_Tasks_Process;
          {.space units moving subroutine}
          FCGLSCPtaskL:=length(FCDdmtTaskListInProcess);
          if FCGLSCPtaskL>1
@@ -774,10 +1171,14 @@ begin
                   then
                   begin
                      {.set time acceleration}
-                     case FCVdgPlayer.P_currentTimePhase of
-                        tphTac: FCGLSCPcoefTimeAcc:=1.84;
-                        tphMan: FCGLSCPcoefTimeAcc:=3.68;
-                        tphSTH: FCGLSCPcoefTimeAcc:=18.4;
+                     case FCVdgPlayer.P_currentRealTimeAcceleration of
+                        rtaX1: FCGLSCPcoefTimeAcc:=1.84;
+
+                        rtaX2: FCGLSCPcoefTimeAcc:=3.68;
+
+                        rtaX5: FCGLSCPcoefTimeAcc:=9.2;
+
+                        rtaX10: FCGLSCPcoefTimeAcc:=18.4;
                      end;
                      {.set camera focus}
                      if FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCGLSCPobjIdx]
@@ -789,12 +1190,16 @@ begin
                         FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_locationViewX:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.X;
                         FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_locationViewZ:=FC3doglSpaceUnits[FCGLSCPobjIdx].Position.Z;
                         {.set the right camera location}
-                        case FCVdgPlayer.P_currentTimePhase of
-                           tphTac: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.982-(FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_3dVelocity*0.1));
-                           tphMan: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.851-(FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_3dVelocity*0.1));
-                           tphSTH: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.72-(FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_3dVelocity*0.1));
+                        case FCVdgPlayer.P_currentRealTimeAcceleration of
+                           rtaX1: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.982-(FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_3dVelocity*0.1));
+
+                           rtaX2: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.895-(FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_3dVelocity*0.1)); //0.851
+
+                           rtaX5: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.807-(FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_3dVelocity*0.1));
+
+                           rtaX10: FCGLSCamMainViewGhost.AdjustDistanceToTarget(0.72-(FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_3dVelocity*0.1));
                         end;
-                        FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+                        FCMoglUI_CoreUI_Update(ptuTextsOnly, ttuFocusedObject);
                      end {.if FCGLSCamMainViewGhost.TargetObject=FCV3dMVobjSpUnit[FCGLSCPobjIdx]}
                      else FC3doglSpaceUnits[FCGLSCPobjIdx].Move(FCDdgEntities[0].E_spaceUnits[FCGLSCPspUidx].SU_3dVelocity*deltaTime*FCGLSCPcoefTimeAcc);
                      FCMoglVM_OObjSpUn_ChgeScale(FCGLSCPobjIdx);
@@ -842,13 +1247,13 @@ begin
    begin
       FCVdi3DViewToInitialize:=false;
       {.time frame}
-      FCVdiGameFlowTimer.Enabled:=true;
+      FCMgGF_TypeOfTimeFlow_Init;
       MMGameSection_Save.Enabled:=true;
       MMGameSection_SaveAndFlush.Enabled:=true;
       MMHelpSection_HelpPanel.Enabled:=true;
       FCMuiM_MessageBox_ResetState(true);
+      FCMoglUI_CoreUI_Update( ptuTextsOnly, ttuTimeFlow );
 //      FCMumi_Faction_Upd(uiwAllSection, true);
-      FCMgTFlow_FlowState_Set(tphTac);
    end;
 end;
 
@@ -883,7 +1288,7 @@ begin
    end;
    {.right mouse button}
    if (Button=mb_Right)
-      and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
+      and (FCVdgPlayer.P_currentRealTimeAcceleration<>rtaPause)
       and (not FCWinMain.FCWM_CPSreportSet.Visible)
       and
       (
@@ -900,6 +1305,7 @@ begin
                (FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite])
             )
          or (FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid])
+         or (FCGLSCamMainViewGhost.TargetObject=FC3doglMainViewListMainOrbits[FC3doglSelectedPlanetAsteroid])
          or (FCGLSCamMainViewGhost.TargetObject=FCGLSStarMain)
       )
       and (not FCWM_MissionSettings.Visible)
@@ -1480,6 +1886,11 @@ begin
    FCMuiW_UI_Initialize(mwupMenuLoc);
 end;
 
+procedure TFCWinMain.MMOptionSection_RealtimeTunrBasedSwitchClick(Sender: TObject);
+begin
+   FCMgGF_TypeOfTimeFlow_SwitchMode;
+end;
+
 procedure TFCWinMain.MMOptionsSection_LS_ENClick(Sender: TObject);
 begin
    if FCVdiLanguage<>'EN' then
@@ -1782,6 +2193,7 @@ var
    FCwide: pWideChar;
 //   DefLCID: LCID;
 //Buffer: PWidechar;
+   hours, mins, secs, milliSecs : Word;
 begin
    {.core settings}
    FCVisFARCclosing:=false;
@@ -1790,7 +2202,7 @@ begin
    {.set the paths}
    FCVdiPathGame:=ExtractFilePath(Application.ExeName);
    FCVdiPathConfigDir:=FCFcFunc_WinFolders_GetMyDocs(false);
-   RandSeed:=GetTickCount;
+//   RandSeed:=GetTickCount;
    FCVdiPathConfigFile:=FCVdiPathConfigDir+'config.xml';
    {.initialize some global data and acces to the configuration file}
 	FCVdiPathResourceDir:=FCVdiPathGame+'_RSRC\';
@@ -2016,7 +2428,7 @@ begin
          {.set main camera}
          gluPerspective(FCGLSCamMainViewGhost.FocalLength, width/height, 0.001, FCGLSCamMainViewGhost.DepthOfView);
          {.relocate and change font size of all hud user's interface objects}
-         FCMoglUI_Main3DViewUI_Update(oglupdtpLocOnly, ogluiutAll);
+         FCMoglUI_CoreUI_Update(ptuLocationsOnly, ttuAll);
          FCMuiM_MessageBox_ResetState(true);
       end;
    end;

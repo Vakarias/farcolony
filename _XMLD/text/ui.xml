@@ -224,6 +224,16 @@
          <FR>Annule la Mission en Cours</FR>
          <SP>Cancelar la Misión en Curso</SP>
       </AP_MissionCancel>
+      <AP_OObjSwitchHeaderOOb>
+         <EN>Focus To...(right click=sat)</EN>
+         <FR>Focus Vers...(bouton droit=sat)</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </AP_OObjSwitchHeaderOOb>
+      <AP_OObjSwitchHeaderSat>
+         <EN>Focus To...(right click=OrbObj)</EN>
+         <FR>Focus Vers...(bouton droit=ObjOrb)</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </AP_OObjSwitchHeaderSat>
    <!-- ********** ATMOSPHERIC GASES ********** -->
    <gasAr>
       <EN>Argon</EN>
@@ -1212,80 +1222,71 @@
       <FR>Sujets - Définitions</FR>
       <SP>Temas - Definiciones</SP>
    </FCWM_HPDPhints>
-   <HPKeys>
-      <EN>
-      &#60;br&#62;&#60;b&#62;&#60;u&#62;3D View - Focused Object Browse&#60;/u&#62;&#60;/b&#62;
-      &lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Unified Macromanagement Interface&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;NUMPAD 4: &#60;/b&#62;focus previous object 
-      &lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;Universe tab
-      &#60;br&#62;&#60;b&#62;NUMPAD 6: &#60;/b&#62;focus next object
-      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;Faction tab w/ Political Structure
-      &#60;br&#62;&#60;b&#62;NUMPAD 7: &#60;/b&#62;focus first object 
-      &lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;Faction tab w/ Socio-Political Matrix (SPM) Setting
-      &#60;br&#62;&#60;b&#62;NUMPAD 1: &#60;/b&#62;focus last object
-      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;Faction tab w/ Policies Enforcement
-      &#60;br&#62;&#60;b&#62;A: &#60;/b&#62;switch between satellite and orbital object display
-      &lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;Space Units tab
-      &#60;br&#62;&#60;b&#62;S: &#60;/b&#62;switch between space unit and orbital object display
-      &lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;Production tab&lt;br&gt;
-      &lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;Research &amp; Development tab
-      &#60;br&#62;&#60;b&#62;&#60;u&#62;3D View - Time Frame&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;P: &#60;/b&#62;pause game
-      &#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;tactical time frame (1sec RT ~ 10min GT)
-      &#60;br&#62;&#60;b&#62;X: &#60;/b&#62;management time frame (1sec RT ~ 20min GT)
-      &#60;br&#62;&#60;b&#62;C: &#60;/b&#62;strategical/historical time frame (1sec RT ~ 100min GT)
-      &#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Message Box&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;M: &#60;/b&#62;raise =&#62; maximize =&#62; minimize the message box
-      &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimize the message box</EN>
-      <FR>
-      &#60;br&#62;&#60;b&#62;&#60;u&#62;Vue 3D - Navigation de l'Objet Centré&#60;/u&#62;&#60;/b&#62;
-      &lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Interface de Macrogestion Unifiée (UMI)&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 4: &#60;/b&#62;focus l'objet précédent
-      &lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;onglet Univers
-      &#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 6: &#60;/b&#62;focus l'objet suivant
-      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;onglet Faction avec Structure Politique
-      &#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 7: &#60;/b&#62;focus le premier objet
-      &lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;onglet Faction avec la Matrice Socio-Politique (SPM)
-      &#60;br&#62;&#60;b&#62;PAVÉ NUMÉRIQUE 1: &#60;/b&#62;focus le dernier objet
-      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;onglet Faction avec Application de Politiques
-      &#60;br&#62;&#60;b&#62;A: &#60;/b&#62;switch entre l'affichage du satellite et de l'objet orbital
-      &lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;onglet Unités Spatiales
-      &#60;br&#62;&#60;b&#62;S: &#60;/b&#62;switch entre l'affichage de l'unité spatiale et de l'objet orbital
-      &lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;onglet Production&lt;br&gt;
-      &lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;onglet Recherche &amp; Dévelopement
-      &#60;br&#62;&#60;b&#62;&#60;u&#62;Vue 3D - Temps&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;P: &#60;/b&#62;jeu en pause
-      &#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;temps tactique (1sec TR ~ 10min TJ)
-      &#60;br&#62;&#60;b&#62;X: &#60;/b&#62;temps de gestion (1sec TR ~ 20min TJ)
-      &#60;br&#62;&#60;b&#62;C: &#60;/b&#62;temps stratégique/historique (1sec TR ~ 100min TJ)
-      &#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Boite de Message&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;M: &#60;/b&#62;affiche =&#62; maximise =&#62; minimise la boite de message
-      &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;minimise la boite de message</FR>
-      <SP>
-     &#60;br&#62;&#60;b&#62;&#60;u&#62;Vista 3D - Examinar Objeto Enfocado&#60;/u&#62;&#60;/b&#62;
-      &lt;ind x="361"&gt;&#60;b&#62;&#60;u&#62;Interfaz de Macrogestión Unificada (UMI)&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 4: &#60;/b&#62;Enfocar Objeto Anterior
-      &lt;ind x="361"&gt;&#60;b&#62;F2: &#60;/b&#62;Universo
-      &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 6: &#60;/b&#62;Enfocar Objeto Siguiente
-      &lt;ind x="361"&gt;&#60;b&#62;F3: &#60;/b&#62;Facción/Estructura Política
-      &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 7: &#60;/b&#62;Enfocar en el Primer Objeto
-      &lt;ind x="361"&gt;&#60;b&#62;F4: &#60;/b&#62;Marco Facción Socio/política (SPM)
-      &#60;br&#62;&#60;b&#62;TECLA NUMÉRICA 1: &#60;/b&#62;Enfocar en el Último Objeto
-      &lt;ind x="361"&gt;&#60;b&#62;F5: &#60;/b&#62;Facción/políticas de aplicación
-      &#60;br&#62;&#60;b&#62;A: &#60;/b&#62;Cambiar Entre el Satélite y la Visualización de Objetos Orbitales
-      &lt;ind x="361"&gt;&#60;b&#62;F6: &#60;/b&#62;Ficha Unidades Espaciales
-      &#60;br&#62;&#60;b&#62;S: &#60;/b&#62;Cambiar entre la Unidad del Espacio y los Objetos de Visualización Orbital
-      &lt;ind x="361"&gt;&#60;b&#62;F7: &#60;/b&#62;Ficha Producción&lt;br&gt;
-      &lt;ind x="361"&gt;&#60;b&#62;F8: &#60;/b&#62;Ficha Investigación y Desarrollo
-      &#60;br&#62;&#60;b&#62;&#60;u&#62;Vista 3D - Tiempos&#60;/u&#62;&#60;/b&#62;
-      &#60;br&#62;&#60;b&#62;P: &#60;/b&#62;Juego en pausa
-      &#60;br&#62;&#60;b&#62;Z: &#60;/b&#62;tiempos tácticos (1seg TR ~ 10min TJ)
-      &#60;br&#62;&#60;b&#62;X: &#60;/b&#62;tiempos de gestión (1seg TR ~ 20min TJ)
-      &#60;br&#62;&#60;b&#62;C: &#60;/b&#62;tiempos estratégicos/históricos (1seg TR ~ 100min TJ)
-      &#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;u&#62;Ventana de mensajes
-      &#60;br&#62;&#60;b&#62;M: &#60;/b&#62;=&#62; Maximizar =&#62; Minimizar la ventana de mensajes
-      &#60;br&#62;&#60;b&#62;ESC: &#60;/b&#62;Minimizar la ventana de mensajes</SP>
-   </HPKeys>
+   <HelpKeysRT>
+      <EN>Realtime Mode</EN>
+      <FR>Mode Temps Réel</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </HelpKeysRT>
+      <HelpKeysRT_pause>
+         <EN>pause the game (on/off)</EN>
+         <FR>pause le jeu (marche/arret)</FR>
+         <SP>!TO TRANSLATE</SP>
+      </HelpKeysRT_pause>
+      <HelpKeysRT_reset>
+         <EN>reset acceleration</EN>
+         <FR>remise à zéro de l'accelération</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysRT_reset>
+      <HelpKeysRT_speeddec>
+         <EN>decrease time acceleration</EN>
+         <FR>réduit l'accelération temporelle</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysRT_speeddec>
+      <HelpKeysRT_speedinc>
+         <EN>increase time acceleration</EN>
+         <FR>augmente l'accelération temporelle</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysRT_speedinc>
+   <HelpKeysTB>
+      <EN>Turn-Based Mode</EN>
+      <FR>Mode Basé par Tour</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </HelpKeysTB>
+      <HelpKeysTB_endturntac>
+         <EN>end of the current turn</EN>
+         <FR>fin du tour actuel</FR>
+         <SP>!TO TRANSLATE</SP>
+      </HelpKeysTB_endturntac>
+      <HelpKeysTB_forcendcolonial>
+         <EN>force the end of a colonial turn</EN>
+         <FR>force la fin d'un tour colonial</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysTB_forcendcolonial>
+      <HelpKeysTB_forcendhistoric>
+         <EN>force the end of a historic turn</EN>
+         <FR>force la fin d'un tour historique</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysTB_forcendhistoric>
+      <HelpKeysTB_forcendindus>
+         <EN>force the end of an industrial turn</EN>
+         <FR>force la fin d'un tour industriel</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysTB_forcendindus>
+      <HelpKeysTB_forcendupkeep>
+         <EN>force the end of an upkeep turn</EN>
+         <FR>force la fin d'un tour d'entretien</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysTB_forcendupkeep>
+      <HelpKeysTB_turntypedec>
+         <EN>change to a shorter turn</EN>
+         <FR>change vers un tour plus court</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysTB_turntypedec>
+      <HelpKeysTB_turntypeinc>
+         <EN>change to a longer turn</EN>
+         <FR>change vers un tour plus long</FR>
+         <SP>!TO TRANSLATE!</SP>
+      </HelpKeysTB_turntypeinc>
    <!-- ********** INFRASTRUCTURES ********** -->
    <cwpAssignConfirm>
       <EN>[ENTER] for confirm</EN>
@@ -1735,6 +1736,17 @@
          <FR>Options</FR>
          <SP>Opciones</SP>
       </FCWM_MainMenu_Options>
+         <!-- Main Menu / Options / Realtime.Turn-based switch -->
+         <MMOptionSection_RealtimeTunrBasedSwitchRT>
+            <EN>Switch Into Turn-Based</EN>
+            <FR>Switch en Base de Tour</FR>
+            <SP>!TO TRANSLATE!</SP>
+         </MMOptionSection_RealtimeTunrBasedSwitchRT>
+         <MMOptionSection_RealtimeTunrBasedSwitchTB>
+            <EN>Switch Into Realtime</EN>
+            <FR>Switch en Temps Réel</FR>
+            <SP>!TO TRANSLATE!</SP>
+         </MMOptionSection_RealtimeTunrBasedSwitchTB>
          <!-- Main Menu / Options / Language -->
          <FCWM_MainMenu_Options_Lang>
             <EN>Language</EN>
@@ -3877,6 +3889,11 @@
       <FR>er</FR>
       <SP>no</SP>
    </TimeF1st>
+   <TimeFduration>
+      <EN>duration</EN>
+      <FR>durée</FR>
+      <SP>duración</SP>
+   </TimeFduration>
    <TimeFM1>
       <EN>January</EN>
       <FR>Janvier</FR>
@@ -3942,26 +3959,11 @@
       <FR>mois</FR>
       <SP>mes</SP>
    </TimeFmonth>
-   <TimeFphaseTac>
-      <EN>Tactical Time Phase</EN>
-      <FR>Phase de Temps Tactique</FR>
-      <SP>Fase de Tiempo Táctica</SP>
-   </TimeFphaseTac>
-   <TimeFphaseMan>
-      <EN>Management Time Phase</EN>
-      <FR>Phase de Temps de Gestion</FR>
-      <SP>Fase de Tiempo de Gestión</SP>
-   </TimeFphaseMan>
-   <TimeFphasePAUSE>
+   <TimeFpause>
       <EN>Game Paused ...</EN>
       <FR>Jeu en Pause...</FR>
       <SP>Juego en Pausa...</SP>
-   </TimeFphasePAUSE>
-   <TimeFphaseStH>
-      <EN>Historical Time Phase</EN>
-      <FR>Phase de Temps Historique</FR>
-      <SP>Fase de Tiempo Histórico</SP>
-   </TimeFphaseStH>
+   </TimeFpause>
    <TimeFstdD>
       <EN>std d</EN>
       <FR>jr. std</FR>
@@ -3982,16 +3984,36 @@
       <FR>année(s) standard(s)</FR>
       <SP>Año(s) standard(s)</SP>
    </TimeFstdYfull>
+   <TimeFturnColonial>
+      <EN>Colonial Turn</EN>
+      <FR>Tour Colonial</FR>
+      <SP>!TO TRANSLATE</SP>
+   </TimeFturnColonial>
+   <TimeFturnHistorical>
+      <EN>Historical Turn</EN>
+      <FR>Tour Historique</FR>
+      <SP>Turno Histórico</SP>
+   </TimeFturnHistorical>
+   <TimeFturnIndustrial>
+      <EN>Industrial Turn</EN>
+      <FR>Tour Industriel</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </TimeFturnIndustrial>
+   <TimeFturnTactical>
+      <EN>Tactical Turn</EN>
+      <FR>Tour Tactique</FR>
+      <SP>Turno Táctica</SP>
+   </TimeFturnTactical>
+   <TimeFturnUpkeep>
+      <EN>Upkeep Turn</EN>
+      <FR>Tour d'Entretien</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </TimeFturnUpkeep>
    <TimeFwks>
       <EN>week(s)</EN>
       <FR>semaine(s)</FR>
       <SP>semana(s)</SP>
    </TimeFwks>
-   <TimeFduration>
-      <EN>duration</EN>
-      <FR>durée</FR>
-      <SP>duración</SP>
-   </TimeFduration>
    <!-- ********** UMI ********** -->
    <FCWM_UMI>
       <EN>Unified Macromanagement Interface (UMI)</EN>
@@ -4420,29 +4442,15 @@
    <satEpsilonEri3-2 name="Epsilon Eridani 3-2"/>
    <orbobjEpsilonEri4 name="Epsilon Eridani 4"/>
    <abeltEpsilonEri4-1 name="Epsilon Eridani 4-1"/>
-   <abeltEpsilonEri4-2 name="Epsilon Eridani 4-2"/>
    <abeltEpsilonEri4-3 name="Epsilon Eridani 4-3"/>
-   <abeltEpsilonEri4-4 name="Epsilon Eridani 4-4"/>
-   <abeltEpsilonEri4-5 name="Epsilon Eridani 4-5"/>
    <abeltEpsilonEri4-6 name="Epsilon Eridani 4-6"/>
-   <abeltEpsilonEri4-7 name="Epsilon Eridani 4-7"/>
-   <abeltEpsilonEri4-8 name="Epsilon Eridani 4-8"/>
-   <abeltEpsilonEri4-9 name="Epsilon Eridani 4-9"/>
-   <abeltEpsilonEri4-10 name="Epsilon Eridani 4-10"/>
    <abeltEpsilonEri4-11 name="Epsilon Eridani 4-11"/>
    <abeltEpsilonEri4-12 name="Epsilon Eridani 4-12"/>
-   <abeltEpsilonEri4-13 name="Epsilon Eridani 4-13"/>
    <abeltEpsilonEri4-14 name="Epsilon Eridani 4-14"/>
-   <abeltEpsilonEri4-15 name="Epsilon Eridani 4-15"/>
    <abeltEpsilonEri4-16 name="Epsilon Eridani 4-16"/>
-   <abeltEpsilonEri4-17 name="Epsilon Eridani 4-17"/>
    <abeltEpsilonEri4-18 name="Epsilon Eridani 4-18"/>
-   <abeltEpsilonEri4-19 name="Epsilon Eridani 4-19"/>
-   <abeltEpsilonEri4-20 name="Epsilon Eridani 4-20"/>
    <abeltEpsilonEri4-21 name="Epsilon Eridani 4-21"/>
-   <abeltEpsilonEri4-22 name="Epsilon Eridani 4-22"/>
    <abeltEpsilonEri4-23 name="Epsilon Eridani 4-23"/>
-   <abeltEpsilonEri4-24 name="Epsilon Eridani 4-24"/>
    <abeltEpsilonEri4-25 name="Epsilon Eridani 4-25"/>
    <orbobjEpsilonEri5 name="Epsilon Eridani 5"/>
    <satEpsilonEri5-1 name="Epsilon Eridani 5-1"/>
@@ -4456,70 +4464,21 @@
    <orbobjEpsilonEri6 name="Epsilon Eridani 6"/>
    <satEpsilonEri6-1 name="Epsilon Eridani 6-1"/>
    <orbobjEpsilonEri7 name="Epsilon Eridani 7"/>
-   <abeltEpsilonEri7-1 name="Epsilon Eridani 7-1"/>
-   <abeltEpsilonEri7-2 name="Epsilon Eridani 7-2"/>
-   <abeltEpsilonEri7-3 name="Epsilon Eridani 7-3"/>
    <abeltEpsilonEri7-4 name="Epsilon Eridani 7-4"/>
-   <abeltEpsilonEri7-5 name="Epsilon Eridani 7-5"/>
-   <abeltEpsilonEri7-6 name="Epsilon Eridani 7-6"/>
    <abeltEpsilonEri7-7 name="Epsilon Eridani 7-7"/>
-   <abeltEpsilonEri7-8 name="Epsilon Eridani 7-8"/>
-   <abeltEpsilonEri7-9 name="Epsilon Eridani 7-9"/>
-   <abeltEpsilonEri7-10 name="Epsilon Eridani 7-10"/>
-   <abeltEpsilonEri7-11 name="Epsilon Eridani 7-11"/>
-   <abeltEpsilonEri7-12 name="Epsilon Eridani 7-12"/>
-   <abeltEpsilonEri7-13 name="Epsilon Eridani 7-13"/>
-   <abeltEpsilonEri7-14 name="Epsilon Eridani 7-14"/>
    <abeltEpsilonEri7-15 name="Epsilon Eridani 7-15"/>
-   <abeltEpsilonEri7-16 name="Epsilon Eridani 7-16"/>
-   <abeltEpsilonEri7-17 name="Epsilon Eridani 7-17"/>
    <abeltEpsilonEri7-18 name="Epsilon Eridani 7-18"/>
-   <abeltEpsilonEri7-19 name="Epsilon Eridani 7-19"/>
-   <abeltEpsilonEri7-20 name="Epsilon Eridani 7-20"/>
-   <abeltEpsilonEri7-21 name="Epsilon Eridani 7-21"/>
-   <abeltEpsilonEri7-22 name="Epsilon Eridani 7-22"/>
-   <abeltEpsilonEri7-23 name="Epsilon Eridani 7-23"/>
-   <abeltEpsilonEri7-24 name="Epsilon Eridani 7-24"/>
-   <abeltEpsilonEri7-25 name="Epsilon Eridani 7-25"/>
    <abeltEpsilonEri7-26 name="Epsilon Eridani 7-26"/>
    <abeltEpsilonEri7-27 name="Epsilon Eridani 7-27"/>
-   <abeltEpsilonEri7-28 name="Epsilon Eridani 7-28"/>
-   <abeltEpsilonEri7-29 name="Epsilon Eridani 7-29"/>
-   <abeltEpsilonEri7-30 name="Epsilon Eridani 7-30"/>
-   <abeltEpsilonEri7-31 name="Epsilon Eridani 7-31"/>
-   <abeltEpsilonEri7-32 name="Epsilon Eridani 7-32"/>
    <abeltEpsilonEri7-33 name="Epsilon Eridani 7-33"/>
-   <abeltEpsilonEri7-34 name="Epsilon Eridani 7-34"/>
    <abeltEpsilonEri7-35 name="Epsilon Eridani 7-35"/>
-   <abeltEpsilonEri7-36 name="Epsilon Eridani 7-36"/>
-   <abeltEpsilonEri7-37 name="Epsilon Eridani 7-37"/>
    <abeltEpsilonEri7-38 name="Epsilon Eridani 7-38"/>
-   <abeltEpsilonEri7-39 name="Epsilon Eridani 7-39"/>
-   <abeltEpsilonEri7-40 name="Epsilon Eridani 7-40"/>
-   <abeltEpsilonEri7-41 name="Epsilon Eridani 7-41"/>
    <abeltEpsilonEri7-42 name="Epsilon Eridani 7-42"/>
-   <abeltEpsilonEri7-43 name="Epsilon Eridani 7-43"/>
-   <abeltEpsilonEri7-44 name="Epsilon Eridani 7-44"/>
    <abeltEpsilonEri7-45 name="Epsilon Eridani 7-45"/>
    <abeltEpsilonEri7-46 name="Epsilon Eridani 7-46"/>
-   <abeltEpsilonEri7-47 name="Epsilon Eridani 7-47"/>
    <abeltEpsilonEri7-48 name="Epsilon Eridani 7-48"/>
-   <abeltEpsilonEri7-49 name="Epsilon Eridani 7-49"/>
-   <abeltEpsilonEri7-50 name="Epsilon Eridani 7-50"/>
-   <abeltEpsilonEri7-51 name="Epsilon Eridani 7-51"/>
-   <abeltEpsilonEri7-52 name="Epsilon Eridani 7-52"/>
    <abeltEpsilonEri7-53 name="Epsilon Eridani 7-53"/>
-   <abeltEpsilonEri7-54 name="Epsilon Eridani 7-54"/>
-   <abeltEpsilonEri7-55 name="Epsilon Eridani 7-55"/>
-   <abeltEpsilonEri7-56 name="Epsilon Eridani 7-56"/>
-   <abeltEpsilonEri7-57 name="Epsilon Eridani 7-57"/>
-   <abeltEpsilonEri7-58 name="Epsilon Eridani 7-58"/>
-   <abeltEpsilonEri7-59 name="Epsilon Eridani 7-59"/>
-   <abeltEpsilonEri7-60 name="Epsilon Eridani 7-60"/>
-   <abeltEpsilonEri7-61 name="Epsilon Eridani 7-61"/>
-   <abeltEpsilonEri7-62 name="Epsilon Eridani 7-62"/>
    <abeltEpsilonEri7-63 name="Epsilon Eridani 7-63"/>
-   <abeltEpsilonEri7-64 name="Epsilon Eridani 7-64"/>
    <orbobjEpsilonEri8 name="Epsilon Eridani 8"/>
    <satEpsilonEri8-1 name="Epsilon Eridani 8-1"/>
    <satEpsilonEri8-2 name="Epsilon Eridani 8-2"/>

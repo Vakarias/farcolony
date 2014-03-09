@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2013, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -132,7 +132,16 @@ procedure FCMovM_CameraMain_Target(
    );
 
 
-
+///<summary>
+///   switch toward the current orbital object (loaded into FC3doglSelectedPlanetAsteroid previously)
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMovM_OObj_SwitchTo;
 
 ///<summary>
 ///   change space unit scale according to it's distance, it's a fast&dirty fix
@@ -152,6 +161,17 @@ procedure FCMoglVM_OObjSpUn_inOrbit(
          OOSUIOUsatObjIdx: integer;
    const OOSUIOUmustGen: boolean
    );
+
+///<summary>
+///   switch toward the targeted satellite
+///</summary>
+///   <param name="SatelliteDBIndex">can be 0: FC3doglSelectedSatellite isn't altered then</param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMovM_Sat_SwitchTo( const SatelliteDBIndex: integer );
 
 ///<summary>
 ///   generate a space unit.
@@ -192,6 +212,8 @@ uses
    ,farc_data_spu
    ,farc_spu_functions
    ,farc_ui_actionpanel
+   ,farc_ui_missionsetup
+   ,farc_ui_surfpanel
    ,farc_ui_win
    ,farc_univ_func
    ,farc_win_debug;
@@ -698,10 +720,13 @@ begin
          {.smooth navigator target change}
          FCWinMain.FCGLSsmthNavMainV.MoveAroundParams.TargetObject:=FCWinMain.FCGLSStarMain;
          {.update focused object name}
-         FCMoglUI_Main3DViewUI_Update( oglupdtpTxtOnly, ogluiutFocObj );
+         FCMoglUI_CoreUI_Update( ptuTextsOnly, ttuFocusedObject );
          {.update the corresponding popup menu}
-         if mustUpdatePopupMenu
-         then FCMuiAP_Update_OrbitalObject;
+         if ( mustUpdatePopupMenu )
+            and ( FCVdiActionPanelSatMode = 0 )
+         then FCMuiAP_Update_OrbitalObject
+         else if mustUpdatePopupMenu
+         then FCMuiAP_Update_Satellites( FCVdiActionPanelSatMode );
       end;
 
       foAsteroidBelt:
@@ -719,9 +744,14 @@ begin
          {.smooth navigator target change}
          FCWinMain.FCGLSsmthNavMainV.MoveAroundParams.TargetObject:=FC3doglMainViewListMainOrbits[FC3doglSelectedPlanetAsteroid];
          {.update focused object data}
-         FCMoglUI_Main3DViewUI_Update( oglupdtpTxtOnly, ogluiutFocObj );
+         FCMoglUI_CoreUI_Update( ptuTextsOnly, ttuFocusedObject );
          {.update the corresponding popup menu}
-         FCMuiAP_Panel_Reset;
+//         FCMuiAP_Panel_Reset;
+         if ( mustUpdatePopupMenu )
+            and ( FCVdiActionPanelSatMode = 0 )
+         then FCMuiAP_Update_OrbitalObject
+         else if mustUpdatePopupMenu
+         then FCMuiAP_Update_Satellites( FCVdiActionPanelSatMode );
          {.store the player's location}
          FCVdgPlayer.P_viewOrbitalObject:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dbTokenId;
       end;
@@ -748,10 +778,13 @@ begin
          {.smooth navigator target change}
          FCWinMain.FCGLSsmthNavMainV.MoveAroundParams.TargetObject:=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid];
          {.update focused object data}
-         FCMoglUI_Main3DViewUI_Update( oglupdtpTxtOnly, ogluiutFocObj );
+         FCMoglUI_CoreUI_Update( ptuTextsOnly, ttuFocusedObject );
          {.update the corresponding popup menu}
-         if mustUpdatePopupMenu
-         then FCMuiAP_Update_OrbitalObject;
+         if ( mustUpdatePopupMenu )
+            and ( FCVdiActionPanelSatMode = 0 )
+         then FCMuiAP_Update_OrbitalObject
+         else if mustUpdatePopupMenu
+         then FCMuiAP_Update_Satellites( FCVdiActionPanelSatMode );
          {.store the player's location}
          FCVdgPlayer.P_viewOrbitalObject:=FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_dbTokenId;
       end;
@@ -778,10 +811,13 @@ begin
          {.smooth navigator target change}
          FCWinMain.FCGLSsmthNavMainV.MoveAroundParams.TargetObject:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite];
          {.update focused object data}
-         FCMoglUI_Main3DViewUI_Update( oglupdtpTxtOnly, ogluiutFocObj );
+         FCMoglUI_CoreUI_Update( ptuTextsOnly, ttuFocusedObject );
          {.update the corresponding popup menu}
-         if mustUpdatePopupMenu
-         then FCMuiAP_Update_OrbitalObject;
+         if ( mustUpdatePopupMenu )
+            and ( FCVdiActionPanelSatMode = 0 )
+         then FCMuiAP_Update_OrbitalObject
+         else if mustUpdatePopupMenu
+         then FCMuiAP_Update_Satellites( FCVdiActionPanelSatMode );
          {.store the player's location}
          Satellite:=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag;
          SatelliteRoot:=round( FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat );
@@ -809,11 +845,32 @@ begin
          else fCalc:=power( fCalc, 0.111 ) + 0.076128;
          FCWinMain.FCGLSCamMainViewGhost.AdjustDistanceToTarget( Power( 1.5, ( 2700 / fCalc )  / -120 ) );
          {.update focused object name}
-         FCMoglUI_Main3DViewUI_Update( oglupdtpTxtOnly, ogluiutFocObj );
+         FCMoglUI_CoreUI_Update( ptuTextsOnly, ttuFocusedObject );
         {.update the corresponding popup menu}
          if mustUpdatePopupMenu
          then FCMuiAP_Update_SpaceUnit;
       end;
+   end;
+end;
+
+procedure FCMovM_OObj_SwitchTo;
+{:Purpose: switch toward the current orbital object (loaded into FC3doglSelectedPlanetAsteroid previously).
+    Additions:
+}
+begin
+   if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type = ootAsteroidsBelt then
+   begin
+      if FCWinMain.MVG_SurfacePanel.Visible
+      then FCWinMain.MVG_SurfacePanel.Hide;
+      FCMovM_CameraMain_Target(foAsteroidBelt, true);
+   end
+   else begin
+      FCMovM_CameraMain_Target(foOrbitalObject, true);
+      if FCWinMain.FCWM_MissionSettings.Visible
+      then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
+      else if (not FCWinMain.FCWM_MissionSettings.Visible)
+         and (FCWinMain.SP_AutoUpdateCheck.Checked)
+      then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
    end;
 end;
 
@@ -953,6 +1010,21 @@ begin
          end; //==END== if OOSUIOUspUnFacTtl>0 ==//
       end; //==END== else if OOSUIOUsatIdx>0 ==//
    end; //==END== with FCDBstarSys[CFVstarSysIdDB].SS_star[CFVstarIdDB] ==//
+end;
+
+procedure FCMovM_Sat_SwitchTo( const SatelliteDBIndex: integer );
+{:Purpose: switch toward the targeted satellite.
+    Additions:
+}
+begin
+   if SatelliteDBIndex > 0
+   then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject( FCVdiActionPanelSatMode, SatelliteDBIndex );
+   FCMovM_CameraMain_Target(foSatellite, true);
+   if FCWinMain.FCWM_MissionSettings.Visible
+   then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
+   else if (not FCWinMain.FCWM_MissionSettings.Visible)
+      and (FCWinMain.SP_AutoUpdateCheck.Checked)
+   then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, SatelliteDBIndex, false);
 end;
 
 procedure FCMoglVM_SpUn_Gen(

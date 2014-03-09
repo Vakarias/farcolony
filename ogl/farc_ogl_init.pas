@@ -186,7 +186,7 @@ begin
    {.main view smooth navigator}
    FCWinMain.FCGLSsmthNavMainV.MovingObject := FCWinMain.FCGLSCamMainViewGhost;
    {.main view user's interface}
-   FCMoglUI_Main3DViewUI_Update(oglupdtpLocOnly,ogluiutAll);
+   FCMoglUI_CoreUI_Update(ptuLocationsOnly,ttuAll);
    {.material library for standard planetary textures}
    FC3doglMaterialLibraryStandardPlanetTextures:=TGLMaterialLibrary.Create(FCWinMain);
    FC3doglMaterialLibraryStandardPlanetTextures.Name:='FCGLSmlibSPT';

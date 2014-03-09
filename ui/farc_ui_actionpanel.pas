@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,7 +31,10 @@ unit farc_ui_actionpanel;
 interface
 
 uses
-   SysUtils;
+   Classes
+   ,SysUtils
+
+   ,AdvGlowButton;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -66,6 +69,17 @@ procedure FCMuiAP_Panel_Resize;
 ///</summary>
 ///<remarks>reset the choices</remarks>
 procedure FCMuiAP_Update_OrbitalObject;
+
+///<summary>
+///   update the action panel w/ satellites actions
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMuiAP_Update_Satellites( const RootOrbObj: integer );
 
 ///<summary>
 ///   update the action panel w/ space unit actions
@@ -134,8 +148,13 @@ end;
 procedure FCMuiAP_Panel_Reset;
 {:Purpose: reset the action panel choices.
     Additions:
+      -2014Jan06- *add: orbital object switch to buttons.
       -2012Dec02- *add: AP_OObjData + AP_DetailedData + AP_DockingList.
 }
+   var
+      Count: integer;
+
+      Obj: TObject;
 begin
    FCVuiapItems:=0;
    FCWinMain.AP_ColonyData.Hide;
@@ -146,6 +165,16 @@ begin
    FCWinMain.AP_MissionColonization.Hide;
    FCWinMain.AP_MissionInterplanetaryTransit.Hide;
    FCWinMain.AP_MissionCancel.Hide;
+   FCWinMain.AP_OObjSwitchHeader.Hide;
+   Count:=1;
+   while Count <= 15 do
+   begin
+      Obj:= FCWinMain.FindComponent( 'AP_OObjSwitch'+inttostr( Count ) );
+      ( Obj as TAdvGlowButton ).Caption:='';
+      ( Obj as TAdvGlowButton ).Hide;
+      inc( Count );
+   end;
+   //FCVdiActionPanelSatMode:=0;
 end;
 
 procedure FCMuiAP_Panel_Resize;
@@ -159,14 +188,82 @@ end;
 procedure FCMuiAP_Update_OrbitalObject;
 {:Purpose: update the action panel w/ orbital object actions.
     Additions:
+      -2014Jan06- *add: orbital object switch to buttons.
+                  *mod: update the popup menu for asteroid belt.
       -2013Nov24- *fix: remove a useless condition, in the case when the focused object isn't a satellite, that prevented to update correctly the popup menu.
       -2013Nov11- *fix: bad switching code for satellites.
       -2013May04- *fix: prevent a crash if there are no satellites in the current 3d view.
       -2012Dec02- *add: routine completion.
 }
+   var
+      Count
+      ,SatNumber: integer;
+
+      Obj: TObject;
 begin
+   Count:=0;
+   SatNumber:=0;
+   FCVdiActionPanelSatMode:=0;
+   Obj:=nil;
    FCMuiAP_Panel_Reset;
    FCWinMain.WM_ActionPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'ActionPanelHeader.OObj')+'</b>';
+   FCWinMain.AP_OObjSwitchHeader.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_OObjSwitchHeaderOOb');
+   if ( (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]) and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0]>0) )
+      or (
+         ( FC3doglMainViewTotalSatellites>0 )
+            and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite] )
+            and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[round(FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].TagFloat)].OO_satellitesList[  FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag ].OO_colonies[0]>0)
+         ) then
+   begin
+      FCWinMain.AP_ColonyData.Show;
+      FCWinMain.AP_ColonyData.Top:=999;
+      FCVuiapItems:=FCVuiapItems+1;
+   end
+   else if ( FC3doglSelectedPlanetAsteroid > 0 )
+      and ( FCWinMain.FCGLSCamMainViewGhost.TargetObject <> FC3doglMainViewListMainOrbits[FC3doglSelectedPlanetAsteroid] ) then
+   begin
+      FCWinMain.AP_OObjData.Show;
+      FCWinMain.AP_OObjData.Top:=999;
+      FCVuiapItems:=FCVuiapItems+1;
+   end;
+   if FC3doglMainViewTotalOrbitalObjects > 0 then
+   begin
+      FCWinMain.AP_OObjSwitchHeader.Show;
+      FCWinMain.AP_OObjSwitchHeader.Top:=999;
+      FCVuiapItems:=FCVuiapItems+1;
+      Count:=1;
+      while Count <= FC3doglMainViewTotalOrbitalObjects do
+      begin
+         Obj:= FCWinMain.FindComponent( 'AP_OObjSwitch'+inttostr( Count ) );
+         SatNumber:=length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ Count ].OO_satellitesList ) - 1;
+         if SatNumber <= 0
+         then ( Obj as TAdvGlowButton ).Caption:=FCFdTFiles_UIStr_Get( dtfscPrprName, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ Count ].OO_dbTokenId )
+         else ( Obj as TAdvGlowButton ).Caption:=FCFdTFiles_UIStr_Get( dtfscPrprName, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ Count ].OO_dbTokenId ) + ' *>';
+         ( Obj as TAdvGlowButton ).Show;
+         ( Obj as TAdvGlowButton ).Top:=999;
+         FCVuiapItems:=FCVuiapItems+1;
+         inc( Count );
+      end;
+   end;
+   FCMuiAP_Panel_Resize;
+end;
+
+procedure FCMuiAP_Update_Satellites( const RootOrbObj: integer );
+{:Purpose: update the action panel w/ satellites actions.
+    Additions:
+}
+   var
+      Count
+      ,SatNumber: integer;
+
+      Obj: TObject;
+begin
+   Count:=0;
+   SatNumber:=0;
+   Obj:=nil;
+   FCMuiAP_Panel_Reset;
+   FCWinMain.WM_ActionPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'ActionPanelHeader.OObj')+'</b>';
+   FCWinMain.AP_OObjSwitchHeader.Caption:=FCFdTFiles_UIStr_Get(uistrUI, 'AP_OObjSwitchHeaderSat');
    if ( (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglObjectsGroups[FC3doglSelectedPlanetAsteroid]) and (FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_colonies[0]>0) )
       or (
          ( FC3doglMainViewTotalSatellites>0 )
@@ -175,13 +272,31 @@ begin
          ) then
    begin
       FCWinMain.AP_ColonyData.Show;
+      FCWinMain.AP_ColonyData.Top:=999;
       FCVuiapItems:=FCVuiapItems+1;
    end
-   else if FC3doglSelectedPlanetAsteroid>0 then
+   else if FC3doglSelectedPlanetAsteroid > 0 then
    begin
       FCWinMain.AP_OObjData.Show;
+      FCWinMain.AP_OObjData.Top:=999;
       FCVuiapItems:=FCVuiapItems+1;
    end;
+      FCWinMain.AP_OObjSwitchHeader.Show;
+      FCWinMain.AP_OObjSwitchHeader.Top:=999;
+      FCVuiapItems:=FCVuiapItems+1;
+      Count:=1;
+      SatNumber:=length( FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[RootOrbObj].OO_satellitesList ) - 1;
+      while Count <= SatNumber do
+      begin
+         Obj:= FCWinMain.FindComponent( 'AP_OObjSwitch'+inttostr( Count ) );
+
+         ( Obj as TAdvGlowButton ).Caption:=FCFdTFiles_UIStr_Get( dtfscPrprName, FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[ RootOrbObj ].OO_satellitesList[Count].OO_dbTokenId );
+         ( Obj as TAdvGlowButton ).Show;
+         ( Obj as TAdvGlowButton ).Top:=999;
+         FCVuiapItems:=FCVuiapItems+1;
+         inc( Count );
+      end;
+   FCVdiActionPanelSatMode:=RootOrbObj;
    FCMuiAP_Panel_Resize;
 end;
 

@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -132,6 +132,7 @@ uses
    ,farc_data_univ
    ,farc_game_cps
    ,farc_game_cpsobjectives
+   ,farc_game_gameflow
    ,farc_main
    ,farc_univ_func
    ,farc_win_debug;
@@ -251,6 +252,7 @@ begin
          FCVdgPlayer.P_currentTimeMonth:=XMLConfiguration.Attributes['tfMth'];
          FCVdgPlayer.P_currentTimeYear:=XMLConfiguration.Attributes['tfYr'];
       end;
+//      FCVdgPlayer.GGFisTurnBased:=XMLConfiguration.Attributes['isTurnBased'];
    end;
    {.read the debug info}
 	XMLConfiguration:=FCWinMain.FCXMLcfg.DocumentElement.ChildNodes.FindNode('debug');
@@ -403,9 +405,10 @@ begin
       XMLConfigurationItem.Attributes['tfMth']:=OldTimeMonth;
       XMLConfigurationItem.Attributes['tfYr']:=OldTimeYear;
    end;
+//   XMLConfigurationItem.Attributes['isTurnBased']:=BoolToStr( FCFgGF_TurnBasedStatus_Get, true );
 	XMLConfigurationItem:=XMLConfiguration.AddChild( 'debug' );
-	XMLConfigurationItem.Attributes['dswitch']:=FCVdiDebugMode;
-   XMLConfigurationItem.Attributes['overriderules']:=FCVdiOverrideRules;
+	XMLConfigurationItem.Attributes['dswitch']:=BoolToStr( FCVdiDebugMode, true );
+   XMLConfigurationItem.Attributes['overriderules']:=BoolToStr( FCVdiOverrideRules, true );
    FCWinMain.FCXMLcfg.SaveToFile( FCVdiPathConfigFile );
    FCWinMain.FCXMLcfg.Active:=false;
 end;

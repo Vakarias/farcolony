@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved===============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved===============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -273,20 +273,7 @@ begin
                then
                begin
                   inc(FC3doglSelectedPlanetAsteroid);
-                  if FCDduStarSystem[FC3doglCurrentStarSystem].SS_stars[FC3doglCurrentStar].S_orbitalObjects[FC3doglSelectedPlanetAsteroid].OO_type = ootAsteroidsBelt then
-                  begin
-                     if FCWinMain.MVG_SurfacePanel.Visible
-                     then FCWinMain.MVG_SurfacePanel.Hide;
-                     FCMovM_CameraMain_Target(foAsteroidBelt, true);
-                  end
-                  else begin
-                     FCMovM_CameraMain_Target(foOrbitalObject, true);
-                     if FCWinMain.FCWM_MissionSettings.Visible
-                     then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
-                     else if (not FCWinMain.FCWM_MissionSettings.Visible)
-                        and (FCWinMain.SP_AutoUpdateCheck.Checked)
-                     then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, 0, false);
-                  end;
+                  FCMovM_OObj_SwitchTo;
                end;
             end;
 
@@ -403,12 +390,7 @@ begin
                end;
             end;
          end; //==END== case BKSbk of ==//
-         FCMovM_CameraMain_Target(foSatellite, true);
-         if FCWinMain.FCWM_MissionSettings.Visible
-         then FCMuiMS_InterplanetaryTransitInterface_UpdateDestination(false)
-         else if (not FCWinMain.FCWM_MissionSettings.Visible)
-            and (FCWinMain.SP_AutoUpdateCheck.Checked)
-         then FCMuiSP_SurfaceEcosphere_Set(FC3doglCurrentStarSystem, FC3doglCurrentStar, FC3doglSelectedPlanetAsteroid, FC3doglSatellitesObjectsGroups[FC3doglSelectedSatellite].Tag, false);
+         FCMovM_Sat_SwitchTo( 0 );
       end; //==END== case - uikbtSat ==//
       uikbtSpU:
       begin
@@ -956,20 +938,28 @@ begin
          FCMuiUMI_CurrentTab_Update( true, true );
       end;
       {.=====================================}
-      if (FCVdi3DViewRunning)
-         and ( (FCVdgPlayer.P_currentTimePhase=tphPAUSE) or  (FCVdgPlayer.P_currentTimePhase=tphPAUSEwo) )then
+      if ( FCWinMain.WM_MainViewGroup.Visible )
+         and ( (FCVdgPlayer.P_currentRealTimeAcceleration=rtaPause) or  (FCVdgPlayer.P_currentRealTimeAcceleration=rtaPauseWOinterface) )then
       begin
          case WMTkeyDump of
             {.P}
             {.unpause the game}
-            80: FCMgTFlow_FlowState_Set(tphTac);
+            80: FCMgGF_Realtime_Restore;
          end; //==END== case WMTkeyDump of ==//
       end //==END== if (FCWinMain.FCWM_3dMainGrp.Visible) and (FCVdgPlayer.P_currentTimePhase=tphPAUSE) then ==//
       else if (FCWinMain.WM_MainViewGroup.Visible)
-         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE)
-         and (FCVdgPlayer.P_currentTimePhase<>tphPAUSEwo) then
+//         and (FCVdgPlayer.P_currentRealTimeAcceleration<>rtaPause)
+//         and (FCVdgPlayer.P_currentRealTimeAcceleration<>rtaPauseWOinterface)
+      then
       begin
          case WMTkeyDump of
+            {. ENTER}
+            {.realtime: reset speed acceleration / turn-based: end of turn}
+            13:
+               if not FCVdgPlayer.P_isTurnBased
+               then FCMgGF_RealTime_Restore
+               else FCMgGF_TurnBasedSubSystem_Process( FCVdgPlayer.P_currentTypeOfTurn );
+
             {. A}
             {.switch satellite view <=> orbital object view}
             65:
@@ -1013,15 +1003,6 @@ begin
                end;
             end;
 
-            {.C}
-            67:
-            begin
-               if ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
-                  and (not FCWinMain.FCWM_MissionSettings.Visible)
-                  and (FCVdgPlayer.P_currentTimePhase<>tphSTH)
-               then FCMgTFlow_FlowState_Set(tphSTH);
-            end;
-
             {.M}
             {.message box raise/expand}
             77:
@@ -1051,8 +1032,8 @@ begin
             {.pause the game}
             80:
             begin
-               FCMgTFlow_FlowState_Set(tphPAUSE);
-               FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutTime);
+               FCMgGF_Realtime_Pause;
+               FCMoglUI_CoreUI_Update(ptuTextsOnly, ttuTimeFlow);
             end;
 
             {. S}
@@ -1067,49 +1048,6 @@ begin
                   and (FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FC3doglSelectedSpaceUnit])
                   and (not FCWinMain.FCWM_MissionSettings.Visible)
                then FCMovM_CameraMain_Target(foOrbitalObject, true);
-            end;
-
-            {. T}
-            {.test - 3d scene cleanup}
-            84:
-            begin
-
-               FCMovM_3DView_Reset;
-               FC3doglSelectedPlanetAsteroid:=1;
-               FCVdgPlayer.P_viewStarSystem:='stelsysTest';
-               FCVdgPlayer.P_viewStar:='starTesta';
-//               FCMdF_DBStarOrbitalObjects_Load( FCVdgPlayer.P_viewStarSystem, FCVdgPlayer.P_viewStar );
-               FCMovM_3DView_Update(
-                  FCVdgPlayer.P_viewStarSystem
-                  ,FCVdgPlayer.P_viewStar
-                  );
-               FC3doglSelectedSatellite:=0;
-               if FC3doglMainViewTotalSatellites>0
-               then FC3doglSelectedSatellite:=1;
-            end;
-
-            {.X}
-            88:
-            begin
-               if ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
-                  and (not FCWinMain.FCWM_MissionSettings.Visible)
-               then
-               begin
-                  if FCVdgPlayer.P_currentTimePhase<>tphMan
-                  then FCMgTFlow_FlowState_Set(tphMan);
-               end;
-            end;
-
-            {.Z}
-            90:
-            begin
-               if ( (FCWinNewGSetup=nil) or ( (FCWinNewGSetup<>nil) and (  not FCWinNewGSetup.Visible) ) )
-                  and (not FCWinMain.FCWM_MissionSettings.Visible)
-               then
-               begin
-                  if FCVdgPlayer.P_currentTimePhase<>tphTac
-                  then FCMgTFlow_FlowState_Set(tphTac);
-               end;
             end;
 
             {NUMPAD1}
@@ -1243,6 +1181,13 @@ begin
                   end;
                end;
             end;
+
+            {. ,<}
+            188: FCMgGF_TimeSpeedTurnType_Decrement;
+
+            {. .>}
+            190: FCMgGF_TimeSpeedTurnType_Increment;
+
          end; //==END== case WMTkeyDump of ==//
       end; //==END== if (FCWinMain.FCWM_3dMainGrp.Visible) and (FCVdgPlayer.P_currentTimePhase<>tphPAUSE) then ==//
    end; //==END== else begin of if (ssAlt in WMTshftCtrl) and ((WMTkeyDump=115) or (WMTkeyDump=115)) + else if (ssCtrl in WMTshftCtrl) ==//

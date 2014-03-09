@@ -688,7 +688,9 @@ type TFCRdgPlayer = record
    P_currentTimeDay: integer;
    P_currentTimeMonth: integer;
    P_currentTimeYear: integer;
-   P_currentTimePhase: TFCEtimePhases;
+   P_isTurnBased: boolean;
+   P_currentRealTimeAcceleration: TFCEggfRealTimeAccelerations;
+   P_currentTypeOfTurn: TFCEggfTurnTypes;
 end;
 
 ///<summary>
@@ -844,7 +846,7 @@ var
    //==========core game data===============================================================
    FCVdgPlayer: TFCRdgPlayer;
 
-   FCVdgTimePhase: TFCEtimePhases =tphNull;
+//   FCVdgTimePhase: TFCEggfRealTimeAccelerations =rtaX1;
 
 //==END PUBLIC VAR==========================================================================
 

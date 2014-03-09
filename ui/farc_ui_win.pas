@@ -67,6 +67,7 @@ type TFCEmwinUpdTp=(
    ,mwupTextMenu
    ,mwupMenuLang
    ,mwupMenuLoc
+   ,mwupMenuRTturnBased
    ,mwupMenuWideScr
    ,mwupMenuStex
    ,mwupSecwinAbout
@@ -465,7 +466,7 @@ begin
    begin
       colMax:=Length(FCDdgEntities[0].E_colonies)-1;
       if FCVdi3DViewRunning
-      then FCMoglUI_Main3DViewUI_Update(oglupdtpAll, ogluiutAll);
+      then FCMoglUI_CoreUI_Update(ptuAll, ttuAll);
       if colMax>0 then
       begin
          if assigned(FCcps)
@@ -497,6 +498,7 @@ end;
 procedure FCMuiW_UI_Initialize(const UIUtp: TFCEmwinUpdTp);
 {:Purpose: update and initialize all user's interface elements of the game.
    Additions:
+      -2014Feb16- *mod: rework how the 'help panel / shortcut keys' is displayed.
       -2013Nov18- *add: main menu - load saved game.
       -2013Mar26- *add: SP_ResourceSurveyShowDetails.
       -2013Feb03- *add: planetary survey panel.
@@ -707,8 +709,24 @@ begin
       {.help panel}
       FCWinMain.FCWM_HelpPanel.Caption.Text:='<p align="center"><b>'+FCFdTFiles_UIStr_Get(uistrUI,'FCWM_HelpPanel')+'</b>';
       FCWinMain.FCWM_HPdPad_Keys.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_HPdPad_Keys');
-      FCWinMain.FCWM_HPdPad_KeysTxt.HTMLText.Clear;
-      FCWinMain.FCWM_HPdPad_KeysTxt.HTMLText.Add(FCFdTFiles_UIStr_Get(uistrUI,'HPKeys'));
+      FCWinMain.FCWM_HPdPad_KeysTxt1.HTMLText.Clear;
+      FCWinMain.FCWM_HPdPad_KeysTxt1.HTMLText.Add(
+         FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysRT' )+FCCFdHeadEnd
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key less than ,.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysRT_speeddec' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key more than ..bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysRT_speedinc' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key P.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysRT_pause' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key enter.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysRT_reset' )+'<br>'
+            +FCCFdHeadC+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysTB' )+FCCFdHeadEnd
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key less than ,.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysTB_turntypedec' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key more than ..bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysTB_turntypeinc' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key enter.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysTB_endturntac' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key shift.bmp">'+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key enter.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysTB_forcendindus' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key control.bmp">'+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key enter.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysTB_forcendupkeep' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key alt.bmp">'+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key enter.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysTB_forcendcolonial' )+'<br>'
+            +DHTMLalignLeft+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key control.bmp">'+'<img src="file://'+FCVdiPathResourceDir+'pics-ui-keys\key space.bmp">'+'  '+FCFdTFiles_UIStr_Get( uistrUI, 'HelpKeysTB_forcendhistoric' )+'<br>'
+         );
+      FCWinMain.FCWM_HPdPad_KeysTxt2.HTMLText.Clear;
+      FCWinMain.FCWM_HPdPad_KeysTxt3.HTMLText.Clear;
       FCWinMain.FCWM_HPDPhints.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'FCWM_HPDPhints');
       FCDBhelpTdef:=nil;
       FCMdF_HelpTDef_Load;
@@ -854,6 +872,9 @@ begin
       {.help panel}
       FCWinMain.FCWM_HelpPanel.Width:=840;
       FCWinMain.FCWM_HelpPanel.Height:=440;
+      FCWinMain.FCWM_HPdPad_KeysTxt1.Width:=( FCWinMain.FCWM_HelpPanel.Width div 3 ) - 6;
+      FCWinMain.FCWM_HPdPad_KeysTxt2.Width:=FCWinMain.FCWM_HPdPad_KeysTxt1.Width;
+      FCWinMain.FCWM_HPdPad_KeysTxt3.Width:=FCWinMain.FCWM_HPdPad_KeysTxt1.Width;
       FCWinMain.FCWM_HDPhintsList.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*14)-5;
       FCWinMain.FCWM_HDPhintsText.Width:=(FCWinMain.FCWM_HelpPanel.Width shr 5*18);
       {.surface panel}
@@ -1186,6 +1207,16 @@ begin
       end;
    end;
    //=======================================================================================================
+   {.this section update realtime/turn-based submenu}
+   if (UIUtp=mwupAll)
+      or (UIUtp=mwupMenuRTturnBased)
+   then
+   begin
+      if FCVdgPlayer.P_isTurnBased
+      then FCWinMain.MMOptionSection_RealtimeTunrBasedSwitch.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'MMOptionSection_RealtimeTunrBasedSwitchTB')
+      else FCWinMain.MMOptionSection_RealtimeTunrBasedSwitch.Caption:=FCFdTFiles_UIStr_Get(uistrUI,'MMOptionSection_RealtimeTunrBasedSwitchRT');
+   end;
+   //=======================================================================================================
    {.this section concern all font setup}
    {:DEV NOTES: MWUPFONTALL MUST N O T BE USED IN APPLICATION INIT, USE IT FOR SIZE CHANGE}
    {.for main window}
@@ -1206,7 +1237,7 @@ begin
       FCWinMain.FCWM_HelpPanel.Caption.Font.Size:=FCFuiW_Font_GetSize(uiwPanelTitle);
       FCWinMain.FCWM_HPdataPad.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
       FCWinMain.FCWM_HPdPad_Keys.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
-      FCWinMain.FCWM_HPdPad_KeysTxt.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
+      FCWinMain.FCWM_HPdPad_KeysTxt1.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
       FCWinMain.FCWM_HPDPhints.Font.Size:=FCFuiW_Font_GetSize(uiwPageCtrl);
       FCWinMain.FCWM_HDPhintsList.Font.Size:=FCFuiW_Font_GetSize(uiwListItems);
       FCWinMain.FCWM_HDPhintsText.Font.Size:=FCFuiW_Font_GetSize(uiwDescText);
@@ -1399,9 +1430,10 @@ begin
    if FCVdi3DViewRunning
       and not FCVdi3DViewToInitialize then
    begin
-      FCMgTFlow_FlowState_Set(tphTac);
+      FCMgGF_Realtime_Restore;
       FCWinMain.WM_MainViewGroup.Show;
       FCVdi3DViewRunning:=true;
+      FCWinMain.MMOptionSection_RealtimeTunrBasedSwitch.Enabled:=true;
    end;
    FCWinMain.Enabled:=true;
 end;
@@ -1425,7 +1457,7 @@ begin
    FCWinMain.Enabled:=false;
    if FCWinMain.WM_MainViewGroup.Visible then
    begin
-      FCMgTFlow_FlowState_Set(tphPAUSE);
+      FCMgGF_Realtime_Pause;
       FCWinMain.WM_MainViewGroup.Hide;
    end;
    FCWinAbout.Enabled:=true;
@@ -1441,9 +1473,10 @@ begin
    if FCVdi3DViewRunning
       and not FCVdi3DViewToInitialize then
    begin
-      FCMgTFlow_FlowState_Set(tphTac);
+      FCMgGF_Realtime_Restore;
       FCWinMain.WM_MainViewGroup.Show;
       FCVdi3DViewRunning:=true;
+      FCWinMain.MMOptionSection_RealtimeTunrBasedSwitch.Enabled:=true;
    end;
    FCWinMain.Enabled:=true;
 end;
@@ -1464,7 +1497,7 @@ begin
    FCWinMain.Enabled:=false;
    if FCWinMain.WM_MainViewGroup.Visible then
    begin
-      FCMgTFlow_FlowState_Set(tphPAUSE);
+      FCMgGF_Realtime_Pause;
       FCWinMain.WM_MainViewGroup.Hide;
    end;
    FCWinNewGSetup.Enabled:=true;
@@ -1481,9 +1514,10 @@ begin
    if FCVdi3DViewRunning
       and not FCVdi3DViewToInitialize then
    begin
-      FCMgTFlow_FlowState_Set(tphTac);
+      FCMgGF_RealTime_Restore;
       FCWinMain.WM_MainViewGroup.Show;
       FCVdi3DViewRunning:=true;
+      FCWinMain.MMOptionSection_RealtimeTunrBasedSwitch.Enabled:=true;
    end;
    FCWinMain.Enabled:=true;
 end;
@@ -1504,7 +1538,7 @@ begin
    FCWinMain.Enabled:=false;
    if FCWinMain.WM_MainViewGroup.Visible then
    begin
-      FCMgTFlow_FlowState_Set(tphPAUSE);
+      FCMgGF_Realtime_Pause;
       FCWinMain.WM_MainViewGroup.Hide;
    end;
    FCMuiSG_SavedGamesList_Update;

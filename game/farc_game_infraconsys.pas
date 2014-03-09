@@ -740,7 +740,7 @@ begin
       dPopulation
       ,ICPent
       ,ICPcol
-      ,20
+      ,17
       ,25.3
       ,gcsmptColon
       ,true
@@ -752,6 +752,15 @@ begin
       ,8
       ,25.3
       ,gcsmptIStech
+      ,true
+      );
+   FCMgCSM_ColonyData_Upd(
+      dPopulation
+      ,ICPent
+      ,ICPcol
+      ,3
+      ,25.3
+      ,gcsmptISeng
       ,true
       );
    FCMgCSM_ColonyData_Upd(

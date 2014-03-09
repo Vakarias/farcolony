@@ -174,7 +174,7 @@ begin
 
 
    try
-      FCMgTFlow_FlowState_Set(tphPAUSE);
+      FCMgGF_Realtime_Pause;
    finally
       case FCDdmtTaskListInProcess[TaskId].T_type of
          tMissionColonization:
@@ -194,7 +194,7 @@ begin
          end;
       end;
    end;
-   FCMgTFlow_FlowState_Set(tphTac);
+   FCMgGF_Realtime_Restore;
 end;
 
 procedure FCMgMCore_Mission_Commit;
@@ -357,7 +357,7 @@ begin
             if ( Max>0 )
                and (  FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex].SU_linked3dObject] ) then
             begin
-               FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+               FCMoglUI_CoreUI_Update(ptuTextsOnly, ttuFocusedObject);
                FCMuiAP_Update_SpaceUnit;
             end;
          end;
@@ -399,7 +399,7 @@ begin
             FCMuiMS_Planel_Close;
             if FCWinMain.FCGLSCamMainViewGhost.TargetObject=FC3doglSpaceUnits[FCDdgEntities[Entity].E_spaceUnits[FCDdmtTaskListToProcess[TaskIndex].T_tMCoriginIndex].SU_linked3dObject] then
             begin
-               FCMoglUI_Main3DViewUI_Update(oglupdtpTxtOnly, ogluiutFocObj);
+               FCMoglUI_CoreUI_Update(ptuTextsOnly, ttuFocusedObject);
                FCMuiAP_Update_SpaceUnit;
             end;
          end;

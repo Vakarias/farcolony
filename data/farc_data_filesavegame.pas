@@ -79,6 +79,7 @@ uses
    ,farc_game_cpsobjectives
    ,farc_game_gameflow
    ,farc_survey_core
+   ,farc_ui_win
    ,farc_univ_func
    ,farc_main
    ,farc_win_debug;
@@ -100,6 +101,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2014Jan15- *add: P_isTurnBased.
       -2013Sep22- *add: prevent an asteroid belt itself to have its period initialized, but of course let its asteroid to have them.
       -2013Sep12- *add: universe - resource spots quality.
       -2013Jul10- *add: set the regions' current data.
@@ -298,6 +300,7 @@ begin
          FCVdgPlayer.P_currentTimeDay:=XMLSavedGame.Attributes['tfDay'];
          FCVdgPlayer.P_currentTimeMonth:=XMLSavedGame.Attributes['tfMth'];
          FCVdgPlayer.P_currentTimeYear:=XMLSavedGame.Attributes['tfYr'];
+         FCVdgPlayer.P_isTurnBased:=XMLSavedGame.Attributes['isTurnBased'];
       end;
       {.read the "status" section}
       XMLSavedGame:=FCWinMain.FCXMLsave.DocumentElement.ChildNodes.FindNode( 'gfStatus' );
@@ -1302,6 +1305,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2014Jan15- *add: P_isTurnBased.
       -2013Sep12- *add: universe - resource spots quality.
       -2013Mar30- *add: planetary survey - E_cleanupSurveys.
       -2013Mar25- *add: survey resources - SRS_currentPlanetarySurvey.
@@ -1448,7 +1452,7 @@ procedure FCMdFSG_Game_Save;
       ,CurrentSavedGameFile: string;
 begin
    if not FCWinMain.CloseQuery
-   then FCMgTFlow_FlowState_Set( tphPAUSE );
+   then FCMgGF_Realtime_Pause;
    CurrentDirectory:=FCVdiPathConfigDir+'SavedGames\'+FCVdgPlayer.P_gameName;
    CurrentSavedGameFile:=IntToStr( FCVdgPlayer.P_currentTimeYear )
       +'-'+IntToStr( FCVdgPlayer.P_currentTimeMonth )
@@ -1484,6 +1488,7 @@ begin
    XMLSavedGameItem.Attributes['tfDay']:= FCVdgPlayer.P_currentTimeDay;
    XMLSavedGameItem.Attributes['tfMth']:= FCVdgPlayer.P_currentTimeMonth;
    XMLSavedGameItem.Attributes['tfYr']:= FCVdgPlayer.P_currentTimeYear;
+   XMLSavedGameItem.Attributes['isTurnBased']:=BoolToStr( FCVdgPlayer.P_isTurnBased, true );
    {.create "status" item}
    XMLSavedGameItem:=XMLSavedGame.AddChild( 'gfStatus' );
    XMLSavedGameItem.Attributes['statEco']:=GetEnumName( TypeInfo( TFCEdgPlayerFactionStatus ), Integer( FCVdgPlayer.P_economicStatus ) );
@@ -2256,7 +2261,7 @@ begin
    FCWinMain.FCXMLsave.SaveToFile( CurrentDirectory+'\'+CurrentSavedGameFile );
    FCWinMain.FCXMLsave.Active:=false;
    if not FCWinMain.CloseQuery
-   then FCMgTFlow_FlowState_Set( tphTac );
+   then FCMgGF_RealTime_Restore;
 end;
 
 procedure FCMdFSG_Game_SaveAndFlushOther;
