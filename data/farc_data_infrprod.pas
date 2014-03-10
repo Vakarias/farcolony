@@ -32,7 +32,6 @@ interface
 
 uses
    farc_data_pgs
-   ,farc_data_research
    ,farc_data_univ;
 
 const

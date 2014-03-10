@@ -76,7 +76,6 @@ uses
   farc_ui_surfpanel in 'ui\farc_ui_surfpanel.pas',
   farc_game_prod in 'game\farc_game_prod.pas',
   farc_game_prodmodes in 'game\farc_game_prodmodes.pas',
-  farc_data_research in 'data\farc_data_research.pas',
   farc_game_infracustomfx in 'game\farc_game_infracustomfx.pas',
   farc_game_infraconsys in 'game\farc_game_infraconsys.pas',
   farc_ui_coldatapanel in 'ui\farc_ui_coldatapanel.pas',
@@ -143,7 +142,8 @@ uses
   farc_ogl_genspaceunits in 'ogl\farc_ogl_genspaceunits.pas',
   farc_ogl_genorbitalobjects in 'ogl\farc_ogl_genorbitalobjects.pas',
   farc_win_about in 'ui\farc_win_about.pas' {FCWinAbout},
-  farc_ui_savedgames in 'ui\farc_ui_savedgames.pas';
+  farc_ui_savedgames in 'ui\farc_ui_savedgames.pas',
+  farc_data_rds in 'data\farc_data_rds.pas';
 
 {$R *.res}
 

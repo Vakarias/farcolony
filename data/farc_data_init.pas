@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved===============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved===============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -280,6 +280,11 @@ const
 
 
    FCCdiMatrixItemsMax=20;
+
+   ///<summary>
+   ///   constant for the number of research domains
+   ///</summary>
+   FCCdiRDSdomainsMax=8;
 
    CFC3dUnInKm=14959.787;     {conversion constant 1 3d unit = 14959.787km}
    CFC3dAstConv=CFC3dUnInKm*30.59789;

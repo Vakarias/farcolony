@@ -97,7 +97,6 @@
 			<DCCReference Include="ui\farc_ui_surfpanel.pas"/>
 			<DCCReference Include="game\farc_game_prod.pas"/>
 			<DCCReference Include="game\farc_game_prodmodes.pas"/>
-			<DCCReference Include="data\farc_data_research.pas"/>
 			<DCCReference Include="game\farc_game_infracustomfx.pas"/>
 			<DCCReference Include="game\farc_game_infraconsys.pas"/>
 			<DCCReference Include="ui\farc_ui_coldatapanel.pas"/>
@@ -167,6 +166,7 @@
 				<Form>FCWinAbout</Form>
 			</DCCReference>
 			<DCCReference Include="ui\farc_ui_savedgames.pas"/>
+			<DCCReference Include="data\farc_data_rds.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

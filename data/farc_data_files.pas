@@ -126,7 +126,6 @@ uses
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_pgs
-   ,farc_data_research
    ,farc_data_spm
    ,farc_data_spu
    ,farc_data_univ
