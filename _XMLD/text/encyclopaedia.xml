@@ -441,6 +441,11 @@
       <EN></EN>
       <FR></FR>
    </matConcrete>
+   <matGold>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </matGold>
    <matMWNT>
       <EN></EN>
       <FR></FR>
@@ -761,10 +766,25 @@
       <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
    </spmRoot>
    <!-- ********** TECHNOSCIENCES ********** -->
-   <tsciAlloys>
+   <tsAlloys>
       <EN></EN>
       <FR></FR>
-   </tsciAlloys>
+   </tsAlloys>
+   <tsAstronomy>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsAstronomy>
+   <tsBasicEco>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsBasicEco>
+   <tsBasicMinRef>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsBasicMinRef>
    <tsciChemEng>
       <EN></EN>
       <FR></FR>

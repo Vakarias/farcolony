@@ -2666,6 +2666,11 @@
       <FR>Béton</FR>
       <SP>Hormigón</SP>
    </matConcrete>
+   <matGold>
+      <EN>Gold</EN>
+      <FR>Or</FR>
+      <SP>Oro</SP>
+   </matGold>
    <matMWNT>
       <EN>Multi-Walled Nanotubes (MWNT)</EN>
       <FR>Nanotubes Multi-Couches (MWNT)</FR>
@@ -3853,11 +3858,26 @@
       <SP>Peligro Permanente</SP>
    </wspdIdx7>
    <!-- ********** TECHNOSCIENCES ********** -->
-   <tsciAlloys>
+   <tsAlloys>
       <EN>Alloys</EN>
       <FR>Alliages</FR>
       <SP>Aleaciones</SP>
-   </tsciAlloys>
+   </tsAlloys>
+   <tsAstronomy>
+      <EN>Astronomy</EN>
+      <FR>Astronomie</FR>
+      <SP>Astronomia</SP>
+   </tsAstronomy>
+   <tsBasicEco>
+      <EN>Basic Ecology</EN>
+      <FR>Ecologie de Base</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsBasicEco>
+   <tsBasicMinRef>
+      <EN>Basic Mining &#38; Refining</EN>
+      <FR>Extraction et Raffinage de Base</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsBasicMinRef>
    <tsciChemEng>
       <EN>Chemical Engineering</EN>
       <FR>Ingénieurie Chimique</FR>

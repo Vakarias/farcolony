@@ -175,6 +175,10 @@
    <product token="matConcrete" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.371">
       <function token="pfBuildingMaterial" tensilestr="0.021" tsbylevel="0.001" youngmodulus="27" ymbylevel="0.333" thermalprot="0.2" reflectivity="0.3" corrosiveclass="ccC_Fair"/>
    </product>
+   <!-- Concrete - Gold -->
+   <product token="matGold" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="19.3">
+      <function token="pfManufacturingMat"/>
+   </product>
    <!-- Multi-Walled Nanotubes (MWNT) - Material -->
    <product token="matMWNT" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.6">
       <function token="pfMultipurposeMaterial" tensilestr="63" tsbylevel="26.333" youngmodulus="450" ymbylevel="116.66" thermalprot="365.6" reflectivity="0.1" corrosiveclass="ccA_Excellent"/>
