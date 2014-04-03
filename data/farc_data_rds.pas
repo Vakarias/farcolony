@@ -142,6 +142,7 @@ type TFCRdrdsTechnoscience = record
    TS_techLevel: TFCEdrdsTechnologyLevels;
    TS_difficulty: integer;
    TS_discoveryThreshold: integer;
+   TS_maxRTSpoints: integer;
    TS_relatedTechnosciences: array of TFCRdrdsRelatedTechnoscience;
    TS_influenceProjections: array of TFCRdrdsInfluenceProjection;
 end;
@@ -156,7 +157,7 @@ type TFCRdrdsResearchDomain = record
    RD_type: TFCEdrdsResearchDomains;
    RD_researchFields: array of record
       RF_type: TFCEdrdsResearchFields;
-      RF_technoscience: array of TFCRdrdsTechnoscience;
+      RF_technosciences: array of TFCRdrdsTechnoscience;
    end;
 end;
 

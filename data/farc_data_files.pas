@@ -84,6 +84,11 @@ procedure FCMdF_DBInfrastructures_Load;
 procedure FCMdF_DBProducts_Load;
 
 ///<summary>
+///   load the technosciences database
+///</summary>
+procedure FCMdF_DBResearchDevelopmentSystem_Load;
+
+///<summary>
 ///   load the databases XML files concerning space units (internal structures and designs)
 ///</summary>
 procedure FCMdF_DBSpaceUnits_Load;
@@ -106,11 +111,6 @@ procedure FCMdF_DBStarOrbitalObjects_Load( const StarSystemToken, StarToken: str
 ///</summary>
 procedure FCMdF_DBStarSystems_Load;
 
-/////<summary>
-/////   load the technosciences database
-/////</summary>
-//procedure FCMdF_DBTechnosciences_Load;
-
 ///<summary>
 ///   load the topics-definitions
 ///</summary>
@@ -126,6 +126,7 @@ uses
    ,farc_data_infrprod
    ,farc_data_init
    ,farc_data_pgs
+   ,farc_data_rds
    ,farc_data_spm
    ,farc_data_spu
    ,farc_data_univ
@@ -1148,6 +1149,116 @@ begin
 	end; //==END== while (DBPRnode<>nil) and (DBPRnode.NodeName<>'#comment') do ==//
 end;
 
+procedure FCMdF_DBResearchDevelopmentSystem_Load;
+{:DEV NOTES: WARNING NOT USED IN ANY PART OF THE CODE, PUT IT IN FARC_DATA_INIT.}
+{:Purpose: load the technosciences database.
+    Additions:
+}
+//   var
+//      DBTLcnt: integer;
+//
+//      DBTLstr: string;
+//
+//      DBTLnode: IXMLnode;
+
+   var
+      Count
+      ,Count1
+      ,Count2
+      ,Count3
+      ,EnumIndex
+      ,EnumIndex1: integer;
+
+      RDSnode
+      ,RDStechsciItem: IXMLnode;
+
+      RDSdomain: TFCEdrdsResearchDomains;
+begin
+   {.clear the data structure}
+   Count:=1;
+   Count1:=0;
+   Count2:=0;
+   Count3:=0;
+   EnumIndex:=0;
+   RDSdomain:=rdAerospaceengineering;
+   while Count <= FCCdiRDSdomainsMax do
+   begin
+      FCDdrdsResearchDatabase[Count].RD_type:=TFCEdrdsResearchDomains(Count - 1);
+      case FCDdrdsResearchDatabase[Count].RD_type of
+         rdAerospaceengineering: Count2:=3;
+
+         rdAstroEngineering: Count2:=2;
+
+         rdBiosciences: Count2:=3;
+
+         rdCulture: Count2:=3;
+
+         rdEcosciences: Count2:=2;
+
+         rdIndustrialTechnologies: Count2:=4;
+
+         rdNanotechnology: Count2:=3;
+
+         rdPhysics: Count2:=3;
+      end;
+      setlength( FCDdrdsResearchDatabase[Count].RD_researchFields, Count2 + 1 );
+      Count1:=1;
+      while Count1 <= Count2 do
+      begin
+         FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_type:=TFCEdrdsResearchFields( Count1 + Count3 - 1 );
+         setlength( FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_technosciences, 1 );
+         inc( Count1 );
+      end;
+      Count3:=Count3 + Count2;
+      inc( Count );
+   end;
+   {.read the document}
+   Count:=0;
+   Count1:=0;
+   Count2:=0;
+   Count3:=0;
+   FCWinMain.FCXMLdbTechnosciences.FileName:=FCVdiPathXML+'\env\technosciencesdb.xml';
+   FCWinMain.FCXMLdbTechnosciences.Active:=true;
+   RDSnode:=FCWinMain.FCXMLdbTechnosciences.DocumentElement.ChildNodes.First;
+   while RDSnode <> nil do
+   begin
+      if RDSnode.NodeName<>'#comment' then
+      begin
+         inc( Count );
+         EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsResearchDomains ), RDSnode.Attributes['domain'] );
+         if EnumIndex=-1
+         then raise Exception.Create( 'bad technoscience research domain: '+RDSnode.Attributes['domain'] )
+         else inc( EnumIndex );
+         EnumIndex1:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDSnode.Attributes['field'] );
+         if EnumIndex1=-1
+         then raise Exception.Create( 'bad technoscience research field: '+RDSnode.Attributes['field'] )
+         else inc( EnumIndex1 );
+         Count:=length( FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences );
+         setlength( FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences, Count + 1 );
+         FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_token:=RDSnode.Attributes['token'];
+         Count1:=GetEnumValue( TypeInfo( TFCEdrdsTechnologyLevels ), RDSnode.Attributes['techlevel'] );
+         FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_techLevel:=TFCEdrdsTechnologyLevels( Count1 );
+         if Count1=-1
+         then raise Exception.Create( 'bad technoscience tech level: '+RDSnode.Attributes['techlevel'] );
+         FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_difficulty:=RDSnode.Attributes['difficulty'];
+         FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_discoveryThreshold:=RDSnode.Attributes['discothres'];
+         FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_maxRTSpoints:=RDSnode.Attributes['maxRTSpoints'];
+         RDStechsciItem:=RDSnode.ChildNodes.First;
+         while RDStechsciItem <> nil do
+         begin
+            if RDStechsciItem.NodeName = 'rts' then
+            begin
+            end
+            else if RDStechsciItem.NodeName = 'influenceproj' then
+            begin
+            end;
+            RDStechsciItem:=RDStechsciItem.NextSibling;
+         end; //==END==  ==//
+      end; //== END == if RDSnode.NodeName<>'#comment' ==//
+      RDSnode:=RDSnode.NextSibling;
+   end; //== END ==  ==//
+end;
+
 procedure FCMdF_DBSpaceUnits_Load;
 {:Purpose: load the databases XML files concerning space units (internal structures and designs).
     Additions:
@@ -1184,9 +1295,9 @@ begin
    XMLSpaceUnit:= FCWinMain.FCXMLdbSCraft.DocumentElement.ChildNodes.First;
    while XMLSpaceUnit<>nil do
    begin
-      SetLength( FCDdsuInternalStructures, Count+1 );
       if XMLSpaceUnit.NodeName<>'#comment' then
       begin
+         SetLength( FCDdsuInternalStructures, Count+1 );
          FCDdsuInternalStructures[Count].IS_token:=XMLSpaceUnit.Attributes['token'];
          EnumIndex:=GetEnumValue( TypeInfo( TFCEdsuInternalStructureShapes ), XMLSpaceUnit.Attributes['shape'] );
          FCDdsuInternalStructures[Count].IS_shape:=TFCEdsuInternalStructureShapes( EnumIndex );
@@ -2118,68 +2229,6 @@ begin
    end; //==END== while XMLStarSystem<>nil do ==//
    FCWinMain.FCXMLdbUniv.Active:=false;
 end;
-
-{:DEV NOTES: re-enable for 0.6.0.}
-//procedure FCMdF_DBTechnosciences_Load;
-//{:DEV NOTES: WARNING NOT USED IN ANY PART OF THE CODE, PUT IT IN FARC_DATA_INIT.}
-//{:Purpose: load the technosciences database.
-//    Additions:
-//}
-//   var
-//      DBTLcnt: integer;
-//
-//      DBTLstr: string;
-//
-//      DBTLnode: IXMLnode;
-//begin
-//   {.clear the data structure}
-//   FCDBtechsci:=nil;
-//   SetLength(FCDBtechsci, 1);
-//   DBTLcnt:=0;
-//   {.read the document}
-//   FCWinMain.FCXMLdbTechnosciences.FileName:=FCVdiPathXML+'\env\technosciencesdb.xml';
-//   FCWinMain.FCXMLdbTechnosciences.Active:=true;
-//   DBTLnode:=FCWinMain.FCXMLdbTechnosciences.DocumentElement.ChildNodes.First;
-//   while DBTLnode<>nil do
-//   begin
-//      if DBTLnode.NodeName<>'#comment'
-//      then
-//      begin
-//         inc(DBTLcnt);
-//         SetLength(FCDBtechsci, DBTLcnt+1);
-//         FCDBtechsci[DBTLcnt].T_token:=DBTLnode.Attributes['token'];
-//         DBTLstr:=DBTLnode.Attributes['rsector'];
-//         if DBTLstr='rsNone'
-//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsNone
-//         else if DBTLstr='rsAerospaceEng'
-//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsAerospaceEngineering
-//         else if DBTLstr='rsBiogenetics'
-//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsBiogenetics
-//         else if DBTLstr='rsEcosciences'
-//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsEcosciences
-//         else if DBTLstr='rsIndustrialTech'
-//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsIndustrialTech
-//         else if DBTLstr='rsMedicine'
-//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsMedicine
-//         else if DBTLstr='rsNanotech'
-//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsNanotech
-//         else if DBTLstr='rsPhysics'
-//         then FCDBtechsci[DBTLcnt].T_researchSector:=rsPhysics;
-//         FCDBtechsci[DBTLcnt].T_level:=DBTLnode.Attributes['level'];
-//         DBTLstr:=DBTLnode.Attributes['type'];
-//         if DBTLstr='rtBasicTech'
-//         then FCDBtechsci[DBTLcnt].T_type:=rtBasicTech
-//         else if DBTLstr='rtPureTheory'
-//         then FCDBtechsci[DBTLcnt].T_type:=rtPureTheory
-//         else if DBTLstr='rtExpResearch'
-//         then FCDBtechsci[DBTLcnt].T_type:=rtExpResearch
-//         else if DBTLstr='rtCompleteResearch'
-//         then FCDBtechsci[DBTLcnt].T_type:=rtCompleteResearch;
-//         FCDBtechsci[DBTLcnt].T_difficulty:=DBTLnode.Attributes['difficulty'];
-//      end; //== END == if DBTLnode.NodeName<>'#comment' ==//
-//      DBTLnode:=DBTLnode.NextSibling;
-//   end; //== END == while DBTLnode<>nil do ==//
-//end;
 
 procedure FCMdF_HelpTDef_Load;
 {:Purpose: load the topics-definitions.

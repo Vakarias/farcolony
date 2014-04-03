@@ -49,105 +49,35 @@
          iptEquipmentModule
          iptSPMItem
          
-         <tsci token="" techlevel="" difficulty="" discothres="" maxRTSpoints="">
+         <tsci token="" domain="" field="" techlevel="" difficulty="" discothres="" maxRTSpoints="">
             <rts token="" domain="" rfield="" isKeyTech="" influence=""/>
             <influenceproj token="" type=""/>
          </tsci>
 -->
 <technosciences>
-   <!-- Aerospace Engineering -->
-   <domainAerospaceEngineering>
-      <rfieldAerospaceTechnics>
-      </rfieldAerospaceTechnics>
-      <rfieldSpaceArchitecture>
-      </rfieldSpaceArchitecture>
-      <rfieldSpaceDrives>
-      </rfieldSpaceDrives>
-   </domainAerospaceEngineering>
-   <!-- Astro-Engineering -->
-   <domainAstroEngineering>
-      <rfieldAstrophysics>
-         <tsci token="tsAstronomy" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
-         </tsci>
-      </rfieldAstrophysics>
-      <rfieldSpaceEngineering>
-      </rfieldSpaceEngineering>
-   </domainAstroEngineering>
-   <!-- Biosciences -->
-   <domainBiosciences>
-      <rfieldBiotechnologies>
-      </rfieldBiotechnologies>
-      <rfieldMedicine>
-      </rfieldMedicine>
-      <rfieldNeuroscience>
-      </rfieldNeuroscience>
-   </domainBiosciences>
-   <!-- Culture -->
-   <domainCulture>
-      <rfieldCommunication>
-      </rfieldCommunication>
-      <rfieldEntertainment>
-      </rfieldEntertainment>
-      <rfieldMemeticEngineering>
-      </rfieldMemeticEngineering>
-   </domainCulture>
-   <!-- Ecosciences -->
-   <domainEcosciences>
-      <rfieldEcology>
-         <tsci token="tsBasicEco" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
-            <influenceproj token="equipHumidityTrap1" type="iptProduct"/>
-            <influenceproj token="equipHumidityTrap2" type="iptProduct"/>
-            <influenceproj token="equipHumidityTrap3" type="iptProduct"/>
-            <influenceproj token="equipHumidityTrap4" type="iptProduct"/>
-            <influenceproj token="equipHumidityTrap5" type="iptProduct"/>
-         </tsci>
-      </rfieldEcology>
-      <rfieldPlanetology>
-      </rfieldPlanetology>
-   </domainEcosciences>
-   <!-- Industrial Technologies -->
-   <domainIndustrialTechnologies>
-      <rfieldAutomation>
-      </rfieldAutomation>
-      <rfieldComputing>
-      </rfieldComputing>
-      <rfieldIndustrialTechnics>
-         <tsci token="tsBasicMinRef" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
-            <influenceproj token="infrMiningSite" type="iptInfrastructure"/>
-            <influenceproj token="equipMiningMachinery" type="iptProduct"/>
-         </tsci>
-      </rfieldIndustrialTechnics>
-      <rfieldMaterials>
-         <tsci token="tsAlloys" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
-            <influenceproj token="matAluminium" type="iptProduct"/>
-            <influenceproj token="matGold" type="iptProduct"/>
-            <influenceproj token="matSilver" type="iptProduct"/>
-            <influenceproj token="matSteel" type="iptProduct"/>
-            <influenceproj token="matTitanium" type="iptProduct"/>
-            <influenceproj token="equipMultiDepot1" type="iptProduct"/>
-            <influenceproj token="equipMultiDepot2" type="iptProduct"/>
-            <influenceproj token="equipMultiDepot3" type="iptProduct"/>
-            <influenceproj token="equipMultiDepot4" type="iptProduct"/>
-            <influenceproj token="equipMultiDepot5" type="iptProduct"/>
-         </tsci>
-      </rfieldMaterials>
-   </domainIndustrialTechnologies>
-   <!-- Nanotechnology -->
-   <domainNanotechnology>
-      <rfieldMechanicalNanotechnology>
-      </rfieldMechanicalNanotechnology>
-      <rfieldMolecularNanotechnology>
-      </rfieldMolecularNanotechnology>
-      <rfieldNanomaterials>
-      </rfieldNanomaterials>
-   </domainNanotechnology>
-   <!-- Physics -->
-   <domainPhysics>
-      <rfieldEnergy>
-      </rfieldEnergy>
-      <rfieldNuclearPhysics>
-      </rfieldNuclearPhysics>
-      <rfieldParticlesPhysics>
-      </rfieldParticlesPhysics>
-   </domainPhysics>
+   <tsci token="tsAstronomy" domain="domainAstroEngineering" field="rfieldAstrophysics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+   </tsci>
+   <tsci token="tsBasicEco" domain="domainEcosciences" field="rfieldEcology" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+      <influenceproj token="equipHumidityTrap1" type="iptProduct"/>
+      <influenceproj token="equipHumidityTrap2" type="iptProduct"/>
+      <influenceproj token="equipHumidityTrap3" type="iptProduct"/>
+      <influenceproj token="equipHumidityTrap4" type="iptProduct"/>
+      <influenceproj token="equipHumidityTrap5" type="iptProduct"/>
+   </tsci>
+   <tsci token="tsBasicMinRef" domain="domainIndustrialTechnologies" field="rfieldIndustrialTechnics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+      <influenceproj token="infrMiningSite" type="iptInfrastructure"/>
+      <influenceproj token="equipMiningMachinery" type="iptProduct"/>
+   </tsci>
+   <tsci token="tsAlloys" domain="domainIndustrialTechnologies" field="rfieldMaterials" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+      <influenceproj token="matAluminium" type="iptProduct"/>
+      <influenceproj token="matGold" type="iptProduct"/>
+      <influenceproj token="matSilver" type="iptProduct"/>
+      <influenceproj token="matSteel" type="iptProduct"/>
+      <influenceproj token="matTitanium" type="iptProduct"/>
+      <influenceproj token="equipMultiDepot1" type="iptProduct"/>
+      <influenceproj token="equipMultiDepot2" type="iptProduct"/>
+      <influenceproj token="equipMultiDepot3" type="iptProduct"/>
+      <influenceproj token="equipMultiDepot4" type="iptProduct"/>
+      <influenceproj token="equipMultiDepot5" type="iptProduct"/>
+   </tsci>
 </technosciences>

@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2013 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2013, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ interface
 uses
    farc_data_infrprod
    ,farc_data_init
+   ,farc_data_rds
    ,farc_data_spm
    ,farc_data_univ
    ,farc_game_cpsobjectives
@@ -248,6 +249,33 @@ type TFCEdgSpaceUnitStatus=(
    ,susDeadWreck
    );
 
+{:REFERENCES LIST
+   -
+   -
+   -
+   -
+   -
+   -
+}
+///<summary>
+///
+///</summary>
+type TFCEdgTechnoscienceMasteringStages=(
+   tmsNotDiscovered
+   ,tmsNotMastered
+   ,tmsMasteredAtLevel00
+   ,tmsMasteredAtLevel01
+   ,tmsMasteredAtLevel02
+   ,tmsMasteredAtLevel03
+   ,tmsMasteredAtLevel04
+   ,tmsMasteredAtLevel05
+   ,tmsMasteredAtLevel06
+   ,tmsMasteredAtLevel07
+   ,tmsMasteredAtLevel08
+   ,tmsMasteredAtLevel09
+   ,tmsMasteredAtLevel10
+   );
+
 //==END PUBLIC ENUM=========================================================================
 
 {:REFERENCES LIST
@@ -394,6 +422,53 @@ type TFCRdgColonyPopulation= record
    CP_classMilitia: integer;
    CP_CWPtotal: extended;
    CP_CWPassignedPeople: integer;
+end;
+
+{:REFERENCES LIST
+   -
+   -
+   -
+   -
+   -
+   -
+}
+///<summary>
+///
+///</summary>
+type TFCRdgTechnoscience = record
+   TS_token: string[20];
+   TS_collateralMastered: boolean;
+   TS_masteringStage: TFCEdgTechnoscienceMasteringStages;
+   TS_rtsCurrentPoints: integer;
+   TS_rtsMaxPoints: integer;
+end;
+
+{:REFERENCES LIST
+   -
+}
+///<summary>
+///
+///</summary>
+type TFCRdgResearchDomainColony = record
+   RDC_type: TFCEdrdsResearchDomains;
+   RDC_knowledgeCurrent: extended;
+   RDC_knowledgeGeneration: extended;
+   RDC_researchFields: array of record
+      RF_type: TFCEdrdsResearchFields;
+      RF_knowledgeCurrent: extended;
+      RF_knowledgeGeneration: extended;
+      ///<summary>
+      /// intelligence infrastructures [x,y] = infrastructure index in settlement
+      ///<summary>
+      /// x= settlements index
+      ///</summary>
+      ///<summary>
+      /// y= index of intelligenceInfrastructures
+      ///</summary>
+      ///</summary>
+      RF_intelligenceInfrastructures: array of array of integer;
+      RF_technosiences: array of TFCRdgTechnoscience;
+   end;
 end;
 
 {:REFERENCES LIST
@@ -561,6 +636,7 @@ type TFCRdgColony = record
    ///</summary>
    C_reserveFoodProductsIndex: array of integer;
    C_reserveWater: integer;
+   C_researchDomains: array[0..FCCdiRDSdomainsMax] of TFCRdgResearchDomainColony;
 end;
 
 {:REFERENCES LIST
