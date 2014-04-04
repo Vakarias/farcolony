@@ -124,15 +124,19 @@ type TFCRdrdsInfluenceProjection= record
    IP_type: TFCEdrdsInfluenceProjectionTypes;
 end;
 
+{:REFERENCES LIST
+   - FCMdF_DBResearchDevelopmentSystem_Load
+}
 type TFCRdrdsRelatedTechnoscience=  record
-   RTS_domain: TFCEdrdsResearchDomains;
    RTS_token: string[20];
+   RTS_domain: TFCEdrdsResearchDomains;
+   RTS_field: TFCEdrdsResearchFields;
    RTS_isKeyTech: boolean;
    RTS_rawInfluence: integer;
 end;
 
 {:REFERENCES LIST
-   -
+   - FCMdF_DBResearchDevelopmentSystem_Load
 }
 ///<summary>
 ///
@@ -148,7 +152,7 @@ type TFCRdrdsTechnoscience = record
 end;
 
 {:REFERENCES LIST
-   -
+   - FCMdF_DBResearchDevelopmentSystem_Load
 }
 ///<summary>
 ///
