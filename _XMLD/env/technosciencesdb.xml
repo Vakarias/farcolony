@@ -49,17 +49,17 @@
          iptEquipmentModule
          iptSPMItem
          
-   <tsci token="" domain="" field="" techlevel="" difficulty="" discothres="" maxRTSpoints="">
+   <tsci theory="" token="" domain="" field="" techlevel="" difficulty="" discothres="" maxRTSpoints="">
       <rts token="" domain="" rfield="" isKeyTech="" influence=""/>
       <influenceproj token="" type=""/>
    </tsci>
 -->
 <technosciences>
    <!-- Astronomy -->
-   <tsci token="tsAstronomy" domain="domainAstroEngineering" field="rfieldAstrophysics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+   <tsci theory="False" token="tsAstronomy" domain="domainAstroEngineering" field="rfieldAstrophysics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
    </tsci>
    <!-- Basic Ecology -->
-   <tsci token="tsBasicEco" domain="domainEcosciences" field="rfieldEcology" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+   <tsci theory="False" token="tsBasicEco" domain="domainEcosciences" field="rfieldEcology" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
       <influenceproj token="equipHumidityTrap1" type="iptProduct"/>
       <influenceproj token="equipHumidityTrap2" type="iptProduct"/>
       <influenceproj token="equipHumidityTrap3" type="iptProduct"/>
@@ -67,15 +67,15 @@
       <influenceproj token="equipHumidityTrap5" type="iptProduct"/>
    </tsci>
    <!-- Automation -->
-   <tsci token="tsAutomation" domain="rdIndustrialTechnologies" field="rf6Automation" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+   <tsci theory="False" token="tsAutomation" domain="rdIndustrialTechnologies" field="rf6Automation" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
    </tsci>
    <!-- Basic Mining & Refining -->
-   <tsci token="tsBasicMinRef" domain="domainIndustrialTechnologies" field="rfieldIndustrialTechnics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+   <tsci theory="False" token="tsBasicMinRef" domain="domainIndustrialTechnologies" field="rfieldIndustrialTechnics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
       <influenceproj token="infrMiningSite" type="iptInfrastructure"/>
       <influenceproj token="equipMiningMachinery" type="iptProduct"/>
    </tsci>
    <!-- Alloys -->
-   <tsci token="tsAlloys" domain="domainIndustrialTechnologies" field="rfieldMaterials" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+   <tsci theory="False" token="tsAlloys" domain="domainIndustrialTechnologies" field="rfieldMaterials" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
       <influenceproj token="matAluminium" type="iptProduct"/>
       <influenceproj token="matGold" type="iptProduct"/>
       <influenceproj token="matSilver" type="iptProduct"/>

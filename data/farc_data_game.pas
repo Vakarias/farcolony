@@ -425,12 +425,8 @@ type TFCRdgColonyPopulation= record
 end;
 
 {:REFERENCES LIST
-   -
-   -
-   -
-   -
-   -
-   -
+   - FCMdFSG_Game_Load
+   - FCMdFSG_Game_Save
 }
 ///<summary>
 ///
@@ -444,7 +440,8 @@ type TFCRdgTechnoscience = record
 end;
 
 {:REFERENCES LIST
-   -
+   - FCMdFSG_Game_Load
+   - FCMdFSG_Game_Save
 }
 ///<summary>
 ///
@@ -468,6 +465,7 @@ type TFCRdgResearchDomainColony = record
       ///</summary>
       RF_intelligenceInfrastructures: array of array of integer;
       RF_technosiences: array of TFCRdgTechnoscience;
+      RF_theories: array of TFCRdgTechnoscience;
    end;
 end;
 

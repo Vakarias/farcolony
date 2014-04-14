@@ -45,6 +45,7 @@ type TFCEdrdsInfluenceProjectionTypes=(
    ,iptSpaceUnitArchitecture
    ,iptEquipmentModule
    ,iptSPMItem
+   ,iptExternalResearchField
    );
 
 {:REFERENCES LIST
@@ -76,6 +77,7 @@ type TFCEdrdsResearchFields=(
    ,rf4Communication
    ,rf4Entertainment
    ,rf4MemeticEngineering
+   ,rf4Organization
    ,rf5Ecology
    ,rf5Planetology
    ,rf6Automation
@@ -162,6 +164,7 @@ type TFCRdrdsResearchDomain = record
    RD_researchFields: array of record
       RF_type: TFCEdrdsResearchFields;
       RF_technosciences: array of TFCRdrdsTechnoscience;
+      RF_theories: array of TFCRdrdsTechnoscience;
    end;
 end;
 

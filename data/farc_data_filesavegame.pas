@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -74,6 +74,7 @@ uses
    ,farc_data_init
    ,farc_data_messages
    ,farc_data_missionstasks
+   ,farc_data_rds
    ,farc_data_univ
    ,farc_game_cps
    ,farc_game_cpsobjectives
@@ -101,6 +102,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2014Apr13- *add: research & development.
       -2014Jan15- *add: P_isTurnBased.
       -2013Sep22- *add: prevent an asteroid belt itself to have its period initialized, but of course let its asteroid to have them.
       -2013Sep12- *add: universe - resource spots quality.
@@ -959,8 +961,7 @@ begin
                            end;
                         end
                         {.colony's storage}
-                        else if XMLSavedGameItemSub2.NodeName='colStorage'
-                        then
+                        else if XMLSavedGameItemSub2.NodeName='colStorage' then
                         begin
                            FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidCurrent:=StrToFloat( XMLSavedGameItemSub2.Attributes['capSolidCur'], FCVdiFormat );
                            FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidMax:=StrToFloat( XMLSavedGameItemSub2.Attributes['capSolidMax'], FCVdiFormat );
@@ -997,7 +998,13 @@ begin
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
                            end;
                            FCDdgEntities[Count].E_colonies[Count1].C_reserveWater:=XMLSavedGameItemSub2.Attributes['water'];
+                        end
+                        {..colony's research}
+                        else if XMLSavedGameItemSub2.NodeName='colResearchDomains' then
+                        begin
+
                         end;
+
                         XMLSavedGameItemSub2:=XMLSavedGameItemSub2.NextSibling;
                      end; //==END== while XMLSavedGameItemSub2<>nil do ==//
                      XMLSavedGameItemSub1:=XMLSavedGameItemSub1.NextSibling;
@@ -1305,6 +1312,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2014Apr04- *add: research & development.
       -2014Jan15- *add: P_isTurnBased.
       -2013Sep12- *add: universe - resource spots quality.
       -2013Mar30- *add: planetary survey - E_cleanupSurveys.
@@ -1677,6 +1685,7 @@ begin
       XMLSavedGameItemSub.Attributes['corr']:=FCDdgEntities[Count].E_corruption;
       XMLSavedGameItemSub.Attributes['hqHlvl']:=GetEnumName( TypeInfo( TFCEdgHeadQuarterStatus ), Integer( FCDdgEntities[Count].E_hqHigherLevel ) );
       XMLSavedGameItemSub.Attributes['UCrve']:=FloatToStr( FCDdgEntities[Count].E_ucInAccount, FCVdiFormat );
+      {..owned space units}
       Max1:=Length( FCDdgEntities[Count].E_spaceUnits )-1;
       if Max1>0 then
       begin
@@ -1713,6 +1722,7 @@ begin
             inc( Count1 );
          end; {.while Count1<=GSspuMax}
       end; //==END== if GSspuMax>0 ==//
+      {..colonies}
       Max1:=Length( FCDdgEntities[Count].E_colonies )-1;
       if Max1>0 then
       begin
@@ -1785,7 +1795,7 @@ begin
             XMLSavedGameItemSub3.Attributes['popMilitia']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_classMilitia;
             XMLSavedGameItemSub3.Attributes['wcpTotal']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPtotal, FCVdiFormat );
             XMLSavedGameItemSub3.Attributes['wcpAssignPpl']:=FCDdgEntities[Count].E_colonies[Count1].C_population.CP_CWPassignedPeople;
-            {.colony events}
+            {...colony events}
             Max2:=length( FCDdgEntities[Count].E_colonies[Count1].C_events );
             if Max2>1 then
             begin
@@ -1879,7 +1889,7 @@ begin
                   inc( Count2 );
                end; //==END== while Count2<=GSsubL-1 do ==//
             end; //==END== if GSsubL>1 ==//
-            {.colony settlements}
+            {...colony settlements}
             Max2:=length( FCDdgEntities[Count].E_colonies[Count1].C_settlements )-1;
             if Max2>0 then
             begin
@@ -1961,7 +1971,7 @@ begin
                   end; //==END== while Count3<=Max3 do ==//
                   inc( Count2 );
                end; //==END== while Count2<=Max2 do ==//
-               {.CAB queue}
+               {...CAB queue}
                Count2:=1;
                while Count2<=Max2 do
                begin
@@ -1980,7 +1990,7 @@ begin
                   end; //==END== if GScabMax>0 ==//
                   inc( Count2 );
                end;
-               {.production matrix}
+               {...production matrix}
                Max2:=Length( FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix )-1;
                if Max2>0 then
                begin
@@ -2011,7 +2021,7 @@ begin
                      inc( Count2 );
                   end;
                end;
-               {.storage}
+               {...storage}
                XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colStorage' );
                XMLSavedGameItemSub3.Attributes['capSolidCur']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidCurrent, FCVdiFormat );
                XMLSavedGameItemSub3.Attributes['capSolidMax']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storageCapacitySolidMax, FCVdiFormat );
@@ -2033,7 +2043,7 @@ begin
                      inc( Count2 );
                   end;
                end;
-               {.reserves}
+               {...reserves}
                XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colReserves' );
                XMLSavedGameItemSub3.Attributes['oxygen']:=FCDdgEntities[Count].E_colonies[Count1].C_reserveOxygen;
                XMLSavedGameItemSub3.Attributes['food']:=FCDdgEntities[Count].E_colonies[Count1].C_reserveFood;
@@ -2046,11 +2056,81 @@ begin
                   inc(Count2);
                end;
                XMLSavedGameItemSub3.Attributes['water']:=FCDdgEntities[Count].E_colonies[Count1].C_reserveWater;
+               {...research domains}
+               XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'colResearchDomains' );
+               Count2:=1;
+               while Count2 <= FCCdiRDSdomainsMax do
+               begin
+                  XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'domain' );
+                  XMLSavedGameItemSub4.Attributes['type']:=GetEnumName( TypeInfo( TFCEdrdsResearchDomains ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_type ) );
+                  XMLSavedGameItemSub4.Attributes['knowledgeCurr']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_knowledgeCurrent, FCVdiFormat );
+                  XMLSavedGameItemSub4.Attributes['knowledgeGen']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_knowledgeGeneration, FCVdiFormat );
+                  Max3:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields ) - 1;
+                  if Max3 > 0 then
+                  begin
+                     Count3:=1;
+                     while Count1 <= Max3 do
+                     begin
+                        XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'field' );
+                        XMLSavedGameItemSub5.Attributes['type']:=GetEnumName( TypeInfo( TFCEdrdsResearchFields ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_type ) );
+                        XMLSavedGameItemSub4.Attributes['knowledgeCurr']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_knowledgeCurrent, FCVdiFormat );
+                        XMLSavedGameItemSub4.Attributes['knowledgeGen']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_knowledgeGeneration, FCVdiFormat );
+                        {....infrastructures with the intelligence function}
+                        Max4:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_intelligenceInfrastructures ) - 1;
+                        if Max4 > 0 then
+                        begin
+                           Count4:=1;
+                           while Count4 <= Max4 do
+                           begin
+                              Max5:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_intelligenceInfrastructures[Count4] );
+                              if Max5 > 0 then
+                              begin
+                                 Count5:=1;
+                                 while Count5 <= Max5 do
+                                 begin
+                                    XMLSavedGameItemSub6:=XMLSavedGameItemSub5.AddChild( 'intelInfra' );
+                                    XMLSavedGameItemSub6.Attributes['settlement']:=Count4;
+                                    XMLSavedGameItemSub6.Attributes['indexInfraArray']:=Count5;
+                                    XMLSavedGameItemSub6.Attributes['indexInfraSettlement']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_intelligenceInfrastructures[Count4, Count5];
+                                    inc( Count5 );
+                                 end;
+                              end;
+                              inc( Count4 );
+                           end;
+                        end;
+                        {....infrastructures with the intelligence function}
+                        Max4:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_intelligenceInfrastructures ) - 1;
+                        if Max4 > 0 then
+                        begin
+//                           Count4:=1;
+//                           while Count4 <= Max4 do
+//                           begin
+//                              Max5:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_intelligenceInfrastructures[Count4] );
+//                              if Max5 > 0 then
+//                              begin
+//                                 Count5:=1;
+//                                 while Count5 <= Max5 do
+//                                 begin
+//                                    XMLSavedGameItemSub6:=XMLSavedGameItemSub5.AddChild( 'intelInfra' );
+//                                    XMLSavedGameItemSub6.Attributes['settlement']:=Count4;
+//                                    XMLSavedGameItemSub6.Attributes['indexInfraArray']:=Count5;
+//                                    XMLSavedGameItemSub6.Attributes['indexInfraSettlement']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_intelligenceInfrastructures[Count4, Count5];
+//                                    inc( Count5 );
+//                                 end;
+//                              end;
+//                              inc( Count4 );
+//                           end;
+                        end;
+                        inc( Count3 );
+                     end;
+                  end;
+                  inc( Count2 );
+               end;
             end; //==END== if Max2>0 ==//
             inc(Count1);
          end; //==END== while Count1<=GScolMax do ==//
       end; //==END== if Max1>0 ==//
-      {.SPM settings}
+      {..SPM settings}
       Max1:=Length( FCDdgEntities[Count].E_spmSettings )-1;
       if Max1>0 then
       begin
@@ -2084,7 +2164,7 @@ begin
             inc( Count1 );
          end;
       end;
-      {.planetary surveys}
+      {..planetary surveys}
       Max1:=Length( FCDdgEntities[Count].E_planetarySurveys )-1;
       if Max1>0 then
       begin
@@ -2131,7 +2211,7 @@ begin
             inc( Count1 );
          end;
       end; //==END== if Max1>1... for planetary surveys ==//
-      {.all surveyed resources}
+      {..all surveyed resources}
       Max1:=length( FCDdgEntities[Count].E_surveyedResourceSpots );
       if Max1>1 then
       begin
