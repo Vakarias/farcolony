@@ -936,9 +936,21 @@ const
 ///</summary>
 procedure FCMdG_Entities_Clear;
 
+///<summary>
+///   reset the research domains' data of a particular colony from a particular faction
+///</summary>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <param name=""></param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMdG_RDSdomains_Reset( const Entity, Colony: integer );
+
 implementation
 
-//uses
+uses
+   farc_rds_func;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -1001,6 +1013,38 @@ begin
       SetLength( FCDdgEntities[Count].E_planetarySurveys, 1 );
       SetLength( FCDdgEntities[Count].E_surveyedResourceSpots, 1 );
       inc(Count);
+   end;
+end;
+
+procedure FCMdG_RDSdomains_Reset( const Entity, Colony: integer );
+{:Purpose: reset the domains' data of a particular colony from a particular faction.
+    Additions:
+}
+   var
+      Count
+      ,Count1
+      ,Count2
+      ,Max: integer;
+begin
+   Count:=1;
+   Count1:=0;
+   Count2:=0;
+   Max:=0;
+   while Count <= FCCdiRDSdomainsMax do
+   begin
+      FCDdrdsResearchDatabase[Count].RD_type:=TFCEdrdsResearchDomains( Count - 1 );
+      Max:=FCFrdsF_Domain_GetNumberOfResearchFields( FCDdrdsResearchDatabase[Count].RD_type );
+      setlength( FCDdrdsResearchDatabase[Count].RD_researchFields, Max + 1 );
+      Count1:=1;
+      while Count1 <= Max do
+      begin
+         FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_type:=TFCEdrdsResearchFields( Count1 + Count2 - 1 );
+         setlength( FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_technosciences, 1 );
+         setlength( FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_theories, 1 );
+         inc( Count1 );
+      end;
+      Count2:=Count2 + Max;
+      inc( Count );
    end;
 end;
 

@@ -143,7 +143,8 @@ uses
   farc_ogl_genorbitalobjects in 'ogl\farc_ogl_genorbitalobjects.pas',
   farc_win_about in 'ui\farc_win_about.pas' {FCWinAbout},
   farc_ui_savedgames in 'ui\farc_ui_savedgames.pas',
-  farc_data_rds in 'data\farc_data_rds.pas';
+  farc_data_rds in 'data\farc_data_rds.pas',
+  farc_rds_func in 'rds\farc_rds_func.pas';
 
 {$R *.res}
 

@@ -134,6 +134,7 @@ uses
    ,farc_game_cpsobjectives
    ,farc_game_gameflow
    ,farc_main
+   ,farc_rds_func
    ,farc_univ_func
    ,farc_win_debug;
 
@@ -1180,23 +1181,7 @@ begin
    while Count <= FCCdiRDSdomainsMax do
    begin
       FCDdrdsResearchDatabase[Count].RD_type:=TFCEdrdsResearchDomains(Count - 1);
-      case FCDdrdsResearchDatabase[Count].RD_type of
-         rdAerospaceengineering: Count2:=3;
-
-         rdAstroEngineering: Count2:=2;
-
-         rdBiosciences: Count2:=3;
-
-         rdCulture: Count2:=3;
-
-         rdEcosciences: Count2:=2;
-
-         rdIndustrialTechnologies: Count2:=4;
-
-         rdNanotechnology: Count2:=3;
-
-         rdPhysics: Count2:=3;
-      end;
+      Count2:=FCFrdsF_Domain_GetNumberOfResearchFields( FCDdrdsResearchDatabase[Count].RD_type );
       setlength( FCDdrdsResearchDatabase[Count].RD_researchFields, Count2 + 1 );
       Count1:=1;
       while Count1 <= Count2 do

@@ -49,7 +49,7 @@ type TFCEdrdsInfluenceProjectionTypes=(
    );
 
 {:REFERENCES LIST
-   -
+   - FCFrdsF_Domain_GetNumberOfResearchFields
 }
 ///<summary>
 ///
@@ -65,6 +65,9 @@ type TFCEdrdsResearchDomains=(
    ,rdPhysics
    );
 
+{:REFERENCES LIST
+   - FCFrdsF_Domain_GetNumberOfResearchFields
+}
 type TFCEdrdsResearchFields=(
    rf1AerospaceTechnics
    ,rf1SpaceArchitecture
@@ -204,6 +207,5 @@ implementation
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
-
 
 end.
