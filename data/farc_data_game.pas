@@ -464,7 +464,7 @@ type TFCRdgResearchDomainColony = record
       ///</summary>
       ///</summary>
       RF_intelligenceInfrastructures: array of array of integer;
-      RF_technosiences: array of TFCRdgTechnoscience;
+      RF_technosciences: array of TFCRdgTechnoscience;
       RF_theories: array of TFCRdgTechnoscience;
    end;
 end;
@@ -1038,9 +1038,9 @@ begin
       Count1:=1;
       while Count1 <= Max do
       begin
-         FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_type:=TFCEdrdsResearchFields( Count1 + Count2 - 1 );
-         setlength( FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_technosciences, 1 );
-         setlength( FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_theories, 1 );
+         FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_type:=TFCEdrdsResearchFields( Count1 + Count2 - 1 );
+         setlength( FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_technosciences, 1 );
+         setlength( FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_theories, 1 );
          inc( Count1 );
       end;
       Count2:=Count2 + Max;
