@@ -69,7 +69,8 @@ type TFCEdrdsResearchDomains=(
    - FCFrdsF_Domain_GetNumberOfResearchFields
 }
 type TFCEdrdsResearchFields=(
-   rf1AerospaceTechnics
+   rfTheory
+   ,rf1AerospaceTechnics
    ,rf1SpaceArchitecture
    ,rf1SpaceDrives
    ,rf2Astrophysics
@@ -164,10 +165,10 @@ end;
 ///</summary>
 type TFCRdrdsResearchDomain = record
    RD_type: TFCEdrdsResearchDomains;
+   RD_theories: array of TFCRdrdsTechnoscience;
    RD_researchFields: array of record
       RF_type: TFCEdrdsResearchFields;
       RF_technosciences: array of TFCRdrdsTechnoscience;
-      RF_theories: array of TFCRdrdsTechnoscience;
    end;
 end;
 
