@@ -3859,6 +3859,11 @@
    </wspdIdx7>
    <!-- ********** TECHNOSCIENCES ********** -->
    <!-- rfXX = research fields -->
+   <tsmainLabel>
+      <EN>Technoscience</EN>
+      <FR>Technoscience</FR>
+      <SP>Tecnociencia</SP>
+   </tsmainLabel>
    <tsAlloys>
       <EN>Alloys</EN>
       <FR>Alliages</FR>
@@ -3899,11 +3904,11 @@
       <FR>Habitats Gonflables</FR>
       <SP>Hábitats Inflables</SP>
    </tsciInflatHabitat>
-   <tsciLabel>
-      <EN>Technoscience</EN>
-      <FR>Technoscience</FR>
-      <SP>Tecnociencia</SP>
-   </tsciLabel>
+   <tsLogistics>
+      <EN>Logistics</EN>
+      <FR>Logistique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsLogistics>
    <tsciNucFission>
       <EN>Nuclear Fission</EN>
       <FR>Fission Nucléaire</FR>
