@@ -790,27 +790,62 @@
       <FR></FR>
       <SP></SP>
    </tsBasicMinRef>
-   <tsciChemEng>
+   <tsChemEngineering>
       <EN></EN>
       <FR></FR>
-   </tsciChemEng>
+   </tsChemEngineering>
    <tsciComposMat>
       <EN></EN>
       <FR></FR>
    </tsciComposMat>
+   <tsCryobiology>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsCryobiology>
+   <tsElectromagnetism>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsElectromagnetism>
    <tsciInflatHabitat>
       <EN></EN>
       <FR></FR>
    </tsciInflatHabitat>
+   <tsLogicAlgo>
+      <EN></EN>
+      <EN></EN>
+      <SP></SP>
+   </tsLogicAlgo>
    <tsLogistics>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsLogistics>
-   <tsciNucFission>
+   <tsMicroElectronics>
       <EN></EN>
       <FR></FR>
-   </tsciNucFission>
+      <SP></SP>
+   </tsMicroElectronics>
+   <tsMiniaturization>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsMiniaturization>
+   <tsMultiToOrbitVeh>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsMultiToOrbitVeh>
+   <tsNuclearFission>
+      <EN></EN>
+      <FR></FR>
+   </tsNuclearFission>
+   <tsQMechanics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsQMechanics>
    <!-- ********** UNIVERSE ********** -->
    <univAlbedo>
       <EN>Albedo is the &#60;b&#62;rate of reflection&#60;/b&#62; of the star's rays by the orbital object.&#60;br&#62; More this one have an &#60;b&#62;high albedo&#60;/b&#62;, more it &#60;b&#62;will reflect the rays &#60;/b&#62; of it's star to the space, and less the soil will have to absorb heat.&#60;br&#62; The &#60;b&#62;nature of the ground&#60;/b&#62; influence directly the albedo, for example &#60;b&#62;a great glacial zone will strongly reflect the rays&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; has an &#60;b&#62;albedo of 0.72&#60;/b&#62; that's to say 72%.</EN>

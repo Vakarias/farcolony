@@ -45,6 +45,7 @@ type TFCEdrdsInfluenceProjectionTypes=(
    ,iptSpaceUnitArchitecture
    ,iptEquipmentModule
    ,iptSPMItem
+   ,iptOwnRDOM
    ,iptExternalResearchField
    );
 

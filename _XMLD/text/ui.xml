@@ -3889,31 +3889,66 @@
       <FR>Extraction et Raffinage de Base</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsBasicMinRef>
-   <tsciChemEng>
+   <tsChemEngineering>
       <EN>Chemical Engineering</EN>
       <FR>Ingénieurie Chimique</FR>
       <SP>Ingenería Química</SP>
-   </tsciChemEng>
+   </tsChemEngineering>
    <tsciComposMat>
       <EN>Composite Materials</EN>
       <FR>Matériaux Composites</FR>
       <SP>Materiales Compuestos</SP>
    </tsciComposMat>
+   <tsCryobiology>
+      <EN>Cryobiology</EN>
+      <FR>Cryobiologie</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsCryobiology>
+   <tsElectromagnetism>
+      <EN>Electromagnetism</EN>
+      <FR>Electromagnetisme</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsElectromagnetism>
    <tsciInflatHabitat>
       <EN>Inflatable Habitats</EN>
       <FR>Habitats Gonflables</FR>
       <SP>Hábitats Inflables</SP>
    </tsciInflatHabitat>
+   <tsLogicAlgo>
+      <EN>Logic &#38; Algorythms</EN>
+      <EN>Logic &#38; Algorythms</EN>
+      <SP>!TO TRANSLATE!</SP>
+   </tsLogicAlgo>
    <tsLogistics>
       <EN>Logistics</EN>
       <FR>Logistique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsLogistics>
-   <tsciNucFission>
+   <tsMicroElectronics>
+      <EN>Micro-Electronics</EN>
+      <FR>Micro-Electronique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsMicroElectronics>
+   <tsMiniaturization>
+      <EN>Miniaturization</EN>
+      <FR>Miniaturisation</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsMiniaturization>
+   <tsMultiToOrbitVeh>
+      <EN>Multi-Stage-To-Orbit Vehicles</EN>
+      <FR>Vehicules Multi-Stage-Vers-Orbit</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsMultiToOrbitVeh>
+   <tsNuclearFission>
       <EN>Nuclear Fission</EN>
       <FR>Fission Nucléaire</FR>
       <SP>Fisión Nuclear</SP>
-   </tsciNucFission>
+   </tsNuclearFission>
+   <tsQMechanics>
+      <EN>Quantum Mechanics</EN>
+      <FR>Mécanique Quantique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsQMechanics>
    <!-- ********** TIME FRAME ********** -->
    <TimeF1st>
       <EN>st</EN>

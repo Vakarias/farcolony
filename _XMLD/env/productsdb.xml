@@ -175,7 +175,7 @@
    <product token="matConcrete" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.371">
       <function token="pfBuildingMaterial" tensilestr="0.021" tsbylevel="0.001" youngmodulus="27" ymbylevel="0.333" thermalprot="0.2" reflectivity="0.3" corrosiveclass="ccC_Fair"/>
    </product>
-   <!-- Concrete - Gold -->
+   <!-- Gold - Material -->
    <product token="matGold" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="19.3">
       <function token="pfManufacturingMat"/>
    </product>
