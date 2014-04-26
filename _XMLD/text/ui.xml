@@ -155,8 +155,8 @@
    </acronAU>
    <acronAUwDes>
       <EN>Astronomical Unit(s) [AU]</EN>
-      <FR>Unité(s) Astronomique(s) [UA]</FR>
-      <SP>Unidad(es)  Astronomica(s) [UA]</SP>
+      <FR>Unité(s) Astronomique(s) [AU]</FR>
+      <SP>Unidad(es)  Astronomica(s) [AU]</SP>
    </acronAUwDes>
    <acronUC>
       <EN>UC</EN>
@@ -1198,8 +1198,8 @@
    <!-- ********** FACTION NAMES ********** -->
    <factkMagelUni>
       <EN>Magellan Unity (MUN)</EN>
-       <FR>Unité de Magellan (UDM)</FR>
-       <SP>Unidad de Magallanes (UDM)</SP>
+       <FR>Unité de Magellan (MUN)</FR>
+       <SP>Unidad de Magallanes (MUN)</SP>
    </factkMagelUni>
    <factkMagelUniWart>
       <EN>The Magellan Unity</EN>
@@ -3062,7 +3062,7 @@
    </SPMi_AntiHumSpacef>
    <SPMi_BioroidsAdopt>
       <EN>Bioroids Adoption</EN>
-      <FR>(Adoption de Bioroïdes)</FR>
+      <FR>Adoption de Bioroïdes</FR>
       <SP>Adopción de Bioroids</SP>
    </SPMi_BioroidsAdopt>
    <SPMi_BirthsCtl>
@@ -3914,6 +3914,11 @@
       <FR>Electromagnetisme</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsElectromagnetism>
+   <tsFullerenesProc>
+      <EN>Fullerenes Processing</EN>
+      <FR>Traitement de Fullerenes</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsFullerenesProc>
    <tsciInflatHabitat>
       <EN>Inflatable Habitats</EN>
       <FR>Habitats Gonflables</FR>
@@ -3929,6 +3934,11 @@
       <FR>Logistique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsLogistics>
+   <tsMEMS>
+      <EN>Micro-Electromechanical Systems (MEMS)</EN>
+      <FR>Systèmes Micro-Electromécaniques (MEMS)</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsMEMS>
    <tsMicroElectronics>
       <EN>Micro-Electronics</EN>
       <FR>Micro-Electronique</FR>
@@ -3949,6 +3959,11 @@
       <FR>Fission Nucléaire</FR>
       <SP>Fisión Nuclear</SP>
    </tsNuclearFission>
+   <tsQDots>
+      <EN>Quantum Dots</EN>
+      <FR>Boite Quantique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsQDots>
    <tsQMechanics>
       <EN>Quantum Mechanics</EN>
       <FR>Mécanique Quantique</FR>
@@ -4369,7 +4384,7 @@
    <UMIpolenfAProb>
       <EN>Acceptance Probability (AP)</EN>
       <FR>Probabilité d'Acceptation (AP)</FR>
-      <SP>Probabilidad de Aceptación</SP>
+      <SP>Probabilidad de Aceptación (AP)</SP>
    </UMIpolenfAProb>
    <UMIpolenfAvail>
       <EN>Available Policies</EN>

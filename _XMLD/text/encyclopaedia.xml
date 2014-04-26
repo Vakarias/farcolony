@@ -804,15 +804,20 @@
       <SP></SP>
    </tsCryobiology>
    <tsCryogenics>
-      <EN>Cryogenics</EN>
-      <FR>Cryogènie</FR>
-      <SP>!TO TRANSLATE!</SP>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
    </tsCryogenics>
    <tsElectromagnetism>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsElectromagnetism>
+   <tsFullerenesProc>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsFullerenesProc>
    <tsciInflatHabitat>
       <EN></EN>
       <FR></FR>
@@ -827,6 +832,11 @@
       <FR></FR>
       <SP></SP>
    </tsLogistics>
+   <tsMEMS>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsMEMS>
    <tsMicroElectronics>
       <EN></EN>
       <FR></FR>
@@ -846,6 +856,11 @@
       <EN></EN>
       <FR></FR>
    </tsNuclearFission>
+   <tsQDots>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsQDots>
    <tsQMechanics>
       <EN></EN>
       <FR></FR>
