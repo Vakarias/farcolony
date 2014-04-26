@@ -67,6 +67,10 @@
    <!-- Multi-Stage-To-Orbit Vehicles -->
    <tsci theory="False" token="tsMultiToOrbitVeh" domain="rdAerospaceengineering" field="rf1AerospaceTechnics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
    </tsci>
+   <!-- Rocket Propulsion -->
+   <tsci theory="False" token="tsRocketPropulsion" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
+      <influenceproj type="iptSpaceUnitArchitecture" token="aHLV"/>
+   </tsci>
    <!-- Astronomy -->
    <tsci theory="False" token="tsAstronomy" domain="rdAstroEngineering" field="rf2Astrophysics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
    </tsci>
@@ -106,6 +110,12 @@
       <influenceproj token="matPlastics" type="iptProduct"/>
       <influenceproj token="matSilicon" type="iptProduct"/>
    </tsci>
+   <!-- Cryogenics -->
+   <tsci theory="False" token="tsCryogenics" domain="rdIndustrialTechnologies" field="rf6IndustrialTechnics" techlevel="2" difficulty="26" discothres="52" maxRTSpoints="0">
+      <rts token="tsCryobiology" domain="rdBiosciences" rfield="rfTheory" isKeyTech="True" influence="0"/>
+      <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
+      <rts token="tsBasicMinRef" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence=""/>
+   </tsci>
    <!-- Logistics -->
    <tsci theory="False" token="tsLogistics" domain="rdIndustrialTechnologies" field="rf6IndustrialTechnics" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
    </tsci>
@@ -124,6 +134,12 @@
       <influenceproj token="equipMultiDepot3" type="iptProduct"/>
       <influenceproj token="equipMultiDepot4" type="iptProduct"/>
       <influenceproj token="equipMultiDepot5" type="iptProduct"/>
+   </tsci>
+   <!-- Composite Materials -->
+   <tsci theory="False" token="tsCompoMaterials" domain="rdIndustrialTechnologies" field="rf6Materials" techlevel="2" difficulty="40" discothres="80" maxRTSpoints="0">
+      <rts token="tsBasicMinRef" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
+      <rts token="tsAlloys" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="0"/>
+      <influenceproj type="iptProduct" token="matCarbComposites"/>
    </tsci>
    <!-- Quantum Mechanics -->
    <tsci theory="True" token="tsQMechanics" domain="rdPhysics" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">

@@ -3894,16 +3894,21 @@
       <FR>Ingénieurie Chimique</FR>
       <SP>Ingenería Química</SP>
    </tsChemEngineering>
-   <tsciComposMat>
+   <tsCompoMaterials>
       <EN>Composite Materials</EN>
       <FR>Matériaux Composites</FR>
       <SP>Materiales Compuestos</SP>
-   </tsciComposMat>
+   </tsCompoMaterials>
    <tsCryobiology>
       <EN>Cryobiology</EN>
       <FR>Cryobiologie</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsCryobiology>
+   <tsCryogenics>
+      <EN>Cryogenics</EN>
+      <FR>Cryogènie</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsCryogenics>
    <tsElectromagnetism>
       <EN>Electromagnetism</EN>
       <FR>Electromagnetisme</FR>
@@ -3949,6 +3954,11 @@
       <FR>Mécanique Quantique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsQMechanics>
+   <tsRocketPropulsion>
+      <EN>Rocket Propulsion</EN>
+      <FR>Propulsion Fusée</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsRocketPropulsion>
    <!-- ********** TIME FRAME ********** -->
    <TimeF1st>
       <EN>st</EN>
