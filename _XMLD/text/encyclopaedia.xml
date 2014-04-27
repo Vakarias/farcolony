@@ -832,6 +832,11 @@
       <FR></FR>
       <SP></SP>
    </tsLogistics>
+   <tsLowTempConductors>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsLowTempConductors>
    <tsMEMS>
       <EN></EN>
       <FR></FR>
@@ -856,6 +861,11 @@
       <EN></EN>
       <FR></FR>
    </tsNuclearFission>
+   <tsNucFissionProp>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsNucFissionProp>
    <tsQDots>
       <EN></EN>
       <FR></FR>

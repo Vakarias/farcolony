@@ -74,6 +74,17 @@
       <!-- Space Architecture -->
       
       <!-- Space Drives -->
+         <!-- Nuclear Fission Propulsion -->
+         <tsci theory="False" token="tsNucFissionProp" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="4" difficulty="81" discothres="324" maxRTSpoints="72">
+            <rts token="tsRocketPropulsion" domain="rdAerospaceengineering" rfield="rf1SpaceDrives" isKeyTech="True" influence="0"/>
+            <rts token="tsNuclearFission" domain="rdPhysics" rfield="rf8Energy" isKeyTech="True" influence="0"/>
+            <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="72"/>
+            <influenceproj type="" token=""/>
+            with iptExternalResearchField:
+            <influenceproj type="iptExternalResearchField" token="" influence="1-2-3"/>
+            with iptOwnRDOM:
+            <influenceproj type="iptOwnRDOM" influence="1-2-3"/>
+         </tsci>
          <!-- Rocket Propulsion -->
          <tsci theory="False" token="tsRocketPropulsion" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
             <influenceproj type="iptSpaceUnitArchitecture" token="aHLV"/>
@@ -193,6 +204,13 @@
             <rts token="tsBasicMinRef" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
             <rts token="tsAlloys" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="0"/>
             <influenceproj type="iptProduct" token="matCarbComposites"/>
+         </tsci>
+         <!-- Low Temperature Superconductors -->
+         <tsci theory="False" token="tsLowTempConductors" domain="rdIndustrialTechnologies" field="rf6Materials" techlevel="3" difficulty="48" discothres="144" maxRTSpoints="132">
+            <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="80"/>
+            <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="52"/>
+            <rts token="tsElectromagnetism" domain="rdPhysics" rfield="rf8Energy" isKeyTech="True" influence="0"/>
+            <rts token="tsQMechanics" domain="rdPhysics" rfield="rfTheory" isKeyTech="False" influence="0"/>
          </tsci>
          
    <!-- Nanotechnology - Theories -->

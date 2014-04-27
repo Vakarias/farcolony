@@ -3934,6 +3934,11 @@
       <FR>Logistique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsLogistics>
+   <tsLowTempConductors>
+      <EN>Low Temperature Superconductors</EN>
+      <FR>Superconducteurs à Basse Température</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsLowTempConductors>
    <tsMEMS>
       <EN>Micro-Electromechanical Systems (MEMS)</EN>
       <FR>Systèmes Micro-Electromécaniques (MEMS)</FR>
@@ -3959,6 +3964,11 @@
       <FR>Fission Nucléaire</FR>
       <SP>Fisión Nuclear</SP>
    </tsNuclearFission>
+   <tsNucFissionProp>
+      <EN>Nuclear Fission Propulsion</EN>
+      <FR>Propulsion à Fission Nucléaire</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsNucFissionProp>
    <tsQDots>
       <EN>Quantum Dots</EN>
       <FR>Boite Quantique</FR>
