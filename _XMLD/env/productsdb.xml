@@ -35,17 +35,17 @@
       
    <product token="" class="" storage="" cargo="" volbyunit="" massbyunit="">
       {case function specific data}
-      <function token="pfBuildingMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
-      <function token="pfBuildingSupportEquip"/>
+      <function token="pfBuildingMaterial" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfBuildingSupportEquipment"/>
       <function token="pfEnergyGeneration"/>
       <function token="pfFood" foodpoint=""/>
-      <function token="pfInfraKit" infratoken="" infralevel=""/>
+      <function token="pfInfrastructureKit" infratoken="" infralevel=""/>
       <function token="pfManpowerConstruction" wcpcoef=""/>
-      <function token="pfManufacturingMat"/>
+      <function token="pfManufacturingMaterial"/>
       <function token="pfMechanizedConstruction" wcp="" crew=""/>
-      <function token="pfMultipurposeMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfMultipurposeMaterial" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
       <function token="pfOxygen" oxypoint=""/>
-      <function token="pfSpaceMat" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfSpaceMaterial" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
       <function token="pfSurveyAir" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
       <function token="pfSurveyAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
       <function token="pfSurveyGround" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
@@ -177,7 +177,7 @@
    </product>
    <!-- Gold - Material -->
    <product token="matGold" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="19.3">
-      <function token="pfManufacturingMat"/>
+      <function token="pfManufacturingMaterial"/>
    </product>
    <!-- Multi-Walled Nanotubes (MWNT) - Material -->
    <product token="matMWNT" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.6">

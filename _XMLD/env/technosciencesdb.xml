@@ -79,11 +79,6 @@
             <rts token="tsRocketPropulsion" domain="rdAerospaceengineering" rfield="rf1SpaceDrives" isKeyTech="True" influence="0"/>
             <rts token="tsNuclearFission" domain="rdPhysics" rfield="rf8Energy" isKeyTech="True" influence="0"/>
             <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="72"/>
-            <influenceproj type="" token=""/>
-            with iptExternalResearchField:
-            <influenceproj type="iptExternalResearchField" token="" influence="1-2-3"/>
-            with iptOwnRDOM:
-            <influenceproj type="iptOwnRDOM" influence="1-2-3"/>
          </tsci>
          <!-- Rocket Propulsion -->
          <tsci theory="False" token="tsRocketPropulsion" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="1" difficulty="0" discothres="0" maxRTSpoints="0">
@@ -233,11 +228,6 @@
             <rts token="tsNuclearFission" domain="rdPhysics" rfield="rf8Energy" isKeyTech="True" influence="0"/>
             <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
             <rts token="tsMicroElectronics" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="False" influence="0"/>
-            <influenceproj type="" token=""/>
-            with iptExternalResearchField:
-            <influenceproj type="iptExternalResearchField" token="" influence="1-2-3"/>
-            with iptOwnRDOM:
-            <influenceproj type="iptOwnRDOM" influence="1-2-3"/>
          </tsci>
          
    <!-- Physics - Theories -->
