@@ -52,6 +52,10 @@
       <function token="pfSurveySpace" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
       <function token="pfSurveySwarmAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
       <function token="pfWater" waterpoint=""/>
+      the technosciences subarray below isn't used for resources.
+      <reqTSci>
+         <reqTS token="" domain="" field="" effectType="" effectValueByDLaboveZero=""/> 
+      </reqTSci>
       <tags>
          <hazEnv/>
          <hazFire/>
