@@ -976,6 +976,7 @@ end;
 procedure FCMdF_DBProducts_Load;
 {:Purpose: load the products database XML file.
    Additions:
+      -2014May25- *add: prerequisite technoscience.
       -2013Jan13- *add: new functions: Survey-Air, Survey-Antigrav, Survey-Ground, Survey-Space and Survey-Swarm Antigrav.
       -2012Aug01- *code audit:
                      (x)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
@@ -1007,6 +1008,7 @@ procedure FCMdF_DBProducts_Load;
 {:DEV NOTES: WARNING: when updating one material function data, update all the other ones too with the same data if required.}
    var
       Count
+      ,Count1
       ,EnumIndex: integer;
 
       XMLProduct
@@ -1016,6 +1018,7 @@ begin
    FCDdipProducts:=nil;
    SetLength( FCDdipProducts, 1 );
    Count:=0;
+   Count1:=0;
    {.read the document}
    FCWinMain.FCXMLdbProducts.FileName:=FCVdiPathXML+'\env\productsdb.xml';
    FCWinMain.FCXMLdbProducts.Active:=true;
@@ -1123,6 +1126,56 @@ begin
                   pfWater: FCDdipProducts[Count].P_fWpoints:=XMLProductItem.Attributes['waterpoint'];
                end; //==END== case FCDBProducts[DBPRcnt].PROD_function of ==//
             end //==END== if DBPRsub.NodeName='function' ==//
+            else if XMLProductItem.NodeName='reqTSci' then
+            begin
+               FCDdipProducts[Count].P_reqTS.RTS_token:=XMLProductItem.Attributes['token'];
+
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsResearchDomains ), XMLProductItem.Attributes['domain'] );
+               FCDdipProducts[Count].P_reqTS.RTS_domain:=TFCEdrdsResearchDomains( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad products required technoscience research domain: '+XMLProductItem.Attributes['domain'] );
+
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), XMLProductItem.Attributes['field'] );
+               FCDdipProducts[Count].P_reqTS.RTS_field:=TFCEdrdsResearchFields( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad products required technoscience research field: '+XMLProductItem.Attributes['field'] );
+
+               EnumIndex:=GetEnumValue( TypeInfo( TFCEdipRTSaffectListTypes ), XMLProductItem.Attributes['affectType'] );
+               FCDdipProducts[Count].P_reqTS.RTS_affectType:=TFCEdipRTSaffectListTypes( EnumIndex );
+               if EnumIndex=-1
+               then raise Exception.Create( 'bad xmlname dataname: '+XMLProductItem.Attributes['affectType'] );
+
+               case FCDdipProducts[Count].P_reqTS.RTS_affectType of
+                  rtsaltProdInfraKit:
+                  begin
+                     FCDdipProducts[Count].P_reqTS.RTS_atPIKpackedImprovement:=StrToFloat( XMLProductItem.Attributes['packedImprovementByDLSup1'], FCVdiFormat );
+                     XMLProductItemSub:=XMLProductItem.ChildNodes.First;
+                     Count1:=0;
+                     while XMLProductItemSub<>nil do
+                     begin
+                        inc( Count1 );
+                        FCDdipProducts[Count].P_reqTS.RTS_atPIKproductionModeReqTS[Count1].PMRTS_token:=XMLProductItemSub.Attributes['token'];
+
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsResearchDomains ), XMLProductItemSub.Attributes['domain'] );
+                        FCDdipProducts[Count].P_reqTS.RTS_atPIKproductionModeReqTS[Count1].PMRTS_domain:=TFCEdrdsResearchDomains( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad products.s prodmode required technoscience research domain: '+XMLProductItemSub.Attributes['domain'] );
+
+                        EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), XMLProductItemSub.Attributes['field'] );
+                        FCDdipProducts[Count].P_reqTS.RTS_atPIKproductionModeReqTS[Count1].PMRTS_field:=TFCEdrdsResearchFields( EnumIndex );
+                        if EnumIndex=-1
+                        then raise Exception.Create( 'bad products.s prodmode required technoscience research field: '+XMLProductItemSub.Attributes['field'] );
+                        XMLProductItemSub:=XMLProductItemSub.NextSibling;
+                     end; //==END== while XMLProductItemSub<>nil ==//
+                  end;
+
+                  rtsaltProdMaterial:
+                  begin
+                     FCDdipProducts[Count].P_reqTS.RTS_atPMtensileStrByDLSup1:=XMLProductItem.Attributes[''];
+                     FCDdipProducts[Count].P_reqTS.RTS_atPMyoungModulusByDLSup1:=XMLProductItem.Attributes[''];
+                  end;
+               end;
+            end //==END== if XMLProductItem.NodeName='reqTSci' ==//
             else if XMLProductItem.NodeName='tags' then
             begin
                XMLProductItemSub:=XMLProductItem.ChildNodes.First;
@@ -1141,7 +1194,7 @@ begin
                   else if XMLProductItemSub.NodeName='hazToxic'
                   then FCDdipProducts[Count].P_tagToxicHazard:=true;
                   XMLProductItemSub:=XMLProductItemSub.NextSibling;
-               end; {.while DBPRtag<>nil}
+               end; //==END== while XMLProductItemSub<>nil ==//
             end; //==END== if DBPRsub.NodeName='tags' ==//
             XMLProductItem:= XMLProductItem.NextSibling;
          end; //==END== while DBPRsub<>nil ==//

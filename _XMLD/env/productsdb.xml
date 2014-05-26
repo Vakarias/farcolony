@@ -52,10 +52,21 @@
       <function token="pfSurveySpace" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
       <function token="pfSurveySwarmAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
       <function token="pfWater" waterpoint=""/>
-      the technosciences subarray below isn't used for resources.
-      <reqTSci>
-         <reqTS token="" domain="" field="" effectType="" effectValueByDLaboveZero=""/> 
+      
+      resources don't have any req TS/affect list
+
+      -rtsaltNone:
+      <reqTSci token="" domain="" field="" affectType="rtsaltNone"/>
+      
+      -rtsaltProdInfraKit:
+      <reqTSci token="" domain="" field="" affectType="rtsaltProdInfraKit" packedImprovementByDLSup1=""/> 
+      or
+      <reqTSci token="" domain="" field="" affectType="rtsaltProdInfraKit" packedImprovementByDLSup1=""> 
+         <reqTSciProdMode token="" domain="" field=""/>
       </reqTSci>
+      
+      -rtsaltProdMaterial:
+      <reqTSci token="" domain="" field="" affectType="rtsaltProdMaterial" tensileStrByDLSup1="" youndModulusByDLSup1=""/> 
       <tags>
          <hazEnv/>
          <hazFire/>

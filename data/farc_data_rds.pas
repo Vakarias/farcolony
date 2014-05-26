@@ -51,6 +51,7 @@ type TFCEdrdsInfluenceProjectionTypes=(
 
 {:REFERENCES LIST
    - FCFrdsF_Domain_GetNumberOfResearchFields
+   - TFCRdipProduct
 }
 ///<summary>
 ///
@@ -68,6 +69,7 @@ type TFCEdrdsResearchDomains=(
 
 {:REFERENCES LIST
    - FCFrdsF_Domain_GetNumberOfResearchFields
+   - TFCRdipProduct
 }
 type TFCEdrdsResearchFields=(
    rfTheory

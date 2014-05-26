@@ -32,6 +32,7 @@ interface
 
 uses
    farc_data_pgs
+   ,farc_data_rds
    ,farc_data_univ;
 
 const
@@ -228,6 +229,20 @@ type TFCEdipRegionSoilRequirements=(
 
 {:REFERENCES LIST
    - productsdb.xml
+   - TFCRdipProduct
+   - FCMdF_DBProducts_Load
+}
+///<summary>
+///   rts affects list type
+///</summary>
+type TFCEdipRTSaffectListTypes=(
+   rtsaltNone
+   ,rtsaltProdInfraKit
+   ,rtsaltProdMaterial
+   );
+
+{:REFERENCES LIST
+   - productsdb.xml
    - FCFgC_Storage_Update
    - FCMdF_DBProducts_Read
 }
@@ -299,6 +314,26 @@ type TFCRdipProduct= record
    P_tagToxicHazard: boolean;
    P_volumeByUnit: extended;
    P_massByUnit: extended;
+   P_reqTS: record
+      RTS_token: string[20];
+      RTS_domain: TFCEdrdsResearchDomains;
+      RTS_field: TFCEdrdsResearchFields;
+      case RTS_affectType: TFCEdipRTSaffectListTypes of
+         rtsaltProdInfraKit:(
+            RTS_atPIKpackedImprovement: extended;
+            RTS_atPIKproductionModeReqTS: array[0..FCCdipProductionModesMax] of record
+               PMRTS_token: string[20];
+               PMRTS_domain: TFCEdrdsResearchDomains;
+               PMRTS_field: TFCEdrdsResearchFields;
+            end
+            );
+
+         rtsaltProdMaterial:(
+            RTS_atPMtensileStrByDLSup1: extended;
+            RTS_atPMyoungModulusByDLSup1: extended
+            );
+
+   end;
    case P_function: TFCEdipProductFunctions of
       pfBuildingMaterial:(
          P_fBMtensileStrength: extended;
@@ -347,7 +382,7 @@ type TFCRdipProduct= record
          P_fSMyoungModulusByDevLevel: extended;
          P_fSMthermalProtection: extended;
          P_fSMreflectivity: extended;
-         P_fSMcorrosiveClass: TFCEdipCorrosiveClasses;
+         P_fSMcorrosiveClass: TFCEdipCorrosiveClasses
          );
 
       pfSurveyAir, pfSurveyAntigrav, pfSurveyGround, pfSurveySpace, pfSurveySwarmAntigrav:(
