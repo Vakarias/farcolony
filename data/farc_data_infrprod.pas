@@ -337,9 +337,7 @@ type TFCRdipProduct= record
    case P_function: TFCEdipProductFunctions of
       pfBuildingMaterial:(
          P_fBMtensileStrength: extended;
-         P_fBMtensileStrengthByDevLevel: extended;
          P_fBMyoungModulus: extended;
-         P_fBMyoungModulusByDevLevel: extended;
          P_fBMthermalProtection: extended;
          P_fBMreflectivity: extended;
          P_fBMcorrosiveClass: TFCEdipCorrosiveClasses;
@@ -365,9 +363,7 @@ type TFCRdipProduct= record
 
       pfMultipurposeMaterial:(
          P_fMMtensileStrength: extended;
-         P_fMMtensileStrengthByDevLevel: extended;
          P_fMMyoungModulus: extended;
-         P_fMMyoungModulusByDevLevel: extended;
          P_fMMthermalProtection: extended;
          P_fMMreflectivity: extended;
          P_fMMcorrosiveClass: TFCEdipCorrosiveClasses
@@ -377,9 +373,7 @@ type TFCRdipProduct= record
 
       pfSpaceMaterial:(
          P_fSMtensileStrength: extended;
-         P_fSMtensileStrengthByDevLevel: extended;
          P_fSMyoungModulus: extended;
-         P_fSMyoungModulusByDevLevel: extended;
          P_fSMthermalProtection: extended;
          P_fSMreflectivity: extended;
          P_fSMcorrosiveClass: TFCEdipCorrosiveClasses

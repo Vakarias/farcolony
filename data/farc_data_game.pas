@@ -625,6 +625,9 @@ type TFCRdgColony = record
    C_storageCapacityBioMax: extended;
    C_storedProducts: array of record
       SP_token: string[20];
+      ///<summary>
+      ///   sum of units of all DL
+      ///</summary>
       SP_unit: extended;
    end;
    C_reserveOxygen: integer;

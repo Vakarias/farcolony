@@ -35,7 +35,7 @@
       
    <product token="" class="" storage="" cargo="" volbyunit="" massbyunit="">
       {case function specific data}
-      <function token="pfBuildingMaterial" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfBuildingMaterial" tensilestr="" youngmodulus="" thermalprot="" reflectivity="" corrosiveclass=""/>
       <function token="pfBuildingSupportEquipment"/>
       <function token="pfEnergyGeneration"/>
       <function token="pfFood" foodpoint=""/>
@@ -43,9 +43,9 @@
       <function token="pfManpowerConstruction" wcpcoef=""/>
       <function token="pfManufacturingMaterial"/>
       <function token="pfMechanizedConstruction" wcp="" crew=""/>
-      <function token="pfMultipurposeMaterial" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfMultipurposeMaterial" tensilestr="" youngmodulus="" thermalprot="" reflectivity="" corrosiveclass=""/>
       <function token="pfOxygen" oxypoint=""/>
-      <function token="pfSpaceMaterial" tensilestr="" tsbylevel="" youngmodulus="" ymbylevel="" thermalprot="" reflectivity="" corrosiveclass=""/>
+      <function token="pfSpaceMaterial" tensilestr="" youngmodulus="" thermalprot="" reflectivity="" corrosiveclass=""/>
       <function token="pfSurveyAir" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
       <function token="pfSurveyAntigrav" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
       <function token="pfSurveyGround" speed="" missionTime="" capabResources="" capabBiosphere="" capabFeaturesArtifacts="" crew="" vehicles=""/>
@@ -180,19 +180,23 @@
    </product>
    <!-- Aluminium - Material -->
    <product token="matAluminium" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.71">
-      <function token="pfMultipurposeMaterial" tensilestr="0.195" tsbylevel="0.029" youngmodulus="63" ymbylevel="0.8" thermalprot="53.1" reflectivity="0.75" corrosiveclass="ccC_Fair"/>
+      <function token="pfMultipurposeMaterial" tensilestr="0.195" youngmodulus="63" thermalprot="53.1" reflectivity="0.75" corrosiveclass="ccC_Fair"/>
+      <reqTSci token="tsAlloys" domain="rdIndustrialTechnologies" field="rf6Materials" affectType="rtsaltProdMaterial" tensileStrByDLSup1="0.029" youndModulusByDLSup1="0.8"/>
    </product>
    <!-- Carbon Composites - Material -->
    <product token="matCarbComposites" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.44">
-      <function token="pfMultipurposeMaterial" tensilestr="1.5" tsbylevel="0.461" youngmodulus="119" ymbylevel="3.44" thermalprot="44.4" reflectivity="0.4" corrosiveclass="ccC_Fair"/>
+      <function token="pfMultipurposeMaterial" tensilestr="1.5" youngmodulus="119" thermalprot="44.4" reflectivity="0.4" corrosiveclass="ccC_Fair"/>
+      <reqTSci token="tsCompoMaterials" domain="rdIndustrialTechnologies" field="rf6Materials" affectType="rtsaltProdMaterial" tensileStrByDLSup1="0.461" youndModulusByDLSup1="3.44"/>
    </product>
    <!-- Concrete - Material -->
    <product token="matConcrete" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.371">
-      <function token="pfBuildingMaterial" tensilestr="0.021" tsbylevel="0.001" youngmodulus="27" ymbylevel="0.333" thermalprot="0.2" reflectivity="0.3" corrosiveclass="ccC_Fair"/>
+      <function token="pfBuildingMaterial" tensilestr="0.021" youngmodulus="27" thermalprot="0.2" reflectivity="0.3" corrosiveclass="ccC_Fair"/>
+      <reqTSci token="tsChemEngineering" domain="rdIndustrialTechnologies" field="rf6IndustrialTechnics" affectType="rtsaltProdMaterial" tensileStrByDLSup1="0.001" youndModulusByDLSup1="0.333"/>
    </product>
    <!-- Gold - Material -->
    <product token="matGold" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="19.3">
       <function token="pfManufacturingMaterial"/>
+      <reqTSci token="tsAlloys" domain="rdIndustrialTechnologies" field="rf6Materials" affectType="rtsaltNone"/>
    </product>
    <!-- Multi-Walled Nanotubes (MWNT) - Material -->
    <product token="matMWNT" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.6">
@@ -208,14 +212,17 @@
    <!-- Plastics - Material -->
    <product token="matPlastics" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.05">
       <function token="pfManufacturingMaterial"/>
+      <reqTSci token="tsChemEngineering" domain="rdIndustrialTechnologies" field="rf6IndustrialTechnics" affectType="rtsaltNone"/>
    </product>
    <!-- Silicon (Si) - Material -->
    <product token="matSilicon" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.33">
       <function token="pfManufacturingMaterial"/>
+      <reqTSci token="tsChemEngineering" domain="rdIndustrialTechnologies" field="rf6IndustrialTechnics" affectType="rtsaltNone"/>
    </product>
    <!-- Silver - Material -->
    <product token="matSilver" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="10.49">
       <function token="pfManufacturingMaterial"/>
+      <reqTSci token="tsAlloys" domain="rdIndustrialTechnologies" field="rf6Materials" affectType="rtsaltNone"/>
    </product>
    <!-- Single-Walled Nanotubes (SWNT) - Material -->
    <product token="matSWNT" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.3">
@@ -226,11 +233,13 @@
    </product>
    <!-- Steel - Material -->
    <product token="matSteel" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="7.83">
-      <function token="pfMultipurposeMaterial" tensilestr="0.4" tsbylevel="0.031" youngmodulus="190" ymbylevel="2" thermalprot="3.3" reflectivity="0.65" corrosiveclass="ccA_Excellent"/>
+      <function token="pfMultipurposeMaterial" tensilestr="0.4" youngmodulus="190" thermalprot="3.3" reflectivity="0.65" corrosiveclass="ccA_Excellent"/>
+      <reqTSci token="tsAlloys" domain="rdIndustrialTechnologies" field="rf6Materials" affectType="rtsaltProdMaterial" tensileStrByDLSup1="0.031" youndModulusByDLSup1="2"/>
    </product>
    <!-- Titanium - Material -->
    <product token="matTitanium" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="4.51">
-      <function token="pfMultipurposeMaterial" tensilestr="0.9" tsbylevel="0" youngmodulus="105" ymbylevel="1.66" thermalprot="0.9" reflectivity="0.63" corrosiveclass="ccA_Excellent"/>
+      <function token="pfMultipurposeMaterial" tensilestr="0.9" youngmodulus="105" thermalprot="0.9" reflectivity="0.63" corrosiveclass="ccA_Excellent"/>
+      <reqTSci token="tsAlloys" domain="rdIndustrialTechnologies" field="rf6Materials" affectType="rtsaltProdMaterial" tensileStrByDLSup1="0" youndModulusByDLSup1="1.66"/>
    </product>
    <!-- Animal Food - Bioproduct -->
    <product token="bioAnimalFood" class="pcBioproduct" storage="stBiologic" cargo="" volbyunit="1" massbyunit="1.042">

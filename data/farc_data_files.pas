@@ -976,6 +976,7 @@ end;
 procedure FCMdF_DBProducts_Load;
 {:Purpose: load the products database XML file.
    Additions:
+      -2014May26- *rem: tensile strength and young modulus by DL for the materials.
       -2014May25- *add: prerequisite technoscience.
       -2013Jan13- *add: new functions: Survey-Air, Survey-Antigrav, Survey-Ground, Survey-Space and Survey-Swarm Antigrav.
       -2012Aug01- *code audit:
@@ -1055,9 +1056,7 @@ begin
                   pfBuildingMaterial:
                   begin
                      FCDdipProducts[Count].P_fBMtensileStrength:=StrToFloat( XMLProductItem.Attributes['tensilestr'], FCVdiFormat );
-                     FCDdipProducts[Count].P_fBMtensileStrengthByDevLevel:=StrToFloat( XMLProductItem.Attributes['tsbylevel'], FCVdiFormat );
                      FCDdipProducts[Count].P_fBMyoungModulus:=StrToFloat( XMLProductItem.Attributes['youngmodulus'], FCVdiFormat );
-                     FCDdipProducts[Count].P_fBMyoungModulusByDevLevel:=StrToFloat( XMLProductItem.Attributes['ymbylevel'], FCVdiFormat );
                      FCDdipProducts[Count].P_fBMthermalProtection:=StrToFloat( XMLProductItem.Attributes['thermalprot'], FCVdiFormat );
                      FCDdipProducts[Count].P_fBMreflectivity:=StrToFloat( XMLProductItem.Attributes['reflectivity'], FCVdiFormat );
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), XMLProductItem.Attributes['corrosiveclass'] );
@@ -1085,9 +1084,7 @@ begin
                   pfMultipurposeMaterial:
                   begin
                      FCDdipProducts[Count].P_fMMtensileStrength:=StrToFloat( XMLProductItem.Attributes['tensilestr'], FCVdiFormat );
-                     FCDdipProducts[Count].P_fMMtensileStrengthByDevLevel:=StrToFloat( XMLProductItem.Attributes['tsbylevel'], FCVdiFormat );
                      FCDdipProducts[Count].P_fMMyoungModulus:=StrToFloat( XMLProductItem.Attributes['youngmodulus'], FCVdiFormat );
-                     FCDdipProducts[Count].P_fMMyoungModulusByDevLevel:=StrToFloat( XMLProductItem.Attributes['ymbylevel'], FCVdiFormat );
                      FCDdipProducts[Count].P_fMMthermalProtection:=StrToFloat( XMLProductItem.Attributes['thermalprot'], FCVdiFormat );
                      FCDdipProducts[Count].P_fMMreflectivity:=StrToFloat( XMLProductItem.Attributes['reflectivity'], FCVdiFormat );
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), XMLProductItem.Attributes['corrosiveclass'] );
@@ -1101,9 +1098,7 @@ begin
                   pfSpaceMaterial:
                   begin
                      FCDdipProducts[Count].P_fSMtensileStrength:=StrToFloat( XMLProductItem.Attributes['tensilestr'], FCVdiFormat );
-                     FCDdipProducts[Count].P_fSMtensileStrengthByDevLevel:=StrToFloat( XMLProductItem.Attributes['tsbylevel'], FCVdiFormat );
                      FCDdipProducts[Count].P_fSMyoungModulus:=StrToFloat( XMLProductItem.Attributes['youngmodulus'], FCVdiFormat );
-                     FCDdipProducts[Count].P_fSMyoungModulusByDevLevel:=StrToFloat( XMLProductItem.Attributes['ymbylevel'], FCVdiFormat );
                      FCDdipProducts[Count].P_fSMthermalProtection:=StrToFloat( XMLProductItem.Attributes['thermalprot'], FCVdiFormat );
                      FCDdipProducts[Count].P_fSMreflectivity:=StrToFloat( XMLProductItem.Attributes['reflectivity'], FCVdiFormat );
                      EnumIndex:=GetEnumValue( TypeInfo( TFCEdipCorrosiveClasses ), XMLProductItem.Attributes['corrosiveclass'] );
@@ -1171,8 +1166,8 @@ begin
 
                   rtsaltProdMaterial:
                   begin
-                     FCDdipProducts[Count].P_reqTS.RTS_atPMtensileStrByDLSup1:=XMLProductItem.Attributes[''];
-                     FCDdipProducts[Count].P_reqTS.RTS_atPMyoungModulusByDLSup1:=XMLProductItem.Attributes[''];
+                     FCDdipProducts[Count].P_reqTS.RTS_atPMtensileStrByDLSup1:=StrToFloat( XMLProductItem.Attributes['tensileStrByDLSup1'], FCVdiFormat );
+                     FCDdipProducts[Count].P_reqTS.RTS_atPMyoungModulusByDLSup1:=StrToFloat( XMLProductItem.Attributes['youndModulusByDLSup1'], FCVdiFormat );
                   end;
                end;
             end //==END== if XMLProductItem.NodeName='reqTSci' ==//
