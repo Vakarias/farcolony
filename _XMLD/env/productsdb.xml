@@ -59,14 +59,14 @@
       <reqTSci token="" domain="" field="" affectType="rtsaltNone"/>
       
       -rtsaltProdInfraKit:
-      <reqTSci token="" domain="" field="" affectType="rtsaltProdInfraKit" packedImprovementByDLSup1=""/> 
+      <reqTSci token="" domain="" field="" affectType="rtsaltProdInfraKit" packedImprovementByDLSup1=""/>
       or
-      <reqTSci token="" domain="" field="" affectType="rtsaltProdInfraKit" packedImprovementByDLSup1=""> 
+      <reqTSci token="" domain="" field="" affectType="rtsaltProdInfraKit" packedImprovementByDLSup1="">
          <reqTSciProdMode token="" domain="" field=""/>
       </reqTSci>
       
       -rtsaltProdMaterial:
-      <reqTSci token="" domain="" field="" affectType="rtsaltProdMaterial" tensileStrByDLSup1="" youndModulusByDLSup1=""/> 
+      <reqTSci token="" domain="" field="" affectType="rtsaltProdMaterial" tensileStrByDLSup1="" youndModulusByDLSup1=""/>
       <tags>
          <hazEnv/>
          <hazFire/>
@@ -226,7 +226,8 @@
    </product>
    <!-- Single-Walled Nanotubes (SWNT) - Material -->
    <product token="matSWNT" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.3">
-      <function token="pfMultipurposeMaterial" tensilestr="21" tsbylevel="14.333" youngmodulus="900" ymbylevel="17.11" thermalprot="675" reflectivity="0.1" corrosiveclass="ccA_Excellent"/>
+      <function token="pfMultipurposeMaterial" tensilestr="21" youngmodulus="900" thermalprot="675" reflectivity="0.1" corrosiveclass="ccA_Excellent"/>
+      <reqTSci token="tsFullerenesProc" domain="rdNanotechnology" field="rf7Nanomaterials" affectType="rtsaltProdMaterial" tensileStrByDLSup1="14.333" youndModulusByDLSup1="17.11"/>
       <tags>
          <hazToxic/>
       </tags>

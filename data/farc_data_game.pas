@@ -629,6 +629,10 @@ type TFCRdgColony = record
       ///   sum of units of all DL
       ///</summary>
       SP_unit: extended;
+      ///<summary>
+      ///   array of the product by DL
+      ///</summary>
+      SP_listByDL: array [0..10] of extended;
    end;
    C_reserveOxygen: integer;
    C_reserveFood: integer;
