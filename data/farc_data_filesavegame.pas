@@ -102,6 +102,7 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2014May29- *add: C_storedProducts-SP_listByDLinUnits.
       -2014Apr16- *add: research & development.
       -2014Jan15- *add: P_isTurnBased.
       -2013Sep22- *add: prevent an asteroid belt itself to have its period initialized, but of course let its asteroid to have them.
@@ -995,7 +996,15 @@ begin
                               inc( Count2 );
                               SetLength( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts, Count2+1 );
                               FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_token:=XMLSavedGameItemSub3.Attributes['token'];
-                              FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit:=StrToFloat( XMLSavedGameItemSub3.Attributes['unit'], FCVdiFormat );
+                              FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit:=StrToFloat( XMLSavedGameItemSub3.Attributes['units'], FCVdiFormat );
+                              Count3:=0;
+                              XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
+                              while XMLSavedGameItemSub4<>nil do
+                              begin
+                                 FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_listByDLinUnits[Count3]:=StrToFloat( XMLSavedGameItemSub4.Attributes['units'], FCVdiFormat );
+                                 XMLSavedGameItemSub4:=XMLSavedGameItemSub4.NextSibling;
+                                 inc( Count3 );
+                              end;
                               XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
                            end;
                         end
@@ -1413,6 +1422,8 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2014May29- *add: C_storedProducts-SP_listByDLinUnits.
+                  *fix: index bug into the production matrix.
       -2014Apr04- *add: research & development.
       -2014Jan15- *add: P_isTurnBased.
       -2013Sep12- *add: universe - resource spots quality.
@@ -2108,7 +2119,7 @@ begin
                      if Max3>0 then
                      begin
                         Count3:=1;
-                        while Count1<=Max3 do
+                        while Count3<=Max3 do
                         begin
                            XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'prodMode' );
                            XMLSavedGameItemSub5.Attributes['locSettle']:=FCDdgEntities[Count].E_colonies[Count1].C_productionMatrix[Count2].PM_productionModes[Count3].PM_locationSettlement;
@@ -2140,7 +2151,14 @@ begin
                   begin
                      XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'storItem'+IntToStr( Count2 ) );
                      XMLSavedGameItemSub4.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_token;
-                     XMLSavedGameItemSub4.Attributes['unit']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit, FCVdiFormat );
+                     XMLSavedGameItemSub4.Attributes['units']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_unit, FCVdiFormat );
+                     Count3:=0;
+                     while Count3<=Max3 do
+                     begin
+                        XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'DL'+inttostr( Count3 ) );
+                        XMLSavedGameItemSub5.Attributes['units']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_storedProducts[Count2].SP_listByDLinUnits[Count3], FCVdiFormat );
+                        inc( Count3 );
+                     end;
                      inc( Count2 );
                   end;
                end;
