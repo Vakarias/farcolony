@@ -3869,6 +3869,11 @@
       <FR>Alliages</FR>
       <SP>Aleaciones</SP>
    </tsAlloys>
+   <tsAstrobiology>
+      <EN>Astrobiology</EN>
+      <FR>Astrobiologie</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsAstrobiology>
    <tsAstronomy>
       <EN>Astronomy</EN>
       <FR>Astronomie</FR>
@@ -3889,11 +3894,26 @@
       <FR>Extraction et Raffinage de Base</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsBasicMinRef>
+   <tsBatteries>
+      <EN>Batteries</EN>
+      <FR>Batteries</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsBatteries>
+   <tsBModernMedicine>
+      <EN>Basic Modern Medicine</EN>
+      <FR>Medecine Basique et Moderne</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsBModernMedicine>
    <tsChemEngineering>
       <EN>Chemical Engineering</EN>
       <FR>Ingénieurie Chimique</FR>
       <SP>Ingenería Química</SP>
    </tsChemEngineering>
+   <tsClimatology>
+      <EN>Climatology</EN>
+      <FR>Climatologie</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsClimatology>
    <tsCompoMaterials>
       <EN>Composite Materials</EN>
       <FR>Matériaux Composites</FR>
@@ -3919,6 +3939,16 @@
       <FR>Traitement de Fullerenes</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsFullerenesProc>
+   <tsGenetics>
+      <EN>Genetics</EN>
+      <FR>Génétique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsGenetics>
+   <tsGenTheoOfRelat>
+      <EN>General Theory of Relativity</EN>
+      <FR>Théorie de la Relativité Générale</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsGenTheoOfRelat>
    <tsciInflatHabitat>
       <EN>Inflatable Habitats</EN>
       <FR>Habitats Gonflables</FR>

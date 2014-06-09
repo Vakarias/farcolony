@@ -770,6 +770,11 @@
       <EN></EN>
       <FR></FR>
    </tsAlloys>
+   <tsAstrobiology>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsAstrobiology>
    <tsAstronomy>
       <EN></EN>
       <FR></FR>
@@ -790,10 +795,25 @@
       <FR></FR>
       <SP></SP>
    </tsBasicMinRef>
+   <tsBatteries>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsBatteries>
+   <tsBModernMedicine>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsBModernMedicine>
    <tsChemEngineering>
       <EN></EN>
       <FR></FR>
    </tsChemEngineering>
+   <tsClimatology>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsClimatology>
    <tsCompoMaterials>
       <EN></EN>
       <FR></FR>
@@ -818,6 +838,16 @@
       <FR></FR>
       <SP></SP>
    </tsFullerenesProc>
+   <tsGenetics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsGenetics>
+   <tsGenTheoOfRelat>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsGenTheoOfRelat>
    <tsciInflatHabitat>
       <EN></EN>
       <FR></FR>

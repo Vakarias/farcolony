@@ -90,7 +90,12 @@
          <tsci theory="False" token="tsRocketPropulsion" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
             <influenceproj type="iptSpaceUnitArchitecture" token="aHLV"/>
          </tsci>
+         
    <!-- Astro-Engineering - Theories -->
+      <!-- General Theory of Relativity -->
+      <tsci theory="True" token="tsGenTheoOfRelat" domain="rdAstroEngineering" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+      </tsci>
+   
    <!-- Astro-Engineering - Technosciences -->
       <!-- Astrophysics -->
          <!-- Astronomy -->
@@ -105,13 +110,23 @@
          <influenceproj type="iptExternalResearchField" token="rf6IndustrialTechnics" influence="2"/>
          <influenceproj type="iptExternalResearchField" token="rf6Materials" influence="3"/>
       </tsci>
+      
    <!-- Biosciences - Technosciences -->
       <!-- Biotechnologies -->
+         <!-- Astrobiology -->
+         <tsci theory="False" token="tsAstrobiology" domain="rdBiosciences" field="rf3Biotechnologies" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+         </tsci>
          <!-- Biochemistry -->
          <tsci theory="False" token="tsBiochemistry" domain="rdBiosciences" field="rf3Biotechnologies" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
+         <!-- Genetics -->
+         <tsci theory="False" token="tsGenetics" domain="rdBiosciences" field="rf3Biotechnologies" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+         </tsci>
          
       <!-- Medicine -->
+         <!-- Basic Modern Medicine -->
+         <tsci theory="False" token="tsBModernMedicine" domain="rdBiosciences" field="rf3Medicine" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+         </tsci>
       
       <!-- Neuroscience -->
       
@@ -126,6 +141,10 @@
       <!-- Organization -->
       
    <!-- Ecosciences - Theories -->
+      <!-- Climatology -->
+      <tsci theory="True" token="tsClimatology" domain="rdEcosciences" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+      </tsci>
+   
    <!-- Ecosciences - Technosciences -->
       <!-- Ecology -->
          <!-- Basic Ecology -->
@@ -136,6 +155,16 @@
             <influenceproj token="equipHumidityTrap4" type="iptProduct"/>
             <influenceproj token="equipHumidityTrap5" type="iptProduct"/>
          </tsci>
+         <!-- Hydrochemical Agriculture -->
+         <tsci theory="" token="" domain="" field="" techlevel="" difficulty="" discothres="" maxRIPpoints="">
+            <rts token="" domain="" rfield="" isKeyTech="" influence=""/>
+            <ari type="" token=""/>
+            <influenceproj type="" token=""/>
+            with iptExternalResearchField:
+            <influenceproj type="iptExternalResearchField" token="" influence="1-2-3"/>
+            with iptOwnRDOM:
+            <influenceproj type="iptOwnRDOM" influence="1-2-3"/>
+         </tsci>
          
       <!-- Planetology -->
       
@@ -143,6 +172,7 @@
       <!-- Logic and Algorythms -->
       <tsci theory="True" token="tsLogicAlgo" domain="rdIndustrialTechnologies" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
       </tsci>
+      
    <!-- Industrial Technologies - Technosciences -->
       <!-- Automation -->
          <!-- Automation -->
@@ -243,9 +273,13 @@
          <influenceproj type="iptExternalResearchField" token="rf1SpaceDrives" influence="1"/>
          <influenceproj type="iptExternalResearchField" token="rf2Astrophysics" influence="3"/>
          <influenceproj type="iptExternalResearchField" token="rf2SpaceEngineering" influence="2"/>
-      </tsci>     
+      </tsci>   
+      
    <!-- Physics - Technosciences -->
       <!-- Energy -->
+         <!-- Batteries -->
+         <tsci theory="False" token="tsBatteries" domain="rdPhysics" field="rf8Energy" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+         </tsci>
          <!-- Electromagnetism -->
          <tsci theory="False" token="tsElectromagnetism" domain="rdPhysics" field="rf8Energy" techlevel="1" difficulty="" discothres="0" maxRIPpoints="0">
          </tsci>
@@ -263,4 +297,5 @@
          <!-- Lasers -->
          <tsci theory="False" token="tsLasers" domain="rdPhysics" field="rf8ParticlesPhysics" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
+         
 </technosciences>
