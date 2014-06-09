@@ -3949,6 +3949,11 @@
       <FR>Théorie de la Relativité Générale</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsGenTheoOfRelat>
+   <tsHydrochemAgri>
+      <EN>Hydrochemical Agriculture</EN>
+      <FR>Agriculture Hydrochimique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsHydrochemAgri>
    <tsciInflatHabitat>
       <EN>Inflatable Habitats</EN>
       <FR>Habitats Gonflables</FR>
@@ -3989,6 +3994,11 @@
       <FR>Vehicules Multi-Stage-Vers-Orbit</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsMultiToOrbitVeh>
+   <tsNeurology>
+      <EN>Neurology</EN>
+      <FR>Neurologie</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsNeurology>
    <tsNuclearFission>
       <EN>Nuclear Fission</EN>
       <FR>Fission Nucléaire</FR>

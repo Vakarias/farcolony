@@ -129,6 +129,10 @@
          </tsci>
       
       <!-- Neuroscience -->
+         <!-- Neurology -->
+         <tsci theory="False" token="tsNeurology" domain="rdBiosciences" field="rf3Neuroscience" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+         </tsci>
+         
       
    <!-- Culture - Theories -->
    <!-- Culture - Technosciences -->
@@ -156,14 +160,7 @@
             <influenceproj token="equipHumidityTrap5" type="iptProduct"/>
          </tsci>
          <!-- Hydrochemical Agriculture -->
-         <tsci theory="" token="" domain="" field="" techlevel="" difficulty="" discothres="" maxRIPpoints="">
-            <rts token="" domain="" rfield="" isKeyTech="" influence=""/>
-            <ari type="" token=""/>
-            <influenceproj type="" token=""/>
-            with iptExternalResearchField:
-            <influenceproj type="iptExternalResearchField" token="" influence="1-2-3"/>
-            with iptOwnRDOM:
-            <influenceproj type="iptOwnRDOM" influence="1-2-3"/>
+         <tsci theory="False" token="tsHydrochemAgri" domain="rdEcosciences" field="rf5Ecology" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
          
       <!-- Planetology -->

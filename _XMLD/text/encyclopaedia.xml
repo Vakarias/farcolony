@@ -848,6 +848,11 @@
       <FR></FR>
       <SP></SP>
    </tsGenTheoOfRelat>
+   <tsHydrochemAgri>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsHydrochemAgri>
    <tsciInflatHabitat>
       <EN></EN>
       <FR></FR>
@@ -887,6 +892,11 @@
       <FR></FR>
       <SP></SP>
    </tsMultiToOrbitVeh>
+   <tsNeurology>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsNeurology>
    <tsNuclearFission>
       <EN></EN>
       <FR></FR>
