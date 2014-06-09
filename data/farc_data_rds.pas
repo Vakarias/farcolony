@@ -34,7 +34,16 @@ uses
    farc_data_init;
 
 {:REFERENCES LIST
-   -
+   - TFCRdrdsTechnoscience
+}
+type TFCEdrdsARITypes=(
+   aritEventUndiscArea
+   ,aritPolicy
+   ,aritMeme
+   );
+
+{:REFERENCES LIST
+   - TFCRdrdsTechnoscience
 }
 ///<summary>
 ///
@@ -128,6 +137,11 @@ type TFCEdrdsTechnologyLevels=(
 
 //==END PUBLIC ENUM=========================================================================
 
+type TFCRdrdsAdditionalRelatedItem= record
+   ARI_token: string[20];
+   ARI_type: TFCEdrdsARITypes;
+end;
+
 type TFCRdrdsInfluenceProjection= record
    IP_token: string[20];
    IP_type: TFCEdrdsInfluenceProjectionTypes;
@@ -155,8 +169,9 @@ type TFCRdrdsTechnoscience = record
    TS_techLevel: TFCEdrdsTechnologyLevels;
    TS_difficulty: integer;
    TS_discoveryThreshold: integer;
-   TS_maxRTSpoints: integer;
+   TS_maxRIPpoints: integer;
    TS_relatedTechnosciences: array of TFCRdrdsRelatedTechnoscience;
+   TS_additionalRelatedItems: array of TFCRdrdsAdditionalRelatedItem;
    TS_influenceProjections: array of TFCRdrdsInfluenceProjection;
 end;
 

@@ -1201,6 +1201,7 @@ end;
 procedure FCMdF_DBResearchDevelopmentSystem_Load;
 {:Purpose: load the technosciences database.
     Additions:
+      -2014Jun08- *add: additional related items.
       -2014Apr21- *mod: some corrections for the theories.
                   *mod: take in account the change of index for the research fields.
       -2014Apr13- *add: theories.
@@ -1210,6 +1211,7 @@ procedure FCMdF_DBResearchDevelopmentSystem_Load;
       ,Count1
       ,Count2
       ,Count3
+      ,Count4
       ,EnumIndex
       ,EnumIndex1: integer;
 
@@ -1225,6 +1227,7 @@ begin
    Count1:=0;
    Count2:=0;
    Count3:=0;
+   Count4:=0;
    EnumIndex:=0;
    RDSdomain:=rdAerospaceengineering;
    isTheory:=false;
@@ -1283,12 +1286,14 @@ begin
 
             FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_difficulty:=RDSnode.Attributes['difficulty'];
             FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_discoveryThreshold:=RDSnode.Attributes['discothres'];
-            FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_maxRTSpoints:=RDSnode.Attributes['maxRTSpoints'];
+            FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_maxRIPpoints:=RDSnode.Attributes['maxRIPpoints'];
             SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences, 1 );
+            SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_additionalRelatedItems, 1 );
             SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections, 1 );
             RDStechsciItem:=RDSnode.ChildNodes.First;
             Count1:=0;
             Count2:=0;
+            Count4:=0;
             while RDStechsciItem <> nil do
             begin
                if RDStechsciItem.NodeName = 'rts' then
@@ -1309,6 +1314,18 @@ begin
 
                   FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_isKeyTech:=RDStechsciItem.Attributes['isKeyTech'];
                   FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_rawInfluence:=RDStechsciItem.Attributes['maxRTSpoints'];
+               end
+               else if RDStechsciItem.NodeName = 'ari' then
+               begin
+                  inc( Count4 );
+                  setlength( FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_additionalRelatedItems, Count4 + 1 );
+
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsARITypes ), RDStechsciItem.Attributes['type'] );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_additionalRelatedItems[Count4].ARI_type:=TFCEdrdsARITypes( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad technoscience ari type: '+RDStechsciItem.Attributes['type'] );
+
+                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_additionalRelatedItems[Count4].ARI_token:=RDStechsciItem.Attributes['token'];
                end
                else if RDStechsciItem.NodeName = 'influenceproj' then
                begin
@@ -1339,12 +1356,14 @@ begin
 
             FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_difficulty:=RDSnode.Attributes['difficulty'];
             FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_discoveryThreshold:=RDSnode.Attributes['discothres'];
-            FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_maxRTSpoints:=RDSnode.Attributes['maxRTSpoints'];
+            FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_maxRIPpoints:=RDSnode.Attributes['maxRIPpoints'];
             SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences, 1 );
+            SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_additionalRelatedItems, 1 );
             SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_influenceProjections, 1 );
             RDStechsciItem:=RDSnode.ChildNodes.First;
             Count1:=0;
             Count2:=0;
+            Count4:=0;
             while RDStechsciItem <> nil do
             begin
                if RDStechsciItem.NodeName = 'rts' then
@@ -1365,6 +1384,18 @@ begin
 
                   FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences[Count1].RTS_isKeyTech:=RDStechsciItem.Attributes['isKeyTech'];
                   FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences[Count1].RTS_rawInfluence:=RDStechsciItem.Attributes['maxRTSpoints'];
+               end
+               else if RDStechsciItem.NodeName = 'ari' then
+               begin
+                  inc( Count4 );
+                  setlength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_additionalRelatedItems, Count4 + 1 );
+
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsARITypes ), RDStechsciItem.Attributes['type'] );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_additionalRelatedItems[Count4].ARI_type:=TFCEdrdsARITypes( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad theory ari type: '+RDStechsciItem.Attributes['type'] );
+
+                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_additionalRelatedItems[Count4].ARI_token:=RDStechsciItem.Attributes['token'];
                end
                else if RDStechsciItem.NodeName = 'influenceproj' then
                begin
