@@ -287,6 +287,9 @@
             <influenceproj type="iptProduct" token="energNucFisReactor3"/>
             <influenceproj type="iptProduct" token="energNucPellets"/>
          </tsci>
+         <!-- Photonic Energy -->
+         <tsci theory="False" token="tsPhotonicEnergy" domain="rdPhysics" field="rf8Energy" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+         </tsci>
          
       <!-- Nuclear Physics -->
       

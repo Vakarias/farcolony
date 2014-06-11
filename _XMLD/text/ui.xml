@@ -4009,6 +4009,11 @@
       <FR>Propulsion à Fission Nucléaire</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsNucFissionProp>
+   <tsPhotonicEnergy>
+      <EN>Photonic Energy</EN>
+      <FR>Energie Photonique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsPhotonicEnergy>
    <tsQDots>
       <EN>Quantum Dots</EN>
       <FR>Boite Quantique</FR>

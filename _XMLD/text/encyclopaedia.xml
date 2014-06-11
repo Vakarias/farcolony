@@ -906,6 +906,11 @@
       <FR></FR>
       <SP></SP>
    </tsNucFissionProp>
+   <tsPhotonicEnergy>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsPhotonicEnergy>
    <tsQDots>
       <EN></EN>
       <FR></FR>
