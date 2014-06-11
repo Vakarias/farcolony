@@ -11,7 +11,7 @@
          rdPhysics
 
       rfield:
-         rfTheory
+         rfFundamentalResearch
          
          rf1AerospaceTechnics
          rf1SpaceArchitecture
@@ -81,10 +81,10 @@
       
       <!-- Space Drives -->
          <!-- Nuclear Fission Propulsion -->
-         <tsci theory="False" token="tsNucFissionProp" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="4" difficulty="81" discothres="324" maxRIPpoints="72">
+         <tsci theory="False" token="tsNucFissionProp" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="4" difficulty="81" discothres="324" maxRIPpoints="144">
             <rts token="tsRocketPropulsion" domain="rdAerospaceengineering" rfield="rf1SpaceDrives" isKeyTech="True" influence="0"/>
             <rts token="tsNuclearFission" domain="rdPhysics" rfield="rf8Energy" isKeyTech="True" influence="0"/>
-            <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="72"/>
+            <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="144"/>
          </tsci>
          <!-- Rocket Propulsion -->
          <tsci theory="False" token="tsRocketPropulsion" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
@@ -92,21 +92,21 @@
          </tsci>
          
    <!-- Astro-Engineering - Theories -->
+      <!-- Astronomy -->
+      <tsci theory="True" token="tsAstronomy" domain="rdAstroEngineering" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+      </tsci>
       <!-- General Theory of Relativity -->
-      <tsci theory="True" token="tsGenTheoOfRelat" domain="rdAstroEngineering" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+      <tsci theory="True" token="tsGenTheoOfRelat" domain="rdAstroEngineering" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
       </tsci>
    
    <!-- Astro-Engineering - Technosciences -->
       <!-- Astrophysics -->
-         <!-- Astronomy -->
-         <tsci theory="False" token="tsAstronomy" domain="rdAstroEngineering" field="rf2Astrophysics" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
-         </tsci>
          
       <!-- Space Engineering -->
       
    <!-- Biosciences - Theories -->
       <!-- Cryobiology -->
-      <tsci theory="True" token="tsCryobiology" domain="rdBiosciences" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+      <tsci theory="True" token="tsCryobiology" domain="rdBiosciences" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          <influenceproj type="iptExternalResearchField" token="rf6IndustrialTechnics" influence="2"/>
          <influenceproj type="iptExternalResearchField" token="rf6Materials" influence="3"/>
       </tsci>
@@ -146,7 +146,7 @@
       
    <!-- Ecosciences - Theories -->
       <!-- Climatology -->
-      <tsci theory="True" token="tsClimatology" domain="rdEcosciences" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+      <tsci theory="True" token="tsClimatology" domain="rdEcosciences" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
       </tsci>
    
    <!-- Ecosciences - Technosciences -->
@@ -167,7 +167,7 @@
       
    <!-- Industrial Technologies - Theories -->
       <!-- Logic and Algorythms -->
-      <tsci theory="True" token="tsLogicAlgo" domain="rdIndustrialTechnologies" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+      <tsci theory="True" token="tsLogicAlgo" domain="rdIndustrialTechnologies" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
       </tsci>
       
    <!-- Industrial Technologies - Technosciences -->
@@ -202,7 +202,7 @@
          </tsci>
          <!-- Cryogenics -->
          <tsci theory="False" token="tsCryogenics" domain="rdIndustrialTechnologies" field="rf6IndustrialTechnics" techlevel="2" difficulty="26" discothres="52" maxRIPpoints="0">
-            <rts token="tsCryobiology" domain="rdBiosciences" rfield="rfTheory" isKeyTech="True" influence="0"/>
+            <rts token="tsCryobiology" domain="rdBiosciences" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
             <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
             <rts token="tsBasicMinRef" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence=""/>
          </tsci>
@@ -238,7 +238,7 @@
             <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="80"/>
             <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="52"/>
             <rts token="tsElectromagnetism" domain="rdPhysics" rfield="rf8Energy" isKeyTech="True" influence="0"/>
-            <rts token="tsQMechanics" domain="rdPhysics" rfield="rfTheory" isKeyTech="False" influence="0"/>
+            <rts token="tsQMechanics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="False" influence="0"/>
          </tsci>
          
    <!-- Nanotechnology - Theories -->
@@ -265,7 +265,7 @@
          
    <!-- Physics - Theories -->
       <!-- Quantum Mechanics -->
-      <tsci theory="True" token="tsQMechanics" domain="rdPhysics" field="rfTheory" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
+      <tsci theory="True" token="tsQMechanics" domain="rdPhysics" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          <influenceproj type="iptOwnRDOM" influence="3"/>
          <influenceproj type="iptExternalResearchField" token="rf1SpaceDrives" influence="1"/>
          <influenceproj type="iptExternalResearchField" token="rf2Astrophysics" influence="3"/>

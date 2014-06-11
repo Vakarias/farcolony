@@ -81,7 +81,7 @@ type TFCEdrdsResearchDomains=(
    - TFCRdipProduct
 }
 type TFCEdrdsResearchFields=(
-   rfTheory
+   rfFundamentalResearch
    ,rf1AerospaceTechnics
    ,rf1SpaceArchitecture
    ,rf1SpaceDrives
