@@ -183,7 +183,7 @@ end;
 ///</summary>
 type TFCRdrdsResearchDomain = record
    RD_type: TFCEdrdsResearchDomains;
-   RD_theories: array of TFCRdrdsTechnoscience;
+   RD_fundamentalResearches: array of TFCRdrdsTechnoscience;
    RD_researchFields: array of record
       RF_type: TFCEdrdsResearchFields;
       RF_technosciences: array of TFCRdrdsTechnoscience;

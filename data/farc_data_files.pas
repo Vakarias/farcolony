@@ -1215,7 +1215,7 @@ procedure FCMdF_DBResearchDevelopmentSystem_Load;
       ,EnumIndex
       ,EnumIndex1: integer;
 
-      isTheory: boolean;
+      isFundamentalResearch: boolean;
 
       RDSnode
       ,RDStechsciItem: IXMLnode;
@@ -1230,11 +1230,11 @@ begin
    Count4:=0;
    EnumIndex:=0;
    RDSdomain:=rdAerospaceengineering;
-   isTheory:=false;
+   isFundamentalResearch:=false;
    while Count <= FCCdiRDSdomainsMax do
    begin
       FCDdrdsResearchDatabase[Count].RD_type:=TFCEdrdsResearchDomains(Count - 1);
-      setlength( FCDdrdsResearchDatabase[Count].RD_theories, 1 );
+      setlength( FCDdrdsResearchDatabase[Count].RD_fundamentalResearches, 1 );
       Count2:=FCFrdsF_Domain_GetNumberOfResearchFields( FCDdrdsResearchDatabase[Count].RD_type );
       setlength( FCDdrdsResearchDatabase[Count].RD_researchFields, Count2 + 1 );
       Count1:=1;
@@ -1265,8 +1265,8 @@ begin
          then raise Exception.Create( 'bad technoscience research domain: '+RDSnode.Attributes['domain'] )
          else inc( EnumIndex );
 
-         isTheory:=RDSnode.Attributes['theory'];
-         if not isTheory then
+         isFundamentalResearch:=RDSnode.Attributes['fundamentalrsrch'];
+         if not isFundamentalResearch then
          begin
             EnumIndex1:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDSnode.Attributes['field'] );
             if EnumIndex1=-1
@@ -1343,23 +1343,23 @@ begin
             end; //==END==  ==//
          end //==END== if not isTheory then ==//
          else begin
-            Count:=length( FCDdrdsResearchDatabase[EnumIndex].RD_theories );
-            setlength( FCDdrdsResearchDatabase[EnumIndex].RD_theories, Count + 1 );
+            Count:=length( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches );
+            setlength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches, Count + 1 );
 
 
-            FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_token:=RDSnode.Attributes['token'];
+            FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_token:=RDSnode.Attributes['token'];
 
             Count1:=GetEnumValue( TypeInfo( TFCEdrdsTechnologyLevels ), RDSnode.Attributes['techlevel'] );
-            FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_techLevel:=TFCEdrdsTechnologyLevels( Count1 );
+            FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_techLevel:=TFCEdrdsTechnologyLevels( Count1 );
             if Count1=-1
-            then raise Exception.Create( 'bad theory tech level: '+RDSnode.Attributes['techlevel'] );
+            then raise Exception.Create( 'bad fundamental research tech level: '+RDSnode.Attributes['techlevel'] );
 
-            FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_difficulty:=RDSnode.Attributes['difficulty'];
-            FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_discoveryThreshold:=RDSnode.Attributes['discothres'];
-            FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_maxRIPpoints:=RDSnode.Attributes['maxRIPpoints'];
-            SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences, 1 );
-            SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_additionalRelatedItems, 1 );
-            SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_influenceProjections, 1 );
+            FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_difficulty:=RDSnode.Attributes['difficulty'];
+            FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_discoveryThreshold:=RDSnode.Attributes['discothres'];
+            FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_maxRIPpoints:=RDSnode.Attributes['maxRIPpoints'];
+            SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences, 1 );
+            SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_additionalRelatedItems, 1 );
+            SetLength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections, 1 );
             RDStechsciItem:=RDSnode.ChildNodes.First;
             Count1:=0;
             Count2:=0;
@@ -1369,45 +1369,45 @@ begin
                if RDStechsciItem.NodeName = 'rts' then
                begin
                   inc( Count1 );
-                  setlength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences, Count1 + 1 );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences[Count1].RTS_token:=RDStechsciItem.Attributes['token'];
+                  setlength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences, Count1 + 1 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_token:=RDStechsciItem.Attributes['token'];
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchDomains ), RDStechsciItem.Attributes['domain'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences[Count1].RTS_domain:=TFCEdrdsResearchDomains( Count3 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_domain:=TFCEdrdsResearchDomains( Count3 );
                   if Count3=-1
-                  then raise Exception.Create( 'bad theory rts domain: '+RDStechsciItem.Attributes['domain'] );
+                  then raise Exception.Create( 'bad fundamental research rts domain: '+RDStechsciItem.Attributes['domain'] );
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDStechsciItem.Attributes['field'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences[Count1].RTS_field:=TFCEdrdsResearchFields( Count3 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_field:=TFCEdrdsResearchFields( Count3 );
                   if Count3=-1
-                  then raise Exception.Create( 'bad theory rts field: '+RDStechsciItem.Attributes['field'] );
+                  then raise Exception.Create( 'bad fundamental research rts field: '+RDStechsciItem.Attributes['field'] );
 
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences[Count1].RTS_isKeyTech:=RDStechsciItem.Attributes['isKeyTech'];
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_relatedTechnosciences[Count1].RTS_rawInfluence:=RDStechsciItem.Attributes['maxRTSpoints'];
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_isKeyTech:=RDStechsciItem.Attributes['isKeyTech'];
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_rawInfluence:=RDStechsciItem.Attributes['maxRTSpoints'];
                end
                else if RDStechsciItem.NodeName = 'ari' then
                begin
                   inc( Count4 );
-                  setlength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_additionalRelatedItems, Count4 + 1 );
+                  setlength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_additionalRelatedItems, Count4 + 1 );
 
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsARITypes ), RDStechsciItem.Attributes['type'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_additionalRelatedItems[Count4].ARI_type:=TFCEdrdsARITypes( EnumIndex );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_additionalRelatedItems[Count4].ARI_type:=TFCEdrdsARITypes( EnumIndex );
                   if EnumIndex=-1
-                  then raise Exception.Create( 'bad theory ari type: '+RDStechsciItem.Attributes['type'] );
+                  then raise Exception.Create( 'bad fundamental research ari type: '+RDStechsciItem.Attributes['type'] );
 
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_additionalRelatedItems[Count4].ARI_token:=RDStechsciItem.Attributes['token'];
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_additionalRelatedItems[Count4].ARI_token:=RDStechsciItem.Attributes['token'];
                end
                else if RDStechsciItem.NodeName = 'influenceproj' then
                begin
                   inc( Count2 );
-                  setlength( FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_influenceProjections, Count2 + 1 );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_influenceProjections[Count2].IP_token:=RDStechsciItem.Attributes['token'];
+                  setlength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections, Count2 + 1 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_token:=RDStechsciItem.Attributes['token'];
 
 
                   EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsInfluenceProjectionTypes ), RDStechsciItem.Attributes['type'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_theories[Count].TS_influenceProjections[Count2].IP_type:=TFCEdrdsInfluenceProjectionTypes( EnumIndex );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_type:=TFCEdrdsInfluenceProjectionTypes( EnumIndex );
                   if EnumIndex=-1
-                  then raise Exception.Create( 'bad theory influence projection type: '+RDStechsciItem.Attributes['type'] );
+                  then raise Exception.Create( 'bad fundamental research influence projection type: '+RDStechsciItem.Attributes['type'] );
                end;
                RDStechsciItem:=RDStechsciItem.NextSibling;
             end; //==END==  ==//
