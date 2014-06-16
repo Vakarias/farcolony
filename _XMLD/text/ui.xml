@@ -3869,6 +3869,11 @@
       <FR>Alliages</FR>
       <SP>Aleaciones</SP>
    </tsAlloys>
+   <tsAntimatterTheory>
+      <EN>Antimatter Theory</EN>
+      <FR>Théorie de l'Antimatière</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsAntimatterTheory>
    <tsAstrobiology>
       <EN>Astrobiology</EN>
       <FR>Astrobiologie</FR>
@@ -3904,6 +3909,11 @@
       <FR>Medecine Basique et Moderne</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsBModernMedicine>
+   <tsCAD>
+      <EN>Computer-Assisted Design</EN>
+      <FR>Design Assisté par Ordinateur</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsCAD>
    <tsChemEngineering>
       <EN>Chemical Engineering</EN>
       <FR>Ingénieurie Chimique</FR>
@@ -3914,11 +3924,21 @@
       <FR>Climatologie</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsClimatology>
+   <tsCognitiveScience>
+      <EN>Cognitive Science</EN>
+      <FR>Sciences Cognitives</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsCognitiveScience>
    <tsCompoMaterials>
       <EN>Composite Materials</EN>
       <FR>Matériaux Composites</FR>
       <SP>Materiales Compuestos</SP>
    </tsCompoMaterials>
+   <tsConceptualization>
+      <EN>Conceptualization</EN>
+      <FR>Conceptualisation</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsConceptualization>
    <tsCryobiology>
       <EN>Cryobiology</EN>
       <FR>Cryobiologie</FR>
@@ -3929,6 +3949,11 @@
       <FR>Cryogènie</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsCryogenics>
+   <tsCryonics>
+      <EN>Cryonics</EN>
+      <FR>Cryonie</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsCryonics>
    <tsElectromagnetism>
       <EN>Electromagnetism</EN>
       <FR>Electromagnetisme</FR>
@@ -3974,6 +3999,11 @@
       <FR>Superconducteurs à Basse Température</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsLowTempConductors>
+   <tsMemetics>
+      <EN>Memetics</EN>
+      <FR>Mémétique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsMemetics>
    <tsMEMS>
       <EN>Micro-Electromechanical Systems (MEMS)</EN>
       <FR>Systèmes Micro-Electromécaniques (MEMS)</FR>
@@ -4009,11 +4039,21 @@
       <FR>Propulsion à Fission Nucléaire</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsNucFissionProp>
+   <tsOrbitalFlight>
+      <EN>Orbital Flight</EN>
+      <FR>Vol Orbital</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsOrbitalFlight>
    <tsPhotonicEnergy>
       <EN>Photonic Energy</EN>
       <FR>Energie Photonique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsPhotonicEnergy>
+   <tsPhotonics>
+      <EN>Photonics</EN>
+      <FR>Photonique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsPhotonics>
    <tsQDots>
       <EN>Quantum Dots</EN>
       <FR>Boite Quantique</FR>
@@ -4024,11 +4064,31 @@
       <FR>Mécanique Quantique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsQMechanics>
+   <tsRelDatabaseSyst>
+      <EN>Relational Database Systems</EN>
+      <FR>Systèmes Relationels de Base de Données</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsRelDatabaseSyst>
+   <tsRobotics>
+      <EN>Robotics</EN>
+      <FR>Robotique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsRobotics>
    <tsRocketPropulsion>
       <EN>Rocket Propulsion</EN>
       <FR>Propulsion Fusée</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsRocketPropulsion>
+   <tsStarsPhysics>
+      <EN>Star Physics</EN>
+      <FR>Physic Stellaire</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsStarsPhysics>
+   <tsSuperfluidics>
+      <EN>Superfluidics</EN>
+      <FR>Superfluidique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsSuperfluidics>
    <!-- ********** TIME FRAME ********** -->
    <TimeF1st>
       <EN>st</EN>

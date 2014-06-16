@@ -769,7 +769,13 @@
    <tsAlloys>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </tsAlloys>
+   <tsAntimatterTheory>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsAntimatterTheory>
    <tsAstrobiology>
       <EN></EN>
       <FR></FR>
@@ -805,19 +811,36 @@
       <FR></FR>
       <SP></SP>
    </tsBModernMedicine>
+   <tsCAD>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsCAD>
    <tsChemEngineering>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </tsChemEngineering>
    <tsClimatology>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsClimatology>
+   <tsCognitiveScience>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsCognitiveScience>
    <tsCompoMaterials>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </tsCompoMaterials>
+   <tsConceptualization>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsConceptualization>
    <tsCryobiology>
       <EN></EN>
       <FR></FR>
@@ -828,6 +851,11 @@
       <FR></FR>
       <SP></SP>
    </tsCryogenics>
+   <tsCryonics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsCryonics>
    <tsElectromagnetism>
       <EN></EN>
       <FR></FR>
@@ -856,6 +884,7 @@
    <tsciInflatHabitat>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </tsciInflatHabitat>
    <tsLogicAlgo>
       <EN></EN>
@@ -872,6 +901,11 @@
       <FR></FR>
       <SP></SP>
    </tsLowTempConductors>
+   <tsMemetics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsMemetics>
    <tsMEMS>
       <EN></EN>
       <FR></FR>
@@ -900,17 +934,28 @@
    <tsNuclearFission>
       <EN></EN>
       <FR></FR>
+      <SP></SP>
    </tsNuclearFission>
    <tsNucFissionProp>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsNucFissionProp>
+   <tsOrbitalFlight>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsOrbitalFlight>
    <tsPhotonicEnergy>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsPhotonicEnergy>
+   <tsPhotonics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsPhotonics>
    <tsQDots>
       <EN></EN>
       <FR></FR>
@@ -921,11 +966,31 @@
       <FR></FR>
       <SP></SP>
    </tsQMechanics>
+   <tsRelDatabaseSyst>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsRelDatabaseSyst>
+   <tsRobotics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsRobotics>
    <tsRocketPropulsion>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsRocketPropulsion>
+   <tsStarsPhysics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsStarsPhysics>
+   <tsSuperfluidics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsSuperfluidics>
    <!-- ********** UNIVERSE ********** -->
    <univAlbedo>
       <EN>Albedo is the &#60;b&#62;rate of reflection&#60;/b&#62; of the star's rays by the orbital object.&#60;br&#62; More this one have an &#60;b&#62;high albedo&#60;/b&#62;, more it &#60;b&#62;will reflect the rays &#60;/b&#62; of it's star to the space, and less the soil will have to absorb heat.&#60;br&#62; The &#60;b&#62;nature of the ground&#60;/b&#62; influence directly the albedo, for example &#60;b&#62;a great glacial zone will strongly reflect the rays&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; has an &#60;b&#62;albedo of 0.72&#60;/b&#62; that's to say 72%.</EN>
