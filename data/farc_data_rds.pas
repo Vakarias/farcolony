@@ -99,13 +99,13 @@ type TFCEdrdsResearchFields=(
    ,rf6Automation
    ,rf6Computing
    ,rf6IndustrialTechnics
-   ,rt6Materials
-   ,rt7MechanicalNanotechnology
-   ,rt7MolecularNanotechnology
-   ,rt7Nanomaterials
-   ,rt8Energy
-   ,rt8NuclearPhysics
-   ,rt8ParticlesPhysics
+   ,rf6Materials
+   ,rf7MechanicalNanotechnology
+   ,rf7MolecularNanotechnology
+   ,rf7Nanomaterials
+   ,rf8Energy
+   ,rf8NuclearPhysics
+   ,rf8ParticlesPhysics
    );
 
 {:REFERENCES LIST
