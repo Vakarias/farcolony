@@ -220,6 +220,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2014Jul01- *add: enable the GLSceneViewer if required.
       -2013Sep11- *add: initialize the quality index for each regions' resource spot of each asteroid/telluric planet.
       -2013Jul10- *add: set the regions' current data.
       -2013Jul08- *add: initialize the current revolution periods.
@@ -350,7 +351,11 @@ begin
       mustDoAReset:=true;
       FCWinMain.MMOptionSection_RealtimeTunrBasedSwitch.Enabled:=false;
    end
-   else FCMgfxC_Main_Init;
+   else begin
+      if not FCWinMain.FCGLSmainView.Enabled
+      then FCWinMain.FCGLSmainView.Enabled:=true;
+      FCMgfxC_Main_Init;
+   end;
    FCMgC_Game_Initialize;
 
 

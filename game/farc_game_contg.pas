@@ -69,6 +69,7 @@ uses
 procedure FCMgCG_Core_Proceed;
 {:Purpose: initialize the current game.
     Additions:
+      -2014Jul01- *add: enable the GLSceneViewer if required.
       -2013Mar24- *add: FCMsC_ReleaseList_Clear.
       -2010Sep19- *add: entities code.
       -2010Jun19- *rem: the french fix became useless and removed.
@@ -105,6 +106,7 @@ begin
    {.set some user's interface}
    FCMgC_Data_Injection;
    FCMgC_Game_Initialize;
+   FCWinMain.FCGLSmainView.Enabled:=true;
    FCMgfxC_Main_Init;
 {:DEV NOTES: put the data loading in a proc and load it also for a new game setup (one time loading).}
 

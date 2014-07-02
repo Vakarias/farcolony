@@ -2189,10 +2189,7 @@ end;
 procedure TFCWinMain.FormCreate(Sender: TObject);
 var
    FClocalPath: widestring;
-//    Ch: char;
    FCwide: pWideChar;
-//   DefLCID: LCID;
-//Buffer: PWidechar;
    hours, mins, secs, milliSecs : Word;
 begin
    {.core settings}
@@ -2202,7 +2199,6 @@ begin
    {.set the paths}
    FCVdiPathGame:=ExtractFilePath(Application.ExeName);
    FCVdiPathConfigDir:=FCFcFunc_WinFolders_GetMyDocs(false);
-//   RandSeed:=GetTickCount;
    FCVdiPathConfigFile:=FCVdiPathConfigDir+'config.xml';
    {.initialize some global data and acces to the configuration file}
 	FCVdiPathResourceDir:=FCVdiPathGame+'_RSRC\';
@@ -2212,29 +2208,35 @@ begin
    finally
       {.local fonts and user's interface initialization}
       FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
+      Screen.Fonts.Add(FClocalPath);
+//      FCwide:=Addr(FClocalPath[1]);
+//      AddFontResource(FCwide);
       SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
       FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      Screen.Fonts.Add(FClocalPath);
+//      FCwide:=Addr(FClocalPath[1]);
+//      AddFontResource(FCwide);
+//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
       FClocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      Screen.Fonts.Add(FClocalPath);
+//      FCwide:=Addr(FClocalPath[1]);
+//      AddFontResource(FCwide);
+//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
       FClocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      Screen.Fonts.Add(FClocalPath);
+//      FCwide:=Addr(FClocalPath[1]);
+//      AddFontResource(FCwide);
+//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
       FClocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      Screen.Fonts.Add(FClocalPath);
+//      FCwide:=Addr(FClocalPath[1]);
+//      AddFontResource(FCwide);
+//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
       FClocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+//      FCwide:=Addr(FClocalPath[1]);
+//      AddFontResource(FCwide);
+//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      Screen.Fonts.Add(FClocalPath);
       FCMuiW_UI_Initialize(mwupAll);
 	end;
 	FCVdiWinMainAllowUpdate:=true;
