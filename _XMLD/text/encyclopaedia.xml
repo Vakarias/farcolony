@@ -766,6 +766,11 @@
       <SP>degfsdjfdlfkdfjkdfjsdksdfjdsjsdjfksdfksd askfdkjfsd sdfjfsj.</SP>
    </spmRoot>
    <!-- ********** TECHNOSCIENCES ********** -->
+   <ts3DPrinting>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </ts3DPrinting>
    <tsAlloys>
       <EN></EN>
       <FR></FR>
@@ -776,6 +781,11 @@
       <FR></FR>
       <SP></SP>
    </tsAntimatterTheory>
+   <tsAntiprotonsGenIsol>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsAntiprotonsGenIsol>
    <tsAstrobiology>
       <EN></EN>
       <FR></FR>
@@ -821,6 +831,11 @@
       <FR></FR>
       <SP></SP>
    </tsChemEngineering>
+   <tsChemMedicine>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsChemMedicine>
    <tsClimatology>
       <EN></EN>
       <FR></FR>
@@ -836,6 +851,11 @@
       <FR></FR>
       <SP></SP>
    </tsCompoMaterials>
+   <tsComputationalEM>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsComputationalEM>
    <tsConceptualization>
       <EN></EN>
       <FR></FR>

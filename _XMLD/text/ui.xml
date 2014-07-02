@@ -3864,6 +3864,11 @@
       <FR>Technoscience</FR>
       <SP>Tecnociencia</SP>
    </tsmainLabel>
+   <ts3DPrinting>
+      <EN>3D Printing</EN>
+      <FR>Impression 3D</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </ts3DPrinting>
    <tsAlloys>
       <EN>Alloys</EN>
       <FR>Alliages</FR>
@@ -3874,6 +3879,11 @@
       <FR>Théorie de l'Antimatière</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsAntimatterTheory>
+   <tsAntiprotonsGenIsol>
+      <EN>Antiprotons Generation &#38; Isolation Techniques</EN>
+      <FR>Techniques d'Isolation &#38; Génération d'Antiprotons</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsAntiprotonsGenIsol>
    <tsAstrobiology>
       <EN>Astrobiology</EN>
       <FR>Astrobiologie</FR>
@@ -3919,6 +3929,11 @@
       <FR>Ingénieurie Chimique</FR>
       <SP>Ingenería Química</SP>
    </tsChemEngineering>
+   <tsChemMedicine>
+      <EN>Chemical Medicine</EN>
+      <FR>Médecine Chimique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsChemMedicine>
    <tsClimatology>
       <EN>Climatology</EN>
       <FR>Climatologie</FR>
@@ -3934,6 +3949,11 @@
       <FR>Matériaux Composites</FR>
       <SP>Materiales Compuestos</SP>
    </tsCompoMaterials>
+   <tsComputationalEM>
+      <EN>Computational Electromagnetics</EN>
+      <FR>Modèlisation Electromagnétique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsComputationalEM>
    <tsConceptualization>
       <EN>Conceptualization</EN>
       <FR>Conceptualisation</FR>
