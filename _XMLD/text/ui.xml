@@ -3979,6 +3979,11 @@
       <FR>Electromagnetisme</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsElectromagnetism>
+   <tsExpertSystems>
+      <EN>Expert Systems</EN>
+      <FR>Systèmes Experts</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsExpertSystems>
    <tsFullerenesProc>
       <EN>Fullerenes Processing</EN>
       <FR>Traitement de Fullerenes</FR>
@@ -3989,11 +3994,21 @@
       <FR>Génétique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsGenetics>
+   <tsGeneticSynth>
+      <EN>Genetic Synthesis</EN>
+      <FR>Synthèse Génétique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsGeneticSynth>
    <tsGenTheoOfRelat>
       <EN>General Theory of Relativity</EN>
       <FR>Théorie de la Relativité Générale</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsGenTheoOfRelat>
+   <tsHighEPartPhysics>
+      <EN>High-Energy Particles Physics</EN>
+      <FR>Physique des Particules à Haute Energie</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsHighEPartPhysics>
    <tsHydrochemAgri>
       <EN>Hydrochemical Agriculture</EN>
       <FR>Agriculture Hydrochimique</FR>
@@ -4004,6 +4019,16 @@
       <FR>Habitats Gonflables</FR>
       <SP>Hábitats Inflables</SP>
    </tsciInflatHabitat>
+   <tsInfoNetworks>
+      <EN>Information Networks</EN>
+      <FR>Réseaux d'Information</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsInfoNetworks>
+   <tsIonRcktEngines>
+      <EN>Ion Rocket Engines</EN>
+      <FR>Moteurs Fusées Ioniques</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsIonRcktEngines>
    <tsLogicAlgo>
       <EN>Logic &#38; Algorythms</EN>
       <EN>Logic &#38; Algorythms</EN>
@@ -4014,6 +4039,11 @@
       <FR>Logistique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsLogistics>
+   <tsLongDurOrbtOp>
+      <EN>Long Duration Orbital Operations</EN>
+      <FR>Opérations Orbitales de Longue Durée</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsLongDurOrbtOp>
    <tsLowTempConductors>
       <EN>Low Temperature Superconductors</EN>
       <FR>Superconducteurs à Basse Température</FR>
@@ -4039,6 +4069,11 @@
       <FR>Miniaturisation</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsMiniaturization>
+   <tsMolecularEng>
+      <EN>Molecular Engineering</EN>
+      <FR>Ingénierie Moléculaire</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsMolecularEng>
    <tsMultiToOrbitVeh>
       <EN>Multi-Stage-To-Orbit Vehicles</EN>
       <FR>Vehicules Multi-Stage-Vers-Orbit</FR>
@@ -4074,6 +4109,11 @@
       <FR>Photonique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsPhotonics>
+   <tsPlasmaPhys>
+      <EN>Plasma Physics</EN>
+      <FR>Physique des Plasma</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsPlasmaPhys>
    <tsQDots>
       <EN>Quantum Dots</EN>
       <FR>Boite Quantique</FR>
@@ -4084,6 +4124,11 @@
       <FR>Mécanique Quantique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsQMechanics>
+   <tsRecyclingTech>
+      <EN>Recycling Technics</EN>
+      <FR>Techniques de Recyclage</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsRecyclingTech>
    <tsRelDatabaseSyst>
       <EN>Relational Database Systems</EN>
       <FR>Systèmes Relationels de Base de Données</FR>
@@ -4099,16 +4144,36 @@
       <FR>Propulsion Fusée</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsRocketPropulsion>
+   <tsSolidStateLasers>
+      <EN>Solid-State Lasers</EN>
+      <FR>Lasers à l'Etat Solide</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsSolidStateLasers>
    <tsStarsPhysics>
       <EN>Star Physics</EN>
       <FR>Physic Stellaire</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsStarsPhysics>
+   <tsSupercapacitors>
+      <EN>Supercapacitors</EN>
+      <FR>Supercapaciteurs</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsSupercapacitors>
    <tsSuperfluidics>
       <EN>Superfluidics</EN>
       <FR>Superfluidique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsSuperfluidics>
+   <tsTerrPhysics>
+      <EN>Terrestrial Physics</EN>
+      <FR>Physique Terrestre</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsTerrPhysics>
+   <tsXRayLasers>
+      <EN>X-Ray Lasers</EN>
+      <FR>Lasers à Rayon X</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsXRayLasers>
    <!-- ********** TIME FRAME ********** -->
    <TimeF1st>
       <EN>st</EN>

@@ -881,6 +881,11 @@
       <FR></FR>
       <SP></SP>
    </tsElectromagnetism>
+   <tsExpertSystems>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsExpertSystems>
    <tsFullerenesProc>
       <EN></EN>
       <FR></FR>
@@ -891,11 +896,21 @@
       <FR></FR>
       <SP></SP>
    </tsGenetics>
+   <tsGeneticSynth>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsGeneticSynth>
    <tsGenTheoOfRelat>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsGenTheoOfRelat>
+   <tsHighEPartPhysics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsHighEPartPhysics>
    <tsHydrochemAgri>
       <EN></EN>
       <FR></FR>
@@ -906,6 +921,16 @@
       <FR></FR>
       <SP></SP>
    </tsciInflatHabitat>
+   <tsInfoNetworks>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsInfoNetworks>
+   <tsIonRcktEngines>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsIonRcktEngines>
    <tsLogicAlgo>
       <EN></EN>
       <EN></EN>
@@ -916,6 +941,11 @@
       <FR></FR>
       <SP></SP>
    </tsLogistics>
+   <tsLongDurOrbtOp>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsLongDurOrbtOp>
    <tsLowTempConductors>
       <EN></EN>
       <FR></FR>
@@ -941,6 +971,11 @@
       <FR></FR>
       <SP></SP>
    </tsMiniaturization>
+   <tsMolecularEng>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsMolecularEng>
    <tsMultiToOrbitVeh>
       <EN></EN>
       <FR></FR>
@@ -976,6 +1011,11 @@
       <FR></FR>
       <SP></SP>
    </tsPhotonics>
+   <tsPlasmaPhys>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsPlasmaPhys>
    <tsQDots>
       <EN></EN>
       <FR></FR>
@@ -986,6 +1026,11 @@
       <FR></FR>
       <SP></SP>
    </tsQMechanics>
+   <tsRecyclingTech>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsRecyclingTech>
    <tsRelDatabaseSyst>
       <EN></EN>
       <FR></FR>
@@ -1001,16 +1046,36 @@
       <FR></FR>
       <SP></SP>
    </tsRocketPropulsion>
+   <tsSolidStateLasers>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsSolidStateLasers>
    <tsStarsPhysics>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsStarsPhysics>
+   <tsSupercapacitors>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsSupercapacitors>
    <tsSuperfluidics>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsSuperfluidics>
+   <tsTerrPhysics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsTerrPhysics>
+   <tsXRayLasers>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsXRayLasers>
    <!-- ********** UNIVERSE ********** -->
    <univAlbedo>
       <EN>Albedo is the &#60;b&#62;rate of reflection&#60;/b&#62; of the star's rays by the orbital object.&#60;br&#62; More this one have an &#60;b&#62;high albedo&#60;/b&#62;, more it &#60;b&#62;will reflect the rays &#60;/b&#62; of it's star to the space, and less the soil will have to absorb heat.&#60;br&#62; The &#60;b&#62;nature of the ground&#60;/b&#62; influence directly the albedo, for example &#60;b&#62;a great glacial zone will strongly reflect the rays&#60;/b&#62;.&#60;br&#62;&#60;br&#62;&#60;b&#62;&#60;hi&#62;Example&#60;/b&#62;: &#60;b&#62;Venus&#60;/b&#62; has an &#60;b&#62;albedo of 0.72&#60;/b&#62; that's to say 72%.</EN>
