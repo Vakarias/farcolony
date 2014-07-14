@@ -3869,6 +3869,11 @@
       <FR>Impression 3D</FR>
       <SP>!TO TRANSLATE!</SP>
    </ts3DPrinting>
+   <tsAdvPhotonicCells>
+      <EN>Advanced Photonic Cells</EN>
+      <FR>Cellules Photoniques Avancées</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsAdvPhotonicCells>
    <tsAlloys>
       <EN>Alloys</EN>
       <FR>Alliages</FR>
@@ -3919,6 +3924,11 @@
       <FR>Medecine Basique et Moderne</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsBModernMedicine>
+   <tsBHScience>
+      <EN>Black Holes Science</EN>
+      <FR>Science des Trous Noirs</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsBHScience>
    <tsCAD>
       <EN>Computer-Assisted Design</EN>
       <FR>Design Assisté par Ordinateur</FR>
@@ -3944,6 +3954,11 @@
       <FR>Sciences Cognitives</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsCognitiveScience>
+   <tsComplBrainMap>
+      <EN>Complete Brain Mapping</EN>
+      <FR>Mapping Complet du Cerveau</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsComplBrainMap>
    <tsCompoMaterials>
       <EN>Composite Materials</EN>
       <FR>Matériaux Composites</FR>
@@ -3974,6 +3989,26 @@
       <FR>Cryonie</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsCryonics>
+   <tsDTFusion>
+      <EN>D-T Fusion</EN>
+      <FR>Fusion D-T</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsDTFusion>
+   <tsDataIntensGrids>
+      <EN>Data Intensive Grids</EN>
+      <FR>Grilles Intensives de Données</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsDataIntensGrids>
+   <tsDeepSpaceObs>
+      <EN>Deep Space Observations</EN>
+      <FR>Observations en Espace Profond</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsDeepSpaceObs>
+   <tsDirectedEM>
+      <EN>Directed Electromagnetism</EN>
+      <FR>Electromagnetisme Dirigé</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsDirectedEM>
    <tsElectromagnetism>
       <EN>Electromagnetism</EN>
       <FR>Electromagnetisme</FR>
@@ -4004,6 +4039,11 @@
       <FR>Théorie de la Relativité Générale</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsGenTheoOfRelat>
+   <tsGeophys>
+      <EN>Geophysics</EN>
+      <FR>Géophysique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsGeophys>
    <tsHighEPartPhysics>
       <EN>High-Energy Particles Physics</EN>
       <FR>Physique des Particules à Haute Energie</FR>
@@ -4029,6 +4069,11 @@
       <FR>Moteurs Fusées Ioniques</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsIonRcktEngines>
+   <tsIntegr3DSystems>
+      <EN>Integrated 3D Systems</EN>
+      <FR>Systèmes 3D Intégrés</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsIntegr3DSystems>
    <tsLogicAlgo>
       <EN>Logic &#38; Algorythms</EN>
       <EN>Logic &#38; Algorythms</EN>
@@ -4079,6 +4124,11 @@
       <FR>Vehicules Multi-Stage-Vers-Orbit</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsMultiToOrbitVeh>
+   <tsNanocomposites>
+      <EN>Nanocomposites</EN>
+      <FR>Nanocomposites</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsNanocomposites>
    <tsNeurology>
       <EN>Neurology</EN>
       <FR>Neurologie</FR>
@@ -4164,6 +4214,11 @@
       <FR>Superfluidique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsSuperfluidics>
+   <tsSupraconduct>
+      <EN>Supraconductors</EN>
+      <FR>Supraconducteurs</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsSupraconduct>
    <tsTerrPhysics>
       <EN>Terrestrial Physics</EN>
       <FR>Physique Terrestre</FR>

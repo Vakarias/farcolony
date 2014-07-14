@@ -771,6 +771,11 @@
       <FR></FR>
       <SP></SP>
    </ts3DPrinting>
+   <tsAdvPhotonicCells>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsAdvPhotonicCells>
    <tsAlloys>
       <EN></EN>
       <FR></FR>
@@ -821,6 +826,11 @@
       <FR></FR>
       <SP></SP>
    </tsBModernMedicine>
+   <tsBHScience>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsBHScience>
    <tsCAD>
       <EN></EN>
       <FR></FR>
@@ -846,6 +856,11 @@
       <FR></FR>
       <SP></SP>
    </tsCognitiveScience>
+   <tsComplBrainMap>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsComplBrainMap>
    <tsCompoMaterials>
       <EN></EN>
       <FR></FR>
@@ -876,6 +891,26 @@
       <FR></FR>
       <SP></SP>
    </tsCryonics>
+   <tsDTFusion>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsDTFusion>
+   <tsDataIntensGrids>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsDataIntensGrids>
+   <tsDeepSpaceObs>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsDeepSpaceObs>
+   <tsDirectedEM>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsDirectedEM>
    <tsElectromagnetism>
       <EN></EN>
       <FR></FR>
@@ -906,6 +941,11 @@
       <FR></FR>
       <SP></SP>
    </tsGenTheoOfRelat>
+   <tsGeophys>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsGeophys>
    <tsHighEPartPhysics>
       <EN></EN>
       <FR></FR>
@@ -931,6 +971,11 @@
       <FR></FR>
       <SP></SP>
    </tsIonRcktEngines>
+   <tsIntegr3DSystems>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsIntegr3DSystems>
    <tsLogicAlgo>
       <EN></EN>
       <EN></EN>
@@ -981,6 +1026,11 @@
       <FR></FR>
       <SP></SP>
    </tsMultiToOrbitVeh>
+   <tsNanocomposites>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsNanocomposites>
    <tsNeurology>
       <EN></EN>
       <FR></FR>
@@ -1066,6 +1116,11 @@
       <FR></FR>
       <SP></SP>
    </tsSuperfluidics>
+   <tsSupraconduct>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsSupraconduct>
    <tsTerrPhysics>
       <EN></EN>
       <FR></FR>
