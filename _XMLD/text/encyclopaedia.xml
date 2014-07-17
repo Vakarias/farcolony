@@ -951,16 +951,26 @@
       <FR></FR>
       <SP></SP>
    </tsHighEPartPhysics>
+   <tsHighPressDiamonds>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsHighPressDiamonds>
    <tsHydrochemAgri>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsHydrochemAgri>
-   <tsciInflatHabitat>
+   <tsHydrogenFuelCells>
       <EN></EN>
       <FR></FR>
       <SP></SP>
-   </tsciInflatHabitat>
+   </tsHydrogenFuelCells>
+   <tsInflatableHabitats>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsInflatableHabitats>
    <tsInfoNetworks>
       <EN></EN>
       <FR></FR>
@@ -1001,6 +1011,11 @@
       <FR></FR>
       <SP></SP>
    </tsMemetics>
+   <tsMetamaterials>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsMetamaterials>
    <tsMEMS>
       <EN></EN>
       <FR></FR>
@@ -1011,11 +1026,21 @@
       <FR></FR>
       <SP></SP>
    </tsMicroElectronics>
+   <tsMicrorobotics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsMicrorobotics>
    <tsMiniaturization>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsMiniaturization>
+   <tsModernAgriculture>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsModernAgriculture>
    <tsMolecularEng>
       <EN></EN>
       <FR></FR>
@@ -1066,6 +1091,11 @@
       <FR></FR>
       <SP></SP>
    </tsPlasmaPhys>
+   <tsPredictiveClimat>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsPredictiveClimat>
    <tsQDots>
       <EN></EN>
       <FR></FR>
@@ -1116,16 +1146,36 @@
       <FR></FR>
       <SP></SP>
    </tsSuperfluidics>
+   <tsSuperstrongFabrics>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsSuperstrongFabrics>
    <tsSupraconduct>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsSupraconduct>
+   <tsSyntheticBiology>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsSyntheticBiology>
+   <tsTargetedMedicine>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsTargetedMedicine>
    <tsTerrPhysics>
       <EN></EN>
       <FR></FR>
       <SP></SP>
    </tsTerrPhysics>
+   <tsTissueEngineering>
+      <EN></EN>
+      <FR></FR>
+      <SP></SP>
+   </tsTissueEngineering>
    <tsXRayLasers>
       <EN></EN>
       <FR></FR>

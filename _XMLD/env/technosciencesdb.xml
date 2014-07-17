@@ -74,11 +74,11 @@
    <!-- Aerospace Engineering - Technosciences -->
       <!-- Aerospace Technics -->
          <!-- Long Duration Orbital Operations -->
-         <tsci fundamentalrsrch="False" token="tsLongDurOrbtOp" domain="rdAerospaceengineering" field="rf1AerospaceTechnics" techlevel="3" difficulty="54" discothres="162" maxRIPpoints="559">
-            <rts token="tsOrbitalFlight" domain="rdAerospaceengineering" rfield="rf1AerospaceTechnics" isKeyTech="True" influence="74"/>
-            <rts token="tsMEMS" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="108"/>
-            <rts token="tsChemMedicine" domain="rdBiosciences" rfield="rf3Medicine" isKeyTech="True" influence="324"/>
-            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="False" influence="53"/>
+         <tsci fundamentalrsrch="False" token="tsLongDurOrbtOp" domain="rdAerospaceengineering" field="rf1AerospaceTechnics" techlevel="3" difficulty="62" discothres="186" maxRIPpoints="350">
+            <rts token="tsOrbitalFlight" domain="rdAerospaceengineering" rfield="rf1AerospaceTechnics" isKeyTech="True" influence="60"/>
+            <rts token="tsMEMS" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="64"/>
+            <rts token="tsChemMedicine" domain="rdBiosciences" rfield="rf3Medicine" isKeyTech="True" influence="194"/>
+            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="False" influence="32"/>
             <influenceproj type="iptSpaceUnitArchitecture" token="aLV"/>
             <influenceproj type="iptSpaceUnitArchitecture" token="aLAV"/>
             <influenceproj type="iptSpaceUnitArchitecture" token="aSSI"/>
@@ -87,28 +87,34 @@
          <tsci fundamentalrsrch="False" token="tsMultiToOrbitVeh" domain="rdAerospaceengineering" field="rf1AerospaceTechnics" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
          <!-- Orbital Flight -->
-         <tsci fundamentalrsrch="False" token="tsOrbitalFlight" domain="rdAerospaceengineering" field="rf1AerospaceTechnics" techlevel="2" difficulty="37" discothres="74" maxRIPpoints="87">
+         <tsci fundamentalrsrch="False" token="tsOrbitalFlight" domain="rdAerospaceengineering" field="rf1AerospaceTechnics" techlevel="2" difficulty="30" discothres="60" maxRIPpoints="66">
             <rts token="tsRocketPropulsion" domain="rdAerospaceengineering" rfield="rf1SpaceDrives" isKeyTech="True" influence="0"/>
             <rts token="tsMultiToOrbitVeh" domain="rdAerospaceengineering" rfield="rf1AerospaceTechnics" isKeyTech="True" influence="0"/>
             <rts token="tsAlloys" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="False" influence="0"/>
-            <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="87"/>
+            <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="66"/>
             <influenceproj type="iptSpaceUnitArchitecture" token="aOMV"/>
          </tsci>
       
       <!-- Space Architecture -->
+         <!-- Inflatable Habitats -->
+         <tsci fundamentalrsrch="False" token="tsInflatableHabitats" domain="rdAerospaceengineering" field="rf1SpaceArchitecture" techlevel="4" difficulty="55" discothres="220" maxRIPpoints="243">
+            <rts token="tsLongDurOrbtOp" domain="rdAerospaceengineering" rfield="rf1AerospaceTechnics" isKeyTech="True" influence="186"/>
+            <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="False" influence="35"/>
+            <rts token="tsCAD" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="False" influence="22"/>
+         </tsci>
       
       <!-- Space Drives -->
          <!-- Ion Rocket Engines -->
-         <tsci fundamentalrsrch="False" token="tsIonRcktEngines" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="3" difficulty="81" discothres="243" maxRIPpoints="108">
+         <tsci fundamentalrsrch="False" token="tsIonRcktEngines" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="3" difficulty="44" discothres="132" maxRIPpoints="64">
             <rts token="tsRocketPropulsion" domain="rdAerospaceengineering" rfield="rf1SpaceDrives" isKeyTech="True" influence="0"/>
-            <rts token="tsMEMS" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="108"/>
+            <rts token="tsMEMS" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="64"/>
             <rts token="tsElectromagnetism" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="0"/>
          </tsci>
          <!-- Nuclear Fission Propulsion -->
-         <tsci fundamentalrsrch="False" token="tsNucFissionProp" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="4" difficulty="123" discothres="492" maxRIPpoints="201">
+         <tsci fundamentalrsrch="False" token="tsNucFissionProp" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="4" difficulty="60" discothres="240" maxRIPpoints="129">
             <rts token="tsRocketPropulsion" domain="rdAerospaceengineering" rfield="rf1SpaceDrives" isKeyTech="True" influence="0"/>
             <rts token="tsNuclearFission" domain="rdPhysics" rfield="rf8NuclearPhysics" isKeyTech="True" influence="0"/>
-            <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="201"/>
+            <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="129"/>
          </tsci>
          <!-- Rocket Propulsion -->
          <tsci fundamentalrsrch="False" token="tsRocketPropulsion" domain="rdAerospaceengineering" field="rf1SpaceDrives" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
@@ -129,7 +135,7 @@
       <tsci fundamentalrsrch="True" token="tsGenTheoOfRelat" domain="rdAstroEngineering" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
       </tsci>
       <!-- Stars Physics -->
-      <tsci fundamentalrsrch="True" token="tsStarsPhysics" domain="rdAstroEngineering" field="rfFundamentalResearch" techlevel="2" difficulty="78" discothres="156" maxRIPpoints="0">
+      <tsci fundamentalrsrch="True" token="tsStarsPhysics" domain="rdAstroEngineering" field="rfFundamentalResearch" techlevel="2" difficulty="43" discothres="86" maxRIPpoints="0">
          <rts token="tsAstronomy" domain="rdAstroEngineering" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
          <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
          <rts token="tsNuclearFission" domain="rdPhysics" rfield="rf8NuclearPhysics" isKeyTech="True" influence="0"/>
@@ -185,6 +191,18 @@
          <!-- Genetics -->
          <tsci fundamentalrsrch="False" token="tsGenetics" domain="rdBiosciences" field="rf3Biotechnologies" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
+         <!-- Synthetic Biology -->
+         <tsci fundamentalrsrch="False" token="tsSyntheticBiology" domain="rdBiosciences" field="rf3Biotechnologies" techlevel="4" difficulty="52" discothres="208" maxRIPpoints="164">
+            <rts token="tsGeneticSynth" domain="rdBiosciences" rfield="rf3Biotechnologies" isKeyTech="True" influence="132"/>
+            <rts token="tsQMechanics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="False" influence="0"/>
+            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="False" influence="32"/>
+         </tsci>    
+         <!-- Tissue Engineering -->
+         <tsci fundamentalrsrch="False" token="tsTissueEngineering" domain="rdBiosciences" field="rf3Biotechnologies" techlevel="4" difficulty="65" discothres="260" maxRIPpoints="331">
+            <rts token="tsGeneticSynth" domain="rdBiosciences" rfield="rf3Biotechnologies" isKeyTech="True" influence="132"/>
+            <rts token="tsChemMedicine" domain="rdBiosciences" rfield="rf3Medicine" isKeyTech="True" influence="129"/>
+            <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="70"/>
+         </tsci>
          
       <!-- Medicine -->
          <!-- Basic Modern Medicine -->
@@ -196,6 +214,13 @@
             <rts token="tsCryonics" domain="rdBiosciences" rfield="rfFundamentalResearch" isKeyTech="True" influence="68"/>
             <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
             <rts token="tsRobotics" domain="rdIndustrialTechnologies" rfield="rf6Automation" isKeyTech="False" influence="30"/>
+         </tsci>
+         <!-- Targeted Medicine -->
+         <tsci fundamentalrsrch="False" token="tsTargetedMedicine" domain="rdBiosciences" field="rf3Medicine" techlevel="4" difficulty="74" discothres="296" maxRIPpoints="380">
+            <rts token="tsChemMedicine" domain="rdBiosciences" rfield="rf3Medicine" isKeyTech="True" influence="129"/>
+            <rts token="tsExpertSystems" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="False" influence="47"/>
+            <rts token="tsGeneticSynth" domain="rdBiosciences" rfield="rf3Biotechnologies" isKeyTech="True" influence="132"/>
+            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="72"/>
          </tsci>
       
       <!-- Neuroscience -->
@@ -232,11 +257,11 @@
       <tsci fundamentalrsrch="True" token="tsClimatology" domain="rdEcosciences" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
       </tsci>
       <!-- Terrestrial Physics -->
-      <tsci fundamentalrsrch="True" token="tsTerrPhysics" domain="rdEcosciences" field="rfFundamentalResearch" techlevel="3" difficulty="62" discothres="186" maxRIPpoints="123">
+      <tsci fundamentalrsrch="True" token="tsTerrPhysics" domain="rdEcosciences" field="rfFundamentalResearch" techlevel="3" difficulty="39" discothres="117" maxRIPpoints="95">
          <rts token="tsClimatology" domain="rdEcosciences" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
          <rts token="tsAstronomy" domain="rdAstroEngineering" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
-         <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="False" influence="49"/>
-         <rts token="tsOrbitalFlight" domain="rdAerospaceengineering" rfield="rf1AerospaceTechnics" isKeyTech="True" influence="74"/>
+         <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="False" influence="35"/>
+         <rts token="tsOrbitalFlight" domain="rdAerospaceengineering" rfield="rf1AerospaceTechnics" isKeyTech="True" influence="60"/>
       </tsci>
    
    <!-- Ecosciences - Technosciences -->
@@ -252,12 +277,18 @@
          <!-- Hydrochemical Agriculture -->
          <tsci fundamentalrsrch="False" token="tsHydrochemAgri" domain="rdEcosciences" field="rf5Ecology" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
+         <!-- Modern Agriculture -->
+         <tsci fundamentalrsrch="False" token="tsModernAgriculture" domain="rdEcosciences" field="rf5Ecology" techlevel="3" difficulty="52" discothres="156" maxRIPpoints="228">
+            <rts token="tsHydrochemAgri" domain="rdEcosciences" rfield="rf5Ecology" isKeyTech="True" influence="0"/>
+            <rts token="tsGeneticSynth" domain="rdBiosciences" rfield="rf3Biotechnologies" isKeyTech="True" influence="198"/>
+            <rts token="tsRobotics" domain="rdIndustrialTechnologies" rfield="rf6Automation" isKeyTech="False" influence="30"/>
+         </tsci>
          <!-- Recycling Technics -->
-         <tsci fundamentalrsrch="False" token="tsRecyclingTech" domain="rdEcosciences" field="rf5Ecology" techlevel="3" difficulty="80" discothres="240" maxRIPpoints="131">
+         <tsci fundamentalrsrch="False" token="tsRecyclingTech" domain="rdEcosciences" field="rf5Ecology" techlevel="3" difficulty="45" discothres="135" maxRIPpoints="96">
             <rts token="tsBasicEco" domain="rdEcosciences" rfield="rf5Ecology" isKeyTech="True" influence="0"/>
             <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
-            <rts token="tsOrbitalFlight" domain="rdAerospaceengineering" rfield="rf1AerospaceTechnics" isKeyTech="True" influence="74"/>
-            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="False" influence="57"/>
+            <rts token="tsOrbitalFlight" domain="rdAerospaceengineering" rfield="rf1AerospaceTechnics" isKeyTech="True" influence="60"/>
+            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="False" influence="36"/>
          </tsci>
          
       <!-- Planetology -->
@@ -266,6 +297,12 @@
             <rts token="tsTerrPhysics" domain="rdEcosciences" rfield="rfFundamentalResearch" isKeyTech="True" influence="117"/>
             <rts token="tsComputationalEM" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="141"/>
             <rts token="tsIntegr3DSystems" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="False" influence="150"/>
+         </tsci>
+         <!-- Predictive Climatology -->
+         <tsci fundamentalrsrch="False" token="tsPredictiveClimat" domain="rdEcosciences" field="rf5Planetology" techlevel="4" difficulty="63" discothres="252" maxRIPpoints="328">
+            <rts token="tsClimatology" domain="rdEcosciences" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
+            <rts token="tsCAD" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="44"/>
+            <rts token="tsDataIntensGrids" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="False" influence="284"/>
          </tsci>
       
    <!-- Industrial Technologies - Fundamental Researches -->
@@ -278,8 +315,15 @@
          <!-- Automation -->
          <tsci fundamentalrsrch="False" token="tsAutomation" domain="rdIndustrialTechnologies" field="rf6Automation" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
+         <!-- Microrobotics -->
+         <tsci fundamentalrsrch="False" token="tsMicrorobotics" domain="rdIndustrialTechnologies" field="rf6Automation" techlevel="4" difficulty="61" discothres="244" maxRIPpoints="303">
+            <rts token="tsRobotics" domain="rdIndustrialTechnologies" rfield="rf6Automation" isKeyTech="True" influence="60"/>
+            <rts token="tsMEMS" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="64"/>
+            <rts token="tsInfoNetworks" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="108"/>
+            <rts token="tsComputationalEM" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="False" influence="71"/>
+         </tsci>
          <!-- Robotics -->
-         <tsci fundamentalrsrch="False" token="tsRobotics" domain="rdIndustrialTechnologies" field="rf6Automation" techlevel="2" difficulty="44" discothres="88" maxRIPpoints="0">
+         <tsci fundamentalrsrch="False" token="tsRobotics" domain="rdIndustrialTechnologies" field="rf6Automation" techlevel="2" difficulty="30" discothres="60" maxRIPpoints="0">
             <rts token="tsAutomation" domain="rdIndustrialTechnologies" rfield="rf6Automation" isKeyTech="True" influence="0"/>
             <rts token="tsMicroElectronics" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="0"/>
             <rts token="tsLogicAlgo" domain="rdIndustrialTechnologies" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
@@ -298,9 +342,9 @@
             <rts token="tsCognitiveScience" domain="rdBiosciences" rfield="rfFundamentalResearch" isKeyTech="True" influence="64"/>
          </tsci>
          <!-- Information Networks -->
-         <tsci fundamentalrsrch="False" token="tsInfoNetworks" domain="rdIndustrialTechnologies" field="rf6Computing" techlevel="3" difficulty="36" discothres="108" maxRIPpoints="168">
-            <rts token="tsRelDatabaseSyst" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="62"/>
-            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="106"/>
+         <tsci fundamentalrsrch="False" token="tsInfoNetworks" domain="rdIndustrialTechnologies" field="rf6Computing" techlevel="3" difficulty="36" discothres="108" maxRIPpoints="110">
+            <rts token="tsRelDatabaseSyst" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="46"/>
+            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="64"/>
          </tsci>
          <!-- Integrated 3D Systems -->
          <tsci fundamentalrsrch="False" token="tsIntegr3DSystems" domain="rdIndustrialTechnologies" field="rf6Computing" techlevel="4" difficulty="50" discothres="200" maxRIPpoints="155">
@@ -309,7 +353,7 @@
             <rts token="tsMEMS" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="64"/>
          </tsci>
          <!-- Micro-Electromechanical Systems (MEMS) -->
-         <tsci fundamentalrsrch="False" token="tsMEMS" domain="rdIndustrialTechnologies" field="rf6Computing" techlevel="2" difficulty="54" discothres="108" maxRIPpoints="0">
+         <tsci fundamentalrsrch="False" token="tsMEMS" domain="rdIndustrialTechnologies" field="rf6Computing" techlevel="2" difficulty="32" discothres="64" maxRIPpoints="0">
             <rts token="tsMicroElectronics" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="0"/>
             <rts token="tsMiniaturization" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
             <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="False" influence="0"/>
@@ -319,7 +363,7 @@
          <tsci fundamentalrsrch="False" token="tsMicroElectronics" domain="rdIndustrialTechnologies" field="rf6Computing" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
          <!-- Relational Database Systems -->
-         <tsci fundamentalrsrch="False" token="tsRelDatabaseSyst" domain="rdIndustrialTechnologies" field="rf6Computing" techlevel="2" difficulty="31" discothres="62" maxRIPpoints="0">
+         <tsci fundamentalrsrch="False" token="tsRelDatabaseSyst" domain="rdIndustrialTechnologies" field="rf6Computing" techlevel="2" difficulty="23" discothres="46" maxRIPpoints="0">
             <rts token="tsLogistics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
             <rts token="tsMicroElectronics" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="False" influence="0"/>
             <rts token="tsLogicAlgo" domain="rdIndustrialTechnologies" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
@@ -383,12 +427,25 @@
             <rts token="tsAlloys" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="0"/>
             <influenceproj type="iptProduct" token="matCarbComposites"/>
          </tsci>
+         <!-- High Pressure Diamonds -->
+         <tsci fundamentalrsrch="False" token="tsHighPressDiamonds" domain="rdIndustrialTechnologies" field="rf6Materials" techlevel="4" difficulty="54" discothres="216" maxRIPpoints="153">
+            <rts token="tsAlloys" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="0"/>
+            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="64"/>
+            <rts token="tsHighEPartPhysics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="False" influence="89"/>
+         </tsci>
          <!-- Low Temperature Superconductors -->
-         <tsci fundamentalrsrch="False" token="tsLowTempConductors" domain="rdIndustrialTechnologies" field="rf6Materials" techlevel="3" difficulty="67" discothres="201" maxRIPpoints="156">
-            <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="98"/>
-            <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="58"/>
+         <tsci fundamentalrsrch="False" token="tsLowTempConductors" domain="rdIndustrialTechnologies" field="rf6Materials" techlevel="3" difficulty="43" discothres="129" maxRIPpoints="114">
+            <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="70"/>
+            <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="44"/>
             <rts token="tsElectromagnetism" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="0"/>
             <rts token="tsQMechanics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="False" influence="0"/>
+         </tsci>
+         <!-- Metamaterials -->
+         <tsci fundamentalrsrch="False" token="tsMetamaterials" domain="rdIndustrialTechnologies" field="rf6Materials" techlevel="4" difficulty="67" discothres="268" maxRIPpoints="331">
+            <rts token="tsCompoMaterials" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="70"/>
+            <rts token="tsQDots" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="66"/>
+            <rts token="tsMolecularEng" domain="rdNanotechnology" rfield="rf7MolecularNanotechnology" isKeyTech="False" influence="54"/>
+            <rts token="tsSolidStateLasers" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="141"/>
          </tsci>
          <!-- Supraconductors -->
          <tsci fundamentalrsrch="False" token="tsSupraconduct" domain="rdIndustrialTechnologies" field="rf6Materials" techlevel="4" difficulty="64" discothres="256" maxRIPpoints="329">
@@ -403,11 +460,11 @@
       
       <!-- Molecular Nanotechnology -->
          <!-- Molecular Engineering -->
-         <tsci fundamentalrsrch="False" token="tsMolecularEng" domain="rdNanotechnology" field="rf7MolecularNanotechnology" techlevel="3" difficulty="58" discothres="174" maxRIPpoints="114">
+         <tsci fundamentalrsrch="False" token="tsMolecularEng" domain="rdNanotechnology" field="rf7MolecularNanotechnology" techlevel="3" difficulty="36" discothres="108" maxRIPpoints="72">
             <rts token="tsMicroElectronics" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="0"/>
             <rts token="tsQMechanics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
             <rts token="tsMiniaturization" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="False" influence="0"/>
-            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="114"/>
+            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="72"/>
          </tsci>
       
       <!-- Nanomaterials -->
@@ -427,12 +484,20 @@
             <influenceproj type="iptProduct" token="matNanocomposites"/>
          </tsci>
          <!-- Quantum Dots -->
-         <tsci fundamentalrsrch="False" token="tsQDots" domain="rdNanotechnology" field="rf7Nanomaterials" techlevel="2" difficulty="56" discothres="112" maxRIPpoints="0">
+         <tsci fundamentalrsrch="False" token="tsQDots" domain="rdNanotechnology" field="rf7Nanomaterials" techlevel="2" difficulty="33" discothres="66" maxRIPpoints="0">
             <rts token="tsAlloys" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="0"/>
             <rts token="tsNuclearFission" domain="rdPhysics" rfield="rf8NuclearPhysics" isKeyTech="True" influence="0"/>
             <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
             <rts token="tsMicroElectronics" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="False" influence="0"/>
          </tsci>
+         <!-- Superstrong Fabrics -->
+         <tsci fundamentalrsrch="False" token="tsSuperstrongFabrics" domain="rdNanotechnology" field="rf7Nanomaterials" techlevel="4" difficulty="68" discothres="272" maxRIPpoints="395">
+            <rts token="tsMolecularEng" domain="rdNanotechnology" rfield="rf7MolecularNanotechnology" isKeyTech="True" influence="108"/>
+            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="72"/>
+            <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="True" influence="129"/>
+            <rts token="tsSuperfluidics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="True" influence="86"/>
+            <influenceproj type="iptProduct" token="matMWNT"/>
+         </tsci>         
          
    <!-- Physics - Fundamental Researches -->
       <!-- Antimatter Theory -->
@@ -448,10 +513,10 @@
          <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="False" influence="97"/>
       </tsci>
       <!-- Plasma Physics -->
-      <tsci fundamentalrsrch="True" token="tsPlasmaPhys" domain="rdPhysics" field="rfFundamentalResearch" techlevel="3" difficulty="47" discothres="141" maxRIPpoints="209">
+      <tsci fundamentalrsrch="True" token="tsPlasmaPhys" domain="rdPhysics" field="rfFundamentalResearch" techlevel="3" difficulty="38" discothres="114" maxRIPpoints="118">
          <rts token="tsNuclearFission" domain="rdPhysics" rfield="rf8NuclearPhysics" isKeyTech="True" influence="0"/>
-         <rts token="tsStarsPhysics" domain="rdAstroEngineering" rfield="rfFundamentalResearch" isKeyTech="True" influence="156"/>
-         <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="False" influence="53"/>
+         <rts token="tsStarsPhysics" domain="rdAstroEngineering" rfield="rfFundamentalResearch" isKeyTech="True" influence="86"/>
+         <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="False" influence="32"/>
       </tsci>
       <!-- Quantum Mechanics -->
       <tsci fundamentalrsrch="True" token="tsQMechanics" domain="rdPhysics" field="rfFundamentalResearch" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
@@ -461,10 +526,10 @@
          <influenceproj type="iptExternalResearchField" token="rf2SpaceEngineering" influence="2"/>
       </tsci>   
       <!-- Superfluidics -->
-      <tsci fundamentalrsrch="True" token="tsSuperfluidics" domain="rdPhysics" field="rfFundamentalResearch" techlevel="2" difficulty="62" discothres="124" maxRIPpoints="87">
+      <tsci fundamentalrsrch="True" token="tsSuperfluidics" domain="rdPhysics" field="rfFundamentalResearch" techlevel="2" difficulty="43" discothres="86" maxRIPpoints="66">
          <rts token="tsQMechanics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
          <rts token="tsChemEngineering" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="0"/>
-         <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="87"/>
+         <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="66"/>
       </tsci>
       
    <!-- Physics - Technosciences -->
@@ -485,14 +550,21 @@
          <!-- Batteries -->
          <tsci fundamentalrsrch="False" token="tsBatteries" domain="rdPhysics" field="rf8Energy" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
+         <!-- Hydrogen Fuel Cells -->
+         <tsci fundamentalrsrch="False" token="tsHydrogenFuelCells" domain="rdPhysics" field="rf8Energy" techlevel="4" difficulty="40" discothres="160" maxRIPpoints="251">
+            <rts token="tsBatteries" domain="rdPhysics" rfield="rf8Energy" isKeyTech="True" influence="0"/>
+            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="72"/>
+            <rts token="tsCryogenics" domain="rdIndustrialTechnologies" rfield="rf6IndustrialTechnics" isKeyTech="True" influence="44"/>
+            <rts token="tsRecyclingTech" domain="rdEcosciences" rfield="rf5Ecology" isKeyTech="True" influence="135"/>
+         </tsci>
          <!-- Photonic Energy -->
          <tsci fundamentalrsrch="False" token="tsPhotonicEnergy" domain="rdPhysics" field="rf8Energy" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
          <!-- Supercapacitors -->
-         <tsci fundamentalrsrch="False" token="tsSupercapacitors" domain="rdPhysics" field="rf8Energy" techlevel="3" difficulty="39" discothres="117" maxRIPpoints="222">
+         <tsci fundamentalrsrch="False" token="tsSupercapacitors" domain="rdPhysics" field="rf8Energy" techlevel="3" difficulty="38" discothres="114" maxRIPpoints="136">
             <rts token="tsBatteries" domain="rdPhysics" rfield="rf8Energy" isKeyTech="True" influence="0"/>
-            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="114"/>
-            <rts token="tsMEMS" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="108"/>
+            <rts token="tsFullerenesProc" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="72"/>
+            <rts token="tsMEMS" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="64"/>
          </tsci>
          
       <!-- Nuclear Physics -->
@@ -530,23 +602,23 @@
          <tsci fundamentalrsrch="False" token="tsLasers" domain="rdPhysics" field="rf8ParticlesPhysics" techlevel="1" difficulty="0" discothres="0" maxRIPpoints="0">
          </tsci>
          <!-- Photonics -->
-         <tsci fundamentalrsrch="False" token="tsPhotonics" domain="rdPhysics" field="rf8ParticlesPhysics" techlevel="2" difficulty="53" discothres="106" maxRIPpoints="0">
+         <tsci fundamentalrsrch="False" token="tsPhotonics" domain="rdPhysics" field="rf8ParticlesPhysics" techlevel="2" difficulty="32" discothres="64" maxRIPpoints="0">
             <rts token="tsLasers" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="0"/>
             <rts token="tsMicroElectronics" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="True" influence="0"/>
             <rts token="tsAlloys" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="False" influence="0"/>
             <rts token="tsQMechanics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="True" influence="0"/>
          </tsci>
          <!-- Solid-State Lasers -->
-         <tsci fundamentalrsrch="False" token="tsSolidStateLasers" domain="rdPhysics" field="rf8ParticlesPhysics" techlevel="3" difficulty="46" discothres="138" maxRIPpoints="299">
-            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="106"/>
-            <rts token="tsQDots" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="112"/>
+         <tsci fundamentalrsrch="False" token="tsSolidStateLasers" domain="rdPhysics" field="rf8ParticlesPhysics" techlevel="3" difficulty="47" discothres="141" maxRIPpoints="211">
+            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="64"/>
+            <rts token="tsQDots" domain="rdNanotechnology" rfield="rf7Nanomaterials" isKeyTech="True" influence="66"/>
             <rts token="tsInfoNetworks" domain="rdIndustrialTechnologies" rfield="rf6Computing" isKeyTech="False" influence="81"/>
          </tsci>
          <!-- X-Ray Lasers -->
-         <tsci fundamentalrsrch="False" token="tsXRayLasers" domain="rdPhysics" field="rf8ParticlesPhysics" techlevel="3" difficulty="16" discothres="48" maxRIPpoints="381">
-            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="106"/>
-            <rts token="tsSuperfluidics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="True" influence="124"/>
-            <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="False" influence="151"/>
+         <tsci fundamentalrsrch="False" token="tsXRayLasers" domain="rdPhysics" field="rf8ParticlesPhysics" techlevel="3" difficulty="43" discothres="129" maxRIPpoints="247">
+            <rts token="tsPhotonics" domain="rdPhysics" rfield="rf8ParticlesPhysics" isKeyTech="True" influence="64"/>
+            <rts token="tsSuperfluidics" domain="rdPhysics" rfield="rfFundamentalResearch" isKeyTech="True" influence="86"/>
+            <rts token="tsLowTempConductors" domain="rdIndustrialTechnologies" rfield="rf6Materials" isKeyTech="False" influence="97"/>
          </tsci>
          
 </technosciences>

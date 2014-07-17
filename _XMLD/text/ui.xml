@@ -4049,16 +4049,26 @@
       <FR>Physique des Particules à Haute Energie</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsHighEPartPhysics>
+   <tsHighPressDiamonds>
+      <EN>High Pressure Diamonds</EN>
+      <FR>Diamants à Haute Pression</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsHighPressDiamonds>
    <tsHydrochemAgri>
       <EN>Hydrochemical Agriculture</EN>
       <FR>Agriculture Hydrochimique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsHydrochemAgri>
-   <tsciInflatHabitat>
+   <tsHydrogenFuelCells>
+      <EN>Hydrogen Fuel Cells</EN>
+      <FR>Cellules de Carburant à Hydrogène</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsHydrogenFuelCells>
+   <tsInflatableHabitats>
       <EN>Inflatable Habitats</EN>
       <FR>Habitats Gonflables</FR>
       <SP>Hábitats Inflables</SP>
-   </tsciInflatHabitat>
+   </tsInflatableHabitats>
    <tsInfoNetworks>
       <EN>Information Networks</EN>
       <FR>Réseaux d'Information</FR>
@@ -4099,6 +4109,11 @@
       <FR>Mémétique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsMemetics>
+   <tsMetamaterials>
+      <EN>Metamaterials</EN>
+      <FR>Métamatériaux</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsMetamaterials>
    <tsMEMS>
       <EN>Micro-Electromechanical Systems (MEMS)</EN>
       <FR>Systèmes Micro-Electromécaniques (MEMS)</FR>
@@ -4109,11 +4124,21 @@
       <FR>Micro-Electronique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsMicroElectronics>
+   <tsMicrorobotics>
+      <EN>Microrobotics</EN>
+      <FR>Microrobotique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsMicrorobotics>
    <tsMiniaturization>
       <EN>Miniaturization</EN>
       <FR>Miniaturisation</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsMiniaturization>
+   <tsModernAgriculture>
+      <EN>Modern Agriculture</EN>
+      <FR>Agriculture Moderne</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsModernAgriculture>
    <tsMolecularEng>
       <EN>Molecular Engineering</EN>
       <FR>Ingénierie Moléculaire</FR>
@@ -4164,6 +4189,11 @@
       <FR>Physique des Plasma</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsPlasmaPhys>
+   <tsPredictiveClimat>
+      <EN>Predictive Climatology</EN>
+      <FR>Climatologie Prédictive</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsPredictiveClimat>
    <tsQDots>
       <EN>Quantum Dots</EN>
       <FR>Boite Quantique</FR>
@@ -4214,16 +4244,36 @@
       <FR>Superfluidique</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsSuperfluidics>
+   <tsSuperstrongFabrics>
+      <EN>Superstrong Fabrics</EN>
+      <FR>Tissus Super-Résistants</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsSuperstrongFabrics>
    <tsSupraconduct>
       <EN>Supraconductors</EN>
       <FR>Supraconducteurs</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsSupraconduct>
+   <tsSyntheticBiology>
+      <EN>Synthetic Biology</EN>
+      <FR>Biologie Synthétique</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsSyntheticBiology>
+   <tsTargetedMedicine>
+      <EN>Targeted Medicine</EN>
+      <FR>Médecine Ciblée</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsTargetedMedicine>
    <tsTerrPhysics>
       <EN>Terrestrial Physics</EN>
       <FR>Physique Terrestre</FR>
       <SP>!TO TRANSLATE!</SP>
    </tsTerrPhysics>
+   <tsTissueEngineering>
+      <EN>Tissue Engineering</EN>
+      <FR>Ingénierie des Tissus</FR>
+      <SP>!TO TRANSLATE!</SP>
+   </tsTissueEngineering>
    <tsXRayLasers>
       <EN>X-Ray Lasers</EN>
       <FR>Lasers à Rayon X</FR>

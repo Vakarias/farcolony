@@ -201,6 +201,7 @@
    <!-- Multi-Walled Nanotubes (MWNT) - Material -->
    <product token="matMWNT" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="2.6">
       <function token="pfMultipurposeMaterial" tensilestr="63" tsbylevel="26.333" youngmodulus="450" ymbylevel="116.66" thermalprot="365.6" reflectivity="0.1" corrosiveclass="ccA_Excellent"/>
+      <reqTSci token="tsSuperstrongFabrics" domain="rdNanotechnology" field="rf7Nanomaterials" affectType="rtsaltProdMaterial" tensileStrByDLSup1="26.333" youndModulusByDLSup1="116.66"/>
       <tags>
          <hazToxic/>
       </tags>
@@ -208,6 +209,7 @@
    <!-- Nanocomposites - Material -->
    <product token="matNanocomposites" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.5">
       <function token="pfMultipurposeMaterial" tensilestr="3.6" tsbylevel="0.335" youngmodulus="162" ymbylevel="57.55" thermalprot="185" reflectivity="0.2" corrosiveclass="ccA_Excellent"/>
+      <reqTSci token="tsNanocomposites" domain="rdNanotechnology" field="rf7Nanomaterials" affectType="rtsaltProdMaterial" tensileStrByDLSup1="0.335" youndModulusByDLSup1="57.55"/>
    </product>
    <!-- Plastics - Material -->
    <product token="matPlastics" class="pcMaterial" storage="stSolid" cargo="" volbyunit="1" massbyunit="1.05">
