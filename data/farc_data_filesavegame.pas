@@ -1090,8 +1090,8 @@ begin
                                        if EnumIndex=-1
                                        then raise Exception.Create( 'bad gamesave loading w/ rfield technoscience mastering stage [colony]: '+XMLSavedGameItemSub5.Attributes['masteringStage'] );
 
-                                       FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count5].TS_rtsCurrentPoints:=XMLSavedGameItemSub5.Attributes['rtsCurrentPoints'];
-                                       FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count5].TS_rtsMaxPoints:=XMLSavedGameItemSub5.Attributes['rtsMaxPoints'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count5].TS_ripCurrent:=XMLSavedGameItemSub5.Attributes['ripCurrents'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count5].TS_ripMax:=XMLSavedGameItemSub5.Attributes['ripMax'];
                                     end
                                     else if XMLSavedGameItemSub5.NodeName='theory' then
                                     begin
@@ -1105,8 +1105,8 @@ begin
                                        if EnumIndex=-1
                                        then raise Exception.Create( 'bad gamesave loading w/ rfield theory mastering stage [colony]: '+XMLSavedGameItemSub5.Attributes['masteringStage'] );
 
-                                       FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count5].TS_rtsCurrentPoints:=XMLSavedGameItemSub5.Attributes['rtsCurrentPoints'];
-                                       FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count5].TS_rtsMaxPoints:=XMLSavedGameItemSub5.Attributes['rtsMaxPoints'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count5].TS_ripCurrent:=XMLSavedGameItemSub5.Attributes['ripCurrent'];
+                                       FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count5].TS_ripMax:=XMLSavedGameItemSub5.Attributes['ripMax'];
                                     end;
                                     XMLSavedGameItemSub5:=XMLSavedGameItemSub5.NextSibling;
                                  end;
@@ -2228,8 +2228,8 @@ begin
                               XMLSavedGameItemSub6.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_token;
                               XMLSavedGameItemSub6.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_collateralMastered, true );
                               XMLSavedGameItemSub6.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_masteringStage ) );
-                              XMLSavedGameItemSub6.Attributes['rtsCurrentPoints']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_rtsCurrentPoints;
-                              XMLSavedGameItemSub6.Attributes['rtsMaxPoints']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_rtsMaxPoints;
+                              XMLSavedGameItemSub6.Attributes['ripCurrent']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_ripCurrent;
+                              XMLSavedGameItemSub6.Attributes['ripMax']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_ripMax;
                               inc( Count4 );
                            end;
                         end;
@@ -2244,8 +2244,8 @@ begin
                               XMLSavedGameItemSub6.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_token;
                               XMLSavedGameItemSub6.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_collateralMastered, true );
                               XMLSavedGameItemSub6.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_masteringStage ) );
-                              XMLSavedGameItemSub6.Attributes['rtsCurrentPoints']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_rtsCurrentPoints;
-                              XMLSavedGameItemSub6.Attributes['rtsMaxPoints']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_rtsMaxPoints;
+                              XMLSavedGameItemSub6.Attributes['ripCurrent']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_ripCurrent;
+                              XMLSavedGameItemSub6.Attributes['ripMax']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_ripMax;
                               inc( Count4 );
                            end;
                         end;

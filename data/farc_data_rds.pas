@@ -121,18 +121,17 @@ type TFCEdrdsTechnologyLevels=(
    ,tl04CyberAge
    ,tl05InterplanetaryAge
    ,tl06TranshumanismAge
-   ,tl07SingularityAge
-   ,tl08InterstellarAge
-   ,tl09NanoAge
+   ,tl07NanoAge
+   ,tl08SingularityAge
+   ,tl09InterstellarAge
    ,tl10UnificationAge
    ,tl11EnlightementAge
-   ,tl12MegatechAge
-   ,tl13TranscendenceAge
-   ,tl14KardashevAge
-   ,tl15GalacticAge
-   ,tl16AIgodsAge
-   ,tl17DimensionalAge
-   ,tl18InfinityAge
+   ,tl12TranscendenceAge
+   ,tl13KardashevAge
+   ,tl14GalacticAge
+   ,tl15AIgodsAge
+   ,tl16DimensionalAge
+   ,tl17InfinityAge
    );
 
 //==END PUBLIC ENUM=========================================================================

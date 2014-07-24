@@ -435,8 +435,8 @@ type TFCRdgTechnoscience = record
    TS_token: string[20];
    TS_collateralMastered: boolean;
    TS_masteringStage: TFCEdgTechnoscienceMasteringStages;
-   TS_rtsCurrentPoints: integer;
-   TS_rtsMaxPoints: integer;
+   TS_ripCurrent: integer;
+   TS_ripMax: integer;
 end;
 
 {:REFERENCES LIST
