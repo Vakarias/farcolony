@@ -5,8 +5,8 @@ object FCWinNewGSetup: TFCWinNewGSetup
   AlphaBlendValue = 200
   BorderStyle = bsNone
   Caption = 'FCWinNewGSetup'
-  ClientHeight = 490
-  ClientWidth = 710
+  ClientHeight = 525
+  ClientWidth = 761
   Color = clBlack
   Ctl3D = False
   DefaultMonitor = dmMainForm
@@ -22,26 +22,26 @@ object FCWinNewGSetup: TFCWinNewGSetup
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
-  TextHeight = 14
+  TextHeight = 15
   object FCWNGS_Frame: TAdvGroupBox
     Left = 0
     Top = 0
-    Width = 710
-    Height = 490
+    Width = 761
+    Height = 525
     Align = alClient
     Caption = 'FCWNGS_Frame'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
-    Font.Height = -12
+    Font.Height = -13
     Font.Name = 'DejaVu Sans Condensed'
     Font.Style = []
     ParentFont = False
     TabOrder = 0
     object FCWNGS_Frm_FactionFlag: TImage32
-      Left = 240
-      Top = 24
-      Width = 73
-      Height = 49
+      Left = 257
+      Top = 26
+      Width = 78
+      Height = 52
       Bitmap.ResamplerClassName = 'TNearestResampler'
       BitmapAlign = baTopLeft
       Scale = 1.000000000000000000
@@ -49,10 +49,10 @@ object FCWinNewGSetup: TFCWinNewGSetup
       TabOrder = 0
     end
     object FCWNGS_Frm_GNameEdit: TLabeledEdit
-      Left = 54
-      Top = 32
-      Width = 81
-      Height = 20
+      Left = 58
+      Top = 34
+      Width = 87
+      Height = 22
       Alignment = taCenter
       BevelInner = bvNone
       BevelKind = bkFlat
@@ -61,12 +61,12 @@ object FCWinNewGSetup: TFCWinNewGSetup
       Color = clWhite
       Ctl3D = False
       EditLabel.AlignWithMargins = True
-      EditLabel.Width = 127
-      EditLabel.Height = 14
+      EditLabel.Width = 138
+      EditLabel.Height = 15
       EditLabel.Caption = 'FCWNGS_Frm_GNameEdit'
       EditLabel.Font.Charset = DEFAULT_CHARSET
       EditLabel.Font.Color = clWhite
-      EditLabel.Font.Height = -12
+      EditLabel.Font.Height = -13
       EditLabel.Font.Name = 'FrancophilSans'
       EditLabel.Font.Style = []
       EditLabel.ParentFont = False
@@ -74,7 +74,7 @@ object FCWinNewGSetup: TFCWinNewGSetup
       EditLabel.Layout = tlCenter
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'FrancophilSans'
       Font.Style = []
       ParentCtl3D = False
@@ -85,15 +85,15 @@ object FCWinNewGSetup: TFCWinNewGSetup
       OnKeyPress = FCWNGS_Frm_GNameEditKeyPress
     end
     object FCWNGS_Frm_FactionList: THTMListBox
-      Left = 16
-      Top = 104
-      Width = 161
-      Height = 209
+      Left = 17
+      Top = 111
+      Width = 173
+      Height = 224
       BorderStyle = bsNone
       Color = clBlack
       Font.Charset = ANSI_CHARSET
       Font.Color = 14803425
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'DejaVu Sans Condensed'
       Font.Style = [fsBold]
       ItemHeight = 16
@@ -112,10 +112,10 @@ object FCWinNewGSetup: TFCWinNewGSetup
       Version = '2.0.1.0'
     end
     object FCWNGS_Frm_DataPad: TAdvPageControl
-      Left = 232
-      Top = 104
-      Width = 345
-      Height = 289
+      Left = 249
+      Top = 111
+      Width = 369
+      Height = 310
       ActivePage = FCWNGS_Frm_DPad_SheetSPM
       ActiveFont.Charset = DEFAULT_CHARSET
       ActiveFont.Color = 13238272
@@ -124,7 +124,7 @@ object FCWinNewGSetup: TFCWinNewGSetup
       ActiveFont.Style = [fsBold]
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWhite
-      Font.Height = -11
+      Font.Height = -12
       Font.Name = 'DejaVu Sans'
       Font.Style = []
       HotTrack = True
@@ -151,7 +151,7 @@ object FCWinNewGSetup: TFCWinNewGSetup
         ColorTo = clNone
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'Tahoma'
         Font.Style = []
         ParentFont = False
@@ -165,14 +165,14 @@ object FCWinNewGSetup: TFCWinNewGSetup
         object FCWNGS_Frm_DPad_SHisto_Text: THTMLabel
           Left = 0
           Top = 0
-          Width = 337
-          Height = 262
+          Width = 361
+          Height = 281
           Align = alClient
           Color = clBlack
           GradientType = gtFullVertical
           Font.Charset = ANSI_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -194,11 +194,11 @@ object FCWinNewGSetup: TFCWinNewGSetup
         object FCWNGS_FDPad_ShSPM_SPMList: THTMLTreeview
           Left = 0
           Top = 0
-          Width = 337
-          Height = 261
+          Width = 361
+          Height = 281
           ControlStyle = csFlat
           ControlColor = clSilver
-          ItemHeight = 16
+          ItemHeight = 18
           SelectionColors.BorderColor = clNone
           SelectionColors.ColorFrom = clBlack
           SelectionColors.ColorTo = 7237230
@@ -213,7 +213,7 @@ object FCWinNewGSetup: TFCWinNewGSetup
           Color = clBlack
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWhite
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Indent = 19
@@ -238,14 +238,14 @@ object FCWinNewGSetup: TFCWinNewGSetup
         object FCWNGS_Frm_DPad_SCol_Text: THTMLabel
           Left = 0
           Top = 0
-          Width = 337
-          Height = 262
+          Width = 361
+          Height = 281
           Align = alClient
           Color = clBlack
           GradientType = gtFullVertical
           Font.Charset = DEFAULT_CHARSET
           Font.Color = 14803425
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Hover = True
@@ -271,11 +271,11 @@ object FCWinNewGSetup: TFCWinNewGSetup
         object FCWNGS_Frm_DPad_SDL_DotList: THTMLTreeview
           Left = 0
           Top = 0
-          Width = 337
-          Height = 261
+          Width = 361
+          Height = 281
           ControlStyle = csFlat
           ControlColor = clSilver
-          ItemHeight = 16
+          ItemHeight = 18
           SelectionColors.BorderColor = clNone
           SelectionColors.ColorFrom = clBlack
           SelectionColors.ColorTo = 7237230
@@ -290,7 +290,7 @@ object FCWinNewGSetup: TFCWinNewGSetup
           Color = clBlack
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWhite
-          Font.Height = -12
+          Font.Height = -13
           Font.Name = 'FrancophilSans'
           Font.Style = []
           Indent = 19
@@ -303,14 +303,14 @@ object FCWinNewGSetup: TFCWinNewGSetup
       end
     end
     object FCWNGS_Frm_ButtProceed: TAdvGlowButton
-      Left = 560
-      Top = 24
-      Width = 113
-      Height = 41
+      Left = 600
+      Top = 26
+      Width = 121
+      Height = 44
       Caption = 'FCWNGS_Frm_ButtProceed'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Space Age'
       Font.Style = []
       FocusType = ftHot
@@ -349,14 +349,14 @@ object FCWinNewGSetup: TFCWinNewGSetup
       Appearance.SystemFont = False
     end
     object FCWNGS_Frm_ButtCancel: TAdvGlowButton
-      Left = 568
-      Top = 32
-      Width = 113
-      Height = 41
+      Left = 609
+      Top = 34
+      Width = 121
+      Height = 44
       Caption = 'FCWNGS_Frm_ButtProceed'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'Space Age'
       Font.Style = []
       FocusType = ftHot
@@ -395,10 +395,10 @@ object FCWinNewGSetup: TFCWinNewGSetup
       Appearance.SystemFont = False
     end
     object FCWNGS_Frm_ColMode: THTMLRadioGroup
-      Left = 16
-      Top = 64
-      Width = 177
-      Height = 51
+      Left = 17
+      Top = 69
+      Width = 190
+      Height = 54
       ButtonType = btFlat
       Ellipsis = False
       ShadowColor = 14803425
@@ -406,7 +406,7 @@ object FCWinNewGSetup: TFCWinNewGSetup
       Caption = 'Please Choose a Colonization Mode'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = 14803425
-      Font.Height = -12
+      Font.Height = -13
       Font.Name = 'FrancophilSans'
       Font.Style = []
       Items.Strings = (

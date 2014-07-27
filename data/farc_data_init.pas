@@ -312,6 +312,7 @@ uses
 procedure FCMdi_Data_Initialization;
 {purpose: initialize all the basic data, test the configuration file and the save games directory.
    Additions:
+      -2014Jul25- *fix: prevent a rare case, due to crash, that create a config file but let the language empty.
       -2012Jun06- *code audit:
                   (_)var formatting + refactoring     (x)if..then reformatting   (x)function/procedure refactoring
                   (_)parameters refactoring           (x) ()reformatting         (-)code optimizations
@@ -335,8 +336,15 @@ begin
       FCVdiWinMainTop:= FCWinMain.Top;
       FCMdF_ConfigurationFile_Save(false);
    end
-   else if FileExists( FCVdiPathConfigFile )
-   then FCMdF_ConfigurationFile_Load( false );
+   else if FileExists( FCVdiPathConfigFile ) then
+   begin
+      FCMdF_ConfigurationFile_Load( false );
+      if FCVdiLanguage='' then
+      begin
+         FCVdiLanguage:='EN';
+         FCMdF_ConfigurationFile_Save(false);
+      end;
+   end;
    {.saved games directory initialization}
    if not DirectoryExists( FCVdiPathConfigDir+'SavedGames' )
    then MkDir( FCVdiPathConfigDir+'SavedGames' );

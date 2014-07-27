@@ -2190,6 +2190,7 @@ procedure TFCWinMain.FormCreate(Sender: TObject);
 var
    FClocalPath: widestring;
    FCwide: pWideChar;
+   FCansi: PAnsiChar;
    hours, mins, secs, milliSecs : Word;
 begin
    {.core settings}
@@ -2208,35 +2209,35 @@ begin
    finally
       {.local fonts and user's interface initialization}
       FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
-      Screen.Fonts.Add(FClocalPath);
-//      FCwide:=Addr(FClocalPath[1]);
-//      AddFontResource(FCwide);
-      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FCwide:=Addr(FClocalPath[1]);
+      AddFontResource(FCwide);
+      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+
       FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
-      Screen.Fonts.Add(FClocalPath);
-//      FCwide:=Addr(FClocalPath[1]);
-//      AddFontResource(FCwide);
-//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FCwide:=Addr(FClocalPath[1]);
+      AddFontResource(FCwide);
+      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+
       FClocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
-      Screen.Fonts.Add(FClocalPath);
-//      FCwide:=Addr(FClocalPath[1]);
-//      AddFontResource(FCwide);
-//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FCwide:=Addr(FClocalPath[1]);
+      AddFontResource(FCwide);
+      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+
       FClocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
-      Screen.Fonts.Add(FClocalPath);
-//      FCwide:=Addr(FClocalPath[1]);
-//      AddFontResource(FCwide);
-//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FCwide:=Addr(FClocalPath[1]);
+      AddFontResource(FCwide);
+      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+
       FClocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
-      Screen.Fonts.Add(FClocalPath);
-//      FCwide:=Addr(FClocalPath[1]);
-//      AddFontResource(FCwide);
-//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FCwide:=Addr(FClocalPath[1]);
+      AddFontResource(FCwide);
+      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+
       FClocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
-//      FCwide:=Addr(FClocalPath[1]);
-//      AddFontResource(FCwide);
-//      SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-      Screen.Fonts.Add(FClocalPath);
+      FCwide:=Addr(FClocalPath[1]);
+      AddFontResource(FCwide);
+      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+
       FCMuiW_UI_Initialize(mwupAll);
 	end;
 	FCVdiWinMainAllowUpdate:=true;
@@ -2304,27 +2305,27 @@ begin
    FDlocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
-   SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
    FDlocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
-   SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
    FDlocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
-   SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
    FDlocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
-   SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
    FDlocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
-   SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
    FDlocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
    FDwide:=Addr(FDlocalPath[1]);
    RemoveFontResource(FDwide);
-   SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
 end;
 
 procedure TFCWinMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
