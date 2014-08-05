@@ -106,33 +106,58 @@ uses
 function FCMgCPSO_Outcome_Process( const ViabilityThreshold, MeanScore: integer ): integer;
 {:Purpose: caculate the final outcome of a CPS status category based on the given mean score.
     Additions:
+      -2014Aug04- *mod: application of new viability threshold rank values.
 }
 begin
    Result:=0;
    case ViabilityThreshold of
-      70:
+      50:
       begin
          case MeanScore of
-            0..19: Result:=0;
+            0..34: Result:=1;
 
-            20..54: Result:=1;
+            35..49: Result:=2;
 
-            55..69: Result:=2;
-
-            70..999: Result:=3;
+            50..999: Result:=3;
          end;
       end;
 
-      85:
+      65:
       begin
          case MeanScore of
-            0..34: Result:=0;
+            0..14: Result:=0;
 
-            35..69: Result:=1;
+            15..49: Result:=1;
 
-            70..84: Result:=2;
+            50..64: Result:=2;
 
-            85..999: Result:=3;
+            65..999: Result:=3;
+         end;
+      end;
+
+      80:
+      begin
+         case MeanScore of
+            0..29: Result:=0;
+
+            30..64: Result:=1;
+
+            65..79: Result:=2;
+
+            80..999: Result:=3;
+         end;
+      end;
+
+      90:
+      begin
+         case MeanScore of
+            0..39: Result:=0;
+
+            40..74: Result:=1;
+
+            75..89: Result:=2;
+
+            90..999: Result:=3;
          end;
       end;
 
@@ -159,32 +184,6 @@ begin
             95..109: Result:=2;
 
             110..999: Result:=3;
-         end;
-      end;
-
-      120:
-      begin
-         case MeanScore of
-            0..69: Result:=0;
-
-            70..104: Result:=1;
-
-            105..119: Result:=2;
-
-            120..999: Result:=3;
-         end;
-      end;
-
-      130:
-      begin
-         case MeanScore of
-            0..79: Result:=0;
-
-            80..114: Result:=1;
-
-            115..129: Result:=2;
-
-            130..999: Result:=3;
          end;
       end;
    end; //==END== case ViabilityThreshold of ==//

@@ -558,21 +558,22 @@ end;
 function TFCcps.FCF_Threshold_GetString( const Threshold: integer ): string;
 {:Purpose: get the descriptive string of the numeric viability threshold.
     Additions:
+      -2014Aug04- *mod: application of new viability threshold rank values.
 }
 begin
    Result:='';
    case Threshold of
-      70: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr1');
+      50: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr1');
 
-      85: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr2');
+      65: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr2');
 
-      100: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr3');
+      80: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr3');
 
-      110: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr4');
+      90: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr4');
 
-      120: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr5');
+      100: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr5');
 
-      130: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr6');
+      110: Result:=FCFdTFiles_UIStr_Get( uistrUI, 'cpsThr6');
    end;
 end;
 

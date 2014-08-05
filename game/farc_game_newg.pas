@@ -114,7 +114,8 @@ var
 procedure FCMgNG_ColMode_Upd;
 {:Purpose: update colonization mode data and it's corresponding equipment list, using the index.
     Additions:
-      -2012May23- *mod: changed the display for status' viability thresolds.
+      -2014Aug04- *fix: display correctly the military threshold in %.
+      -2012May23- *mod: changed the display for status' viability thresholds.
       -2012May22- *rem: min/max status levels.
                   *add: economic, social and military viability thresholds.
       -2011Apr25- *mod: some adjustments for space unit equipment items, according to the updated changes in the data structure.
@@ -166,7 +167,7 @@ begin
          +'<br>'
          +'<b>'+FCCFidxL+FCFdTFiles_UIStr_Get(uistrUI, 'cpsSLmil')+'</b>'
          +FCCFidxRi+FCcps.FCF_Threshold_GetString( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_SpaceMilitary)
-         +FCCFidxRRRR+IntToStr( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_Economic )+' %'
+         +FCCFidxRRRR+IntToStr( FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_cpsViabilityThreshold_SpaceMilitary )+' %'
          +'<br><br>'
       );
    FCWinNewGSetup.FCWNGS_Frm_DPad_SCol_Text.HTMLText.Add(

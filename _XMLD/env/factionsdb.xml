@@ -160,7 +160,7 @@
 <factionsDB>
    <!-- Magellan Unity -->
    <faction token="factkMagelUni" level="4">
-      <facColMode token="munCmodARC" viabThrEco="85" viabThrSoc="120" viabThrSpMil="110" creditrng="cirRich_High" intrng="cirBelowAverage_Moderate">
+      <facColMode token="munCmodARC" viabThrEco="65" viabThrSoc="100" viabThrSpMil="90" creditrng="cirRich_High" intrng="cirBelowAverage_Moderate">
          <facViabObj objTp="otEcoEnEff"/>
          <facViabObj objTp="otEcoIndustrialForce" product="resCarbOre" threshold="1.5"/>
          <facViabObj objTp="otEcoLowCr"/>
