@@ -417,6 +417,7 @@ end;
 procedure FCMdF_DBFactions_Load;
 {:Purpose: load the factions database XML file.
    Additions:
+      -2014Aug05- *add: common core.
       -2012Jul29- *code audit = COMPLETION.
       -2012Jul23- *code audit (begin):
                      (x)var formatting + refactoring     (x)if..then reformatting   (_)function/procedure refactoring
@@ -606,7 +607,43 @@ begin
                      FCDdgFactions[FactionCount].F_spm[Count1].SPMS_iPfSpreadValue:=XMLFactionSubItem.Attributes['spreadval'];
                   end;
                   XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
-               end; //==END== while DBFRspmItm<>nil ==//
+               end; //==END== while XMLFactionSubItem<>nil ==//
+            end
+            {.common core}
+            else if XMLFactionItem.NodeName='facCommonCore' then
+            begin
+               FCDdgFactions[FactionCount].F_comCoreOrient_aerospaceEng:=XMLFactionItem.Attributes['orientAerospaceEng'];
+               FCDdgFactions[FactionCount].F_comCoreOrient_astroEng:=XMLFactionItem.Attributes['orientAstroEng'];
+               FCDdgFactions[FactionCount].F_comCoreOrient_biosciences:=XMLFactionItem.Attributes['orientBiosciences'];
+               FCDdgFactions[FactionCount].F_comCoreOrient_culture:=XMLFactionItem.Attributes['orientCulture'];
+               FCDdgFactions[FactionCount].F_comCoreOrient_ecosciences:=XMLFactionItem.Attributes['orientEcosciences'];
+               FCDdgFactions[FactionCount].F_comCoreOrient_indusTech:=XMLFactionItem.Attributes['orientIndusTech'];
+               FCDdgFactions[FactionCount].F_comCoreOrient_nanotech:=XMLFactionItem.Attributes['orientNanotech'];
+               FCDdgFactions[FactionCount].F_comCoreOrient_physics:=XMLFactionItem.Attributes['orientPhysics'];
+               Count1:=0;
+               XMLFactionSubItem:=XMLFactionItem.ChildNodes.First;
+               while XMLFactionSubItem<>nil do
+               begin
+                  inc( Count1 );
+                  SetLength( FCDdgFactions[FactionCount].F_comCoreSetup, Count1+1 );
+                  FCDdgFactions[FactionCount].F_comCoreSetup[Count1].CCS_techToken:=XMLFactionSubItem.Attributes['token'];
+
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsTechnologyLevels ), XMLFactionSubItem.Attributes['techLvl'] );
+                  FCDdgFactions[FactionCount].F_comCoreSetup[Count1].CCS_techLevel:=TFCEdrdsTechnologyLevels( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad factions database common core tech level: '+XMLFactionSubItem.Attributes['techLvl'] );
+
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsResearchDomains ), XMLFactionSubItem.Attributes['resDomain'] );
+                  FCDdgFactions[FactionCount].F_comCoreSetup[Count1].CCS_resDomain:=TFCEdrdsResearchDomains( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad factions database common core research domain: '+XMLFactionSubItem.Attributes['resDomain'] );
+
+                  EnumIndex:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), XMLFactionSubItem.Attributes['resField'] );
+                  FCDdgFactions[FactionCount].F_comCoreSetup[Count1].CCS_resField:=TFCEdrdsResearchFields( EnumIndex );
+                  if EnumIndex=-1
+                  then raise Exception.Create( 'bad factions database common core research field: '+XMLFactionSubItem.Attributes['resField'] );
+                  XMLFactionSubItem:=XMLFactionSubItem.NextSibling;
+               end; //==END== while XMLFactionSubItem<>nil ==//
             end;
             XMLFactionItem:= XMLFactionItem.NextSibling;
          end; //==END== while DBFRfacSubItem<>nil ==//

@@ -735,6 +735,20 @@ type TFCRdgFaction = record
       SL_orbitalObject: string[20];
    end; //==END== record: F_startingLocations ==//
    F_spm: array of TFCRdgSPMSettings;
+   F_comCoreOrient_aerospaceEng: integer;
+   F_comCoreOrient_astroEng: integer;
+   F_comCoreOrient_biosciences: integer;
+   F_comCoreOrient_culture: integer;
+   F_comCoreOrient_ecosciences: integer;
+   F_comCoreOrient_indusTech: integer;
+   F_comCoreOrient_nanotech: integer;
+   F_comCoreOrient_physics: integer;
+   F_comCoreSetup: array of record
+      CCS_techToken: string[20];
+      CCS_techLevel: TFCEdrdsTechnologyLevels;
+      CCS_resDomain: TFCEdrdsResearchDomains;
+      CCS_resField: TFCEdrdsResearchFields;
+   end;
 end;
    ///<summary>
    ///   factions dynamic array

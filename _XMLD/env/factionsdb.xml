@@ -81,12 +81,12 @@
    Min SV=1 if > Unknown
    
    Viability Threshold  Difficulty           Associated Colonization Ideology
-            70 %        Childishly Simple    Permissive
-            85 %        Easy                 Open to change
-            100 %       Fair                 Neutral / Balanced
-            110 %       Uneasy               Nationalism
-            120 %       Difficult            Protectionism / Closed to change
-            130 %       Hard                 Dictatorship
+            50 %        Childishly Simple    Permissive
+            65 %        Easy                 Open to change
+            80 %       Fair                 Neutral / Balanced
+            90 %       Uneasy               Nationalism
+            100 %       Difficult            Protectionism / Closed to change
+            110 %       Hard                 Dictatorship
    
    <faction token="" level="">
       <facColMode token="" viabThrEco="" viabThrSoc="" viabThrSpMil="" creditrng="" intrng="">
@@ -153,6 +153,9 @@
          <facSPMi token="SPMi_StateRel" duration="" isSet="" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_TheFreeUnion" duration="0" isSet="false" aprob="-2" belieflev="" spreadval=""/>
       </facSPM>
+      <facCommonCore orientAerospaceEng="" orientAstroEng="" orientBiosciences="" orientCulture="" orientEcosciences="" orientIndusTech="" orientNanotech="" orientPhysics="">
+         <comCoreSetup token="" techLvl="" resDomain="" resField=""/>
+      </facCommonCore>
       <facColonies>
       </facColonies>
    </faction>      
@@ -217,5 +220,10 @@
          <facSPMi token="SPMi_StateRel" duration="0" isSet="False" aprob="-1" belieflev="0" spreadval="0"/>
          <facSPMi token="SPMi_TheFreeUnion" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
       </facSPM>
+      <facCommonCore orientAerospaceEng="0" orientAstroEng="1" orientBiosciences="3" orientCulture="1" orientEcosciences="-2" orientIndusTech="3" orientNanotech="1" orientPhysics="-2">
+         <comCoreSetup token="" techLvl="" resDomain="" resField=""/>
+         <comCoreSetup token="" techLvl="" resDomain="" resField=""/>
+         <comCoreSetup token="" techLvl="" resDomain="" resField=""/>
+      </facCommonCore>
    </faction>      
 </factionsDB>
