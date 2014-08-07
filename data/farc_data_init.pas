@@ -199,7 +199,7 @@ var
 
 const
 
-   //==========conversion / physics constants=========================================================
+   //==========conversion / physics constants===============================================
    ///<summary>
    ///   degrees to radian, this constant is a multiplier
    ///</summary>

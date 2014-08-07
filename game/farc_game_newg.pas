@@ -221,6 +221,16 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit new game and initialize game interface.
    Additions:
+      -2014Aug06- *code audit (BEGIN):
+                  (o)var formatting+refactoring+reset (-)if..then reformatting   (-)function/procedure refactoring
+                  (_)parameters refactoring           (-) ()reformatting         (o)code optimizations
+                  (-)float local variables=> extended (-)case..of reformatting   (-)local methods: put inline; + reformat _X
+                  (-)summary completion               (-)protect all float add/sub w/ FCFcFunc_Rnd
+                  (o)standardize internal data + commenting them at each use as a result (like Count1 / Count2 ...)
+                  (-)put [format x.xx ] in returns of summary, if required and if the function do formatting
+                  (-)use of enumindex                 (-)use of StrToFloat( x, FCVdiFormat ) for all float data w/ XML
+                  (-)if the procedure reset the same record's data or external data put:
+                     ///   <remarks>the procedure/function reset the /data/</remarks>
       -2014Jul01- *add: enable the GLSceneViewer if required.
       -2013Sep11- *add: initialize the quality index for each regions' resource spot of each asteroid/telluric planet.
       -2013Jul10- *add: set the regions' current data.
@@ -286,19 +296,8 @@ procedure FCMgNG_Core_Proceed;
                   *enable 3d view.
 }
 var
-//   CPcolMidx
-//   ,
-   CPcount0
-   ,CPcount1
-   ,CPeqlistMax
-   ,CPfacLd
-//   ,CPfacIdx
-   ,CPinOrbIdx
-   ,CPent
-   ,CPowndSCidx
-   ,CPspmCnt
-   ,CPspmMax
-   ,CPspUnMother
+   EquipmentListMax
+   ,Count0
    ,Count1
    ,Count2
    ,Count3
@@ -318,7 +317,7 @@ var
 
    CPspmI: TFCRdgSPMi;
 
-   ULoc: TFCRufStelObj;
+   PlayerLocation: TFCRufStelObj;
 
    function _ResourceSpotQuality_Process(): TFCEduResourceSpotQuality;
       var
@@ -343,9 +342,26 @@ var
    end;
 
 begin
-   {.set some user's interface}
+   {.data reset}
+   EquipmentListMax:=0;
+   Count0:=0;
+   Count1:=0;
+   Count2:=0;
+   Count3:=0;
+   Count4:=0;
+   Count5:=0;
+   Count6:=0;
+   Max1:=0;
+   Max2:=0;
+   Max3:=0;
+   Max4:=0;
+   Max5:=0;
+   Max6:=0;
+   CPsv:=0;
    mustDoAReset:=false;
+   {.set some user's interface}
    FCWinNewGSetup.Close;
+   {.test if a game is already running or not and setting up accordingly}
    if FCVdi3DViewRunning then
    begin
       FCVdi3DViewRunning:=false;
@@ -358,17 +374,6 @@ begin
       FCMgfxC_Main_Init;
    end;
    FCMgC_Game_Initialize;
-
-
-
-
-
-
-{.DEV NOTES: it's only in the case of a new game at the start of FAR Colony, there'll be some changes and
-            in the case of a new game during a current one.}
-
-
-   {.data initialization}
    {.initialize player's data structure}
    FCVdgPlayer.P_gameName:=SetGameName;
    FCVdgPlayer.P_allegianceFaction:=FCDdgFactions[GNGselectedFactionIndex].F_token;
@@ -378,24 +383,16 @@ begin
    FCVdgPlayer.P_socialViabilityThreshold:=FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_Social;
    FCVdgPlayer.P_militaryStatus:=pfs1_FullyDependent;
    FCVdgPlayer.P_militaryViabilityThreshold:=FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[ SelectedColonizationModeIndex ].CM_cpsViabilityThreshold_SpaceMilitary;
-   {DEV NOTE: the following code will be changed later with choice of planet following choosen faction.}
+   {:DEV NOTES: the following code will be changed later with choice of planet following choosen faction.}
    {.determine starting location, regarding starting location list}
-   CPcount1:=length(FCDdgFactions[GNGselectedFactionIndex].F_startingLocations)-1;
-   if CPcount1=1 then
-   begin
-      FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[1].SL_stellarSystem;
-      FCVdgPlayer.P_viewStar:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[1].SL_star;
-      FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[1].SL_orbitalObject;
-   end
-   else if CPcount1>1 then
-   begin
-      CPcount0:=Random(CPcount1)+1;
-      FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[CPcount0].SL_stellarSystem;
-      FCVdgPlayer.P_viewStar:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[CPcount0].SL_star;
-      FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[CPcount0].SL_orbitalObject;
-   end;
+   Max1:=length(FCDdgFactions[GNGselectedFactionIndex].F_startingLocations)-1;
+   if Max1 > 1
+   then Count0:=Random(Max1)+1
+   else Count0:=1;
+   FCVdgPlayer.P_viewStarSystem:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[Count0].SL_stellarSystem;
+   FCVdgPlayer.P_viewStar:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[Count0].SL_star;
+   FCVdgPlayer.P_viewOrbitalObject:=FCDdgFactions[GNGselectedFactionIndex].F_startingLocations[Count0].SL_orbitalObject;
    {.initialize FARC's universe}
-   {.initialize/reset the current orbital periods}
    Max1:=length( FCDduStarSystem ) - 1;
    Count1:=1;
    while Count1 <= Max1 do
@@ -464,7 +461,7 @@ begin
       end;
       inc( Count1 );
    end;
-   ULoc:=FCFuF_StelObj_GetFullRow(
+   PlayerLocation:=FCFuF_StelObj_GetFullRow(
       FCVdgPlayer.P_viewStarSystem
       ,FCVdgPlayer.P_viewStar
       ,FCVdgPlayer.P_viewOrbitalObject
@@ -478,183 +475,181 @@ begin
    FCVdgPlayer.P_currentTimeMonth:=1;
    FCVdgPlayer.P_currentTimeYear:=2250;
    {.entities main loop}
-   CPent:=0;
-   while CPent<=FCCdiFactionsMax do
+   Count1:=0;
+   while Count1<=FCCdiFactionsMax do
    begin
-      SetLength(FCDdgEntities[CPent].E_spaceUnits, 1);
-      SetLength(FCDdgEntities[CPent].E_colonies, 1);
-      SetLength(FCDdgEntities[CPent].E_spmSettings, 1);
-      if CPent>0
+      SetLength(FCDdgEntities[Count1].E_spaceUnits, 1);
+      SetLength(FCDdgEntities[Count1].E_colonies, 1);
+      SetLength(FCDdgEntities[Count1].E_spmSettings, 1);
+      if Count1>0
       then
       begin
-         CPfacLd:=CPent;
-         FCDdgEntities[CPent].E_token:=FCDdgFactions[CPfacLd].F_token;
-         FCDdgEntities[CPent].E_factionLevel:=FCDdgFactions[CPfacLd].F_level;
-         {:DEV NOTES: add space unit and colonies initialization for AI under this line.}
+         FCDdgEntities[Count1].E_token:=FCDdgFactions[Count1].F_token;
+         FCDdgEntities[Count1].E_factionLevel:=FCDdgFactions[Count1].F_level;
+         {:DEV NOTES: add space units, colonies and any stuff to initialize for AI factions under this line.}
       end
-      else if CPent=0
+      else if Count1=0
       then
       begin
-         CPfacLd:=GNGselectedFactionIndex;
-         FCDdgEntities[CPent].E_token:='';
-         FCDdgEntities[CPent].E_factionLevel:=0;
+         FCDdgEntities[Count1].E_token:='';
+         FCDdgEntities[Count1].E_factionLevel:=0;
          {.apply faction's equipment list}
-         CPspUnMother:=0;
-         CPcount0:=1;
-         with FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex] do
+         {.
+            Count3: mothership space unit index
+         }
+         Count3:=0;
+         Count0:=1;
+         EquipmentListMax:=length(FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList)-1;
+         while Count0<=EquipmentListMax do
          begin
-            CPeqlistMax:=length(CM_equipmentList)-1;
-            while CPcount0<=CPeqlistMax do
-            begin
-               {.spacecraft item}
-               if CM_equipmentList[CPcount0].EL_equipmentItem=feitSpaceUnit
-               then
-               begin
-                  {.init}
-                  SetLength(FCDdgEntities[CPent].E_spaceUnits, length(FCDdgEntities[CPent].E_spaceUnits)+1);
-                  CPowndSCidx:=length(FCDdgEntities[CPent].E_spaceUnits)-1;
-                  {.unique item name for internal identification}
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_token:='plyrSpUn'+IntToStr(CPowndSCidx);
-                  {.determine proper name of the item if it's a space unit}
-                  if CM_equipmentList[CPcount0].EL_eiSUnNameToken<>''
-                  then FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_name:=CM_equipmentList[CPcount0].EL_eiSUnNameToken
-                  else FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_name:='*'+FCFdTFiles_UIStr_Get(uistrUI, 'spUnOvGenName')+' #'+IntToStr(CPowndSCidx);
-                  {.link the vessel design}
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_designToken:=CM_equipmentList[CPcount0].EL_eiSUnDesignToken;
-                  {.location}
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationStarSystem:=FCVdgPlayer.P_viewStarSystem;
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationStar:=FCVdgPlayer.P_viewStar;
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationSatellite:=FCVdgPlayer.P_viewSatellite;
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationDockingMotherCraft:=0;
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationViewX:=0;
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationViewZ:=0;
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_assignedTask:=0 ;
-                  {.status + current deltaV}
-                  if CM_equipmentList[CPcount0].EL_eiSUnStatus=susInFreeSpace
-                  then
-                  begin
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susInFreeSpace;
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=0;
-                     if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
-                     then CPspUnMother:=0;
-                  end
-                  else if CM_equipmentList[CPcount0].EL_eiSUnStatus = susInOrbit then
-                  begin
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susInOrbit;
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=FCFspuF_DeltaV_GetFromOrbit(
-                        ULoc[1]
-                        ,ULoc[2]
-                        ,ULoc[3]
-                        ,ULoc[4]
-                        );
-                     {.update the orbit sub-data structure of the related orbital object}
-                     FCMspuF_Orbits_Process(
-                        spufoioAddOrbit
-                        ,ULoc[1]
-                        ,ULoc[2]
-                        ,ULoc[3]
-                        ,ULoc[4]
-                        ,0
-                        ,CPowndSCidx
-                        ,false
-                        );
-                     if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diMotherVessel
-                     then
-                     begin
-                        CPspUnMother:=CPowndSCidx;
-                        setlength(FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_dockedSpaceUnits, 1);
-                     end
-                     else if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
-                     then CPspUnMother:=0;
-                  end
-                  else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susLanded
-                  then
-                  begin
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susLanded;
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=0;
-                     if CM_equipmentList[CPcount0].EL_eiSUnDockStatus=diNotDocked
-                     then CPspUnMother:=0;
-                  end
-                  else if CM_equipmentList[CPcount0].EL_eiSUnStatus=susDocked
-                  then
-                  begin
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_status:=susDocked;
-                     setlength(
-                        FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits
-                        ,length(FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits)+1
-                        );
-                     FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits[length(FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_dockedSpaceUnits)-1]
-                        .SUDL_index:=CPowndSCidx;
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_deltaV:=FCDdgEntities[CPent].E_spaceUnits[CPspUnMother].SU_deltaV;
-                     FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_locationDockingMotherCraft:=CPspUnMother;
-                  end;
-                  {.available reaction mass}
-                  FCDdgEntities[CPent].E_spaceUnits[CPowndSCidx].SU_reactionMass:=CM_equipmentList[CPcount0].EL_eiSUnReactionMass;
-               end; //==END== if FCM_dotList[CPcount0].FDI_itemTp=facdtpSpaceCraft ==//
-               inc(CPcount0);
-            end; //==END== while CPcount0<= length(FCM_dotList)-1 ==//
-         end; //==END== with FCDBfactions[CPfacIdx].F_facCmode[CPcolMidx] ==//
-      end; //==END== else if CPent=0 ==//
-      CPspmMax:=length(FCDdgSPMi);
-      SetLength(FCDdgEntities[CPent].E_spmSettings, CPspmMax);
-      CPspmCnt:=1;
-      while CPspmCnt<=CPspmMax-1 do
-      begin
-         FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_token:=FCDdgSPMi[CPspmCnt].SPMI_token;
-         FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_duration:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_duration;
-         FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_ucCost:=0;
-         FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_isPolicy:=FCDdgSPMi[CPspmCnt].SPMI_isPolicy;
-         if FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_isPolicy
-         then
-         begin
-            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtIsSet:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtIsSet;
-            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtAcceptanceProbability:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPtAcceptanceProbability;
-            if FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPtIsSet
+            {.spacecraft item}
+            if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_equipmentItem=feitSpaceUnit
             then
             begin
-               CPspmI:=FCFgSPM_SPMIData_Get(FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_token);
-               FCDdgEntities[CPent].E_spmMod_Cohesion:=FCDdgEntities[CPent].E_spmMod_Cohesion+CPspmI.SPMI_modCohes;
-               FCDdgEntities[CPent].E_spmMod_Tension:=FCDdgEntities[CPent].E_spmMod_Tension+CPspmI.SPMI_modTens;
-               FCDdgEntities[CPent].E_spmMod_Security:=FCDdgEntities[CPent].E_spmMod_Security+CPspmI.SPMI_modSec;
-               FCDdgEntities[CPent].E_spmMod_Education:=FCDdgEntities[CPent].E_spmMod_Education+CPspmI.SPMI_modEdu;
-               FCDdgEntities[CPent].E_spmMod_Natality:=FCDdgEntities[CPent].E_spmMod_Natality+CPspmI.SPMI_modNat;
-               FCDdgEntities[CPent].E_spmMod_Health:=FCDdgEntities[CPent].E_spmMod_Health+CPspmI.SPMI_modHeal;
-               FCDdgEntities[CPent].E_spmMod_Bureaucracy:=FCDdgEntities[CPent].E_spmMod_Bureaucracy+CPspmI.SPMI_modBur;
-               FCDdgEntities[CPent].E_spmMod_Corruption:=FCDdgEntities[CPent].E_spmMod_Corruption+CPspmI.SPMI_modCorr;
+               {.init}
+               SetLength(FCDdgEntities[Count1].E_spaceUnits, length(FCDdgEntities[Count1].E_spaceUnits)+1);
+               Count2:=length(FCDdgEntities[Count1].E_spaceUnits)-1;
+               {.unique item name for internal identification}
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_token:='plyrSpUn'+IntToStr(Count2);
+               {.determine proper name of the item if it's a space unit}
+               if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnNameToken<>''
+               then FCDdgEntities[Count1].E_spaceUnits[Count2].SU_name:=FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnNameToken
+               else FCDdgEntities[Count1].E_spaceUnits[Count2].SU_name:='*'+FCFdTFiles_UIStr_Get(uistrUI, 'spUnOvGenName')+' #'+IntToStr(Count2);
+               {.link the vessel design}
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_designToken:=FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnDesignToken;
+               {.location}
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationStarSystem:=FCVdgPlayer.P_viewStarSystem;
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationStar:=FCVdgPlayer.P_viewStar;
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationSatellite:=FCVdgPlayer.P_viewSatellite;
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationDockingMotherCraft:=0;
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationViewX:=0;
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationViewZ:=0;
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_assignedTask:=0 ;
+               {.status + current deltaV}
+               if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnStatus=susInFreeSpace
+               then
+               begin
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_status:=susInFreeSpace;
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_deltaV:=0;
+                  if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnDockStatus=diNotDocked
+                  then Count3:=0;
+               end
+               else if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnStatus = susInOrbit then
+               begin
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_status:=susInOrbit;
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_deltaV:=FCFspuF_DeltaV_GetFromOrbit(
+                     PlayerLocation[1]
+                     ,PlayerLocation[2]
+                     ,PlayerLocation[3]
+                     ,PlayerLocation[4]
+                     );
+                  {.update the orbit sub-data structure of the related orbital object}
+                  FCMspuF_Orbits_Process(
+                     spufoioAddOrbit
+                     ,PlayerLocation[1]
+                     ,PlayerLocation[2]
+                     ,PlayerLocation[3]
+                     ,PlayerLocation[4]
+                     ,0
+                     ,Count2
+                     ,false
+                     );
+                  if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnDockStatus=diMotherVessel
+                  then
+                  begin
+                     Count3:=Count2;
+                     setlength(FCDdgEntities[Count1].E_spaceUnits[Count2].SU_dockedSpaceUnits, 1);
+                  end
+                  else if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnDockStatus=diNotDocked
+                  then Count3:=0;
+               end
+               else if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnStatus=susLanded
+               then
+               begin
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_status:=susLanded;
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_deltaV:=0;
+                  if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnDockStatus=diNotDocked
+                  then Count3:=0;
+               end
+               else if FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnStatus=susDocked
+               then
+               begin
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_status:=susDocked;
+                  setlength(
+                     FCDdgEntities[Count1].E_spaceUnits[Count3].SU_dockedSpaceUnits
+                     ,length(FCDdgEntities[Count1].E_spaceUnits[Count3].SU_dockedSpaceUnits)+1
+                     );
+                  FCDdgEntities[Count1].E_spaceUnits[Count3].SU_dockedSpaceUnits[length(FCDdgEntities[Count1].E_spaceUnits[Count3].SU_dockedSpaceUnits)-1]
+                     .SUDL_index:=Count2;
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_deltaV:=FCDdgEntities[Count1].E_spaceUnits[Count3].SU_deltaV;
+                  FCDdgEntities[Count1].E_spaceUnits[Count2].SU_locationDockingMotherCraft:=Count3;
+               end;
+               {.available reaction mass}
+               FCDdgEntities[Count1].E_spaceUnits[Count2].SU_reactionMass:=FCDdgFactions[GNGselectedFactionIndex].F_colonizationModes[SelectedColonizationModeIndex].CM_equipmentList[Count0].EL_eiSUnReactionMass;
+            end; //==END== if FCM_dotList[CPcount0].FDI_itemTp=facdtpSpaceCraft ==//
+            inc(Count0);
+         end; //==END== while CPcount0<= length(FCM_dotList)-1 ==//
+      end; //==END== else if Count1=0 ==//
+      Max2:=length(FCDdgSPMi);
+      SetLength(FCDdgEntities[Count1].E_spmSettings, Max2);
+      Count2:=1;
+      while Count2<=Max2-1 do
+      begin
+         FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_token:=FCDdgSPMi[Count2].SPMI_token;
+         FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_duration:=FCDdgFactions[GNGselectedFactionIndex].F_spm[Count2].SPMS_duration;
+         FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_ucCost:=0;
+         FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_isPolicy:=FCDdgSPMi[Count2].SPMI_isPolicy;
+         if FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_isPolicy
+         then
+         begin
+            FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_iPtIsSet:=FCDdgFactions[GNGselectedFactionIndex].F_spm[Count2].SPMS_iPtIsSet;
+            FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_iPtAcceptanceProbability:=FCDdgFactions[GNGselectedFactionIndex].F_spm[Count2].SPMS_iPtAcceptanceProbability;
+            if FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_iPtIsSet
+            then
+            begin
+               CPspmI:=FCFgSPM_SPMIData_Get(FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_token);
+               FCDdgEntities[Count1].E_spmMod_Cohesion:=FCDdgEntities[Count1].E_spmMod_Cohesion+CPspmI.SPMI_modCohes;
+               FCDdgEntities[Count1].E_spmMod_Tension:=FCDdgEntities[Count1].E_spmMod_Tension+CPspmI.SPMI_modTens;
+               FCDdgEntities[Count1].E_spmMod_Security:=FCDdgEntities[Count1].E_spmMod_Security+CPspmI.SPMI_modSec;
+               FCDdgEntities[Count1].E_spmMod_Education:=FCDdgEntities[Count1].E_spmMod_Education+CPspmI.SPMI_modEdu;
+               FCDdgEntities[Count1].E_spmMod_Natality:=FCDdgEntities[Count1].E_spmMod_Natality+CPspmI.SPMI_modNat;
+               FCDdgEntities[Count1].E_spmMod_Health:=FCDdgEntities[Count1].E_spmMod_Health+CPspmI.SPMI_modHeal;
+               FCDdgEntities[Count1].E_spmMod_Bureaucracy:=FCDdgEntities[Count1].E_spmMod_Bureaucracy+CPspmI.SPMI_modBur;
+               FCDdgEntities[Count1].E_spmMod_Corruption:=FCDdgEntities[Count1].E_spmMod_Corruption+CPspmI.SPMI_modCorr;
                {:DEV NOTES: add SPMi custom effects application here.}
             end;
          end
-         else if not FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_isPolicy
+         else if not FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_isPolicy
          then
          begin
-            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPfBeliefLevel:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPfBeliefLevel;
-            FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPfSpreadValue:=FCDdgFactions[CPfacLd].F_spm[CPspmCnt].SPMS_iPfSpreadValue;
-            if FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPfBeliefLevel>=blFleeting
+            FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_iPfBeliefLevel:=FCDdgFactions[GNGselectedFactionIndex].F_spm[Count2].SPMS_iPfBeliefLevel;
+            FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_iPfSpreadValue:=FCDdgFactions[GNGselectedFactionIndex].F_spm[Count2].SPMS_iPfSpreadValue;
+            if FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_iPfBeliefLevel>=blFleeting
             then
             begin
-               CPsv:=FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_iPfSpreadValue*0.01;
-               CPspmI:=FCFgSPM_SPMIData_Get(FCDdgEntities[CPent].E_spmSettings[CPspmCnt].SPMS_token);
-               FCDdgEntities[CPent].E_spmMod_Cohesion:=FCDdgEntities[CPent].E_spmMod_Cohesion+round(CPspmI.SPMI_modCohes*CPsv);
-               FCDdgEntities[CPent].E_spmMod_Tension:=FCDdgEntities[CPent].E_spmMod_Tension+round(CPspmI.SPMI_modTens*CPsv);
-               FCDdgEntities[CPent].E_spmMod_Security:=FCDdgEntities[CPent].E_spmMod_Security+round(CPspmI.SPMI_modSec*CPsv);
-               FCDdgEntities[CPent].E_spmMod_Education:=FCDdgEntities[CPent].E_spmMod_Education+round(CPspmI.SPMI_modEdu*CPsv);
-               FCDdgEntities[CPent].E_spmMod_Natality:=FCDdgEntities[CPent].E_spmMod_Natality+round(CPspmI.SPMI_modNat*CPsv);
-               FCDdgEntities[CPent].E_spmMod_Health:=FCDdgEntities[CPent].E_spmMod_Health+round(CPspmI.SPMI_modHeal*CPsv);
-               FCDdgEntities[CPent].E_spmMod_Bureaucracy:=FCDdgEntities[CPent].E_spmMod_Bureaucracy+round(CPspmI.SPMI_modBur*CPsv);
-               FCDdgEntities[CPent].E_spmMod_Corruption:=FCDdgEntities[CPent].E_spmMod_Corruption+round(CPspmI.SPMI_modCorr*CPsv);
+               CPsv:=FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_iPfSpreadValue*0.01;
+               CPspmI:=FCFgSPM_SPMIData_Get(FCDdgEntities[Count1].E_spmSettings[Count2].SPMS_token);
+               FCDdgEntities[Count1].E_spmMod_Cohesion:=FCDdgEntities[Count1].E_spmMod_Cohesion+round(CPspmI.SPMI_modCohes*CPsv);
+               FCDdgEntities[Count1].E_spmMod_Tension:=FCDdgEntities[Count1].E_spmMod_Tension+round(CPspmI.SPMI_modTens*CPsv);
+               FCDdgEntities[Count1].E_spmMod_Security:=FCDdgEntities[Count1].E_spmMod_Security+round(CPspmI.SPMI_modSec*CPsv);
+               FCDdgEntities[Count1].E_spmMod_Education:=FCDdgEntities[Count1].E_spmMod_Education+round(CPspmI.SPMI_modEdu*CPsv);
+               FCDdgEntities[Count1].E_spmMod_Natality:=FCDdgEntities[Count1].E_spmMod_Natality+round(CPspmI.SPMI_modNat*CPsv);
+               FCDdgEntities[Count1].E_spmMod_Health:=FCDdgEntities[Count1].E_spmMod_Health+round(CPspmI.SPMI_modHeal*CPsv);
+               FCDdgEntities[Count1].E_spmMod_Bureaucracy:=FCDdgEntities[Count1].E_spmMod_Bureaucracy+round(CPspmI.SPMI_modBur*CPsv);
+               FCDdgEntities[Count1].E_spmMod_Corruption:=FCDdgEntities[Count1].E_spmMod_Corruption+round(CPspmI.SPMI_modCorr*CPsv);
                {:DEV NOTES: add SPMi custom effects application here.}
             end;
          end;
-         inc(CPspmCnt);
+         inc(Count2);
       end;
-      FCDdgEntities[CPent].E_bureaucracy:=FCFgSPMD_Bureaucracy_Init(CPent);
-      FCDdgEntities[CPent].E_corruption:=FCFgSPMD_Corruption_Init(CPent);
-      if CPent=0
-      then FCDdgEntities[CPent].E_hqHigherLevel:=hqsNoHQPresent
-      else if CPent>0
-      then FCDdgEntities[CPent].E_hqHigherLevel:=hqsPrimaryUniqueHQ;
-      inc(CPent);
-   end; //==END== while CPent<=FCCfacMax do ==//
+      FCDdgEntities[Count1].E_bureaucracy:=FCFgSPMD_Bureaucracy_Init(Count1);
+      FCDdgEntities[Count1].E_corruption:=FCFgSPMD_Corruption_Init(Count1);
+      if Count1=0
+      then FCDdgEntities[Count1].E_hqHigherLevel:=hqsNoHQPresent
+      else if Count1>0
+      then FCDdgEntities[Count1].E_hqHigherLevel:=hqsPrimaryUniqueHQ;
+      inc(Count1);
+   end; //==END== while Count1<=FCCfacMax do ==//
    {.set the game user's interface}
    FCVdi3DViewToInitialize:=true;
    try
@@ -670,14 +665,14 @@ begin
       end
       else FCMovM_3DView_Initialize;
 
-      FC3doglSelectedPlanetAsteroid:=ULoc[3];
+      FC3doglSelectedPlanetAsteroid:=PlayerLocation[3];
       FCMovM_3DView_Update(
          FCVdgPlayer.P_viewStarSystem
          ,FCVdgPlayer.P_viewStar
          );
-      if ULoc[4]>0
-      then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(ULoc[3], ULoc[4])
-      else if (ULoc[4]=0)
+      if PlayerLocation[4]>0
+      then FC3doglSelectedSatellite:=FCFoglF_Satellite_SearchObject(PlayerLocation[3], PlayerLocation[4])
+      else if (PlayerLocation[4]=0)
          and (FC3doglMainViewTotalSatellites>0)
       then
       begin
