@@ -1,4 +1,4 @@
-{======(C) Copyright Aug.2009-2012 Jean-Francois Baconnet All rights reserved==============
+{======(C) Copyright Aug.2009-2014 Jean-Francois Baconnet All rights reserved==============
 
         Title:  FAR Colony
         Author: Jean-Francois Baconnet
@@ -11,7 +11,7 @@
 
 ============================================================================================
 ********************************************************************************************
-Copyright (c) 2009-2012, Jean-Francois Baconnet
+Copyright (c) 2009-2014, Jean-Francois Baconnet
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ uses
 
    ,farc_data_spm;
 
+
 type TFCEgspmData=(
    gspmAccProbability
    ,gspmInfl
@@ -48,6 +49,17 @@ type TFCEgspmPolRslt=(
    ,gspmResAccept
    );
 
+//==END PUBLIC ENUM=========================================================================
+
+//==END PUBLIC RECORDS======================================================================
+
+   //==========subsection===================================================================
+//var
+//==END PUBLIC VAR==========================================================================
+
+//const
+//==END PUBLIC CONST========================================================================
+
 ///<summary>
 ///   return the token of a given SPM area
 ///</summary>
@@ -60,24 +72,14 @@ function FCFgSPM_Area_GetString(const SPMarea: TFCEdgSPMarea): string;
 function FCFgSPM_EnforcData_Get(const CDGdata: TFCEgspmData): integer;
 
 ///<summary>
-///   return the state of the unique data of the current policy to enforce
-///</summary>
-function FCFgSPM_EnforcPol_GetUnique: boolean;
-
-///<summary>
 ///   return the SPM area of the current policy to enforce
 ///</summary>
 function FCFgSPM_EnforcPol_GetArea: TFCEdgSPMarea;
 
 ///<summary>
-///   get the system token according to the gvt/economic/medical care/spiritual system chosen
+///   return the state of the unique data of the current policy to enforce
 ///</summary>
-///   <param name="GEMSSGTent">entity #</param>
-///   <param name="GEMSSGTarea">area amongs: ADMIN, ECON, MEDCA and SPI</param>
-function FCFgSPM_GvtEconMedcaSpiSystems_GetToken(
-   const GEMSSGTent: integer;
-   const GEMSSGTarea: TFCEdgSPMarea
-   ): string;
+function FCFgSPM_EnforcPol_GetUnique: boolean;
 
 ///<summary>
 ///   get the system index # according to the gvt/economic/medical care/spiritual system chosen
@@ -90,30 +92,14 @@ function FCFgSPM_GvtEconMedcaSpiSystems_GetIdx(
    ): integer;
 
 ///<summary>
-///   retrieve the <token> SPMi data
+///   get the system token according to the gvt/economic/medical care/spiritual system chosen
 ///</summary>
-///   <param name="SPMIDGtoken">SPMi token</param>
-///   <param name="SPMIDGloadIndex">load the DB index in GSPMitmIdx, useful is we have the SPMi token only but not its db index</param>
-function FCFgSPM_SPMIData_Get(
-   const SPMIDGtoken: string;
-   const SPMIDGloadIndex: boolean=false
-   ): TFCRdgSPMi;
-
-///<summary>
-///   calculate the influence factor for a policy to set or a meme evolution regarding how is set the SPM of a given entity
-///</summary>
-///   <param name="SPMIIGspmi">policy/meme to set/evolve</param>
-///   <param name="SPMIIGent">entity index #</param>
-function FCFgSPM_SPMiInfluence_Get(
-   const SPMIIGspmi: TFCRdgSPMi;
-   const SPMIIGent: integer
-   ): integer;
-
-///<summary>
-///   retrieve the FS modifier, regarding the entity, for policy processing and return the modifier
-///</summary>
-///   <param name="PGFSMent">entity #</param>
-function FCFgSPM_Policy_GetFSMod(const PGFSMent: integer): integer;
+///   <param name="GEMSSGTent">entity #</param>
+///   <param name="GEMSSGTarea">area amongs: ADMIN, ECON, MEDCA and SPI</param>
+function FCFgSPM_GvtEconMedcaSpiSystems_GetToken(
+   const GEMSSGTent: integer;
+   const GEMSSGTarea: TFCEdgSPMarea
+   ): string;
 
 ///<summary>
 ///   preprocess a policy setup, return false if the faction doesn't meet the policy's requirements
@@ -138,10 +124,36 @@ function FCFgSPM_PolicyEnf_PreprocNoUI(
    ): boolean;
 
 ///<summary>
+///   retrieve the FS modifier, regarding the entity, for policy processing and return the modifier
+///</summary>
+///   <param name="PGFSMent">entity #</param>
+function FCFgSPM_Policy_GetFSMod(const PGFSMent: integer): integer;
+
+///<summary>
 ///   process the policy enforcement test and retrieve the result.
 ///</summary>
 ///   <param name="PPDTsimulVal">[optional] if >0 : launch a test simulation w/ the PPDTsimulVal</param>
 function FCFgSPM_PolicyProc_DoTest(PPDTsimulVal: integer): TFCEgspmPolRslt;
+
+///<summary>
+///   retrieve the <token> SPMi data
+///</summary>
+///   <param name="SPMIDGtoken">SPMi token</param>
+///   <param name="SPMIDGloadIndex">load the DB index in GSPMitmIdx, useful is we have the SPMi token only but not its db index</param>
+function FCFgSPM_SPMIData_Get(
+   const SPMIDGtoken: string;
+   const SPMIDGloadIndex: boolean=false
+   ): TFCRdgSPMi;
+
+///<summary>
+///   calculate the influence factor for a policy to set or a meme evolution regarding how is set the SPM of a given entity
+///</summary>
+///   <param name="SPMIIGspmi">policy/meme to set/evolve</param>
+///   <param name="SPMIIGent">entity index #</param>
+function FCFgSPM_SPMiInfluence_Get(
+   const SPMIIGspmi: TFCRdgSPMi;
+   const SPMIIGent: integer
+   ): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -149,6 +161,12 @@ function FCFgSPM_PolicyProc_DoTest(PPDTsimulVal: integer): TFCEgspmPolRslt;
 ///   SPM phase processing
 ///</summary>
 procedure FCMgSPM_Phase_Proc;
+
+///<summary>
+///   load the targeted spm item data in the private data FCVgspmCurrentSPMiData
+///</summary>
+///   <param name="PolicyToken">policy token to load</param>
+procedure FCMgSPM_Policy_Load( const PolicyToken: string );
 
 ///<summary>
 ///   end enforcement process: confirm policy
@@ -165,12 +183,6 @@ procedure FCMgSPM_PolicyEnf_Process(const PEPent: integer);
 ///   end enforcement process: retire policy
 ///</summary>
 procedure FCMgSPM_PolicyEnf_Retire;
-
-///<summary>
-///   load the targeted spm item data in the private data FCVgspmCurrentSPMiData
-///</summary>
-///   <param name="PolicyToken">policy token to load</param>
-procedure FCMgSPM_Policy_Load( const PolicyToken: string );
 
 ///<summary>
 ///   retire a chosen SPMi, and update the centralized modifiers and/or entity's data
@@ -214,6 +226,11 @@ uses
    ,farc_ui_umifaction
    ,farc_win_debug;
 
+//==END PRIVATE ENUM========================================================================
+
+//==END PRIVATE RECORDS=====================================================================
+
+   //==========subsection===================================================================
 var
    {.calculated acceptance probability}
    GSPMap
@@ -230,6 +247,11 @@ var
    FCVgspmiCurrentSPMiData: TFCRdgSPMi;
 
    GSPMrslt: TFCEgspmPolRslt;
+
+//==END PRIVATE VAR=========================================================================
+
+//const
+//==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
 
@@ -263,6 +285,14 @@ begin
    end;
 end;
 
+function FCFgSPM_EnforcPol_GetArea: TFCEdgSPMarea; overload;
+{:Purpose: return the SPM area of the current policy to enforce.
+    Additions:
+}
+begin
+   Result:=FCVgspmiCurrentSPMiData.SPMI_area;
+end;
+
 function FCFgSPM_EnforcPol_GetUnique: boolean;
 {:Purpose: return the state of the unique data of the current policy to enforce.
     Additions:
@@ -271,12 +301,45 @@ begin
    Result:=FCVgspmiCurrentSPMiData.SPMI_isUnique2set;
 end;
 
-function FCFgSPM_EnforcPol_GetArea: TFCEdgSPMarea; overload;
-{:Purpose: return the SPM area of the current policy to enforce.
+function FCFgSPM_GvtEconMedcaSpiSystems_GetIdx(
+   const GEMSSGIent: integer;
+   const GEMSSGIarea: TFCEdgSPMarea
+   ): integer;
+{:Purpose: get the system index # according to the gvt/economic/medical care/spiritual system chosen.
     Additions:
+      -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
+                  *code audit:
+                  (+)var formatting + refactoring     (+)if..then reformatting   (+)function/procedure refactoring
+                  (+)parameters refactoring           (+) ()reformatting         (N)code optimizations
+                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
 }
+   var
+      GEMSSGIspmiCnt
+      ,GEMSSGIspmiMax: integer;
+
+      GEMSSGIspmi: TFCRdgSPMi;
 begin
-   Result:=FCVgspmiCurrentSPMiData.SPMI_area;
+   Result:=0;
+   GEMSSGIspmiMax:=length( FCDdgEntities[GEMSSGIent].E_spmSettings )-1;
+   if GEMSSGIspmiMax>0 then
+   begin
+      GEMSSGIspmiCnt:=1;
+      while GEMSSGIspmiCnt<=GEMSSGIspmiMax do
+      begin
+         GEMSSGIspmi:=FCFgSPM_SPMIData_Get( FCDdgEntities[GEMSSGIent].E_spmSettings[GEMSSGIspmiCnt].SPMS_token );
+         if ( GEMSSGIspmi.SPMI_area=GEMSSGIarea )
+            and ( GEMSSGIspmi.SPMI_isUnique2set )
+            and ( FCDdgEntities[GEMSSGIent].E_spmSettings[GEMSSGIspmiCnt].SPMS_iPtIsSet )
+            and ( FCDdgEntities[GEMSSGIent].E_spmSettings[GEMSSGIspmiCnt].SPMS_duration=0 ) then
+         begin
+            Result:=GEMSSGIspmiCnt;
+            break;
+         end
+         else if GEMSSGIspmi.SPMI_area>GEMSSGIarea
+         then break;
+         inc( GEMSSGIspmiCnt );
+      end;
+   end;
 end;
 
 function FCFgSPM_GvtEconMedcaSpiSystems_GetToken(
@@ -288,7 +351,7 @@ function FCFgSPM_GvtEconMedcaSpiSystems_GetToken(
       -2012Sep09- *fix: any SPM item > dgADMIN couldn't be retrieved, due to a logical error.
       -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
                   *code audit:
-                  (+)var formatting + refactoring     (+)if..then reformatting   (+)function/procedure refactoring   
+                  (+)var formatting + refactoring     (+)if..then reformatting   (+)function/procedure refactoring
                   (+)parameters refactoring           (+) ()reformatting         (N)code optimizations
                   (N)float local variables=> extended (N)case..of reformatting   (N)local methods
       -2010Dec21- *mod/add: refactoring + parameter is now one of the four SPM area.
@@ -327,120 +390,6 @@ begin
          inc( GEMSSGTspmiCnt );
       end;
    end;
-end;
-
-function FCFgSPM_GvtEconMedcaSpiSystems_GetIdx(
-   const GEMSSGIent: integer;
-   const GEMSSGIarea: TFCEdgSPMarea
-   ): integer;
-{:Purpose: get the system index # according to the gvt/economic/medical care/spiritual system chosen.
-    Additions:
-      -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
-                  *code audit:
-                  (+)var formatting + refactoring     (+)if..then reformatting   (+)function/procedure refactoring   
-                  (+)parameters refactoring           (+) ()reformatting         (N)code optimizations
-                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
-}
-   var
-      GEMSSGIspmiCnt
-      ,GEMSSGIspmiMax: integer;
-
-      GEMSSGIspmi: TFCRdgSPMi;
-begin
-   Result:=0;
-   GEMSSGIspmiMax:=length( FCDdgEntities[GEMSSGIent].E_spmSettings )-1;
-   if GEMSSGIspmiMax>0 then
-   begin
-      GEMSSGIspmiCnt:=1;
-      while GEMSSGIspmiCnt<=GEMSSGIspmiMax do
-      begin
-         GEMSSGIspmi:=FCFgSPM_SPMIData_Get( FCDdgEntities[GEMSSGIent].E_spmSettings[GEMSSGIspmiCnt].SPMS_token );
-         if ( GEMSSGIspmi.SPMI_area=GEMSSGIarea )
-            and ( GEMSSGIspmi.SPMI_isUnique2set )
-            and ( FCDdgEntities[GEMSSGIent].E_spmSettings[GEMSSGIspmiCnt].SPMS_iPtIsSet )
-            and ( FCDdgEntities[GEMSSGIent].E_spmSettings[GEMSSGIspmiCnt].SPMS_duration=0 ) then
-         begin
-            Result:=GEMSSGIspmiCnt;
-            break;
-         end
-         else if GEMSSGIspmi.SPMI_area>GEMSSGIarea
-         then break;
-         inc( GEMSSGIspmiCnt );
-      end;
-   end;
-end;
-
-function FCFgSPM_SPMIData_Get(
-   const SPMIDGtoken: string;
-   const SPMIDGloadIndex: boolean=false
-   ): TFCRdgSPMi;
-{:Purpose: retrieve the <token> SPMi data.
-    Additions:
-      -2011Sep10- *code audit:
-                  (x)var formatting + refactoring     (+)if..then reformatting   (x)function/procedure refactoring
-                  (x)parameters refactoring           (+) ()reformatting         (N)code optimizations
-                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
-}
-   var
-      SPMIDGcnt
-      ,SPMIDGmax: integer;
-begin
-   Result:=FCDdgSPMi[0];
-   SPMIDGmax:=length( FCDdgSPMi )-1;
-   SPMIDGcnt:=1;
-   while SPMIDGcnt<=SPMIDGmax do
-   begin
-      if FCDdgSPMi[SPMIDGcnt].SPMI_token=SPMIDGtoken then
-      begin
-         Result:=FCDdgSPMi[SPMIDGcnt];
-         break;
-      end;
-      inc( SPMIDGcnt );
-   end;
-   if SPMIDGloadIndex
-   then GSPMitmIdx:=SPMIDGcnt;
-end;
-
-function FCFgSPM_SPMiInfluence_Get(
-   const SPMIIGspmi: TFCRdgSPMi;
-   const SPMIIGent: integer
-   ): integer;
-{:Purpose: calculate the influence factor for a policy to set or a meme evolution regarding how is set the SPM of a given entity.
-    Additions:
-      -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
-                  *code audit:
-                  (x)var formatting + refactoring     (x)if..then reformatting   (N)function/procedure refactoring
-                  (N)parameters refactoring           (x) ()reformatting         (N)code optimizations
-                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
-      -2010Dec05- *add: memes progressive influence.
-}
-   var
-      SPMIIGcnt
-      ,SPMIIGmax
-      ,SPMIIGres: integer;
-
-      MaxSV: integer;
-begin
-   SPMIIGcnt:=1;
-   SPMIIGmax:=length( FCDdgEntities[SPMIIGent].E_spmSettings )-1;
-   SPMIIGres:=0;
-   MaxSV:=0;
-   Result:=0;
-   while SPMIIGcnt<=SPMIIGmax do
-   begin
-      if ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_isPolicy )
-         and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPtIsSet )
-         and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_duration=0 )
-      then SPMIIGres:=SPMIIGres+SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence
-      else if ( not FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_isPolicy )
-         and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfBeliefLevel>blUnknown ) then
-      begin
-         MaxSV:=FCFspmM_BeliefLevel_GetMaxSV( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfBeliefLevel );
-         SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* ( MaxSV*0.01 ) );
-      end;
-      inc( SPMIIGcnt );
-   end;
-   Result:=SPMIIGres;
 end;
 
 function FCFgSPM_Policy_GetFSMod(const PGFSMent: integer): integer;
@@ -1033,6 +982,77 @@ begin
    then Result:=gspmResAccept;
 end;
 
+function FCFgSPM_SPMIData_Get(
+   const SPMIDGtoken: string;
+   const SPMIDGloadIndex: boolean=false
+   ): TFCRdgSPMi;
+{:Purpose: retrieve the <token> SPMi data.
+    Additions:
+      -2011Sep10- *code audit:
+                  (x)var formatting + refactoring     (+)if..then reformatting   (x)function/procedure refactoring
+                  (x)parameters refactoring           (+) ()reformatting         (N)code optimizations
+                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
+}
+   var
+      SPMIDGcnt
+      ,SPMIDGmax: integer;
+begin
+   Result:=FCDdgSPMi[0];
+   SPMIDGmax:=length( FCDdgSPMi )-1;
+   SPMIDGcnt:=1;
+   while SPMIDGcnt<=SPMIDGmax do
+   begin
+      if FCDdgSPMi[SPMIDGcnt].SPMI_token=SPMIDGtoken then
+      begin
+         Result:=FCDdgSPMi[SPMIDGcnt];
+         break;
+      end;
+      inc( SPMIDGcnt );
+   end;
+   if SPMIDGloadIndex
+   then GSPMitmIdx:=SPMIDGcnt;
+end;
+
+function FCFgSPM_SPMiInfluence_Get(
+   const SPMIIGspmi: TFCRdgSPMi;
+   const SPMIIGent: integer
+   ): integer;
+{:Purpose: calculate the influence factor for a policy to set or a meme evolution regarding how is set the SPM of a given entity.
+    Additions:
+      -2014Aug10- *mod: change of rules with memes; the current SV is taken instead of max SV, which was a nonsense.
+      -2011Sep10- *add: test if the SPMi duration = 0, because if set and duration>0 indicate that the SPMi is a reject/cancellation.
+                  *code audit:
+                  (x)var formatting + refactoring     (x)if..then reformatting   (N)function/procedure refactoring
+                  (N)parameters refactoring           (x) ()reformatting         (N)code optimizations
+                  (N)float local variables=> extended (N)case..of reformatting   (N)local methods
+      -2010Dec05- *add: memes progressive influence.
+}
+   var
+      SPMIIGcnt
+      ,SPMIIGmax
+      ,SPMIIGres: integer;
+
+//      MaxSV: integer;
+begin
+   SPMIIGcnt:=1;
+   SPMIIGmax:=length( FCDdgEntities[SPMIIGent].E_spmSettings )-1;
+   SPMIIGres:=0;
+//   MaxSV:=0;
+   Result:=0;
+   while SPMIIGcnt<=SPMIIGmax do
+   begin
+      if ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_isPolicy )
+         and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPtIsSet )
+         and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_duration=0 )
+      then SPMIIGres:=SPMIIGres+SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence
+      else if ( not FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_isPolicy )
+         and ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfBeliefLevel>blUnknown )
+      then SPMIIGres:=SPMIIGres+round( SPMIIGspmi.SPMI_infl[SPMIIGcnt].SPMII_influence* ( FCDdgEntities[SPMIIGent].E_spmSettings[SPMIIGcnt].SPMS_iPfSpreadValue * 0.01 ) );
+      inc( SPMIIGcnt );
+   end;
+   Result:=SPMIIGres;
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMgSPM_Phase_Proc;
@@ -1139,6 +1159,14 @@ begin
 //   update UMI
    {:DEV NOTES: temporarly line.}
    FCWinMain.FCWM_UMIFac_TabShSPMpol.Enabled:=true;
+end;
+
+procedure FCMgSPM_Policy_Load( const PolicyToken: string );
+{:Purpose: load the targeted spm item data in the private data FCVgspmCurrentSPMiData.
+    Additions:
+}
+begin
+   FCVgspmiCurrentSPMiData:=FCFgSPM_SPMIData_Get( PolicyToken, true );
 end;
 
 procedure FCMgSPM_PolicyEnf_Confirm;
@@ -1474,14 +1502,6 @@ begin
    end; //==END== if PERapplyCohMod>0 ==//
    if FCDdgEntities[0].E_spmSettings[GSPMitmIdx].SPMS_duration>0
    then FCMuiUMIF_PolicyEnforcement_UpdateAll;
-end;
-
-procedure FCMgSPM_Policy_Load( const PolicyToken: string );
-{:Purpose: load the targeted spm item data in the private data FCVgspmCurrentSPMiData.
-    Additions:
-}
-begin
-   FCVgspmiCurrentSPMiData:=FCFgSPM_SPMIData_Get( PolicyToken, true );
 end;
 
 procedure FCMgSPM_SPMI_Retire(

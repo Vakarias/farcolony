@@ -1,4 +1,0 @@
-farcolony
-=========
-
-FAR Colony repository
