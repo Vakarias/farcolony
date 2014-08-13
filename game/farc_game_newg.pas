@@ -224,6 +224,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit the current setup of a new game and initialize the game interface.
    Additions:
+      -2014Aug12- *add: initialize the non player's factions before the player's faction. It is required for the common core.
       -2014Aug10- *code audit (END).
       -2014Aug06- *code audit (BEGIN):
                   (x)var formatting+refactoring+reset (x)if..then reformatting   (_)function/procedure refactoring
@@ -476,8 +477,8 @@ begin
    FCVdgPlayer.P_currentTimeMonth:=1;
    FCVdgPlayer.P_currentTimeYear:=2250;
    {.entities main loop}
-   Count1:=0;
-   while Count1 <= FCCdiFactionsMax do
+   Count1:=FCCdiFactionsMax;
+   while Count1 >= 0 do
    begin
       SetLength( FCDdgEntities[Count1].E_spaceUnits, 1 );
       SetLength( FCDdgEntities[Count1].E_colonies, 1 );
@@ -626,8 +627,8 @@ begin
       then FCDdgEntities[Count1].E_hqHigherLevel:=hqsNoHQPresent
       else if Count1 > 0
       then FCDdgEntities[Count1].E_hqHigherLevel:=hqsPrimaryUniqueHQ;
-      inc( Count1 );
-   end; //==END== while Count1<=FCCfacMax do ==//
+      dec( Count1 );
+   end; //==END== while Count1 >= 0 ==//
    {.set the game user's interface}
    FCVdi3DViewToInitialize:=true;
    try

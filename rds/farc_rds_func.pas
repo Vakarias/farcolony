@@ -46,6 +46,14 @@ uses
 //==END PUBLIC CONST========================================================================
 
 ///<summary>
+///   gives the tech level cap of a research domain according to its orientation, for a non-player faction
+///</summary>
+///   <param name="RDOMOrientation">research domain orientation modifier</param>
+///   <returns>the maximum allowed tech level</returns>
+///   <remarks></remarks>
+function FCFrdsF_CommonCoreNPFaction_GetRDomTLCap( const RDOMOrientation: integer ): integer;
+
+///<summary>
 ///   return the number of research fields for a particular domain. These hardcoded number are located only into this function for the entire FARC code
 ///</summary>
 ///   <param name=""></param>
@@ -56,6 +64,7 @@ uses
 ///   <remarks></remarks>
 function FCFrdsF_Domain_GetNumberOfResearchFields( const ResearchDomain: TFCEdrdsResearchDomains ): integer;
 
+{:DEV NOTES: this function below is just a skeleton for now, remove it if it is of no use.}
 ///<summary>
 ///   calculate the influence value
 ///</summary>
@@ -87,6 +96,25 @@ implementation
 //==END PRIVATE CONST=======================================================================
 
 //===================================================END OF INIT============================
+
+function FCFrdsF_CommonCoreNPFaction_GetRDomTLCap( const RDOMOrientation: integer ): integer;
+{:Purpose: gives the tech level cap of a research domain according to its orientation, for a non-player faction.
+    Additions:
+}
+begin
+   Result:=0;
+   case RDOMOrientation of
+      -3: Result:=4;
+
+      -2..-1: Result:=5;
+
+      0: Result:=6;
+
+      1..2: Result:=7;
+
+      3: Result:=8;
+   end;
+end;
 
 function FCFrdsF_Domain_GetNumberOfResearchFields( const ResearchDomain: TFCEdrdsResearchDomains ): integer;
 {:Purpose: return the number of research fields for a particular domain. These hardcoded number are located only into this function for the entire FARC code.

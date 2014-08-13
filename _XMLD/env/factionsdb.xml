@@ -221,9 +221,6 @@
          <facSPMi token="SPMi_TheFreeUnion" duration="0" isSet="false" aprob="-2" belieflev="blUnknown" spreadval="0"/>
       </facSPM>
       <facCommonCore orientAerospaceEng="0" orientAstroEng="1" orientBiosciences="3" orientCulture="1" orientEcosciences="-2" orientIndusTech="3" orientNanotech="1" orientPhysics="-2">
-         <comCoreSetup token="" techLvl="" resDomain="" resField=""/>
-         <comCoreSetup token="" techLvl="" resDomain="" resField=""/>
-         <comCoreSetup token="" techLvl="" resDomain="" resField=""/>
       </facCommonCore>
    </faction>      
 </factionsDB>

@@ -205,11 +205,6 @@ var
 
 const
    ///<summary>
-   ///   technosciences/fundamental researches TL cap for non player's faction's common core. Put it to 8 when the tree implementation will be expanded to it.
-   ///</summary>
-   FCCdrdsCommonCoreNPFactionTLCap=4;
-
-   ///<summary>
    ///   technosciences/fundamental researches TL cap for the player's faction's common core.
    ///</summary>
    FCCdrdsCommonCorePFactionTLCap=4;
