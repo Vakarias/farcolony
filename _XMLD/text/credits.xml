@@ -15,6 +15,11 @@
          <FR>Traduction Espagnole</FR>
          <SP>Traducción Española</SP>
       </author>
+      <author name="Max Hornig" contact="n/a">
+         <EN>English translation</EN>
+         <FR>Traduction Anglaise</FR>
+         <SP>Traducción Inglés</SP>
+      </author>
       <author name="Dave Gravel" contact="http://www.dave.serveusers.com/">
          <EN>Third Party Component: 3D Studio loader</EN>
          <FR>Composant Externe: loader 3D Studio</FR>
