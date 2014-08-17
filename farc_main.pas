@@ -2207,36 +2207,36 @@ begin
    try
       FCMdi_Data_Initialization;
    finally
-      {.local fonts and user's interface initialization}
-      FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+         {.local fonts and user's interface initialization}
+         FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
+         FCwide:=Addr(FClocalPath[1]);
+         AddFontResource(FCwide);
+//         PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0 );
 
-      FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+         FClocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
+         FCwide:=Addr(FClocalPath[1]);
+         AddFontResource(FCwide);
+//         PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0 );
 
-      FClocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+         FClocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
+         FCwide:=Addr(FClocalPath[1]);
+         AddFontResource(FCwide);
+//         PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0 );
 
-      FClocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+         FClocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
+         FCwide:=Addr(FClocalPath[1]);
+         AddFontResource(FCwide);
+//         PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0 );
 
-      FClocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+         FClocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
+         FCwide:=Addr( FClocalPath[1] );
+         AddFontResource( FCwide );
+//         PostMessage( HWND_BROADCAST, WM_FONTCHANGE, 0, 0 );
 
-      FClocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
-      FCwide:=Addr(FClocalPath[1]);
-      AddFontResource(FCwide);
-      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+         FClocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
+         FCwide:=Addr( FClocalPath[1] );
+         AddFontResource( FCwide );
+//         PostMessage( HWND_BROADCAST, WM_FONTCHANGE, 0, 0 );
 
       FCMuiW_UI_Initialize(mwupAll);
 	end;
@@ -2302,30 +2302,30 @@ begin
    FCXMLtxtEncy.Active:=false;
    {.free memory streams}
    FCMdTF_MemoryStreams_free;
-   FDlocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
-   FDwide:=Addr(FDlocalPath[1]);
-   RemoveFontResource(FDwide);
-   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
-   FDwide:=Addr(FDlocalPath[1]);
-   RemoveFontResource(FDwide);
-   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
-   FDwide:=Addr(FDlocalPath[1]);
-   RemoveFontResource(FDwide);
-   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
-   FDwide:=Addr(FDlocalPath[1]);
-   RemoveFontResource(FDwide);
-   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
-   FDwide:=Addr(FDlocalPath[1]);
-   RemoveFontResource(FDwide);
-   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
-   FDlocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
-   FDwide:=Addr(FDlocalPath[1]);
-   RemoveFontResource(FDwide);
-   PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FDlocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSans.ttf';
+      FDwide:=Addr(FDlocalPath[1]);
+      RemoveFontResource(FDwide);
+//      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FDlocalPath:=FCVdiPathResourceDir+'fnt\DejaVuSansCondensed.ttf';
+      FDwide:=Addr(FDlocalPath[1]);
+      RemoveFontResource(FDwide);
+//      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FDlocalPath:=FCVdiPathResourceDir+'fnt\disco___.ttf';
+      FDwide:=Addr(FDlocalPath[1]);
+      RemoveFontResource(FDwide);
+//      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FDlocalPath:=FCVdiPathResourceDir+'fnt\Existence-Light.otf';
+      FDwide:=Addr(FDlocalPath[1]);
+      RemoveFontResource(FDwide);
+//      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FDlocalPath:=FCVdiPathResourceDir+'fnt\FrancophilSans.ttf';
+      FDwide:=Addr(FDlocalPath[1]);
+      RemoveFontResource(FDwide);
+//      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
+      FDlocalPath:=FCVdiPathResourceDir+'fnt\Interdimensional.ttf';
+      FDwide:=Addr(FDlocalPath[1]);
+      RemoveFontResource(FDwide);
+//      PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0) ;
 end;
 
 procedure TFCWinMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
