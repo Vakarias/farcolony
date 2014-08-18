@@ -440,6 +440,7 @@ type TFCRdgTechnoscience = record
 end;
 
 {:REFERENCES LIST
+   - FCMdG_RDScolonyDomains_Reset
    - FCMdFSG_Game_Load
    - FCMdFSG_Game_Save
 }
@@ -448,11 +449,11 @@ end;
 ///</summary>
 type TFCRdgResearchDomainColony = record
    RDC_type: TFCEdrdsResearchDomains;
-   RDC_knowledgeCurrent: extended;
-   RDC_knowledgeGeneration: extended;
    RDC_researchFields: array of record
       RF_type: TFCEdrdsResearchFields;
-      RF_knowledgeCurrent: extended;
+      ///<summary>
+      ///   rto-5
+      ///</summary>
       RF_knowledgeGeneration: extended;
       ///<summary>
       /// intelligence infrastructures [x,y] = infrastructure index in settlement
@@ -464,6 +465,24 @@ type TFCRdgResearchDomainColony = record
       ///</summary>
       ///</summary>
       RF_intelligenceInfrastructures: array of array of integer;
+   end;
+end;
+
+{:REFERENCES LIST
+   - FCMdFSG_Game_Load
+   - FCMdFSG_Game_Save
+}
+///<summary>
+///
+///</summary>
+{:DEV NOTES: WARNING: not in filesavegame yet.}
+type TFCRdgResearchDomainEntity = record
+   RDE_type: TFCEdrdsResearchDomains;
+   RDE_knowledgeCurrent: integer;
+   RDE_researchFields: array of record
+      RF_type: TFCEdrdsResearchFields;
+      RF_knowledgeCurrent: extended;
+      RF_knowledgeGenerationTotal: extended;
       RF_technosciences: array of TFCRdgTechnoscience;
       RF_theories: array of TFCRdgTechnoscience;
    end;
@@ -922,6 +941,8 @@ type TFCRdgEntity= record
          end; //==END== record: SR_ResourceSpots ==//
       end; //==END== record: SRS_surveyedRegions ==//
    end; //==END== record: P_surveyedResourceSpots ==//
+   {:DEV NOTES: TO PUT IN FILESAVEGAME + FCMdG_Entities_Clear.}
+   E_researchDomains: array[0..FCCdiRDSdomainsMax] of TFCRdgResearchDomainEntity;
 end;
    TFCDdgEntities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
 
@@ -966,7 +987,7 @@ procedure FCMdG_Entities_Clear;
 ///   <param name=""></param>
 ///   <returns></returns>
 ///   <remarks></remarks>
-procedure FCMdG_RDSdomains_Reset( const Entity, Colony: integer );
+procedure FCMdG_RDScolonyDomains_Reset( const Entity, Colony: integer );
 
 implementation
 
@@ -1037,9 +1058,13 @@ begin
    end;
 end;
 
-procedure FCMdG_RDSdomains_Reset( const Entity, Colony: integer );
+procedure FCMdG_RDScolonyDomains_Reset( const Entity, Colony: integer );
 {:Purpose: reset the domains' data of a particular colony from a particular faction.
     Additions:
+      -2014Aug17- *rem: technosciences and theories aren't at the colony level.
+                  *add: initialize intelligence infrastructures multi-array.
+                  *code: method refactoring to indicate that is concern the colonies.
+                  *add: RF_knowledgeGeneration is initialized.
 }
    var
       Count
@@ -1060,8 +1085,10 @@ begin
       while Count1 <= Max do
       begin
          FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_type:=TFCEdrdsResearchFields( Count1 + Count2 );
-         setlength( FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_technosciences, 1 );
-         setlength( FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_theories, 1 );
+         FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_knowledgeGeneration:=0;
+//         setlength( FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_technosciences, 1 );
+//         setlength( FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_theories, 1 );
+         setlength( FCDdgEntities[Entity].E_colonies[Colony].C_researchDomains[Count].RDC_researchFields[Count1].RF_intelligenceInfrastructures, 1 );
          inc( Count1 );
       end;
       Count2:=Count2 + Max;

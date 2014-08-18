@@ -45,9 +45,27 @@ interface
 
 //===========================END FUNCTIONS SECTION==========================================
 
+///<summary>
+///   initialize the common core for a non-player faction
+///</summary>
+///   <param name="Entity">entity index # to initialize</param>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
+
+///<summary>
+///   initialize the common core for the player faction
+///</summary>
+///   <returns></returns>
+///   <remarks></remarks>
+procedure FCMcC_PlayerFaction_Initialize;
+
 implementation
 
-//uses
+uses
+   farc_data_game
+   ,farc_data_init
+   ,farc_rds_func;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -62,5 +80,49 @@ implementation
 
 //===================================================END OF INIT============================
 //===========================END FUNCTIONS SECTION==========================================
+
+procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
+{:Purpose: initialize the common core for a non-player faction.
+    Additions:
+}
+   var
+      Count
+      ,Count1
+      ,MaxTL: integer;
+begin
+   Count:=0;
+   Count1:=1;
+   while Count1 <= FCCdiRDSdomainsMax do
+   begin
+//      FCDdgEntities[Entity].;
+      case Count1 of
+         1: Count:=FCDdgFactions[Entity].F_comCoreOrient_aerospaceEng;
+
+         2: Count:=FCDdgFactions[Entity].F_comCoreOrient_astroEng;
+
+         3: Count:=FCDdgFactions[Entity].F_comCoreOrient_biosciences;
+
+         4: Count:=FCDdgFactions[Entity].F_comCoreOrient_culture;
+
+         5: Count:=FCDdgFactions[Entity].F_comCoreOrient_ecosciences;
+
+         6: Count:=FCDdgFactions[Entity].F_comCoreOrient_indusTech;
+
+         7: Count:=FCDdgFactions[Entity].F_comCoreOrient_nanotech;
+
+         8: Count:=FCDdgFactions[Entity].F_comCoreOrient_physics;
+      end;
+      MaxTL:=FCFrdsF_CommonCoreNPFaction_GetRDomTLCap( Count1 );
+      inc( Count1 )
+   end; //==END== while Count1 <= FCCdiRDSdomainsMax ==//
+end;
+
+procedure FCMcC_PlayerFaction_Initialize;
+{:Purpose: initialize the common core for the player faction.
+    Additions:
+}
+begin
+
+end;
 
 end.

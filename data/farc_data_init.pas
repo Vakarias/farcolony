@@ -283,6 +283,7 @@ const
 
    ///<summary>
    ///   constant for the number of research domains
+   ///   if it change, mod: FCMcC_NonPlayerFaction_Initialize
    ///</summary>
    FCCdiRDSdomainsMax=8;
 
