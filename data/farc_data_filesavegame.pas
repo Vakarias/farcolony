@@ -102,6 +102,8 @@ uses
 procedure FCMdFSG_Game_Load;
 {:Purpose: load the current game.
    Additions:
+      -2014Aug18- *add: entity's RDS data.
+      -2014Aug17- *rem: moved RDS data out of colonies data structure.
       -2014May29- *add: C_storedProducts-SP_listByDLinUnits.
       -2014Apr16- *add: research & development.
       -2014Jan15- *add: P_isTurnBased.
@@ -1063,7 +1065,7 @@ begin
                                  Count7:=0;
                                  Max4:=0;
                                  XMLSavedGameItemSub5:=XMLSavedGameItemSub4.ChildNodes.First;
-                                 {....infrastructures with the intelligence function / technosciences / theories}
+                                 {....infrastructures with the intelligence function}
                                  while XMLSavedGameItemSub5 <> nil do
                                  begin
                                     if XMLSavedGameItemSub5.NodeName='intelInfra' then
@@ -1423,6 +1425,8 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2014Aug18- *add: entity's RDS data.
+      -2014Aug17- *rem: moved RDS data out of colonies data structure.
       -2014May29- *add: C_storedProducts-SP_listByDLinUnits.
                   *fix: index bug into the production matrix.
       -2014Apr04- *add: research & development.
@@ -2183,17 +2187,14 @@ begin
                begin
                   XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'domain' );
                   XMLSavedGameItemSub4.Attributes['type']:=GetEnumName( TypeInfo( TFCEdrdsResearchDomains ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_type ) );
-//                  XMLSavedGameItemSub4.Attributes['knowledgeCurr']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_knowledgeCurrent, FCVdiFormat );
-//                  XMLSavedGameItemSub4.Attributes['knowledgeGen']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_knowledgeGeneration, FCVdiFormat );
                   Max3:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields ) - 1;
                   if Max3 > 0 then
                   begin
                      Count3:=1;
-                     while Count1 <= Max3 do
+                     while Count3 <= Max3 do
                      begin
                         XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'field' );
                         XMLSavedGameItemSub5.Attributes['type']:=GetEnumName( TypeInfo( TFCEdrdsResearchFields ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_type ) );
-//                        XMLSavedGameItemSub5.Attributes['knowledgeCurr']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_knowledgeCurrent, FCVdiFormat );
                         XMLSavedGameItemSub5.Attributes['knowledgeGen']:=FloatToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_knowledgeGeneration, FCVdiFormat );
                         {....infrastructures with the intelligence function}
                         Max4:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_intelligenceInfrastructures ) - 1;
@@ -2218,38 +2219,6 @@ begin
                               inc( Count4 );
                            end;
                         end;
-//                        {....technosciences}
-//                        Max4:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences ) - 1;
-//                        if Max4 > 0 then
-//                        begin
-//                           Count4:=1;
-//                           while Count4 <= Max4 do
-//                           begin
-//                              XMLSavedGameItemSub6:=XMLSavedGameItemSub5.AddChild( 'technoscience' );
-//                              XMLSavedGameItemSub6.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_token;
-//                              XMLSavedGameItemSub6.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_collateralMastered, true );
-//                              XMLSavedGameItemSub6.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_masteringStage ) );
-//                              XMLSavedGameItemSub6.Attributes['ripCurrent']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_ripCurrent;
-//                              XMLSavedGameItemSub6.Attributes['ripMax']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_technosciences[Count4].TS_ripMax;
-//                              inc( Count4 );
-//                           end;
-//                        end;
-//                        {....theories}
-//                        Max4:=length( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories ) - 1;
-//                        if Max4 > 0 then
-//                        begin
-//                           Count4:=1;
-//                           while Count4 <= Max4 do
-//                           begin
-//                              XMLSavedGameItemSub6:=XMLSavedGameItemSub5.AddChild( 'theory' );
-//                              XMLSavedGameItemSub6.Attributes['token']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_token;
-//                              XMLSavedGameItemSub6.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_collateralMastered, true );
-//                              XMLSavedGameItemSub6.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_masteringStage ) );
-//                              XMLSavedGameItemSub6.Attributes['ripCurrent']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_ripCurrent;
-//                              XMLSavedGameItemSub6.Attributes['ripMax']:=FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_theories[Count4].TS_ripMax;
-//                              inc( Count4 );
-//                           end;
-//                        end;
                         inc( Count3 );
                      end; //==END== while Count1 <= Max3 ==//
                   end;
@@ -2293,6 +2262,54 @@ begin
             inc( Count1 );
          end;
       end;
+      {..RDS data}
+      XMLSavedGameItemSub1:=XMLSavedGameItemSub.AddChild( 'entRDSdata' );
+      Count1:=1;
+      while Count1 <= FCCdiRDSdomainsMax do
+      begin
+         XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'ResearchDomain' );
+         XMLSavedGameItemSub2.Attributes['type']:=GetEnumName( TypeInfo( TFCEdrdsResearchDomains ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_type ) );
+         XMLSavedGameItemSub2.Attributes['knowledgeCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_knowledgeCurrent;
+         Max2:=length( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields ) - 1;
+         Count2:=1;
+         while Count2 <= Max2 do
+         begin
+            XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'ResearchField' );
+            XMLSavedGameItemSub3.Attributes['type']:=GetEnumName( TypeInfo( TFCEdrdsResearchFields ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_type ) );
+            XMLSavedGameItemSub3.Attributes['knowledgeCurrent']:=FloatToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_knowledgeCurrent, FCVdiFormat );
+            XMLSavedGameItemSub3.Attributes['knowledgeGenerationTotal']:=FloatToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_knowledgeGenerationTotal, FCVdiFormat );
+            Max3:=length( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences ) - 1;
+            Count3:=1;
+            while Count3 <= Max3 do
+            begin
+               if Count3 = 1
+               then XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'Technosciences' );
+               XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'Technoscience' );
+               XMLSavedGameItemSub5.Attributes['token']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_token;
+               XMLSavedGameItemSub5.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_collateralMastered, true );
+               XMLSavedGameItemSub5.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_masteringStage ) );
+               XMLSavedGameItemSub5.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripCurrent;
+               XMLSavedGameItemSub5.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripMax;
+               inc( Count3 );
+            end;
+            Max3:=length( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches ) - 1;
+            Count3:=1;
+            while Count3 <= Max3 do
+            begin
+               if Count3 = 1
+               then XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'FundamentalResearches' );
+               XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'FundamentalResearch' );
+               XMLSavedGameItemSub5.Attributes['token']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_token;
+               XMLSavedGameItemSub5.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_collateralMastered, true );
+               XMLSavedGameItemSub5.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_masteringStage ) );
+               XMLSavedGameItemSub5.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_ripCurrent;
+               XMLSavedGameItemSub5.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_ripMax;
+               inc( Count3 );
+            end;
+            inc( Count2 );
+         end;
+         inc( Count1 );
+      end; //==END== while Count1 <= FCCdiRDSdomainsMax ==//
       {..planetary surveys}
       Max1:=Length( FCDdgEntities[Count].E_planetarySurveys )-1;
       if Max1>0 then

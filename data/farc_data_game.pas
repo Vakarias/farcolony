@@ -475,7 +475,6 @@ end;
 ///<summary>
 ///
 ///</summary>
-{:DEV NOTES: WARNING: not in filesavegame yet.}
 type TFCRdgResearchDomainEntity = record
    RDE_type: TFCEdrdsResearchDomains;
    RDE_knowledgeCurrent: integer;
@@ -484,7 +483,7 @@ type TFCRdgResearchDomainEntity = record
       RF_knowledgeCurrent: extended;
       RF_knowledgeGenerationTotal: extended;
       RF_technosciences: array of TFCRdgTechnoscience;
-      RF_theories: array of TFCRdgTechnoscience;
+      RF_fundamentalResearches: array of TFCRdgTechnoscience;
    end;
 end;
 
