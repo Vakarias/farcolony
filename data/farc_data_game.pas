@@ -940,7 +940,6 @@ type TFCRdgEntity= record
          end; //==END== record: SR_ResourceSpots ==//
       end; //==END== record: SRS_surveyedRegions ==//
    end; //==END== record: P_surveyedResourceSpots ==//
-   {:DEV NOTES: TO PUT IN FILESAVEGAME + FCMdG_Entities_Clear.}
    E_researchDomains: array[0..FCCdiRDSdomainsMax] of TFCRdgResearchDomainEntity;
 end;
    TFCDdgEntities= array [0..FCCdiFactionsMax] of TFCRdgEntity;
@@ -1010,6 +1009,7 @@ uses
 procedure FCMdG_Entities_Clear;
 {:Purpose: clear the entities' data.
     Additions:
+      -2014Aug20- *add: E_researchDomains.
       -2013Mar30- *add: E_cleanupSurveys.
       -2013Mar12- *add: E_surveyedResourceSpots.
       -2013Jan31- *add: E_planetarySurveys.
@@ -1028,9 +1028,11 @@ procedure FCMdG_Entities_Clear;
       -2010Sep20- *add: SPM settings.
 }
    var
-      Count: integer;
+      Count
+      ,Count1: integer;
 begin
    Count:=0;
+   Count1:=0;
    while Count<=FCCdiFactionsMax do
    begin
       FCDdgEntities[Count].E_token:='';
@@ -1053,6 +1055,14 @@ begin
       FCDdgEntities[Count].E_cleanupSurveys:=false;
       SetLength( FCDdgEntities[Count].E_planetarySurveys, 1 );
       SetLength( FCDdgEntities[Count].E_surveyedResourceSpots, 1 );
+      Count1:=1;
+      while Count1 <= FCCdiRDSdomainsMax do
+      begin
+         FCDdgEntities[Count].E_researchDomains[Count1].RDE_type:=TFCEdrdsResearchDomains( Count1 - 1 );
+         FCDdgEntities[Count].E_researchDomains[Count1].RDE_knowledgeCurrent:=0;
+         SetLength( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields, 1 );
+         inc( Count1 );
+      end;
       inc(Count);
    end;
 end;
