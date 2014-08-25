@@ -1042,8 +1042,6 @@ begin
                               if EnumIndex=-1
                               then raise Exception.Create( 'bad gamesave loading w/ research domain type [colony]: '+XMLSavedGameItemSub3.Attributes['type'] );
 
-//                              FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_knowledgeCurrent:=StrToFloat( XMLSavedGameItemSub3.Attributes['knowledgeCurr'], FCVdiFormat );
-//                              FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_knowledgeGeneration:=StrToFloat( XMLSavedGameItemSub3.Attributes['knowledgeGen'], FCVdiFormat );
                               {....research fields}
                               Count3:=0;
                               XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
@@ -1056,7 +1054,6 @@ begin
                                  if EnumIndex=-1
                                  then raise Exception.Create( 'bad gamesave loading w/ research field type [colony]: '+XMLSavedGameItemSub4.Attributes['type'] );
 
-//                                 FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_knowledgeCurrent:=StrToFloat( XMLSavedGameItemSub4.Attributes['knowledgeCurr'], FCVdiFormat );
                                  FCDdgEntities[Count].E_colonies[Count1].C_researchDomains[Count2].RDC_researchFields[Count3].RF_knowledgeGeneration:=StrToFloat( XMLSavedGameItemSub4.Attributes['knowledgeGen'], FCVdiFormat );
 
                                  Count4:=0;
@@ -1143,9 +1140,36 @@ begin
                      then raise Exception.Create( 'bad gamesave loading w/entity rds domain type: '+XMLSavedGameItemSub1.Attributes['type'] );
 
                      FCDdgEntities[Count].E_researchDomains[Count1].RDE_knowledgeCurrent:=XMLSavedGameItemSub1.Attributes['knowledgeCurrent'];
-                     {.research fields}
+
+                     {.for fundamental researches}
                      Count2:=0;
                      XMLSavedGameItemSub2:=XMLSavedGameItemSub1.ChildNodes.First;
+                     while XMLSavedGameItemSub2 <> nil do
+                     begin
+                        XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
+                        while XMLSavedGameItemSub3 <> nil do
+                        begin
+                           inc( Count2 );
+                           SetLength( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches, Count2+1 );
+                           FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_token:=XMLSavedGameItemSub3.Attributes['token'];
+                           FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered:=XMLSavedGameItemSub3.Attributes['collateralMastered'];
+
+                           EnumIndex:=GetEnumValue( TypeInfo( TFCEdgTechnoscienceMasteringStages ), XMLSavedGameItemSub3.Attributes['masteringStage'] );
+                           FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_masteringStage:=TFCEdgTechnoscienceMasteringStages( EnumIndex );
+                           if EnumIndex=-1
+                           then raise Exception.Create( 'bad gamesave loading w/entity rds fundamental research mastering stage: '+XMLSavedGameItemSub3.Attributes['masteringStage'] );
+
+                           FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripCurrent:=XMLSavedGameItemSub3.Attributes['ripCurrent'];
+                           FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripMax:=XMLSavedGameItemSub3.Attributes['ripMax'];
+                           XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
+                        end;
+                     end;
+
+
+
+                     {.research fields}
+                     Count2:=0;
+                     XMLSavedGameItemSub2:=XMLSavedGameItemSub2.NextSibling;
                      while XMLSavedGameItemSub2 <> nil do
                      begin
                         inc( Count2 );
@@ -1182,26 +1206,6 @@ begin
 
                                  FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripCurrent:=XMLSavedGameItemSub4.Attributes['ripCurrent'];
                                  FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripMax:=XMLSavedGameItemSub4.Attributes['ripMax'];
-                                 XMLSavedGameItemSub4:=XMLSavedGameItemSub4.NextSibling;
-                              end;
-                           end
-                           {.for fundamental researches}
-                           else begin
-                              XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
-                              while XMLSavedGameItemSub4 <> nil do
-                              begin
-                                 inc( Count3 );
-                                 SetLength( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches, Count3+1 );
-                                 FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_token:=XMLSavedGameItemSub4.Attributes['token'];
-                                 FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_collateralMastered:=XMLSavedGameItemSub4.Attributes['collateralMastered'];
-
-                                 EnumIndex:=GetEnumValue( TypeInfo( TFCEdgTechnoscienceMasteringStages ), XMLSavedGameItemSub4.Attributes['masteringStage'] );
-                                 FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_masteringStage:=TFCEdgTechnoscienceMasteringStages( EnumIndex );
-                                 if EnumIndex=-1
-                                 then raise Exception.Create( 'bad gamsave loading w/entity rds fundamental research mastering stage: '+XMLSavedGameItemSub4.Attributes['masteringStage'] );
-
-                                 FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_ripCurrent:=XMLSavedGameItemSub4.Attributes['ripCurrent'];
-                                 FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_ripMax:=XMLSavedGameItemSub4.Attributes['ripMax'];
                                  XMLSavedGameItemSub4:=XMLSavedGameItemSub4.NextSibling;
                               end;
                            end;
@@ -2323,6 +2327,22 @@ begin
          XMLSavedGameItemSub2:=XMLSavedGameItemSub1.AddChild( 'ResearchDomain' );
          XMLSavedGameItemSub2.Attributes['type']:=GetEnumName( TypeInfo( TFCEdrdsResearchDomains ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_type ) );
          XMLSavedGameItemSub2.Attributes['knowledgeCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_knowledgeCurrent;
+
+         Max2:=length( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches ) - 1;
+         Count2:=1;
+         while Count2 <= Max2 do
+         begin
+            if Count2 = 1
+            then XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'FundamentalResearches' );
+            XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'FundamentalResearch' );
+            XMLSavedGameItemSub4.Attributes['token']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_token;
+            XMLSavedGameItemSub4.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered, true );
+            XMLSavedGameItemSub4.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_masteringStage ) );
+            XMLSavedGameItemSub4.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripCurrent;
+            XMLSavedGameItemSub4.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripMax;
+            inc( Count2 );
+         end;
+
          Max2:=length( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields ) - 1;
          Count2:=1;
          while Count2 <= Max2 do
@@ -2343,20 +2363,6 @@ begin
                XMLSavedGameItemSub5.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_masteringStage ) );
                XMLSavedGameItemSub5.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripCurrent;
                XMLSavedGameItemSub5.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripMax;
-               inc( Count3 );
-            end;
-            Max3:=length( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches ) - 1;
-            Count3:=1;
-            while Count3 <= Max3 do
-            begin
-               if Count3 = 1
-               then XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'FundamentalResearches' );
-               XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'FundamentalResearch' );
-               XMLSavedGameItemSub5.Attributes['token']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_token;
-               XMLSavedGameItemSub5.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_collateralMastered, true );
-               XMLSavedGameItemSub5.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_masteringStage ) );
-               XMLSavedGameItemSub5.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_ripCurrent;
-               XMLSavedGameItemSub5.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_fundamentalResearches[Count3].TS_ripMax;
                inc( Count3 );
             end;
             inc( Count2 );

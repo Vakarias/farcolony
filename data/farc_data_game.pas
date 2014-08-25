@@ -478,12 +478,12 @@ end;
 type TFCRdgResearchDomainEntity = record
    RDE_type: TFCEdrdsResearchDomains;
    RDE_knowledgeCurrent: integer;
+   RDE_fundamentalResearches: array of TFCRdgTechnoscience;
    RDE_researchFields: array of record
       RF_type: TFCEdrdsResearchFields;
       RF_knowledgeCurrent: extended;
       RF_knowledgeGenerationTotal: extended;
       RF_technosciences: array of TFCRdgTechnoscience;
-      RF_fundamentalResearches: array of TFCRdgTechnoscience;
    end;
 end;
 
