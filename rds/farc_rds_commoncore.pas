@@ -100,6 +100,26 @@ begin
    Result:=TFCEdgTechnoscienceMasteringStages( GeneratedProbability + 2 );
 end;
 
+function FCFrdsF_NonPlayerFaction_GetRDomTLCap( const RDOMOrientation: integer ): integer;
+{:Purpose: gives the tech level cap of a research domain according to its orientation, for a non-player faction.
+    Additions:
+      -2014Aug25- *code: moved from farc_rds_func => farc_rds_commoncore. Include refactoring.
+}
+begin
+   Result:=0;
+   case RDOMOrientation of
+      -3: Result:=4;
+
+      -2..-1: Result:=5;
+
+      0: Result:=6;
+
+      1..2: Result:=7;
+
+      3: Result:=8;
+   end;
+end;
+
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FMcC_Core_Initialize(
@@ -109,12 +129,32 @@ procedure FMcC_Core_Initialize(
    );
 {:Purpose: initialize the rds data structure and master the tech level 1 technosciences and fundamental researches.
     Additions:
+      -2014Aug25- *add: common core of technosciences and fundamental researches by design.
 }
    var
       Count1
       ,Count2
+      ,Count3
       ,Max1
-      ,Max2: integer;
+      ,Max2
+      ,Max3: integer;
+
+   function _CompareWithFactionCoreSetup( const TSFRtokenToCompare: string ): boolean;
+   begin
+      Result:=false;
+      Max3:=length( FCDdgFactions[Entity].F_comCoreSetup ) - 1;
+      Count3:=1;
+      while Count3 <= Max3 do
+      begin
+         if FCDdgFactions[Entity].F_comCoreSetup[Count3].CCS_techToken = TSFRtokenToCompare then
+         begin
+            Result:=true;
+            break;
+         end;
+         inc( Count3 );
+      end;
+   end;
+
 begin
    Count1:=0;
    Count2:=0;
@@ -131,6 +171,9 @@ begin
       FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_token:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_token;
       FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_collateralMastered:=false;
       if FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel = tl01IndustrialAge
+      then FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation )
+      else if (Entity > 0 )
+         and ( _CompareWithFactionCoreSetup( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_token ) )
       then FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation )
       else FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=tmsNotDiscovered;
       FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_ripCurrent:=0;
@@ -155,6 +198,9 @@ begin
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_collateralMastered:=false;
          if FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel = tl01IndustrialAge
          then FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation )
+         else if ( Entity > 0 )
+            and ( _CompareWithFactionCoreSetup( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_token ) )
+         then FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation )
          else FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=tmsNotDiscovered;
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_ripCurrent:=0;
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_ripMax:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_maxRIPpoints;
@@ -171,10 +217,15 @@ procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
    var
       Count
       ,Count1
+      ,DesignModifier
+      ,GeneratedProbability
       ,MaxTL: integer;
 begin
    Count:=0;
    Count1:=1;
+   DesignModifier:=0;
+   GeneratedProbability:=0;
+   MaxTL:=0;
    while Count1 <= FCCdiRDSdomainsMax do
    begin
       {.
@@ -202,10 +253,11 @@ begin
          ,Count1
          ,Count
          );
+      GeneratedProbability:=FCFcF_Random_DoInteger(
 
 
 
-      MaxTL:=FCFrdsF_CommonCoreNPFaction_GetRDomTLCap( Count1 );
+      MaxTL:=FCFrdsF_NonPlayerFaction_GetRDomTLCap( Count1 );
 
       inc( Count1 )
    end; //==END== while Count1 <= FCCdiRDSdomainsMax ==//
