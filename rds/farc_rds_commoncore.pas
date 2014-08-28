@@ -74,7 +74,11 @@ uses
 //==END PRIVATE RECORDS=====================================================================
 
    //==========subsection===================================================================
-//var
+var
+   FCVrdsccDesignModifier: integer;
+
+   FCVrdsccHighestTLbyDesign: TFCEdrdsTechnologyLevels;
+
 //==END PRIVATE VAR=========================================================================
 
 //const
@@ -100,24 +104,32 @@ begin
    Result:=TFCEdgTechnoscienceMasteringStages( GeneratedProbability + 2 );
 end;
 
-function FCFrdsF_NonPlayerFaction_GetRDomTLCap( const RDOMOrientation: integer ): integer;
+function FCFrdsF_NonPlayerFaction_GetRDomTLCap( const RDOMOrientation: integer ): TFCEdrdsTechnologyLevels;
 {:Purpose: gives the tech level cap of a research domain according to its orientation, for a non-player faction.
     Additions:
+      -2014Aug27- *add: rule concerning the tech level of technosciences/fundamental researches added by design.
+                  *add: design modifier calculations.
       -2014Aug25- *code: moved from farc_rds_func => farc_rds_commoncore. Include refactoring.
 }
 begin
-   Result:=0;
+   Result:=tl04CyberAge;
    case RDOMOrientation of
-      -3: Result:=4;
+      -3: Result:=tl04CyberAge;
 
-      -2..-1: Result:=5;
+      -2..-1: Result:=tl05InterplanetaryAge;
 
-      0: Result:=6;
+      0: Result:=tl06TranshumanismAge;
 
-      1..2: Result:=7;
+      1..2: Result:=tl07NanoAge;
 
-      3: Result:=8;
+      3: Result:=tl08SingularityAge;
    end;
+   if FCVrdsccHighestTLbyDesign > Result then
+   begin
+      Result:=FCVrdsccHighestTLbyDesign;
+      FCVrdsccDesignModifier:=round( ( Integer( FCVrdsccHighestTLbyDesign ) + 1 ) / 3 ) + 1;
+   end;
+
 end;
 
 //===========================END FUNCTIONS SECTION==========================================
@@ -129,6 +141,8 @@ procedure FMcC_Core_Initialize(
    );
 {:Purpose: initialize the rds data structure and master the tech level 1 technosciences and fundamental researches.
     Additions:
+      -2014Aug27- *add: initialize FCVrdsccHighestTLbyDesign and set it if there are any technosciences and fundamental researches by design.
+                  *add: initialize the FCVrdsccDesignModifier.
       -2014Aug25- *add: common core of technosciences and fundamental researches by design.
 }
    var
@@ -160,6 +174,8 @@ begin
    Count2:=0;
    Max1:=0;
    Max2:=0;
+   FCVrdsccHighestTLbyDesign:=tl01IndustrialAge;
+   FCVrdsccDesignModifier:=0;
    FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_type:=FCDdrdsResearchDatabase[ResearchDomain].RD_type;
    FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_knowledgeCurrent:=0;
    {.fundamental researches}
@@ -173,8 +189,12 @@ begin
       if FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel = tl01IndustrialAge
       then FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation )
       else if (Entity > 0 )
-         and ( _CompareWithFactionCoreSetup( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_token ) )
-      then FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation )
+         and ( _CompareWithFactionCoreSetup( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_token ) ) then
+      begin
+         FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation );
+         if FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel > FCVrdsccHighestTLbyDesign
+         then FCVrdsccHighestTLbyDesign:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel;
+      end
       else FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=tmsNotDiscovered;
       FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_ripCurrent:=0;
       FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_ripMax:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_maxRIPpoints;
@@ -199,8 +219,12 @@ begin
          if FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel = tl01IndustrialAge
          then FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation )
          else if ( Entity > 0 )
-            and ( _CompareWithFactionCoreSetup( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_token ) )
-         then FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation )
+            and ( _CompareWithFactionCoreSetup( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_token ) ) then
+         begin
+            FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation );
+            if FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel > FCVrdsccHighestTLbyDesign
+            then FCVrdsccHighestTLbyDesign:=FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel;
+         end
          else FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=tmsNotDiscovered;
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_ripCurrent:=0;
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_ripMax:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_maxRIPpoints;
@@ -218,14 +242,15 @@ procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
       Count
       ,Count1
       ,DesignModifier
-      ,GeneratedProbability
-      ,MaxTL: integer;
+      ,GeneratedProbability: integer;
+
+      MaxTL: TFCEdrdsTechnologyLevels;
 begin
    Count:=0;
    Count1:=1;
    DesignModifier:=0;
    GeneratedProbability:=0;
-   MaxTL:=0;
+   MaxTL:=tl01IndustrialAge;
    while Count1 <= FCCdiRDSdomainsMax do
    begin
       {.
@@ -253,11 +278,18 @@ begin
          ,Count1
          ,Count
          );
-      GeneratedProbability:=FCFcF_Random_DoInteger(
+      MaxTL:=FCFrdsF_NonPlayerFaction_GetRDomTLCap( Count );
+      if FCVrdsccDesignModifier = 0
+      then GeneratedProbability:=FCFcF_Random_DoInteger( 2 ) + Count
+      else if FCVrdsccDesignModifier > 0
+      then GeneratedProbability:=FCVrdsccDesignModifier + Count;
+      if ( GeneratedProbability <= 0 )
+         and ( FCVrdsccDesignModifier > 0 )
 
 
 
-      MaxTL:=FCFrdsF_NonPlayerFaction_GetRDomTLCap( Count1 );
+
+
 
       inc( Count1 )
    end; //==END== while Count1 <= FCCdiRDSdomainsMax ==//
