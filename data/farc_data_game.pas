@@ -589,7 +589,7 @@ type TFCRdgColony = record
                      LMII_matrixItem_ProductionModeIndex: integer;
                   end; //==END== record: PF_linkedMatrixItemIndexes ==//
                end; //==END== record: I_fProdProductionMode ==//
-         );
+               );
       end; //==END== record: S_infrastructures ==//
    end; //==END== record: C_settlements ==//
    ///<summary>

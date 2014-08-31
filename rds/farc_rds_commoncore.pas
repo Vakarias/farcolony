@@ -200,7 +200,7 @@ begin
       FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_ripMax:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_maxRIPpoints;
       inc( Count1 );
    end;
-   {.research fields}
+   {.research fields/technosciences}
    Count1:=1;
    Max1:=length( FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields ) - 1;
    setlength( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields, Max1 + 1 );
@@ -241,18 +241,44 @@ procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
    var
       Count
       ,Count1
+      ,Count2
+      ,Count3
+      ,CurrentTLindex
       ,DesignModifier
-      ,GeneratedProbability: integer;
+      ,GeneratedProbability
+      ,Max2
+      ,MaxTLindex: integer;
 
       MaxTL: TFCEdrdsTechnologyLevels;
+
+      ///<summary>
+      ///   test
+      ///</summary>
+      TSFRlist: array of array of record
+         TSFRL_indexInDB: integer;
+         case TSFRL_isFundamentalResearch: boolean of
+            False:(
+               TSFRL_fResearchFieldIdx: integer;
+               TSFRL_fTechnoscienceIdx: integer
+               );
+
+            True:( );
+      end;
 begin
    Count:=0;
    Count1:=1;
+   Count2:=0;
+   Count3:=0;
+   CurrentTLindex:=0;
    DesignModifier:=0;
    GeneratedProbability:=0;
+   Max2:=0;
+   MaxTLindex:=0;
    MaxTL:=tl01IndustrialAge;
+   SetLength( TSFRlist, 1 );
    while Count1 <= FCCdiRDSdomainsMax do
    begin
+      SetLength( TSFRlist, 1 );
       {.
          Count: common core orientation of the current research domain
       }
@@ -279,13 +305,36 @@ begin
          ,Count
          );
       MaxTL:=FCFrdsF_NonPlayerFaction_GetRDomTLCap( Count );
+      MaxTLindex:=Integer( MaxTL ) + 1;
       if FCVrdsccDesignModifier = 0
       then GeneratedProbability:=FCFcF_Random_DoInteger( 2 ) + Count
       else if FCVrdsccDesignModifier > 0
       then GeneratedProbability:=FCVrdsccDesignModifier + Count;
-      if ( GeneratedProbability <= 0 )
-         and ( FCVrdsccDesignModifier > 0 )
+      if ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) )
+         or ( GeneratedProbability > 0 ) then
+      begin
+         {.creation of a list of available technosciences/fundamental researches}
+         SetLength( TSFRlist, MaxTLindex + 1 );
+         {..fundamental researches first}
+         Max2:=length( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches ) - 1;
+         Count2:=1;
+         Count3:=0;
+         while Count2 <= Max2 do
+         begin
+            if FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_masteringStage = tmsNotDiscovered then
+            begin
+               CurrentTLindex:=Integer( FCDdrdsResearchDatabase[Count1].RD_fundamentalResearches[Count2].TS_techLevel ) + 1;
+               inc( Count3 );
+               SetLength( TSFRlist[CurrentTLindex], Count3 + 1 );
+               TSFRlist[CurrentTLindex, Count3].TSFRL_indexInDB:=Count2;
+               TSFRlist[CurrentTLindex, Count3].TSFRL_isFundamentalResearch:=true;
+            end;
+            inc( Count2 );
+         end;
 
+      end;
+
+      {:DEV NOTES: for tsci: Count3:= length( TSFRlist[CurrentTLindex] ), not = 0.}
 
 
 
