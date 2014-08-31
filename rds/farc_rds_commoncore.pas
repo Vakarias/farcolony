@@ -252,7 +252,13 @@ procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
       MaxTL: TFCEdrdsTechnologyLevels;
 
       ///<summary>
-      ///   test
+      /// available technosciences/fundamental researches list [x,y] = record
+         ///<summary>
+         /// x= tech level index from 2 to TL cap
+         ///</summary>
+         ///<summary>
+         /// y= non db index of available technosciences/fundamental research
+         ///</summary>
       ///</summary>
       TSFRlist: array of array of record
          TSFRL_indexInDB: integer;
@@ -335,6 +341,8 @@ begin
       end;
 
       {:DEV NOTES: for tsci: Count3:= length( TSFRlist[CurrentTLindex] ), not = 0.}
+
+      {:DEV NOTES: process of selection here.}
 
 
 
