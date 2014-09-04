@@ -221,9 +221,9 @@ begin
       else if (Entity > 0 ) then
       begin
          CurrentTLindex:=Integer( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel ) + 1;
-         Count3:=length( FCRrdsccTSFRlist[CurrentTLindex] ) - 1;
+         Count3:=length( FCVrdsccTSFRlist[CurrentTLindex] ) - 1;
          inc( Count3 );
-         SetLength( FCRrdsccTSFRlist[CurrentTLindex], Count3 + 1 );
+         SetLength( FCVrdsccTSFRlist[CurrentTLindex], Count3 + 1 );
          FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_indexInDB:=Count2;
          FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_isFundamentalResearch:=true;
       end
@@ -260,9 +260,9 @@ begin
          else if (Entity > 0 ) then
          begin
             CurrentTLindex:=Integer( FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel ) + 1;
-            Count3:=length( FCRrdsccTSFRlist[CurrentTLindex] ) - 1;
+            Count3:=length( FCVrdsccTSFRlist[CurrentTLindex] ) - 1;
             inc( Count3 );
-            SetLength( FCRrdsccTSFRlist[CurrentTLindex], Count3 + 1 );
+            SetLength( FCVrdsccTSFRlist[CurrentTLindex], Count3 + 1 );
             FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_indexInDB:=Count2;
             FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_isFundamentalResearch:=false;
             FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_fResearchFieldIdx:=Count1;
@@ -287,7 +287,6 @@ procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
       ,Count2
       ,Count3
       ,Count4
-      //,CurrentTLindex
       ,DesignModifier
       ,GeneratedProbability
       ,Max2
@@ -302,17 +301,16 @@ begin
    Count2:=0;
    Count3:=0;
    Count4:=0;
-   //CurrentTLindex:=0;
    DesignModifier:=0;
    GeneratedProbability:=0;
    Max2:=0;
    Max4:=0;
    MaxTLindex:=0;
    MaxTL:=tl01IndustrialAge;
-   SetLength( FCRrdsccTSFRlist, 1 );
+   SetLength( FCVrdsccTSFRlist, 1 );
    while Count1 <= FCCdiRDSdomainsMax do
    begin
-      SetLength( FCRrdsccTSFRlist, 1 );
+      SetLength( FCVrdsccTSFRlist, 1 );
       {.
          Count: common core orientation of the current research domain
       }
@@ -347,30 +345,39 @@ begin
       if ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) )
          or ( GeneratedProbability > 0 ) then
       begin
-
          {.generation subprocess}
          Count2:=MaxTLindex;
          while Count2 > 0 do
          begin
-            Count3:=FCFcF_Random_DoInteger( MaxTLindex - 1 ) + 1;
+            Count3:=FCFcF_Random_DoInteger( MaxTLindex ) + 2;
             if Count3 < 2
-            then Count3:=2;
-            Max4:=length( FCRrdsccTSFRlist[Count3] ) - 1;
+            then Count3:=2
+            else if Count3 >= MaxTLindex
+            then Count3:=MaxTLindex;
+            Max4:=length( FCVrdsccTSFRlist[Count3] ) - 1;
             if Max4 > 0 then
             begin
                Count4:=FCFcF_Random_DoInteger( Max4 - 1 ) + 1;
                if ( FCVrdsccTSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
-                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered
+                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered ) then
+               begin
+                  GeneratedProbability:=FCFcF_Random_DoInteger( 10 + Count + 1 );
+                  if GeneratedProbability <= 5
+                  then FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=tmsNotMastered
+                  else FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( Count );
+               end
+               else if ( not FCVrdsccTSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
+                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered ) then
+               begin
+                  GeneratedProbability:=FCFcF_Random_DoInteger( 10 + Count + 1 );
+                  if GeneratedProbability <= 5
+                  then FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=tmsNotMastered
+                  else FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( Count );
+               end;
             end;
             dec( Count2 );
          end;
-
-
-
       end; //==END== if ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) ) or ( GeneratedProbability > 0 ) ==//
-
-
-
       inc( Count1 );
    end; //==END== while Count1 <= FCCdiRDSdomainsMax ==//
 end;

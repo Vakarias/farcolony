@@ -106,6 +106,7 @@ function FCFcF_Random_DoFloat: extended;
 ///</summary>
 ///   <param name="Range">range integer for the random processing</param>
 ///   <returns>the randomized integer included in the range</returns>
+///   <remarks>if Range <= the result will be always 0</remarks>
 function FCFcF_Random_DoInteger(const Range: integer): integer;
 
 ///<summary>
@@ -344,6 +345,7 @@ end;
 function FCFcF_Random_DoInteger(const Range: integer): integer;
 {:Purpose: "real" random function including a randomize each time.
     Additions:
+      -2014Sep04- *add: prevent random with <= zero values.
       -2012Dec09- *code audit:
                      (_)var formatting + refactoring     (_)if..then reformatting   (x)function/procedure refactoring
                      (x)parameters refactoring           (x) ()reformatting         (_)code optimizations
@@ -358,7 +360,8 @@ function FCFcF_Random_DoInteger(const Range: integer): integer;
 begin
    Result:=0;
 //   Randomize;
-   Result:=random( Range );
+   if Range > 0
+   then Result:=random( Range );
 end;
 
 function FCFcF_Rand_G( const Mean, StdDev: extended ): extended;
