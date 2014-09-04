@@ -71,6 +71,23 @@ uses
 
 //==END PRIVATE ENUM========================================================================
 
+///<summary>
+/// available technosciences/fundamental researches list [x,y] = record
+   ///<summary>
+   /// x= tech level index from 2 to TL cap
+   ///</summary>
+   ///<summary>
+   /// y= non db index of available technosciences/fundamental research
+   ///</summary>
+///</summary>
+type FCRrdsccTSFRlist= record
+   TSFRL_indexInDB: integer;
+   case TSFRL_isFundamentalResearch: boolean of
+      False:( TSFRL_fResearchFieldIdx: integer );
+
+      True:( );
+   end;
+
 //==END PRIVATE RECORDS=====================================================================
 
    //==========subsection===================================================================
@@ -78,6 +95,8 @@ var
    FCVrdsccDesignModifier: integer;
 
    FCVrdsccHighestTLbyDesign: TFCEdrdsTechnologyLevels;
+
+   FCVrdsccTSFRlist: array of array of FCRrdsccTSFRlist;
 
 //==END PRIVATE VAR=========================================================================
 
@@ -141,6 +160,7 @@ procedure FMcC_Core_Initialize(
    );
 {:Purpose: initialize the rds data structure and master the tech level 1 technosciences and fundamental researches.
     Additions:
+      -2014Sep02- *add: for the non-player factions; if a technoscience/fundamental research isn't added, it is place into an available list to allow, into FCMcC_NonPlayerFaction_Initialize to generate additional FR/TS.
       -2014Aug27- *add: initialize FCVrdsccHighestTLbyDesign and set it if there are any technosciences and fundamental researches by design.
                   *add: initialize the FCVrdsccDesignModifier.
       -2014Aug25- *add: common core of technosciences and fundamental researches by design.
@@ -149,6 +169,7 @@ procedure FMcC_Core_Initialize(
       Count1
       ,Count2
       ,Count3
+      ,CurrentTLindex
       ,Max1
       ,Max2
       ,Max3: integer;
@@ -172,6 +193,8 @@ procedure FMcC_Core_Initialize(
 begin
    Count1:=0;
    Count2:=0;
+   Count3:=0;
+   CurrentTLindex:=0;
    Max1:=0;
    Max2:=0;
    FCVrdsccHighestTLbyDesign:=tl01IndustrialAge;
@@ -194,6 +217,15 @@ begin
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation );
          if FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel > FCVrdsccHighestTLbyDesign
          then FCVrdsccHighestTLbyDesign:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel;
+      end
+      else if (Entity > 0 ) then
+      begin
+         CurrentTLindex:=Integer( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel ) + 1;
+         Count3:=length( FCRrdsccTSFRlist[CurrentTLindex] ) - 1;
+         inc( Count3 );
+         SetLength( FCRrdsccTSFRlist[CurrentTLindex], Count3 + 1 );
+         FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_indexInDB:=Count2;
+         FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_isFundamentalResearch:=true;
       end
       else FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=tmsNotDiscovered;
       FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_ripCurrent:=0;
@@ -225,6 +257,16 @@ begin
             if FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel > FCVrdsccHighestTLbyDesign
             then FCVrdsccHighestTLbyDesign:=FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel;
          end
+         else if (Entity > 0 ) then
+         begin
+            CurrentTLindex:=Integer( FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel ) + 1;
+            Count3:=length( FCRrdsccTSFRlist[CurrentTLindex] ) - 1;
+            inc( Count3 );
+            SetLength( FCRrdsccTSFRlist[CurrentTLindex], Count3 + 1 );
+            FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_indexInDB:=Count2;
+            FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_isFundamentalResearch:=false;
+            FCVrdsccTSFRlist[CurrentTLindex, Count3].TSFRL_fResearchFieldIdx:=Count1;
+         end
          else FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=tmsNotDiscovered;
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_ripCurrent:=0;
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_ripMax:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_maxRIPpoints;
@@ -237,6 +279,7 @@ end;
 procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
 {:Purpose: initialize the common core for a non-player faction.
     Additions:
+      -2014Sep02- *rem: the available technosciences/fundamental researches list is placed at the unit's level.
 }
    var
       Count
@@ -244,7 +287,7 @@ procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
       ,Count2
       ,Count3
       ,Count4
-      ,CurrentTLindex
+      //,CurrentTLindex
       ,DesignModifier
       ,GeneratedProbability
       ,Max2
@@ -253,39 +296,23 @@ procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
 
       MaxTL: TFCEdrdsTechnologyLevels;
 
-      ///<summary>
-      /// available technosciences/fundamental researches list [x,y] = record
-         ///<summary>
-         /// x= tech level index from 2 to TL cap
-         ///</summary>
-         ///<summary>
-         /// y= non db index of available technosciences/fundamental research
-         ///</summary>
-      ///</summary>
-      TSFRlist: array of array of record
-         TSFRL_indexInDB: integer;
-         case TSFRL_isFundamentalResearch: boolean of
-            False:( TSFRL_fResearchFieldIdx: integer );
-
-            True:( );
-      end;
 begin
    Count:=0;
    Count1:=1;
    Count2:=0;
    Count3:=0;
    Count4:=0;
-   CurrentTLindex:=0;
+   //CurrentTLindex:=0;
    DesignModifier:=0;
    GeneratedProbability:=0;
    Max2:=0;
    Max4:=0;
    MaxTLindex:=0;
    MaxTL:=tl01IndustrialAge;
-   SetLength( TSFRlist, 1 );
+   SetLength( FCRrdsccTSFRlist, 1 );
    while Count1 <= FCCdiRDSdomainsMax do
    begin
-      SetLength( TSFRlist, 1 );
+      SetLength( FCRrdsccTSFRlist, 1 );
       {.
          Count: common core orientation of the current research domain
       }
@@ -320,49 +347,7 @@ begin
       if ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) )
          or ( GeneratedProbability > 0 ) then
       begin
-         {:DEV NOTES: PUT LIST CREATION INTO FMcC_Core_Initialize, WARNING TO USE ENTITY>1 WITH IT.}
-         {.creation of a list of available technosciences/fundamental researches}
-         SetLength( TSFRlist, MaxTLindex + 1 );
-         {..fundamental researches first}
-         Max2:=length( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches ) - 1;
-         Count2:=1;
-         Count3:=0;
-         while Count2 <= Max2 do
-         begin
-            if FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_masteringStage = tmsNotDiscovered then
-            begin
-               CurrentTLindex:=Integer( FCDdrdsResearchDatabase[Count1].RD_fundamentalResearches[Count2].TS_techLevel ) + 1;
-               Count3:=length( TSFRlist[CurrentTLindex] ) - 1;
-               inc( Count3 );
-               SetLength( TSFRlist[CurrentTLindex], Count3 + 1 );
-               TSFRlist[CurrentTLindex, Count3].TSFRL_indexInDB:=Count2;
-               TSFRlist[CurrentTLindex, Count3].TSFRL_isFundamentalResearch:=true;
-            end;
-            inc( Count2 );
-         end;
-         {..technosciences in second}
-         Max2:=length( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields ) - 1;
-         Count2:=1;
-         while Count2 <= Max2 do
-         begin
-            Max4:=length( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences ) - 1;
-            Count4:=1;
-            while Count4 <= Max4 do
-            begin
-               if FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count4].TS_masteringStage = tmsNotDiscovered then
-               begin
-                  CurrentTLindex:=Integer( FCDdrdsResearchDatabase[Count1].RD_researchFields[Count2].RF_technosciences[Count4].TS_techLevel ) + 1;
-                  Count3:=length( TSFRlist[CurrentTLindex] ) - 1;
-                  inc( Count3 );
-                  SetLength( TSFRlist[CurrentTLindex], Count3 + 1 );
-                  TSFRlist[CurrentTLindex, Count3].TSFRL_indexInDB:=Count4;
-                  TSFRlist[CurrentTLindex, Count3].TSFRL_isFundamentalResearch:=false;
-                  TSFRlist[CurrentTLindex, Count3].TSFRL_fResearchFieldIdx:=Count2;
-               end;
-               inc( Count4);
-            end;
-            inc( Count2 );
-         end;
+
          {.generation subprocess}
          Count2:=MaxTLindex;
          while Count2 > 0 do
@@ -370,12 +355,12 @@ begin
             Count3:=FCFcF_Random_DoInteger( MaxTLindex - 1 ) + 1;
             if Count3 < 2
             then Count3:=2;
-            Max4:=length( TSFRlist[Count3] ) - 1;
+            Max4:=length( FCRrdsccTSFRlist[Count3] ) - 1;
             if Max4 > 0 then
             begin
                Count4:=FCFcF_Random_DoInteger( Max4 - 1 ) + 1;
-               if ( TSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
-                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[TSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered
+               if ( FCVrdsccTSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
+                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered
             end;
             dec( Count2 );
          end;
