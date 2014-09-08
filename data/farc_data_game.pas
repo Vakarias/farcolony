@@ -433,10 +433,20 @@ end;
 ///</summary>
 type TFCRdgTechnoscience = record
    TS_token: string[20];
-   TS_collateralMastered: boolean;
    TS_masteringStage: TFCEdgTechnoscienceMasteringStages;
    TS_ripCurrent: integer;
    TS_ripMax: integer;
+   case TS_collateralMastered: boolean of
+      False: ();
+
+      True: (
+         TS_cmtCollateralTriggerIndex: integer;
+         TS_cmtIsCollateralTriggerFR: boolean;
+         ///<summary>
+         ///   =0 if TS_cmtIsCollateralTriggerFR true
+         ///</summary>
+         TS_cmtCollateralTriggerRFI: integer
+      );
 end;
 
 {:REFERENCES LIST
