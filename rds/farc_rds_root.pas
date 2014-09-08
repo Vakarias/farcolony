@@ -55,6 +55,7 @@ interface
 ///   <returns></returns>
 ///   <remarks></remarks>
 procedure FCMrdsR_CascadedCollateralEffects_Process(
+   const isFromCommonCoreProcess: boolean;
    const Entity
          ,ResearchDomain
          ,TSFRIndex: integer
@@ -70,6 +71,7 @@ procedure FCMrdsR_CascadedCollateralEffects_Process(
 ///   <returns></returns>
 ///   <remarks></remarks>
 procedure FCMrdsR_CascadedCollateralEffects_Process(
+   const isFromCommonCoreProcess: boolean;
    const Entity
          ,ResearchDomain
          ,TSFRIndex
@@ -79,7 +81,9 @@ procedure FCMrdsR_CascadedCollateralEffects_Process(
 
 implementation
 
-//uses
+uses
+   farc_data_game
+   ,farc_data_rds;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -96,6 +100,7 @@ implementation
 //===========================END FUNCTIONS SECTION==========================================
 
 procedure FCMrdsR_CascadedCollateralEffects_Process(
+   const isFromCommonCoreProcess: boolean;
    const Entity
          ,ResearchDomain
          ,TSFRIndex: integer
@@ -103,11 +108,31 @@ procedure FCMrdsR_CascadedCollateralEffects_Process(
 {:Purpose: process the cascaded collateral effects for a fundamental research.
     Additions:
 }
+   var
+      Count
+      ,DiscoveredNotMastereCount
+      ,Max
+      ,RTSindex
+      ,RTSrdomain
+      ,RTSrfield: integer;
 begin
+   DiscoveredNotMastereCount:=0;
+   RTSindex:=0;
+   RTSrdomain:=0;
+   RTSrfield:=0;
+   Count:=1;
+   Max:=length( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences ) - 1;
+   while Count <= Max do
+   begin
+      if ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_field = rfFundamentalResearch )
+         and ( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[TSFRIndex].
+      inc( Count );
+   end;
 
 end;
 
 procedure FCMrdsR_CascadedCollateralEffects_Process(
+   const isFromCommonCoreProcess: boolean;
    const Entity
          ,ResearchDomain
          ,TSFRIndex

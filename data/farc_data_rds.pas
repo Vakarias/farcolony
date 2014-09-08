@@ -191,8 +191,8 @@ end;
 
    TFCDdrdsResearchDatabase = array[0..FCCdiRDSdomainsMax] of TFCRdrdsResearchDomain;
 
-//==END PUBLIC RECORDS======================================================================
 
+//==END PUBLIC RECORDS======================================================================
 
 var
    //==========databases and other data structures pre-init=================================
