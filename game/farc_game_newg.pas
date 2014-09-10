@@ -93,6 +93,7 @@ uses
    ,farc_ogl_init
    ,farc_ogl_ui
    ,farc_ogl_viewmain
+   ,farc_rds_commoncore
    ,farc_spm_memes
    ,farc_spu_functions
    ,farc_survey_core
@@ -224,6 +225,7 @@ end;
 procedure FCMgNG_Core_Proceed;
 {:Purpose: commit the current setup of a new game and initialize the game interface.
    Additions:
+      -2014Sep09- *add: link the RDS common core initialization for non-player factions.
       -2014Aug12- *add: initialize the non player's factions before the player's faction. It is required for the common core.
       -2014Aug10- *code audit (END).
       -2014Aug06- *code audit (BEGIN):
@@ -488,6 +490,7 @@ begin
          FCDdgEntities[Count1].E_token:=FCDdgFactions[Count1].F_token;
          FCDdgEntities[Count1].E_factionLevel:=FCDdgFactions[Count1].F_level;
          {:DEV NOTES: add space units, colonies and any stuff to initialize for AI factions under this line.}
+         FCMcC_NonPlayerFaction_Initialize( Count1 );
       end
       else if Count1 = 0 then
       begin

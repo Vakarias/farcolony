@@ -135,6 +135,7 @@ uses
 procedure FCMgC_Data_Injection;
 {:Purpose: initialize all data injection, concentrated to this one place for new/continue game of game loading.
     Additions:
+      -2014Sep09- *add: research & development system data.
 }
 begin
    FCMdF_DBProducts_Load;
@@ -142,6 +143,7 @@ begin
    FCMdF_DBFactions_Load;
    FCMdF_DBInfrastructures_Load;
    FCMdF_DBSpaceUnits_Load;
+   FCMdF_DBResearchDevelopmentSystem_Load;
    FCMdF_DBStarSystems_Load;
 end;
 

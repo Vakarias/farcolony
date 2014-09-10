@@ -125,7 +125,22 @@ begin
    while Count <= Max do
    begin
       if ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_field = rfFundamentalResearch )
-         and ( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[TSFRIndex].
+         and ( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[TSFRIndex].TS_masteringStage = tmsNotDiscovered )
+         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_type = FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_domain ) then
+      begin
+
+      end
+
+
+//      else if ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_field > rfFundamentalResearch )
+//         and ( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[TSFRIndex].TS_masteringStage = tmsNotDiscovered )
+//         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_type = FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_domain ) then
+//      begin
+//
+//      end
+
+      ;
+
       inc( Count );
    end;
 

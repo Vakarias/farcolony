@@ -79,6 +79,7 @@ type TFCEdrdsResearchDomains=(
 {:REFERENCES LIST
    - FCFrdsF_Domain_GetNumberOfResearchFields
    - TFCRdipProduct
+   - FCMdF_DBResearchDevelopmentSystem_Load (WARNING, IMPORTANT)
 }
 type TFCEdrdsResearchFields=(
    rfFundamentalResearch

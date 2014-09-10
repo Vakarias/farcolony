@@ -1491,6 +1491,7 @@ end;
 procedure FCMdFSG_Game_Save;
 {:Purpose: save the current game.
     Additions:
+      -2014Sep09- *fix: RDS - collateralized data: save the data with the correct XML subset.
       -2014Sep07- *add: RDS - collateralized data.
       -2014Aug18- *add: entity's RDS data.
       -2014Aug17- *rem: moved RDS data out of colonies data structure.
@@ -2344,16 +2345,16 @@ begin
          begin
             if Count2 = 1
             then XMLSavedGameItemSub3:=XMLSavedGameItemSub2.AddChild( 'FundamentalResearches' );
-            XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'FundamentalResearch' );
-            XMLSavedGameItemSub4.Attributes['token']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_token;
-            XMLSavedGameItemSub4.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_masteringStage ) );
-            XMLSavedGameItemSub4.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripCurrent;
-            XMLSavedGameItemSub4.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripMax;
-            XMLSavedGameItemSub4.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered, true );
+            XMLSavedGameItemSub3:=XMLSavedGameItemSub3.AddChild( 'FundamentalResearch' );
+            XMLSavedGameItemSub3.Attributes['token']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_token;
+            XMLSavedGameItemSub3.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_masteringStage ) );
+            XMLSavedGameItemSub3.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripCurrent;
+            XMLSavedGameItemSub3.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripMax;
+            XMLSavedGameItemSub3.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered, true );
             if FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered then
             begin
-               XMLSavedGameItemSub4.Attributes['collateralTriggerIdx']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtCollateralTriggerIndex;
-               XMLSavedGameItemSub4.Attributes['iscollateralTriggerFR']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtIsCollateralTriggerFR, true );
+               XMLSavedGameItemSub3.Attributes['collateralTriggerIdx']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtCollateralTriggerIndex;
+               XMLSavedGameItemSub3.Attributes['iscollateralTriggerFR']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtIsCollateralTriggerFR, true );
             end;
             inc( Count2 );
          end;
@@ -2372,12 +2373,12 @@ begin
             begin
                if Count3 = 1
                then XMLSavedGameItemSub4:=XMLSavedGameItemSub3.AddChild( 'Technosciences' );
-               XMLSavedGameItemSub5:=XMLSavedGameItemSub4.AddChild( 'Technoscience' );
-               XMLSavedGameItemSub5.Attributes['token']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_token;
-               XMLSavedGameItemSub5.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_masteringStage ) );
-               XMLSavedGameItemSub5.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripCurrent;
-               XMLSavedGameItemSub5.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripMax;
-               XMLSavedGameItemSub5.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_collateralMastered, true );
+               XMLSavedGameItemSub4:=XMLSavedGameItemSub4.AddChild( 'Technoscience' );
+               XMLSavedGameItemSub4.Attributes['token']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_token;
+               XMLSavedGameItemSub4.Attributes['masteringStage']:=GetEnumName( TypeInfo( TFCEdgTechnoscienceMasteringStages ), Integer( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_masteringStage ) );
+               XMLSavedGameItemSub4.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripCurrent;
+               XMLSavedGameItemSub4.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_ripMax;
+               XMLSavedGameItemSub4.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_collateralMastered, true );
                if FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_collateralMastered then
                begin
                   XMLSavedGameItemSub4.Attributes['collateralTriggerIdx']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_cmtCollateralTriggerIndex;
