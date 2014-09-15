@@ -1447,12 +1447,28 @@ begin
                begin
                   inc( Count2 );
                   setlength( FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections, Count2 + 1 );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections[Count2].IP_token:=RDStechsciItem.Attributes['token'];
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsInfluenceProjectionTypes ), RDStechsciItem.Attributes['type'] );
                   FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections[Count2].IP_type:=TFCEdrdsInfluenceProjectionTypes( Count3 );
                   if Count3=-1
                   then raise Exception.Create( 'bad technoscience influence projection type: '+RDStechsciItem.Attributes['type'] );
+
+                  case FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections[Count2].IP_type of
+                     iptProduct..iptSPMItem: FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections[Count2].IP_tp_spmiToken:=RDStechsciItem.Attributes['token'];
+
+                     iptOwnRDOM: FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections[Count2].IP_tordomInfluenceValue:=RDStechsciItem.Attributes['influence'];
+
+                     iptExternalResearchField:
+                     begin
+
+                        Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDStechsciItem.Attributes['researchfield'] );
+                        FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections[Count2].IP_trfResearchField:=TFCEdrdsResearchFields( Count3 );
+                        if Count3=-1
+                        then raise Exception.Create( 'bad technoscience influence projection external research field: '+RDStechsciItem.Attributes['researchfield'] );
+
+                        FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_influenceProjections[Count2].IP_trfInfluenceValue:=RDStechsciItem.Attributes['influence'];
+                     end;
+                  end;
                end;
                RDStechsciItem:=RDStechsciItem.NextSibling;
             end; //==END==  ==//
@@ -1489,12 +1505,12 @@ begin
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchDomains ), RDStechsciItem.Attributes['domain'] );
                   FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_domain:=TFCEdrdsResearchDomains( Count3 );
                   if Count3=-1
-                  then raise Exception.Create( 'bad fundamental research rts domain: '+RDStechsciItem.Attributes['domain'] );
+                  then raise Exception.Create( 'bad fundamental research rts - domain: '+RDStechsciItem.Attributes['domain'] );
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDStechsciItem.Attributes['rfield'] );
                   FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_field:=TFCEdrdsResearchFields( Count3 );
                   if Count3=-1
-                  then raise Exception.Create( 'bad fundamental research rts field: '+RDStechsciItem.Attributes['rfield'] );
+                  then raise Exception.Create( 'bad fundamental research rts - field: '+RDStechsciItem.Attributes['rfield'] );
 
                   FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_isKeyTech:=RDStechsciItem.Attributes['isKeyTech'];
                   FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_rawInfluence:=RDStechsciItem.Attributes['influence'];
@@ -1507,7 +1523,7 @@ begin
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsARITypes ), RDStechsciItem.Attributes['type'] );
                   FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_additionalRelatedItems[Count4].ARI_type:=TFCEdrdsARITypes( Count3 );
                   if Count3=-1
-                  then raise Exception.Create( 'bad fundamental research ari type: '+RDStechsciItem.Attributes['type'] );
+                  then raise Exception.Create( 'bad fundamental research ari - type: '+RDStechsciItem.Attributes['type'] );
 
                   FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_additionalRelatedItems[Count4].ARI_token:=RDStechsciItem.Attributes['token'];
                end
@@ -1515,13 +1531,28 @@ begin
                begin
                   inc( Count2 );
                   setlength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections, Count2 + 1 );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_token:=RDStechsciItem.Attributes['token'];
-                     {:DEV NOTES: WARNING LOOK THE technosciences.xml, take in account the 2 special cases! + put an add/mod into the Additions.}
 
-//                  Count3:=GetEnumValue( TypeInfo( TFCEdrdsInfluenceProjectionTypes ), RDStechsciItem.Attributes['type'] );
-//                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_type:=TFCEdrdsInfluenceProjectionTypes( Count3 );
-//                  if Count3=-1
-//                  then raise Exception.Create( 'bad fundamental research influence projection type: '+RDStechsciItem.Attributes['type'] );
+                  Count3:=GetEnumValue( TypeInfo( TFCEdrdsInfluenceProjectionTypes ), RDStechsciItem.Attributes['type'] );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_type:=TFCEdrdsInfluenceProjectionTypes( Count3 );
+                  if Count3=-1
+                  then raise Exception.Create( 'bad fundamental research influence projection - type: '+RDStechsciItem.Attributes['type'] );
+
+                  case FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_type of
+                     iptProduct..iptSPMItem: FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_tp_spmiToken:=RDStechsciItem.Attributes['token'];
+
+                     iptOwnRDOM: FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_tordomInfluenceValue:=RDStechsciItem.Attributes['influence'];
+
+                     iptExternalResearchField:
+                     begin
+
+                        Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDStechsciItem.Attributes['researchfield'] );
+                        FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_trfResearchField:=TFCEdrdsResearchFields( Count3 );
+                        if Count3=-1
+                        then raise Exception.Create( 'bad fundamental research influence projection - external research field: '+RDStechsciItem.Attributes['researchfield'] );
+
+                        FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_influenceProjections[Count2].IP_trfInfluenceValue:=RDStechsciItem.Attributes['influence'];
+                     end;
+                  end;
                end;
                RDStechsciItem:=RDStechsciItem.NextSibling;
             end; //==END==  ==//

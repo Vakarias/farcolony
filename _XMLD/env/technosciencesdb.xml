@@ -83,7 +83,7 @@
             <ari type="" token=""/>
             <influenceproj type="" token=""/>
             with iptExternalResearchField:
-            <influenceproj type="iptExternalResearchField" token="" influence="1-2-3"/>
+            <influenceproj type="iptExternalResearchField" researchfield="" influence="1-2-3"/>
             with iptOwnRDOM:
             <influenceproj type="iptOwnRDOM" influence="1-2-3"/>
          </tsci>
@@ -185,8 +185,8 @@
       </tsci>
       <!-- Cryobiology -->
       <tsci fundamentalrsrch="True" token="tsCryobiology" domain="rdBiosciences" field="rfFundamentalResearch" techlevel="tl01IndustrialAge" difficulty="0" discothres="0" maxRIPpoints="0">
-         <influenceproj type="iptExternalResearchField" token="rf6IndustrialTechnics" influence="2"/>
-         <influenceproj type="iptExternalResearchField" token="rf6Materials" influence="3"/>
+         <influenceproj type="iptExternalResearchField" researchfield="rf6IndustrialTechnics" influence="2"/>
+         <influenceproj type="iptExternalResearchField" researchfield="rf6Materials" influence="3"/>
       </tsci>
       <!-- Cryonics -->
       <tsci fundamentalrsrch="True" token="tsCryonics" domain="rdBiosciences" field="rfFundamentalResearch" techlevel="tl02RoboticAge" difficulty="34" discothres="68" maxRIPpoints="0">
@@ -540,9 +540,9 @@
       <!-- Quantum Mechanics -->
       <tsci fundamentalrsrch="True" token="tsQMechanics" domain="rdPhysics" field="rfFundamentalResearch" techlevel="tl01IndustrialAge" difficulty="0" discothres="0" maxRIPpoints="0">
          <influenceproj type="iptOwnRDOM" influence="3"/>
-         <influenceproj type="iptExternalResearchField" token="rf1SpaceDrives" influence="1"/>
-         <influenceproj type="iptExternalResearchField" token="rf2Astrophysics" influence="3"/>
-         <influenceproj type="iptExternalResearchField" token="rf2SpaceEngineering" influence="2"/>
+         <influenceproj type="iptExternalResearchField" researchfield="rf1SpaceDrives" influence="1"/>
+         <influenceproj type="iptExternalResearchField" researchfield="rf2Astrophysics" influence="3"/>
+         <influenceproj type="iptExternalResearchField" researchfield="rf2SpaceEngineering" influence="2"/>
       </tsci>   
       <!-- Superfluidics -->
       <tsci fundamentalrsrch="True" token="tsSuperfluidics" domain="rdPhysics" field="rfFundamentalResearch" techlevel="tl02RoboticAge" difficulty="43" discothres="86" maxRIPpoints="66">

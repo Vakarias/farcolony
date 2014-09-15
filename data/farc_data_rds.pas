@@ -43,7 +43,8 @@ type TFCEdrdsARITypes=(
    );
 
 {:REFERENCES LIST
-   - TFCRdrdsTechnoscience
+   - TFCRdrdsInfluenceProjection
+   - FCMdF_DBResearchDevelopmentSystem_Load
 }
 ///<summary>
 ///
@@ -142,9 +143,27 @@ type TFCRdrdsAdditionalRelatedItem= record
    ARI_type: TFCEdrdsARITypes;
 end;
 
+{:REFERENCES LIST
+   - TFCRdrdsInfluenceProjection
+   - FCMdF_DBResearchDevelopmentSystem_Load
+}
+///<summary>
+///
+///</summary>
 type TFCRdrdsInfluenceProjection= record
-   IP_token: string[20];
-   IP_type: TFCEdrdsInfluenceProjectionTypes;
+   case IP_type: TFCEdrdsInfluenceProjectionTypes of
+      iptProduct
+      ,iptInfrastructure
+      ,iptSpaceUnitArchitecture
+      ,iptEquipmentModule
+      ,iptSPMItem:( IP_tp_spmiToken: string[20] );
+
+      iptOwnRDOM:( IP_tordomInfluenceValue: integer );
+
+      iptExternalResearchField:(
+         IP_trfResearchField: TFCEdrdsResearchFields;
+         IP_trfInfluenceValue: integer
+         );
 end;
 
 {:REFERENCES LIST
