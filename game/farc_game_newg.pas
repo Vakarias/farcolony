@@ -485,6 +485,8 @@ begin
       SetLength( FCDdgEntities[Count1].E_spaceUnits, 1 );
       SetLength( FCDdgEntities[Count1].E_colonies, 1 );
       SetLength( FCDdgEntities[Count1].E_spmSettings, 1 );
+      SetLength( FCDdgEntities[Count1].E_planetarySurveys, 1 );
+      SetLength( FCDdgEntities[Count1].E_surveyedResourceSpots, 1 );
       if Count1>0 then
       begin
          FCDdgEntities[Count1].E_token:=FCDdgFactions[Count1].F_token;
