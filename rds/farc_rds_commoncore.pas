@@ -291,6 +291,7 @@ end;
 procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
 {:Purpose: initialize the common core for a non-player faction.
     Additions:
+      -2014Sep15- *fix: bypass entirely the research domain Culture for random generation, since this one is not officially supported yet.
       -2014Sep02- *rem: the available technosciences/fundamental researches list is placed at the unit's level.
 }
    var
@@ -354,38 +355,38 @@ begin
       then GeneratedProbability:=FCFcF_Random_DoInteger( 2 ) + Count
       else if FCVrdsccDesignModifier > 0
       then GeneratedProbability:=FCVrdsccDesignModifier + Count;
-      if ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) )
-         or ( GeneratedProbability > 0 ) then
+      if ( Count1 <> 4 )
+         and ( ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) ) or ( GeneratedProbability > 0 ) ) then
       begin
          {.generation subprocess}
          Count2:=MaxTLindex;
          while Count2 > 1 do
          begin
-            Count3:=FCFcF_Random_DoInteger( MaxTLindex );
+            Count3:=FCFcF_Random_DoInteger( MaxTLindex ) + 1;
             if Count3 < 2
             then Count3:=2;
-            if FCVdiDebugMode
-            then FCWinDebug.AdvMemo1.Lines.Add('RDOM= '+inttostr(Count1)+' / MaxTL= '+inttostr(MaxTLindex)+' / Count3=  '+inttostr(Count3));
+            if Count3 > MaxTLindex
+            then Count3:=MaxTLindex;
             Max4:=length( FCVrdsccTSFRlist[Count3] ) - 1;
             if Max4 > 0 then
             begin
-//               Count4:=FCFcF_Random_DoInteger( Max4 - 1 ) + 1;
-//               if ( FCVrdsccTSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
-//                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered ) then
-//               begin
-//                  GeneratedProbability:=FCFcF_Random_DoInteger( 10 + Count + 1 );
-//                  if GeneratedProbability <= 5
-//                  then FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=tmsNotMastered
-//                  else FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( Count );
-//               end
-//               else if ( not FCVrdsccTSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
-//                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered ) then
-//               begin
-//                  GeneratedProbability:=FCFcF_Random_DoInteger( 10 + Count + 1 );
-//                  if GeneratedProbability <= 5
-//                  then FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=tmsNotMastered
-//                  else FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( Count );
-//               end;
+               Count4:=FCFcF_Random_DoInteger( Max4 - 1 ) + 1;
+               if ( FCVrdsccTSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
+                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered ) then
+               begin
+                  GeneratedProbability:=FCFcF_Random_DoInteger( 10 + Count + 1 );
+                  if GeneratedProbability <= 5
+                  then FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=tmsNotMastered
+                  else FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( Count );
+               end
+               else if ( not FCVrdsccTSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
+                  and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered ) then
+               begin
+                  GeneratedProbability:=FCFcF_Random_DoInteger( 10 + Count + 1 );
+                  if GeneratedProbability <= 5
+                  then FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=tmsNotMastered
+                  else FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( Count );
+               end;
             end;
             dec( Count2 );
          end;

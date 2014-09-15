@@ -1313,6 +1313,17 @@ begin
             then raise Exception.Create( 'bad technoscience research field: '+RDSnode.Attributes['field'] )
             else begin
                case EnumIndex of
+                  1:
+                  begin
+                     case Count of
+                        1: EnumIndex1:=1;
+
+                        2: EnumIndex1:=2;
+
+                        3: EnumIndex1:=3;
+                     end;
+                  end;
+
                   2:
                   begin
                      case Count of
