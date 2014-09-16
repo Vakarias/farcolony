@@ -92,6 +92,7 @@ implementation
 function FCFrdsF_Domain_GetNumberOfResearchFields( const ResearchDomain: TFCEdrdsResearchDomains ): integer;
 {:Purpose: return the number of research fields for a particular domain. These hardcoded number are located only into this function for the entire FARC code.
     Additions:
+      -2014Sep15- *fix: put the correct number of research fields for the Culture research domain.
 }
 begin
    Result:=0;
@@ -102,7 +103,7 @@ begin
 
       rdBiosciences: Result:=3;
 
-      rdCulture: Result:=3;
+      rdCulture: Result:=4;
 
       rdEcosciences: Result:=2;
 
