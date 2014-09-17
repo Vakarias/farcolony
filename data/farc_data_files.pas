@@ -1238,6 +1238,7 @@ end;
 procedure FCMdF_DBResearchDevelopmentSystem_Load;
 {:Purpose: load the technosciences database.
     Additions:
+      -2014Sep16- *mod: the RTS indexes are stored by the use of integer values.
       -2014Sep09  *fix: for the RTS research field; load the data with the correct attribute name.
                   *fix: for the RTS research influence; load the data with the correct attribute name.
                   *fix: correction of EnumIndex1 for technosciences.
@@ -1427,15 +1428,15 @@ begin
                begin
                   inc( Count1 );
                   setlength( FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences, Count1 + 1 );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_token:=RDStechsciItem.Attributes['token'];
+                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_index:=RDStechsciItem.Attributes['token'];
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchDomains ), RDStechsciItem.Attributes['domain'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_domain:=TFCEdrdsResearchDomains( Count3 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_domainIndex:=Count3 + 1;
                   if Count3=-1
                   then raise Exception.Create( 'bad technoscience rts domain: '+RDStechsciItem.Attributes['domain'] );
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDStechsciItem.Attributes['rfield'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_field:=TFCEdrdsResearchFields( Count3 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_fieldIndex:=Count3;
                   if Count3=-1
                   then raise Exception.Create( 'bad technoscience rts field: '+RDStechsciItem.Attributes['rfield'] );
 
@@ -1511,15 +1512,15 @@ begin
                begin
                   inc( Count1 );
                   setlength( FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences, Count1 + 1 );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_token:=RDStechsciItem.Attributes['token'];
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_index:=RDStechsciItem.Attributes['token'];
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchDomains ), RDStechsciItem.Attributes['domain'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_domain:=TFCEdrdsResearchDomains( Count3 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_domainIndex:=Count3 + 1;
                   if Count3=-1
                   then raise Exception.Create( 'bad fundamental research rts - domain: '+RDStechsciItem.Attributes['domain'] );
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDStechsciItem.Attributes['rfield'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_field:=TFCEdrdsResearchFields( Count3 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_fieldIndex:=Count3;
                   if Count3=-1
                   then raise Exception.Create( 'bad fundamental research rts - field: '+RDStechsciItem.Attributes['rfield'] );
 

@@ -124,11 +124,19 @@ begin
    Max:=length( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences ) - 1;
    while Count <= Max do
    begin
-      if ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_field = rfFundamentalResearch )
-         and ( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[TSFRIndex].TS_masteringStage = tmsNotDiscovered )
-         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_type = FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_domain ) then
-      begin
+      RTSindex:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_index;
+      RTSrdomain:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_domainIndex;
+      RTSrfield:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_fieldIndex;
 
+      if ( RTSrfield = 0 )
+         and ( FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].TS_masteringStage = tmsNotDiscovered )
+         and ( TFCEdrdsResearchDomains( RTSrdomain - 1 ) = FCDdrdsResearchDatabase[ResearchDomain].RD_type )
+         and ( FCDdrdsResearchDatabase[RTSrdomain].RD_fundamentalResearches[RTSindex].TS_techLevel <= FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_techLevel ) then
+      begin
+         FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].TS_collateralMastered:=true;
+         FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].TS_cmtCollateralTriggerIndex:=RTSindex;
+         FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].TS_cmtIsCollateralTriggerFR:=
+         FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].
       end
 
 

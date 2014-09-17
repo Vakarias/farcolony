@@ -1164,13 +1164,12 @@ begin
                            if FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered then
                            begin
                               FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtCollateralTriggerIndex:=XMLSavedGameItemSub3.Attributes['collateralTriggerIdx'];
-                              FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtIsCollateralTriggerFR:=XMLSavedGameItemSub3.Attributes['iscollateralTriggerFR'];
                               FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtCollateralTriggerRFI:=0;
                            end;
                            XMLSavedGameItemSub3:=XMLSavedGameItemSub3.NextSibling;
                         end;
                      end;
-                     {.research fields}
+                     {.research fields w/ technosciences}
                      Count2:=0;
                      XMLSavedGameItemSub2:=XMLSavedGameItemSub2.NextSibling;
                      while XMLSavedGameItemSub2 <> nil do
@@ -1184,14 +1183,13 @@ begin
 
                         FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_knowledgeCurrent:=StrToFloat( XMLSavedGameItemSub2.Attributes['knowledgeCurrent'], FCVdiFormat );
                         FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_knowledgeGenerationTotal:=StrToFloat( XMLSavedGameItemSub2.Attributes['knowledgeGenerationTotal'], FCVdiFormat );
-                        {.technosciences/fundamental researches}
+                        {.technosciences}
                         Count4:=0;
                         XMLSavedGameItemSub3:=XMLSavedGameItemSub2.ChildNodes.First;
                         while XMLSavedGameItemSub3 <> nil do
                         begin
                            inc( Count4 );
                            Count3:=0;
-                           {.for technosciences}
                            if Count4 = 1 then
                            begin
                               XMLSavedGameItemSub4:=XMLSavedGameItemSub3.ChildNodes.First;
@@ -1212,7 +1210,6 @@ begin
                                  if FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_collateralMastered then
                                  begin
                                     FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_cmtCollateralTriggerIndex:=XMLSavedGameItemSub4.Attributes['collateralTriggerIdx'];
-                                    FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_cmtIsCollateralTriggerFR:=XMLSavedGameItemSub4.Attributes['iscollateralTriggerFR'];
                                     FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_cmtCollateralTriggerRFI:=XMLSavedGameItemSub4.Attributes['collateralTriggerRFI'];
                                  end;
                                  XMLSavedGameItemSub4:=XMLSavedGameItemSub4.NextSibling;
@@ -2352,11 +2349,8 @@ begin
             XMLSavedGameItemSub4.Attributes['ripCurrent']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripCurrent;
             XMLSavedGameItemSub4.Attributes['ripMax']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_ripMax;
             XMLSavedGameItemSub4.Attributes['collateralMastered']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered, true );
-            if FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered then
-            begin
-               XMLSavedGameItemSub4.Attributes['collateralTriggerIdx']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtCollateralTriggerIndex;
-               XMLSavedGameItemSub4.Attributes['iscollateralTriggerFR']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtIsCollateralTriggerFR, true );
-            end;
+            if FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_collateralMastered
+            then XMLSavedGameItemSub4.Attributes['collateralTriggerIdx']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_fundamentalResearches[Count2].TS_cmtCollateralTriggerIndex;
             inc( Count2 );
          end;
 
@@ -2383,7 +2377,6 @@ begin
                if FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_collateralMastered then
                begin
                   XMLSavedGameItemSub5.Attributes['collateralTriggerIdx']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_cmtCollateralTriggerIndex;
-                  XMLSavedGameItemSub5.Attributes['iscollateralTriggerFR']:=BoolToStr( FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_cmtIsCollateralTriggerFR, true );
                   XMLSavedGameItemSub5.Attributes['collateralTriggerRFI']:=FCDdgEntities[Count].E_researchDomains[Count1].RDE_researchFields[Count2].RF_technosciences[Count3].TS_cmtCollateralTriggerRFI;
                end;
                inc( Count3 );
