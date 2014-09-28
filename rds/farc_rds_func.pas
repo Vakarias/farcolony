@@ -80,15 +80,29 @@ function FCFrdsF_RelatedTechnoscienceInfluence_Calc(
 ///   retrieve the full array of indexes of a technoscience or fundamental research
 ///</summary>
 ///   <param name="TSFRtoken">token of the technoscience or fundamental research</param>
-///   <param name="TSFRdomain">[optional] its research domain</param>
-///   <param name="TSFRresearchField">[optional] its research field</param>
+///   <param name="TSFRdomain">its research domain</param>
+///   <param name="TSFRresearchField">its research field</param>
 ///   <returns>the full array of indexes</returns>
 ///   <remarks></remarks>
 function FCFrdsF_TechnoscienceFResearch_GetIndexes(
    const TSFRtoken: string;
    const TSFRdomain: TFCEdrdsResearchDomains;
-   const TSFRresearchField: TFCEdrdsResearchFields
+   const TSFRfield: TFCEdrdsResearchFields
    ): TFCRrdsfTechnoscienceIndexes;
+
+///<summary>
+///   retrieve the number of RTS key technologies a given technoscience/fundamental research has
+///</summary>
+///   <param name="TSFRindex">numerical index og the given technoscience/fundamental research</param>
+///   <param name="TSFRdomain"></param>
+///   <param name="TSFRfield"></param>
+///   <returns>the number of RTS key technologies</returns>
+///   <remarks></remarks>
+function FCFrdsF_TechnoscienceFResearch_GetNumberOfKeyTech(
+   const TSFRindex
+         ,TSFRdomain
+         ,TSFRfield: integer
+   ): integer;
 
 //===========================END FUNCTIONS SECTION==========================================
 
@@ -150,7 +164,7 @@ end;
 function FCFrdsF_TechnoscienceFResearch_GetIndexes(
    const TSFRtoken: string;
    const TSFRdomain: TFCEdrdsResearchDomains;
-   const TSFRresearchField: TFCEdrdsResearchFields
+   const TSFRfield: TFCEdrdsResearchFields
    ): TFCRrdsfTechnoscienceIndexes;
 {:Purpose: retrieve the full array of indexes of a technoscience or fundamental research.
     Additions:
@@ -165,7 +179,7 @@ begin
    Result.TI_rDomainIndex:=0;
    Result.TI_rFieldIndex:=0;
    Result.TI_rDomainIndex:=integer( TSFRdomain ) + 1;
-   Result.TI_rFieldIndex:=integer( TSFRresearchField );
+   Result.TI_rFieldIndex:=integer( TSFRfield );
    if Result.TI_rFieldIndex = 0 then
    begin
       Max:=length( FCDdrdsResearchDatabase[Result.TI_rDomainIndex].RD_fundamentalResearches ) - 1;
@@ -192,6 +206,46 @@ begin
             break;
          end;
          inc( Count);
+      end;
+   end;
+end;
+
+function FCFrdsF_TechnoscienceFResearch_GetNumberOfKeyTech(
+   const TSFRindex
+         ,TSFRdomain
+         ,TSFRfield: integer
+   ): integer;
+{:Purpose: retrieve the number of RTS key technologies a given technoscience/fundamental research has.
+    Additions:
+}
+   var
+      Count
+      ,KeyTech
+      ,Max: integer;
+begin
+   Count:=0;
+   KeyTech:=0;
+   Max:=0;
+   Result:=0;
+   if TSFRfield = 0 then
+   begin
+      Max:=length( FCDdrdsResearchDatabase[TSFRdomain].RD_fundamentalResearches[TSFRindex].TS_relatedTechnosciences ) - 1;
+      Count:=1;
+      while Count <= Max do
+      begin
+         if FCDdrdsResearchDatabase[TSFRdomain].RD_fundamentalResearches[TSFRindex].TS_relatedTechnosciences[Count].RTS_isKeyTech
+         then inc( Result );
+         inc( Count );
+      end;
+   end
+   else begin
+      Max:=length( FCDdrdsResearchDatabase[TSFRdomain].RD_researchFields[TSFRfield].RF_technosciences[TSFRindex].TS_relatedTechnosciences ) - 1;
+      Count:=1;
+      while Count <= Max do
+      begin
+         if FCDdrdsResearchDatabase[TSFRdomain].RD_researchFields[TSFRfield].RF_technosciences[TSFRindex].TS_relatedTechnosciences[Count].RTS_isKeyTech
+         then inc( Result );
+         inc( Count );
       end;
    end;
 end;
