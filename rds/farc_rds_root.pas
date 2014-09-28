@@ -112,13 +112,19 @@ procedure FCMrdsR_CascadedCollateralEffects_Process(
    var
       Count
       ,KeyTechDiscoveredNotMasteredCount
+      ,KeyTechMostRIPvalue
       ,KeyTechTotal
       ,Max: integer;
 
-      TechsciFRIndex: TFCRrdsfTechnoscienceIndexes;
+      RTSkeyWithMostRIP
+      ,TechsciFRIndex: TFCRrdsfTechnoscienceIndexes;
 begin
    KeyTechDiscoveredNotMasteredCount:=0;
+   KeyTechMostRIPvalue:=0;
    KeyTechTotal:=0;
+   RTSkeyWithMostRIP.TI_tsfrIndex:=0;
+   RTSkeyWithMostRIP.TI_rDomainIndex:=0;
+   RTSkeyWithMostRIP.TI_rFieldIndex:=0;
    TechsciFRIndex.TI_tsfrIndex:=0;
    TechsciFRIndex.TI_rDomainIndex:=0;
    TechsciFRIndex.TI_rFieldIndex:=0;
@@ -149,8 +155,14 @@ begin
       else if ( TechsciFRIndex.TI_rFieldIndex = 0 )
          and ( FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_masteringStage = tmsNotDiscovered )
          and ( isFromCommonCoreProcess )
-         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_isKeyTech )
-      then inc( KeyTechDiscoveredNotMasteredCount )
+         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_isKeyTech ) then
+      begin
+         inc( KeyTechDiscoveredNotMasteredCount );
+         if
+
+
+
+      end
       else if ( TechsciFRIndex.TI_rFieldIndex > 0 )
          and ( FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_researchFields[TechsciFRIndex.TI_rFieldIndex].RF_technosciences[TechsciFRIndex.TI_tsfrIndex].TS_masteringStage = tmsNotDiscovered )
          and ( FCDdrdsResearchDatabase[ResearchDomain].RD_type = TFCEdrdsResearchDomains( TechsciFRIndex.TI_rDomainIndex - 1 ) )
@@ -168,7 +180,7 @@ begin
       then inc( KeyTechDiscoveredNotMasteredCount );
       inc( Count );
    end;
-
+//   if KeyTechDiscoveredNotMasteredCount = KeyTechTotal
 end;
 
 procedure FCMrdsR_CascadedCollateralEffects_Process(
