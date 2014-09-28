@@ -83,7 +83,8 @@ implementation
 
 uses
    farc_data_game
-   ,farc_data_rds;
+   ,farc_data_rds
+   ,farc_rds_func;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -111,44 +112,44 @@ procedure FCMrdsR_CascadedCollateralEffects_Process(
    var
       Count
       ,DiscoveredNotMastereCount
-      ,Max
-      ,RTSindex
-      ,RTSrdomain
-      ,RTSrfield: integer;
+      ,Max: integer;
+
+      TechsciFRIndex: TFCRrdsfTechnoscienceIndexes;
 begin
    DiscoveredNotMastereCount:=0;
-   RTSindex:=0;
-   RTSrdomain:=0;
-   RTSrfield:=0;
+   TechsciFRIndex.TI_tsfrIndex:=0;
+   TechsciFRIndex.TI_rDomainIndex:=0;
+   TechsciFRIndex.TI_rFieldIndex:=0;
    Count:=1;
    Max:=length( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences ) - 1;
    while Count <= Max do
    begin
-      RTSindex:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_index;
-      RTSrdomain:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_domainIndex;
-      RTSrfield:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_fieldIndex;
+      TechsciFRIndex:=FCFrdsF_TechnoscienceFResearch_GetIndexes(
+         FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_token
+         ,FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_researchDomain
+         ,FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_researchIndex
+         );
 
-      if ( RTSrfield = 0 )
-         and ( FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].TS_masteringStage = tmsNotDiscovered )
-         and ( TFCEdrdsResearchDomains( RTSrdomain - 1 ) = FCDdrdsResearchDatabase[ResearchDomain].RD_type )
-         and ( FCDdrdsResearchDatabase[RTSrdomain].RD_fundamentalResearches[RTSindex].TS_techLevel <= FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_techLevel ) then
+      if ( TechsciFRIndex.TI_rFieldIndex = 0 )
+         and ( FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_masteringStage = tmsNotDiscovered )
+         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_type = TFCEdrdsResearchDomains( TechsciFRIndex.TI_rDomainIndex - 1 ) )
+         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_techLevel > FCDdrdsResearchDatabase[TechsciFRIndex.TI_rDomainIndex].RD_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_techLevel ) then
       begin
-         FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].TS_collateralMastered:=true;
-         FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].TS_cmtCollateralTriggerIndex:=RTSindex;
-         FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].TS_cmtIsCollateralTriggerFR:=
-         FCDdgEntities[Entity].E_researchDomains[RTSrdomain].RDE_fundamentalResearches[RTSindex].
+         FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_collateralMastered:=true;
+         FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_cmtCollateralTriggerIndex:=TSFRIndex;
+         FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_cmtCollateralTriggerRDomain:=ResearchDomain;
+         FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_cmtCollateralTriggerRFI:=0;
       end
-
-
-//      else if ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_field > rfFundamentalResearch )
-//         and ( FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[TSFRIndex].TS_masteringStage = tmsNotDiscovered )
-//         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_type = FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_domain ) then
-//      begin
-//
-//      end
-
-      ;
-
+      else if ( TechsciFRIndex.TI_rFieldIndex > 0 )
+         and ( FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_researchFields[TechsciFRIndex.TI_rFieldIndex].RF_technosciences[TechsciFRIndex.TI_tsfrIndex].TS_masteringStage = tmsNotDiscovered )
+         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_type = TFCEdrdsResearchDomains( TechsciFRIndex.TI_rDomainIndex - 1 ) )
+         and ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_techLevel > FCDdrdsResearchDatabase[TechsciFRIndex.TI_rDomainIndex].RD_researchFields[TechsciFRIndex.TI_rFieldIndex].RF_technosciences[TechsciFRIndex.TI_tsfrIndex].TS_techLevel ) then
+      begin
+         FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_researchFields[TechsciFRIndex.TI_rFieldIndex].RF_technosciences[TechsciFRIndex.TI_tsfrIndex].TS_collateralMastered:=true;
+         FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_researchFields[TechsciFRIndex.TI_rFieldIndex].RF_technosciences[TechsciFRIndex.TI_tsfrIndex].TS_cmtCollateralTriggerIndex:=TSFRIndex;
+         FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_researchFields[TechsciFRIndex.TI_rFieldIndex].RF_technosciences[TechsciFRIndex.TI_tsfrIndex].TS_cmtCollateralTriggerRDomain:=ResearchDomain;
+         FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_researchFields[TechsciFRIndex.TI_rFieldIndex].RF_technosciences[TechsciFRIndex.TI_tsfrIndex].TS_cmtCollateralTriggerRFI:=0;
+      end;
       inc( Count );
    end;
 

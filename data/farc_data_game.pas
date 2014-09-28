@@ -441,6 +441,7 @@ type TFCRdgTechnoscience = record
 
       True: (
          TS_cmtCollateralTriggerIndex: integer;
+         TS_cmtCollateralTriggerRDomain: integer;
          ///<summary>
          ///   =0 if the collateral trigger is a fundamental research
          ///</summary>

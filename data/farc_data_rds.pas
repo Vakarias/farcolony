@@ -170,9 +170,9 @@ end;
    - FCMdF_DBResearchDevelopmentSystem_Load
 }
 type TFCRdrdsRelatedTechnoscience=  record
-   RTS_index: integer;
-   RTS_domainIndex: integer;
-   RTS_fieldIndex: integer;
+   RTS_token: string[20];
+   RTS_researchDomain: TFCEdrdsResearchDomains;
+   RTS_researchIndex: TFCEdrdsResearchFields;
    RTS_isKeyTech: boolean;
    RTS_rawInfluence: integer;
 end;
