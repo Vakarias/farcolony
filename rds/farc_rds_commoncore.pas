@@ -69,6 +69,7 @@ uses
    ,farc_data_init
    ,farc_data_rds
    ,farc_rds_func
+   ,farc_rds_root
    ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
@@ -291,6 +292,7 @@ end;
 procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
 {:Purpose: initialize the common core for a non-player faction.
     Additions:
+      -2014Sep28- *add: collateralized rules.
       -2014Sep15- *fix: bypass entirely the research domain Culture for random generation, since this one is not officially supported yet.
       -2014Sep02- *rem: the available technosciences/fundamental researches list is placed at the unit's level.
 }
@@ -302,6 +304,7 @@ procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
       ,Count4
       ,DesignModifier
       ,GeneratedProbability
+      ,Max1
       ,Max2
       ,Max4
       ,MaxTLindex: integer;
@@ -316,6 +319,7 @@ begin
    Count4:=0;
    DesignModifier:=0;
    GeneratedProbability:=0;
+   Max1:=0;
    Max2:=0;
    Max4:=0;
    MaxTLindex:=0;
@@ -393,6 +397,51 @@ begin
       end; //==END== if ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) ) or ( GeneratedProbability > 0 ) ==//
       inc( Count1 );
    end; //==END== while Count1 <= FCCdiRDSdomainsMax ==//
+   {.application collateralized rules. It is in another loop because it must be applied AFTER the initialization and generation of all the research domains}
+   {.all the Count variables needed in this second part are resetted for their new use}
+   Count:=1;
+   Count1:=0;
+   Count2:=0;
+   while Count <= FCCdiRDSdomainsMax do
+   begin
+      {..for fundamental researches}
+      Max1:=length( FCDdgEntities[Entity].E_researchDomains[Count].RDE_fundamentalResearches ) - 1;
+      Count1:=1;
+      while Count1 <= Max1 do
+      begin
+         if ( FCDdrdsResearchDatabase[Count].RD_fundamentalResearches[Count1].TS_techLevel > tl01IndustrialAge )
+            and ( FCDdgEntities[Entity].E_researchDomains[Count].RDE_fundamentalResearches[Count1].TS_masteringStage > tmsNotDiscovered )
+         then FCMrdsR_CascadedCollateralEffects_Process(
+            true
+            ,Entity
+            ,Count
+            ,Count1
+            );
+         inc( Count1 );
+      end;
+      {.for technosciences}
+      Max1:=length( FCDdgEntities[Entity].E_researchDomains[Count].RDE_researchFields ) - 1;
+      Count1:=1;
+      while Count1 <= Max1 do
+      begin
+         Max2:=length( FCDdgEntities[Entity].E_researchDomains[Count].RDE_researchFields[Count1].RF_technosciences ) - 1;
+         Count2:=1;
+         while Count2 <= Max2 do
+         begin
+            inc( Count2
+//         if ( FCDdrdsResearchDatabase[Count].RD_fundamentalResearches[Count1].TS_techLevel > tl01IndustrialAge )
+//            and ( FCDdgEntities[Entity].E_researchDomains[Count].RDE_fundamentalResearches[Count1].TS_masteringStage > tmsNotDiscovered )
+//         then FCMrdsR_CascadedCollateralEffects_Process(
+//            true
+//            ,Entity
+//            ,Count
+//            ,Count1
+//            );
+         inc( Count1 );
+      end;
+      inc( Count );
+   end;
+
 end;
 
 procedure FCMcC_PlayerFaction_Initialize;

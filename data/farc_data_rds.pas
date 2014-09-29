@@ -223,11 +223,7 @@ var
 
 //==END PUBLIC VAR==========================================================================
 
-const
-   ///<summary>
-   ///   technosciences/fundamental researches TL cap for the player's faction's common core.
-   ///</summary>
-   FCCdrdsCommonCorePFactionTLCap=4;
+//const
 
 //==END PUBLIC CONST========================================================================
 
