@@ -31,7 +31,8 @@ unit farc_rds_commoncore;
 interface
 
 uses
-   SysUtils;
+   SysUtils
+   ,farc_rds_func;
 
 //==END PUBLIC ENUM=========================================================================
 
@@ -68,7 +69,6 @@ uses
    ,farc_data_game
    ,farc_data_init
    ,farc_data_rds
-   ,farc_rds_func
    ,farc_rds_root
    ,farc_win_debug;
 
@@ -98,6 +98,10 @@ var
    FCVrdsccDesignModifier: integer;
 
    FCVrdsccHighestTLbyDesign: TFCEdrdsTechnologyLevels;
+
+   FCVrdsccHighestTLDiffTSFRlocation: TFCRrdsfTechnoscienceIndexes;
+   FCVrdsccHighestTLDiffTSFRdifficulty: integer;
+   FCVrdsccHighestTLDiffTSFRtechLevel: TFCEdrdsTechnologyLevels;
 
    FCVrdsccTSFRlist: array of array of FCRrdsccTSFRlist;
 
@@ -164,6 +168,7 @@ procedure FMcC_Core_Initialize(
    );
 {:Purpose: initialize the rds data structure and master the tech level 1 technosciences and fundamental researches.
     Additions:
+      -2014Sep29- *add: implementation for the technoscience/fundamental research that has the highest TL and DT.
       -2014Sep14- *fix: forgot to set a correct length for the first array of FCVrdsccTSFRlist.
                   *fix: multiple assignment errors corrected in the technosciences subpart.
       -2014Sep02- *add: for the non-player factions; if a technoscience/fundamental research isn't added, it is place into an available list to allow, into FCMcC_NonPlayerFaction_Initialize to generate additional FR/TS.
@@ -226,6 +231,21 @@ begin
          FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_fundamentalResearches[Count1].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation );
          if FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel > FCVrdsccHighestTLbyDesign
          then FCVrdsccHighestTLbyDesign:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel;
+         if (
+            ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel = FCVrdsccHighestTLDiffTSFRtechLevel )
+               and ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_difficulty > FCVrdsccHighestTLDiffTSFRdifficulty )
+               )
+            or (
+            ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel > FCVrdsccHighestTLDiffTSFRtechLevel )
+               and ( FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_difficulty > FCVrdsccHighestTLDiffTSFRdifficulty )
+                  ) then
+         begin
+            FCVrdsccHighestTLDiffTSFRlocation.TI_tsfrIndex:=Count1;
+            FCVrdsccHighestTLDiffTSFRlocation.TI_rDomainIndex:=ResearchDomain;
+            FCVrdsccHighestTLDiffTSFRlocation.TI_rFieldIndex:=0;
+            FCVrdsccHighestTLDiffTSFRdifficulty:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_difficulty;
+            FCVrdsccHighestTLDiffTSFRtechLevel:=FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[Count1].TS_techLevel;
+         end;
       end
       else if (Entity > 0 ) then
       begin
@@ -268,6 +288,21 @@ begin
             FCDdgEntities[Entity].E_researchDomains[ResearchDomain].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( RDomOrientation );
             if FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel > FCVrdsccHighestTLbyDesign
             then FCVrdsccHighestTLbyDesign:=FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel;
+            if (
+               ( FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel = FCVrdsccHighestTLDiffTSFRtechLevel )
+                  and ( FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_difficulty > FCVrdsccHighestTLDiffTSFRdifficulty )
+                  )
+               or (
+               ( FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel > FCVrdsccHighestTLDiffTSFRtechLevel )
+                  and ( FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_difficulty > FCVrdsccHighestTLDiffTSFRdifficulty )
+                     ) then
+            begin
+               FCVrdsccHighestTLDiffTSFRlocation.TI_tsfrIndex:=Count2;
+               FCVrdsccHighestTLDiffTSFRlocation.TI_rDomainIndex:=ResearchDomain;
+               FCVrdsccHighestTLDiffTSFRlocation.TI_rFieldIndex:=Count1;
+               FCVrdsccHighestTLDiffTSFRdifficulty:=FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_difficulty;
+               FCVrdsccHighestTLDiffTSFRtechLevel:=FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel;
+            end;
          end
          else if (Entity > 0 ) then
          begin
@@ -292,6 +327,8 @@ end;
 procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
 {:Purpose: initialize the common core for a non-player faction.
     Additions:
+      -2014Sep29- *add: end of collateralized rules.
+                  *add: implementation for the technoscience/fundamental research that has the highest TL and DT.
       -2014Sep28- *add: collateralized rules.
       -2014Sep15- *fix: bypass entirely the research domain Culture for random generation, since this one is not officially supported yet.
       -2014Sep02- *rem: the available technosciences/fundamental researches list is placed at the unit's level.
@@ -327,6 +364,11 @@ begin
    SetLength( FCVrdsccTSFRlist, 1 );
    while Count1 <= FCCdiRDSdomainsMax do
    begin
+      FCVrdsccHighestTLDiffTSFRlocation.TI_tsfrIndex:=0;
+      FCVrdsccHighestTLDiffTSFRlocation.TI_rDomainIndex:=0;
+      FCVrdsccHighestTLDiffTSFRlocation.TI_rFieldIndex:=0;
+      FCVrdsccHighestTLDiffTSFRdifficulty:=0;
+      FCVrdsccHighestTLDiffTSFRtechLevel:=tl01IndustrialAge;
       SetLength( FCVrdsccTSFRlist, 1 );
       {.
          Count: common core orientation of the current research domain
@@ -382,6 +424,21 @@ begin
                   if GeneratedProbability <= 5
                   then FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=tmsNotMastered
                   else FCDdgEntities[Entity].E_researchDomains[Count1].RDE_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( Count );
+                  if (
+                     ( FCDdrdsResearchDatabase[Count1].RD_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_techLevel = FCVrdsccHighestTLDiffTSFRtechLevel )
+                        and ( FCDdrdsResearchDatabase[Count1].RD_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_difficulty > FCVrdsccHighestTLDiffTSFRdifficulty )
+                        )
+                     or (
+                     ( FCDdrdsResearchDatabase[Count1].RD_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_techLevel > FCVrdsccHighestTLDiffTSFRtechLevel )
+                        and ( FCDdrdsResearchDatabase[Count1].RD_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_difficulty > FCVrdsccHighestTLDiffTSFRdifficulty )
+                           ) then
+                  begin
+                     FCVrdsccHighestTLDiffTSFRlocation.TI_tsfrIndex:=FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB;
+                     FCVrdsccHighestTLDiffTSFRlocation.TI_rDomainIndex:=Count1;
+                     FCVrdsccHighestTLDiffTSFRlocation.TI_rFieldIndex:=0;
+                     FCVrdsccHighestTLDiffTSFRdifficulty:=FCDdrdsResearchDatabase[Count1].RD_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_difficulty;
+                     FCVrdsccHighestTLDiffTSFRtechLevel:=FCDdrdsResearchDatabase[Count1].RD_fundamentalResearches[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_techLevel;
+                  end;
                end
                else if ( not FCVrdsccTSFRlist[Count3, Count4].TSFRL_isFundamentalResearch )
                   and ( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage = tmsNotDiscovered ) then
@@ -390,6 +447,21 @@ begin
                   if GeneratedProbability <= 5
                   then FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=tmsNotMastered
                   else FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_masteringStage:=FMcC_DevelopmentLevel_Generate( Count );
+                  if (
+                     ( FCDdrdsResearchDatabase[Count1].RD_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_techLevel = FCVrdsccHighestTLDiffTSFRtechLevel )
+                        and ( FCDdrdsResearchDatabase[Count1].RD_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_difficulty > FCVrdsccHighestTLDiffTSFRdifficulty )
+                        )
+                     or (
+                     ( FCDdrdsResearchDatabase[Count1].RD_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_techLevel > FCVrdsccHighestTLDiffTSFRtechLevel )
+                        and ( FCDdrdsResearchDatabase[Count1].RD_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_difficulty > FCVrdsccHighestTLDiffTSFRdifficulty )
+                           ) then
+                  begin
+                     FCVrdsccHighestTLDiffTSFRlocation.TI_tsfrIndex:=FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB;
+                     FCVrdsccHighestTLDiffTSFRlocation.TI_rDomainIndex:=Count1;
+                     FCVrdsccHighestTLDiffTSFRlocation.TI_rFieldIndex:=FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx;
+                     FCVrdsccHighestTLDiffTSFRdifficulty:=FCDdrdsResearchDatabase[Count1].RD_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_difficulty;
+                     FCVrdsccHighestTLDiffTSFRtechLevel:=FCDdrdsResearchDatabase[Count1].RD_researchFields[FCVrdsccTSFRlist[Count3, Count4].TSFRL_fResearchFieldIdx].RF_technosciences[FCVrdsccTSFRlist[Count3, Count4].TSFRL_indexInDB].TS_techLevel;
+                  end;
                end;
             end;
             dec( Count2 );
@@ -428,15 +500,17 @@ begin
          Count2:=1;
          while Count2 <= Max2 do
          begin
-            inc( Count2
-//         if ( FCDdrdsResearchDatabase[Count].RD_fundamentalResearches[Count1].TS_techLevel > tl01IndustrialAge )
-//            and ( FCDdgEntities[Entity].E_researchDomains[Count].RDE_fundamentalResearches[Count1].TS_masteringStage > tmsNotDiscovered )
-//         then FCMrdsR_CascadedCollateralEffects_Process(
-//            true
-//            ,Entity
-//            ,Count
-//            ,Count1
-//            );
+            if ( FCDdrdsResearchDatabase[Count].RD_researchFields[Count1].RF_technosciences[Count2].TS_techLevel > tl01IndustrialAge )
+               and ( FCDdgEntities[Entity].E_researchDomains[Count].RDE_researchFields[Count1].RF_technosciences[Count2].TS_masteringStage > tmsNotDiscovered )
+            then FCMrdsR_CascadedCollateralEffects_Process(
+               true
+               ,Entity
+               ,Count
+               ,Count2
+               ,Count1
+               );
+            inc( Count2 );
+         end;
          inc( Count1 );
       end;
       inc( Count );
