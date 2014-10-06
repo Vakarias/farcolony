@@ -1436,7 +1436,7 @@ begin
                   then raise Exception.Create( 'bad technoscience rts domain: '+RDStechsciItem.Attributes['domain'] );
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDStechsciItem.Attributes['rfield'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_researchIndex:=TFCEdrdsResearchFields( Count3 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_researchFields[EnumIndex1].RF_technosciences[Count].TS_relatedTechnosciences[Count1].RTS_researchFieldIndex:=TFCEdrdsResearchFields( Count3 );
                   if Count3=-1
                   then raise Exception.Create( 'bad technoscience rts field: '+RDStechsciItem.Attributes['rfield'] );
 
@@ -1520,7 +1520,7 @@ begin
                   then raise Exception.Create( 'bad fundamental research rts - domain: '+RDStechsciItem.Attributes['domain'] );
 
                   Count3:=GetEnumValue( TypeInfo( TFCEdrdsResearchFields ), RDStechsciItem.Attributes['rfield'] );
-                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_researchIndex:=TFCEdrdsResearchFields( Count3 );
+                  FCDdrdsResearchDatabase[EnumIndex].RD_fundamentalResearches[Count].TS_relatedTechnosciences[Count1].RTS_researchFieldIndex:=TFCEdrdsResearchFields( Count3 );
                   if Count3=-1
                   then raise Exception.Create( 'bad fundamental research rts - field: '+RDStechsciItem.Attributes['rfield'] );
 

@@ -172,7 +172,7 @@ end;
 type TFCRdrdsRelatedTechnoscience=  record
    RTS_token: string[20];
    RTS_researchDomain: TFCEdrdsResearchDomains;
-   RTS_researchIndex: TFCEdrdsResearchFields;
+   RTS_researchFieldIndex: TFCEdrdsResearchFields;
    RTS_isKeyTech: boolean;
    RTS_rawInfluence: integer;
 end;

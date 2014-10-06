@@ -125,7 +125,7 @@ begin
       TechsciFRIndex:=FCFrdsF_TechnoscienceFResearch_GetIndexes(
          FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_token
          ,FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_researchDomain
-         ,FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_researchIndex
+         ,FCDdrdsResearchDatabase[ResearchDomain].RD_fundamentalResearches[TSFRIndex].TS_relatedTechnosciences[Count].RTS_researchFieldIndex
          );
       if ( TechsciFRIndex.TI_rFieldIndex = 0 )
          and ( FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_masteringStage = tmsNotDiscovered )
@@ -179,7 +179,7 @@ begin
       TechsciFRIndex:=FCFrdsF_TechnoscienceFResearch_GetIndexes(
          FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[TSResearchField].RF_technosciences[TSFRIndex].TS_relatedTechnosciences[Count].RTS_token
          ,FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[TSResearchField].RF_technosciences[TSFRIndex].TS_relatedTechnosciences[Count].RTS_researchDomain
-         ,FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[TSResearchField].RF_technosciences[TSFRIndex].TS_relatedTechnosciences[Count].RTS_researchIndex
+         ,FCDdrdsResearchDatabase[ResearchDomain].RD_researchFields[TSResearchField].RF_technosciences[TSFRIndex].TS_relatedTechnosciences[Count].RTS_researchFieldIndex
          );
       if ( TechsciFRIndex.TI_rFieldIndex = 0 )
          and ( FCDdgEntities[Entity].E_researchDomains[TechsciFRIndex.TI_rDomainIndex].RDE_fundamentalResearches[TechsciFRIndex.TI_tsfrIndex].TS_masteringStage = tmsNotDiscovered )

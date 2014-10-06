@@ -466,7 +466,7 @@ begin
                end;
             end;
             dec( Count2 );
-         end;
+         end; //==END== while Count2 > 1 ==//
       end; //==END== if ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) ) or ( GeneratedProbability > 0 ) ==//
       {.knowledge initialization}
       Max2:=length( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields ) - 1;

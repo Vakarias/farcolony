@@ -31,7 +31,9 @@ unit farc_rds_func;
 interface
 
 uses
-   farc_data_game
+   SysUtils
+
+   ,farc_data_game
    ,farc_data_rds;
 
 //==END PUBLIC ENUM=========================================================================
@@ -54,11 +56,8 @@ end;
 ///<summary>
 ///   return the number of research fields for a particular domain. These hardcoded number are located only into this function for the entire FARC code
 ///</summary>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <param name=""></param>
-///   <returns></returns>
+///   <param name="ResearchDomain">research domain to count into</param>
+///   <returns>number of research fields</returns>
 ///   <remarks></remarks>
 function FCFrdsF_Domain_GetNumberOfResearchFields( const ResearchDomain: TFCEdrdsResearchDomains ): integer;
 
@@ -75,6 +74,14 @@ function FCFrdsF_RelatedTechnoscienceInfluence_Calc(
    const RawInfluence: integer;
    const CurrentDevLevel: TFCEdgTechnoscienceMasteringStages
    ): integer;
+
+///<summary>
+///   return the index of a research field in its research domain data structure
+///</summary>
+///   <param name="ResearchField">research field which must be retrieved</param>
+///   <returns>index of a research field</returns>
+///   <remarks></remarks>
+function FCFrdsF_ResearchFieldIndexInDomain_Retrieve( const ResearchField: TFCEdrdsResearchFields ): integer;
 
 ///<summary>
 ///   retrieve the full array of indexes of a technoscience or fundamental research
@@ -108,7 +115,9 @@ function FCFrdsF_TechnoscienceFResearch_GetNumberOfKeyTech(
 
 implementation
 
-//uses
+uses
+   farc_data_init
+   ,farc_win_debug;
 
 //==END PRIVATE ENUM========================================================================
 
@@ -161,6 +170,36 @@ begin
 
 end;
 
+function FCFrdsF_ResearchFieldIndexInDomain_Retrieve( const ResearchField: TFCEdrdsResearchFields ): integer;
+{:Purpose: return the index of a research field in its research domain data structure.
+    Additions:
+}
+   var
+      Count1
+      ,Count2
+      ,Max2: integer;
+begin
+   Result:=0;
+   Count1:=1;
+   Count2:=0;
+   Max2:=0;
+   while Count1 <= FCCdiRDSdomainsMax do
+   begin
+      Max2:=length( FCDdrdsResearchDatabase[Count1].RD_researchFields ) - 1;
+      Count2:=1;
+      while Count2 <= Max2 do
+      begin
+         if FCDdrdsResearchDatabase[Count1].RD_researchFields[Count2].RF_type = ResearchField then
+         begin
+            Result:=Count2;
+            break;
+         end;
+         inc( Count2 );
+      end;
+      inc( Count1 );
+   end;
+end;
+
 function FCFrdsF_TechnoscienceFResearch_GetIndexes(
    const TSFRtoken: string;
    const TSFRdomain: TFCEdrdsResearchDomains;
@@ -168,6 +207,7 @@ function FCFrdsF_TechnoscienceFResearch_GetIndexes(
    ): TFCRrdsfTechnoscienceIndexes;
 {:Purpose: retrieve the full array of indexes of a technoscience or fundamental research.
     Additions:
+      -2014Oct05- *fix: bad index method for research field.
 }
    var
       Count
@@ -179,7 +219,7 @@ begin
    Result.TI_rDomainIndex:=0;
    Result.TI_rFieldIndex:=0;
    Result.TI_rDomainIndex:=integer( TSFRdomain ) + 1;
-   Result.TI_rFieldIndex:=integer( TSFRfield );
+   Result.TI_rFieldIndex:=FCFrdsF_ResearchFieldIndexInDomain_Retrieve( TSFRfield );
    if Result.TI_rFieldIndex = 0 then
    begin
       Max:=length( FCDdrdsResearchDatabase[Result.TI_rDomainIndex].RD_fundamentalResearches ) - 1;
