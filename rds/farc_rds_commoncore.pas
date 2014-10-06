@@ -327,6 +327,7 @@ end;
 procedure FCMcC_NonPlayerFaction_Initialize( const Entity: integer );
 {:Purpose: initialize the common core for a non-player faction.
     Additions:
+      -2014Oct05- *add: knowledge of each research domain and its research field.
       -2014Sep29- *add: end of collateralized rules.
                   *add: implementation for the technoscience/fundamental research that has the highest TL and DT.
       -2014Sep28- *add: collateralized rules.
@@ -467,6 +468,15 @@ begin
             dec( Count2 );
          end;
       end; //==END== if ( ( GeneratedProbability <= 0 ) and ( FCVrdsccDesignModifier > 0 ) ) or ( GeneratedProbability > 0 ) ==//
+      {.knowledge initialization}
+      Max2:=length( FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields ) - 1;
+      FCDdgEntities[Entity].E_researchDomains[Count1].RDE_knowledgeCurrent:=( integer( FCVrdsccHighestTLDiffTSFRtechLevel ) + 1 ) * FCVrdsccHighestTLDiffTSFRdifficulty;
+      Count2:=1;
+      while Count2 <= Max2 do
+      begin
+         FCDdgEntities[Entity].E_researchDomains[Count1].RDE_researchFields[Count2].RF_knowledgeCurrent:=FCDdgEntities[Entity].E_researchDomains[Count1].RDE_knowledgeCurrent;
+         inc( Count2 );
+      end;
       inc( Count1 );
    end; //==END== while Count1 <= FCCdiRDSdomainsMax ==//
    {.application collateralized rules. It is in another loop because it must be applied AFTER the initialization and generation of all the research domains}
